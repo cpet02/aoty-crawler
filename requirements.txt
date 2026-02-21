@@ -1,0 +1,36 @@
+# Core scraping
+scrapy==2.11.0
+selenium==4.17.2
+undetected-chromedriver==3.5.5
+beautifulsoup4==4.12.3
+lxml==5.1.0
+
+# HTTP & Session Management
+requests==2.31.0
+urllib3==2.1.0
+
+# Database
+sqlalchemy==2.0.25  # ORM for database abstraction
+alembic==1.13.1     # Database migrations
+
+# Data Processing
+pandas==2.2.0       # Data analysis and CSV export
+numpy==1.26.3
+
+# Rate Limiting & Retry
+tenacity==8.2.3     # Retry logic with exponential backoff
+
+# Logging & Monitoring
+loguru==0.7.2       # Better logging
+
+# Configuration
+python-dotenv==1.0.0
+pydantic==2.5.3     # Configuration validation
+
+# Testing
+pytest==7.4.4
+pytest-asyncio==0.23.2
+
+# Additional utilities
+python-dateutil==2.8.2
+tzdata==2023.3
