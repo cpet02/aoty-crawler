@@ -114,6 +114,10 @@ LOG_FILE = "logs/aoty_crawler.log"
 # Database configuration
 DATABASE_URL = "sqlite:///data/aoty_database.db"
 
+# Output directory configuration
+# Can be overridden via environment variable or CLI --output-dir argument
+OUTPUT_DIR = "data/output"
+
 # Scrape limits (for testing)
 # DOWNLOAD_DELAY = 0  # For testing only
 # CONCURRENT_REQUESTS = 16

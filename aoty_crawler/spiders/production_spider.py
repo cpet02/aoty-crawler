@@ -6,6 +6,8 @@ Combines genre navigation with comprehensive album extraction
 
 import scrapy
 import re
+import os
+import json
 from datetime import datetime
 from aoty_crawler.items import AlbumItem
 
@@ -28,7 +30,8 @@ class ProductionSpider(scrapy.Spider):
     }
     
     def __init__(self, genre=None, start_year=None, years_back=None, 
-                 albums_per_year=None, test_mode=False, *args, **kwargs):
+                 albums_per_year=None, test_mode=False, resume=False, 
+                 resume_file=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
         # Set configuration
@@ -37,6 +40,7 @@ class ProductionSpider(scrapy.Spider):
         self.years_back = int(years_back) if years_back else self.DEFAULT_YEARS_BACK
         self.albums_per_year = int(albums_per_year) if albums_per_year else self.DEFAULT_ALBUMS_PER_YEAR
         self.test_mode = test_mode
+        self.resume_mode = resume
         
         # Calculate year range
         self.end_year = self.start_year - self.years_back + 1
@@ -45,6 +49,11 @@ class ProductionSpider(scrapy.Spider):
         self.albums_scraped = 0
         self.genres_scraped = 0
         
+        # Resume functionality
+        self.scraped_urls = set()
+        if self.resume_mode:
+            self._load_resume_data(resume_file)
+        
         self.logger.info(f"\n{'='*60}")
         self.logger.info("PRODUCTION SPIDER CONFIGURATION")
         self.logger.info(f"{'='*60}")
@@ -52,7 +61,39 @@ class ProductionSpider(scrapy.Spider):
         self.logger.info(f"Year Range: {self.start_year} to {self.end_year}")
         self.logger.info(f"Albums per Year: {self.albums_per_year}")
         self.logger.info(f"Test Mode: {self.test_mode}")
+        self.logger.info(f"Resume Mode: {self.resume_mode}")
+        if self.resume_mode:
+            self.logger.info(f"Already scraped URLs: {len(self.scraped_urls)}")
         self.logger.info(f"{'='*60}\n")
+    
+    def _load_resume_data(self, resume_file=None):
+        """Load previously scraped URLs from JSON files"""
+        try:
+            output_dir = self.settings.get('OUTPUT_DIR', 'data/output')
+            
+            if resume_file:
+                # Load from specified file
+                files_to_check = [resume_file]
+            else:
+                # Find all JSON files in output directory
+                files_to_check = []
+                if os.path.exists(output_dir):
+                    for filename in os.listdir(output_dir):
+                        if filename.startswith('albums_') and filename.endswith('.json'):
+                            files_to_check.append(os.path.join(output_dir, filename))
+            
+            for filepath in files_to_check:
+                if os.path.exists(filepath):
+                    with open(filepath, 'r', encoding='utf-8') as f:
+                        data = json.load(f)
+                        for album in data:
+                            if 'url' in album:
+                                self.scraped_urls.add(album['url'])
+            
+            self.logger.info(f"Loaded {len(self.scraped_urls)} previously scraped URLs")
+            
+        except Exception as e:
+            self.logger.warning(f"Could not load resume data: {e}")
     
     def start_requests(self):
         """Start at the genre page"""
@@ -99,8 +140,26 @@ class ProductionSpider(scrapy.Spider):
             genres_processed.add(genre_slug)
             
             # If target genre is specified, only process that genre
-            if self.target_genre and genre_slug != self.target_genre.lower().replace(' ', '-'):
-                continue
+            if self.target_genre:
+                # Try multiple variations of the genre name
+                target_genre_lower = self.target_genre.lower()
+                genre_slug_lower = genre_slug.lower()
+                genre_name_lower = genre_name.lower()
+                
+                # Check various possible matches
+                matches = (
+                    genre_slug_lower == target_genre_lower.replace(' ', '-') or
+                    genre_slug_lower == target_genre_lower.replace('-', ' ') or
+                    genre_slug_lower == target_genre_lower or
+                    genre_slug_lower == target_genre_lower.replace(' ', '') or
+                    genre_name_lower == target_genre_lower or
+                    genre_name_lower == target_genre_lower.replace('-', ' ') or
+                    target_genre_lower in genre_slug_lower or
+                    target_genre_lower in genre_name_lower
+                )
+                
+                if not matches:
+                    continue
             
             self.logger.info(f"Found genre: {genre_name} (slug: {genre_slug})")
             
@@ -145,6 +204,19 @@ class ProductionSpider(scrapy.Spider):
         # Extract album links
         album_links = response.css('.albumListRow .albumListTitle a::attr(href)').getall()
         self.logger.info(f"Found {len(album_links)} album links on this page")
+        
+        # Filter out already scraped URLs in resume mode
+        if self.resume_mode:
+            filtered_links = []
+            for link in album_links:
+                full_url = response.urljoin(link)
+                if full_url not in self.scraped_urls:
+                    filtered_links.append(link)
+                else:
+                    self.logger.info(f"  Skipping already scraped: {full_url}")
+            
+            album_links = filtered_links
+            self.logger.info(f"After filtering: {len(album_links)} new albums to scrape")
         
         # Limit number of albums based on configuration
         albums_to_scrape = min(
@@ -248,6 +320,10 @@ class ProductionSpider(scrapy.Spider):
         # Update counters
         self.albums_scraped += 1
         
+        # Add to scraped URLs for resume functionality
+        if self.resume_mode:
+            self.scraped_urls.add(response.url)
+        
         # Log progress
         self.logger.info(f"  ✓ Extracted: {album.get('title', 'Unknown')} by {album.get('artist_name', 'Unknown')}")
         self.logger.info(f"  Total albums scraped: {self.albums_scraped}")
@@ -300,18 +376,25 @@ class ProductionSpider(scrapy.Spider):
     
     def _extract_release_date(self, response):
         """Extract release date"""
-        release_text = response.css('.detailRow:contains("Release Date")').get()
-        if release_text:
-            date_match = re.search(r'>([A-Za-z]+)\s+(\d+),\s+(\d{4})<', release_text)
-            if date_match:
-                month, day, year = date_match.groups()
-                return f"{month} {day}, {year}"
+        # Try to find release date in detail rows
+        detail_rows = response.css('.detailRow')
+        for row in detail_rows:
+            row_text = ' '.join(row.css('::text').getall())
+            if 'Release Date' in row_text:
+                # Extract date from this row
+                date_match = re.search(r'>([A-Za-z]+)\s+(\d+),\s+(\d{4})<', row.get())
+                if date_match:
+                    month, day, year = date_match.groups()
+                    return f"{month} {day}, {year}"
         
+        # Fallback: try to extract from release links
         date_parts = response.css('.detailRow a[href*="/releases/"]::text').getall()
         if len(date_parts) >= 2:
             month = date_parts[0]
             year = date_parts[1].strip()
-            day_match = re.search(r'>(\d+),<', release_text or '')
+            # Try to find day from any detail row
+            detail_text = ' '.join(response.css('.detailRow::text').getall())
+            day_match = re.search(r'(\d+),', detail_text)
             day = day_match.group(1) if day_match else "1"
             return f"{month} {day}, {year}"
         
@@ -375,22 +458,30 @@ class ProductionSpider(scrapy.Spider):
     
     def _extract_user_review_count(self, response):
         """Extract user review count"""
+        # Method 1: Look for strong tag inside numReviews
         text = response.css('.albumUserScoreBox .numReviews strong::text').get()
         if text:
             try:
-                return int(text)
+                # Remove commas before converting (handles "1,234" → 1234)
+                clean_text = text.replace(',', '').strip()
+                return int(clean_text)
             except ValueError:
                 pass
         
+        # Method 2: Look for link text with numbers
         link_text = response.css('.albumUserScoreBox .numReviews a::text').get()
         if link_text:
-            match = re.search(r'(\d+)', link_text)
+            # Match numbers with optional commas: "2,341" or "2341"
+            match = re.search(r'([\d,]+)', link_text)
             if match:
                 try:
-                    return int(match.group(1))
+                    # Strip commas and convert: "2,341" → 2341
+                    clean_number = match.group(1).replace(',', '')
+                    return int(clean_number)
                 except ValueError:
                     pass
         
+        # If both methods fail, return None
         return None
     
     def _extract_genres(self, response):
@@ -455,5 +546,7 @@ class ProductionSpider(scrapy.Spider):
         self.logger.info(f"{'='*60}")
         self.logger.info(f"Total albums scraped: {self.albums_scraped}")
         self.logger.info(f"Total genres processed: {self.genres_scraped}")
+        if self.resume_mode:
+            self.logger.info(f"Total unique URLs scraped: {len(self.scraped_urls)}")
         self.logger.info(f"Finish reason: {reason}")
         self.logger.info(f"{'='*60}")

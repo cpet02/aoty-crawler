@@ -3,6 +3,7 @@
 
 import logging
 import json
+import csv
 import os
 from datetime import datetime
 from scrapy.exceptions import DropItem
@@ -10,16 +11,20 @@ from scrapy.exceptions import DropItem
 logger = logging.getLogger(__name__)
 
 # File-based storage configuration
+# Can be overridden via environment variable or spider settings
 OUTPUT_DIR = os.environ.get('OUTPUT_DIR', 'data/output')
-
-# Ensure output directory exists
-os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 
 class FileStoragePipeline:
     """
-    Pipeline to store scraped items as JSON files
+    Pipeline to store scraped items as JSON and CSV files
     Simple file-based storage without database
+    
+    Supports:
+    - JSON and CSV output formats
+    - Configurable output directory via OUTPUT_DIR setting
+    - Error handling and validation
+    - Proper logging of all operations
     """
     
     def __init__(self):
@@ -46,39 +51,151 @@ class FileStoragePipeline:
         return item
     
     def close_spider(self, spider):
-        """Write all data to JSON files when spider finishes"""
+        """Write all data to JSON and CSV files when spider finishes"""
         timestamp = datetime.utcnow().strftime('%Y%m%d_%H%M%S')
+        
+        # Get output directory from spider settings or use default
+        output_dir = spider.settings.get('OUTPUT_DIR', OUTPUT_DIR)
+        os.makedirs(output_dir, exist_ok=True)
+        
+        logger.info(f"\n{'='*60}")
+        logger.info(f"FILE STORAGE PIPELINE - Writing to: {output_dir}")
+        logger.info(f"{'='*60}")
+        
+        files_written = 0
+        files_failed = 0
         
         # Write albums
         if self.albums:
-            albums_file = os.path.join(OUTPUT_DIR, f'albums_{timestamp}.json')
-            with open(albums_file, 'w', encoding='utf-8') as f:
-                json.dump(self.albums, f, indent=2, default=str)
-            logger.info(f"Saved {len(self.albums)} albums to {albums_file}")
+            # JSON output
+            albums_json_file = os.path.join(output_dir, f'albums_{timestamp}.json')
+            try:
+                with open(albums_json_file, 'w', encoding='utf-8') as f:
+                    json.dump(self.albums, f, indent=2, default=str)
+                logger.info(f"✓ Saved {len(self.albums)} albums to JSON: {albums_json_file}")
+                files_written += 1
+            except Exception as e:
+                logger.error(f"✗ Failed to write albums JSON: {e}")
+                files_failed += 1
+            
+            # CSV output
+            albums_csv_file = os.path.join(output_dir, f'albums_{timestamp}.csv')
+            if self._write_csv(albums_csv_file, self.albums):
+                logger.info(f"✓ Saved {len(self.albums)} albums to CSV: {albums_csv_file}")
+                files_written += 1
+            else:
+                logger.error(f"✗ Failed to write albums CSV: {albums_csv_file}")
+                files_failed += 1
         
         # Write artists
         if self.artists:
-            artists_file = os.path.join(OUTPUT_DIR, f'artists_{timestamp}.json')
-            with open(artists_file, 'w', encoding='utf-8') as f:
-                json.dump(self.artists, f, indent=2, default=str)
-            logger.info(f"Saved {len(self.artists)} artists to {artists_file}")
+            artists_json_file = os.path.join(output_dir, f'artists_{timestamp}.json')
+            try:
+                with open(artists_json_file, 'w', encoding='utf-8') as f:
+                    json.dump(self.artists, f, indent=2, default=str)
+                logger.info(f"✓ Saved {len(self.artists)} artists to JSON: {artists_json_file}")
+                files_written += 1
+            except Exception as e:
+                logger.error(f"✗ Failed to write artists JSON: {e}")
+                files_failed += 1
+            
+            artists_csv_file = os.path.join(output_dir, f'artists_{timestamp}.csv')
+            if self._write_csv(artists_csv_file, self.artists):
+                logger.info(f"✓ Saved {len(self.artists)} artists to CSV: {artists_csv_file}")
+                files_written += 1
+            else:
+                logger.error(f"✗ Failed to write artists CSV: {artists_csv_file}")
+                files_failed += 1
         
         # Write genres
         if self.genres:
-            genres_file = os.path.join(OUTPUT_DIR, f'genres_{timestamp}.json')
-            with open(genres_file, 'w', encoding='utf-8') as f:
-                json.dump(self.genres, f, indent=2, default=str)
-            logger.info(f"Saved {len(self.genres)} genres to {genres_file}")
+            genres_json_file = os.path.join(output_dir, f'genres_{timestamp}.json')
+            try:
+                with open(genres_json_file, 'w', encoding='utf-8') as f:
+                    json.dump(self.genres, f, indent=2, default=str)
+                logger.info(f"✓ Saved {len(self.genres)} genres to JSON: {genres_json_file}")
+                files_written += 1
+            except Exception as e:
+                logger.error(f"✗ Failed to write genres JSON: {e}")
+                files_failed += 1
+            
+            genres_csv_file = os.path.join(output_dir, f'genres_{timestamp}.csv')
+            if self._write_csv(genres_csv_file, self.genres):
+                logger.info(f"✓ Saved {len(self.genres)} genres to CSV: {genres_csv_file}")
+                files_written += 1
+            else:
+                logger.error(f"✗ Failed to write genres CSV: {genres_csv_file}")
+                files_failed += 1
         
         # Write reviews
         if self.reviews:
-            reviews_file = os.path.join(OUTPUT_DIR, f'reviews_{timestamp}.json')
-            with open(reviews_file, 'w', encoding='utf-8') as f:
-                json.dump(self.reviews, f, indent=2, default=str)
-            logger.info(f"Saved {len(self.reviews)} reviews to {reviews_file}")
+            reviews_json_file = os.path.join(output_dir, f'reviews_{timestamp}.json')
+            try:
+                with open(reviews_json_file, 'w', encoding='utf-8') as f:
+                    json.dump(self.reviews, f, indent=2, default=str)
+                logger.info(f"✓ Saved {len(self.reviews)} reviews to JSON: {reviews_json_file}")
+                files_written += 1
+            except Exception as e:
+                logger.error(f"✗ Failed to write reviews JSON: {e}")
+                files_failed += 1
+            
+            reviews_csv_file = os.path.join(output_dir, f'reviews_{timestamp}.csv')
+            if self._write_csv(reviews_csv_file, self.reviews):
+                logger.info(f"✓ Saved {len(self.reviews)} reviews to CSV: {reviews_csv_file}")
+                files_written += 1
+            else:
+                logger.error(f"✗ Failed to write reviews CSV: {reviews_csv_file}")
+                files_failed += 1
         
-        logger.info(f"=== File Storage Complete ===")
-        logger.info(f"Total items saved to {OUTPUT_DIR}")
+        logger.info(f"{'='*60}")
+        logger.info(f"FILE STORAGE COMPLETE")
+        logger.info(f"Files written: {files_written} | Files failed: {files_failed}")
+        logger.info(f"Output directory: {output_dir}")
+        logger.info(f"{'='*60}\n")
+    
+    def _write_csv(self, filename, data):
+        """Write data to CSV file with proper error handling"""
+        if not data:
+            logger.warning(f"No data to write to CSV: {filename}")
+            return False
+        
+        try:
+            # Get all possible fieldnames from all items
+            fieldnames = set()
+            for item in data:
+                fieldnames.update(item.keys())
+            
+            if not fieldnames:
+                logger.warning(f"No fieldnames found for CSV: {filename}")
+                return False
+            
+            # Convert sets/lists to JSON strings for CSV (preserves structure)
+            def prepare_value(value):
+                if isinstance(value, (list, tuple, set)):
+                    # Use JSON for better data preservation
+                    return json.dumps(list(value))
+                elif isinstance(value, dict):
+                    return json.dumps(value)
+                return value
+            
+            with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
+                writer = csv.DictWriter(csvfile, fieldnames=sorted(fieldnames))
+                writer.writeheader()
+                
+                for item in data:
+                    # Prepare item for CSV
+                    csv_item = {k: prepare_value(v) for k, v in item.items()}
+                    writer.writerow(csv_item)
+            
+            logger.info(f"Successfully wrote CSV: {filename}")
+            return True
+            
+        except IOError as e:
+            logger.error(f"IO Error writing CSV {filename}: {e}")
+            return False
+        except Exception as e:
+            logger.error(f"Unexpected error writing CSV {filename}: {e}")
+            return False
 
 
 class DatabasePipeline:

@@ -6,6 +6,7 @@ Command-line interface for AOTY Crawler
 import argparse
 import sys
 import logging
+import os
 from datetime import datetime
 
 # Configure logging
@@ -16,7 +17,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Import spiders for crawl command
-from aoty_crawler.spiders import DebugSpider, HtmlDebugSpider, GenreTestSpider, ComprehensiveAlbumSpider, ProductionSpider, ProductionTestSpider
+from aoty_crawler.spiders import HtmlDebugSpider, GenreTestSpider, ComprehensiveAlbumSpider, ProductionSpider, ProductionTestSpider
 
 
 def main():
@@ -26,12 +27,14 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  python -m cli scrape                    # Start scraping
-  python -m cli scrape --genre hip-hop    # Scrape hip-hop genre
-  python -m cli scrape --year 2024        # Scrape 2024 albums
-  python -m cli crawl test                # Run test spider
-  python -m cli search --genres "Hip Hop,Electronic" --min-score 80
-  python -m cli export --format csv --output results.csv
+  python -m cli scrape                                          # Start scraping all genres
+  python -m cli scrape --genre hip-hop                          # Scrape hip-hop genre
+  python -m cli scrape --genre rock --start-year 2020 --years-back 5  # Scrape 5 years of rock
+  python -m cli scrape --genre pop --albums-per-year 100        # Scrape 100 albums per year
+  python -m cli scrape --test-mode --limit 5                    # Test with 5 albums
+  python -m cli scrape --output-dir ./my_data                   # Save to custom directory
+  python -m cli scrape --resume                                 # Resume previous scrape
+  python -m cli crawl production                                # Run production spider directly
         """
     )
     
@@ -42,11 +45,19 @@ Examples:
     crawl_parser.add_argument('spider', help='Name of the spider to run (e.g., test, album, artist)')
     
     # Scrape command
-    scrape_parser = subparsers.add_parser('scrape', help='Start scraping')
-    scrape_parser.add_argument('--genre', '-g', help='Genre to scrape')
-    scrape_parser.add_argument('--year', '-y', type=int, help='Year to scrape')
+    scrape_parser = subparsers.add_parser('scrape', help='Start scraping albums')
+    scrape_parser.add_argument('--genre', '-g', help='Genre to scrape (e.g., rock, hip-hop, electronic)')
+    scrape_parser.add_argument('--start-year', type=int, help='Starting year for scraping (default: 2026)')
+    scrape_parser.add_argument('--years-back', type=int, default=1, help='Number of years to go back (default: 1)')
+    scrape_parser.add_argument('--albums-per-year', type=int, default=250, help='Albums to scrape per year (default: 250)')
+    scrape_parser.add_argument('--output-dir', '-o', help='Output directory for files (default: data/output)')
     scrape_parser.add_argument('--test-mode', '-t', action='store_true', help='Test mode (limited scraping)')
-    scrape_parser.add_argument('--limit', '-l', type=int, default=10, help='Limit number of items (test mode)')
+    scrape_parser.add_argument('--limit', '-l', type=int, default=10, help='Limit number of items (test mode only)')
+    scrape_parser.add_argument('--resume', action='store_true', help='Resume from previous scrape')
+    scrape_parser.add_argument('--resume-file', help='Specific resume file to load')
+    
+    # List genres command
+    list_genres_parser = subparsers.add_parser('list-genres', help='List available genres')
     
     # Search command
     search_parser = subparsers.add_parser('search', help='Search albums')
@@ -82,6 +93,8 @@ Examples:
             return cmd_crawl(args)
         elif args.command == 'scrape':
             return cmd_scrape(args)
+        elif args.command == 'list-genres':
+            return cmd_list_genres(args)
         elif args.command == 'search':
             return cmd_search(args)
         elif args.command == 'export':
@@ -115,17 +128,11 @@ def cmd_crawl(args):
     
     # Map spider names to classes
     spider_map = {
-        'test': TestSpider,
-        'debug': DebugSpider,
         'html_debug': HtmlDebugSpider,
         'genre_test': GenreTestSpider,
         'comprehensive_album': ComprehensiveAlbumSpider,
         'production': ProductionSpider,
         'production_test': ProductionTestSpider,
-        'album': AlbumSpider,
-        'artist': ArtistSpider,
-        'genre': GenreSpider,
-        'year': YearSpider
     }
     
     # Get spider class
@@ -153,7 +160,7 @@ def cmd_crawl(args):
 
 
 def cmd_scrape(args):
-    """Handle scrape command"""
+    """Handle scrape command with full parameter support"""
     logger.info("Starting AOTY Crawler...")
     
     # Import Scrapy components
@@ -164,11 +171,17 @@ def cmd_scrape(args):
     # Get settings
     settings = get_project_settings()
     
+    # Configure output directory if specified
+    if args.output_dir:
+        output_dir = os.path.abspath(args.output_dir)
+        settings.set('OUTPUT_DIR', output_dir, priority='cmdline')
+        logger.info(f"Output directory: {output_dir}")
+    
     # Configure for test mode
     if args.test_mode:
         settings.set('DOWNLOAD_DELAY', 0.5, priority='cmdline')
         settings.set('CONCURRENT_REQUESTS', 4, priority='cmdline')
-        logger.info(f"Test mode: limiting to {args.limit} items")
+        logger.info(f"Test mode: limiting to {args.limit} items per year")
     
     # Create crawler process
     process = CrawlerProcess(settings)
@@ -178,18 +191,37 @@ def cmd_scrape(args):
         'test_mode': args.test_mode,
     }
     
+    # Add genre if specified
     if args.genre:
         spider_kwargs['genre'] = args.genre
         logger.info(f"Scraping genre: {args.genre}")
     
-    if args.year:
-        spider_kwargs['start_year'] = args.year
-        spider_kwargs['years_back'] = 1
-        logger.info(f"Scraping year: {args.year}")
+    # Add year parameters
+    if args.start_year:
+        spider_kwargs['start_year'] = args.start_year
+        logger.info(f"Starting year: {args.start_year}")
     
+    if args.years_back and args.years_back != 1:
+        spider_kwargs['years_back'] = args.years_back
+        logger.info(f"Years back: {args.years_back}")
+    
+    # Add albums per year parameter
+    if args.albums_per_year and args.albums_per_year != 250:
+        spider_kwargs['albums_per_year'] = args.albums_per_year
+        logger.info(f"Albums per year: {args.albums_per_year}")
+    
+    # Override albums_per_year in test mode
     if args.test_mode:
         spider_kwargs['albums_per_year'] = args.limit
         logger.info(f"Test mode: limiting to {args.limit} albums per year")
+    
+    # Add resume parameters
+    if args.resume:
+        spider_kwargs['resume'] = True
+        logger.info("Resume mode enabled")
+        if args.resume_file:
+            spider_kwargs['resume_file'] = args.resume_file
+            logger.info(f"Resume file: {args.resume_file}")
     
     # Add production spider
     process.crawl(ProductionSpider, **spider_kwargs)
@@ -199,6 +231,20 @@ def cmd_scrape(args):
     process.start()
     
     logger.info("Scraping completed!")
+    return 0
+
+
+def cmd_list_genres(args):
+    """Handle list-genres command - show available genres"""
+    logger.info("Fetching available genres from AOTY...")
+    logger.info("")
+    logger.info("⚠️  The genre.php endpoint is protected and returns 403 Forbidden.")
+    logger.info("   Please visit the following URL manually to see available genres:")
+    logger.info("")
+    logger.info("   https://www.albumoftheyear.org/genre.php")
+    logger.info("")
+    logger.info("   Or check the website's genre list directly in your browser.")
+    logger.info("")
     return 0
 
 

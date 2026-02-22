@@ -235,7 +235,7 @@ df = pd.read_sql_query("SELECT * FROM albums", engine)
 ### Ethical Considerations
 - This tool is for personal use to enhance music discovery
 - Do not republish AOTY's data
-- Respect rate limits to avoid server load
+-       rate limits to avoid server load
 - Do not use for commercial purposes without permission
 
 ### Compliance
