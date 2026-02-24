@@ -3,9 +3,6 @@
 A Python-based web scraping system to extract and analyze music album data from AlbumOfTheYear.org (AOTY) for personal music discovery and recommendation.
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![License: Personal Use](https://img.shields.io/badge/license-Personal%20Use-green.svg)](LICENSE)
-
----
 
 ## 🎯 Overview
 
@@ -15,6 +12,7 @@ This project enables **advanced filtering and music discovery** beyond what AOTY
 - ✅ **Review count filtering** - Find hidden gems with specific review thresholds
 - ✅ **Complex queries** - Combine criteria (genre + score + year + review count)
 - ✅ **Personal database** - Build your own queryable music library
+- ✅ **Web UI** - Interactive Streamlit dashboard to explore your data
 - ✅ **Ethical scraping** - Full robots.txt compliance with respectful rate limiting
 
 ### Why This Project?
@@ -37,6 +35,7 @@ This tool solves those problems for personal use.
 - **BeautifulSoup4** - HTML parsing and data extraction
 - **SQLAlchemy** - Database ORM for data management
 - **SQLite** - Lightweight, portable database
+- **Streamlit** - Interactive web dashboard
 
 ### Additional Libraries
 - **Pandas** - Data analysis and CSV/JSON export
@@ -46,611 +45,551 @@ This tool solves those problems for personal use.
 
 ---
 
+## 📋 Prerequisites
+
+Before installing, make sure you have:
+
+1. **Python 3.10 or higher**
+   - Check: `python --version` or `python3 --version`
+   - Download from: https://www.python.org/downloads/
+
+2. **Google Chrome** (for Selenium)
+   - The scraper uses Chrome for JavaScript rendering
+   - Download from: https://www.google.com/chrome/
+
+3. **pip** package manager
+   - Usually comes with Python
+   - Check: `pip --version` or `pip3 --version`
+
+4. **Git** (optional, for cloning)
+   - Download from: https://git-scm.com/downloads
+
+---
+
+## 🚀 Installation
+
+### Step 1: Get the Code
+
+**Option A: Using Git**
+```bash
+git clone https://github.com/yourusername/aoty-crawler.git
+cd aoty-crawler
+```
+
+**Option B: Download ZIP**
+1. Download the project ZIP file
+2. Extract it to your desired location
+3. Open terminal/command prompt and navigate to the folder:
+   ```bash
+   cd path/to/aoty-crawler
+   ```
+
+### Step 2: Create Virtual Environment
+
+**Why?** Virtual environments prevent dependency conflicts with other Python projects.
+
+**Windows:**
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+**macOS/Linux:**
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+**Verify activation:** Your terminal prompt should now show `(venv)` at the start.
+
+### Step 3: Install Dependencies
+
+**Install main dependencies:**
+```bash
+pip install -r requirements.txt
+```
+
+**Install UI dependencies (for Streamlit dashboard):**
+```bash
+pip install -r ui/requirements.txt
+```
+
+### Common Installation Issues
+
+#### Issue: `pip` command not found
+**Solution:**
+- Try `pip3` instead of `pip`
+- Or use: `python -m pip install -r requirements.txt`
+
+#### Issue: ChromeDriver errors
+**Solution:**
+- Make sure Google Chrome is installed
+- Update Chrome to the latest version
+- The `undetected-chromedriver` package will auto-download the correct driver
+
+#### Issue: Permission errors on macOS/Linux
+**Solution:**
+```bash
+# Use user install
+pip install --user -r requirements.txt
+
+# Or fix permissions
+chmod +x *.sh
+```
+
+#### Issue: SSL certificate errors
+**Solution:**
+```bash
+# Windows
+pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org -r requirements.txt
+
+# macOS - install certificates
+cd /Applications/Python\ 3.10/
+./Install\ Certificates.command
+```
+
+#### Issue: Build errors (C++ compiler required)
+**Solution:**
+- **Windows:** Install Microsoft C++ Build Tools from https://visualstudio.microsoft.com/visual-cpp-build-tools/
+- **macOS:** Install Xcode Command Line Tools: `xcode-select --install`
+- **Linux:** Install build tools: `sudo apt-get install build-essential python3-dev`
+
+---
+
 ## 📁 Project Structure
 
 ```
 aoty-crawler/
-├── aoty_crawler/           # Main scraping package
-│   ├── spiders/            # Scrapy spiders
-│   │   ├── production_spider.py      # Main production spider
-│   │   ├── comprehensive_album_spider.py
-│   │   └── debug_spider.py
-│   ├── items.py            # Data models
-│   ├── pipelines.py        # Data processing pipelines
-│   ├── middlewares.py      # Selenium & retry middleware
-│   └── settings.py         # Scrapy configuration
-├── cli/                    # Command-line interface
-│   └── main.py
-├── database/               # Database models & initialization
+├── aoty_crawler/              # Main scraping package
+│   ├── spiders/               # Scrapy spiders
+│   │   ├── production_spider.py
+│   │   └── comprehensive_album_spider.py
+│   ├── utils/                 # Utility functions
+│   │   └── data_loader.py     # Data loading for UI
+│   ├── items.py               # Data models
+│   ├── pipelines.py           # Data processing pipelines
+│   ├── middlewares.py         # Selenium & retry middleware
+│   └── settings.py            # Scrapy configuration
+├── cli/                       # Command-line interface
+│   └── main.py                # CLI entry point
+├── database/                  # Database models & initialization
 │   ├── models.py
 │   └── init_db.py
-├── data/                   # Output directory (not in repo)
-├── requirements.txt        # Python dependencies
-├── scrapy.cfg             # Scrapy project config
-└── README.md              # This file
+├── ui/                        # Streamlit web interface
+│   ├── app.py                 # Main dashboard
+│   ├── launch.py              # Launch script
+│   └── requirements.txt       # UI-specific dependencies
+├── data/                      # Output directory
+│   └── output/                # Scraped data (JSON/CSV)
+├── logs/                      # Application logs
+├── requirements.txt           # Python dependencies
+├── scrapy.cfg                 # Scrapy project config
+└── README.md                  # This file
 ```
-
----
-
-## 🚀 Quick Start
-
-### Prerequisites
-- **Python 3.10+**
-- **Google Chrome** (for Selenium)
-- **pip** package manager
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/cpet02/aoty-crawler.git
-   cd aoty-crawler
-   ```
-
-2. **Create virtual environment**
-   ```bash
-   python -m venv venv
-   
-   # Activate:
-   # Windows:
-   venv\Scripts\activate
-   
-   # Linux/Mac:
-   source venv/bin/activate
-   ```
-
-3. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-<<<<<<< HEAD
-4. **Initialize database**
-```bash
-python -m database.init_db
-```
-
-5. **Configure settings (optional)**
-```bash
-cp .env.example .env
-# Edit .env with your preferences
-```
-
-## ðŸŽ® Usage
-
-### Basic Commands
-
-#### Initialize Database
-```bash
-python -m cli init
-```
-
-#### Start Scraping
-```bash
-# Scrape default genres
-python -m cli scrape
-
-# Scrape specific genre
-python -m cli scrape --genre hip-hop
-
-# Scrape specific year
-python -m cli scrape --year 2024
-
-# Test mode (limited scraping)
-python -m cli scrape --test-mode --limit 10
-```
-
-#### Search Albums
-```bash
-# Search by genres
-python -m cli search --genres "Hip Hop,Electronic"
-
-# Search with multiple criteria
-python -m cli search --genres "Jazz,Hip Hop" --match-all --min-score 80 --min-reviews 50
-
-# Search by year
-python -m cli search --year 2023 --min-score 75
-```
-
-#### Export Data
-```bash
-# Export to CSV
-python -m cli export --format csv --output results.csv
-
-# Export to JSON
-python -m cli export --format json --output results.json
-
-# Export to SQLite
-python -m cli export --format sqlite --output export.db
-```
-
-#### Show Statistics
-```bash
-python -m cli stats
-```
-
-### Advanced Usage
-
-#### Python API
-```python
-from aoty_crawler import AlbumSpider, init_database, get_session
-from database.models import Album, Artist, Genre
-
-# Initialize database
-engine = init_database()
-session = get_session(engine)
-
-# Query albums
-albums = session.query(Album).filter(Album.critic_score >= 80).all()
-
-# Export to pandas DataFrame
-import pandas as pd
-df = pd.read_sql_query("SELECT * FROM albums", engine)
-```
-
-## ðŸ“Š Database Schema
-
-### Tables
-- **albums** - Album information with scores and metadata
-- **artists** - Artist information and album counts
-- **genres** - Genre categories
-- **album_genres** - Many-to-many relationship between albums and genres
-- **reviews** - Individual reviews (optional)
-- **scrape_jobs** - Tracking for scraping jobs
-
-### Key Features
-- SQLite database (portable, serverless)
-- Proper indexing for fast queries
-- Foreign key relationships
-- Cascade deletion
-
-## ðŸŽ¯ Implementation Phases
-
-### Phase 1: Foundation âœ… (Current)
-- [x] Core scraping infrastructure
-- [x] Database schema and models
-- [x] Selenium middleware for Cloudflare bypass
-- [x] Basic spiders for albums, artists, genres
-- [x] CLI interface
-
-### Phase 2: Data Extraction
-- [ ] Expand spider coverage
-- [ ] Implement data validation
-- [ ] Add checkpoint/resume functionality
-- [ ] Rate limiting strategies
-
-### Phase 3: Query Engine
-- [ ] Advanced filtering and search
-- [ ] Multi-genre search
-- [ ] Complex boolean queries
-- [ ] Export functionality
-
-### Phase 4: Polish & Optimization
-- [ ] Performance optimization
-- [ ] Error handling and logging
-- [ ] Documentation
-- [ ] Testing
-
-## ðŸ“ˆ Success Metrics
-
-1. **Coverage**: Successfully scrape 10,000+ albums across 20+ genres
-2. **Accuracy**: >95% data extraction accuracy
-3. **Performance**: Query execution <1 second for complex filters
-4. **Reliability**: <1% scraping failure rate over 1,000 requests
-5. **Usability**: CLI can execute 90% of desired queries in single command
-
-## âš ï¸ Important Notes
-
-### Ethical Considerations
-- This tool is for personal use to enhance music discovery
-- Do not republish AOTY's data
--       rate limits to avoid server load
-- Do not use for commercial purposes without permission
-
-### Compliance
-- Always check AOTY's robots.txt and Terms of Service
-- If restrictions are added, stop scraping and consider alternatives
-- Store data locally; do not republish or redistribute
-
-### Performance Expectations
-- Scraping 10,000 albums at 3 sec/album = ~8-9 hours
-- Plan long-running scrapes during off-peak hours
-- Use `tmux` or `screen` to prevent session disconnects
-
-### Data Freshness
-- Album scores and review counts change over time
-- Plan periodic refreshes for actively tracked albums
-
-## ðŸ§ª Testing
-
-```bash
-# Run tests
-pytest tests/
-
-# Run specific test
-pytest tests/test_spiders.py
-
-# Run with coverage
-pytest --cov=aoty_crawler tests/
-```
-
-## ðŸ“ Development
-
-### Adding New Features
-1. Create new spider in `aoty_crawler/spiders/`
-2. Add pipeline in `aoty_crawler/pipelines.py`
-3. Update database models in `database/models.py`
-4. Add CLI command in `cli/main.py`
-
-### Debugging
-```bash
-# Enable debug logging
-python -m cli scrape --log-level DEBUG
-
-# Test individual spider
-python -m scrapy shell https://www.albumoftheyear.org/album/123456-album-name/
-```
-
-## ðŸ¤ Contributing
-
-Contributions are welcome! Please follow these steps:
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Run tests
-5. Submit a pull request
-
-## ðŸ“„ License
-
-This project is for personal, non-commercial use only. Please respect AOTY's Terms of Service.
-
-## ðŸ™ Acknowledgments
-
-- Inspired by existing AOTY scraping projects
-- Uses undetected-chromedriver for Cloudflare bypass
-- Built with Scrapy for efficient crawling
-
-## ðŸ“ž Support
-
-For issues and questions:
-- Check the documentation
-- Review the logs
-- Open an issue on GitHub
-=======
-4. **Test the installation**
-   ```bash
-   python -m cli crawl test
-   ```
->>>>>>> 889492061893d832851f46c1e19a96d2e0b3cd49
 
 ---
 
 ## 🎮 Usage
 
-### Basic Scraping
+### Method 1: Using the CLI (Recommended for first run)
 
-**Run the production spider** (scrapes by genre and year):
+The CLI provides interactive commands for scraping and querying data.
+
+**View available commands:**
 ```bash
-# Scrape Rock albums from 2026 (test mode - 10 albums)
-python -m cli crawl production --genre rock --start-year 2026 --years-back 1 --albums-per-year 10 --test-mode
-
-# Scrape Hip-Hop albums from 2024-2026 (250 albums per year)
-python -m cli crawl production --genre hip-hop --start-year 2026 --years-back 3 --albums-per-year 250
+python -m cli
 ```
 
-### Available Spiders
+**Scrape albums (example - 50 albums from 2024):**
+```bash
+python -m cli scrape --year 2024 --max-items 50
+```
+
+**Common scraping options:**
+```bash
+# Scrape specific year with limit
+python -m cli scrape --year 2023 --max-items 100
+
+# Scrape multiple years
+python -m cli scrape --year 2023 --max-items 50
+python -m cli scrape --year 2024 --max-items 50
+
+# Scrape specific genres
+python -m cli scrape --genre hip-hop --max-items 30
+python -m cli scrape --genre electronic --max-items 30
+```
+
+**Query scraped data:**
+```bash
+# List all available genres
+python -m cli list-genres
+
+# Search by genre
+python -m cli search --genre indie-rock
+
+# Search with filters
+python -m cli search --genre electronic --min-score 80 --year 2024
+```
+
+### Method 2: Using Streamlit UI (Best for exploring data)
+
+**Launch the web dashboard:**
+
+**Option A: Using the launch script**
+```bash
+python ui/launch.py
+```
+
+**Option B: Direct streamlit command**
+```bash
+streamlit run ui/app.py
+```
+
+**Option C: From the ui directory**
+```bash
+cd ui
+streamlit run app.py
+```
+
+The dashboard will open in your browser (usually at `http://localhost:8501`)
+
+**Features:**
+- 📊 Interactive filtering by genre, score, and year
+- 🎵 Visual album grid with scores and genres
+- 📈 Statistics overview and genre distribution
+- 🏆 Top albums by user score
+- 🔍 Real-time search and filtering
+
+### Method 3: Using Scrapy Directly
+
+For advanced users who want full control:
 
 ```bash
-# Test spider (quick verification)
-python -m cli crawl test
+# Run the production spider
+scrapy crawl production -a year=2024 -a max_items=100
 
-# Debug spider (detailed HTML analysis)
-python -m cli crawl debug
-
-# Production spider (full genre/year scraping)
-python -m cli crawl production --genre [genre-slug] --start-year [year]
+# Run comprehensive spider (more data)
+scrapy crawl comprehensive_album -a year=2024 -a max_items=50
 ```
-
-### Production Spider Options
-
-```bash
-python -m cli crawl production \
-    --genre hip-hop \              # Genre slug (e.g., hip-hop, electronic, rock)
-    --start-year 2026 \            # Starting year (default: current year)
-    --years-back 5 \               # Number of years to scrape back
-    --albums-per-year 250 \        # Albums to scrape per year (default: 10)
-    --test-mode                    # Limit to first genre/year for testing
-```
-
-**Common Genre Slugs:**
-- `rock`, `pop`, `hip-hop`, `electronic`, `jazz`, `metal`, `indie`, `folk`, `r-b`, `punk`
-
-### Output Data
-
-Scraped data is saved to `data/output/`:
-- **JSON format**: `albums_YYYYMMDD_HHMMSS.json`
-- Contains: artist, title, scores, genres, tags, release date, review counts
-
-**Example Output:**
-```json
-{
-  "artist_name": "Kendrick Lamar",
-  "title": "GNX",
-  "release_date": "November 22, 2024",
-  "user_score": 85.0,
-  "critic_score": 88.0,
-  "user_review_count": 1247,
-  "critic_review_count": 23,
-  "genres": ["Hip Hop", "Conscious Hip Hop"],
-  "genre_tags": ["West Coast Hip Hop", "Jazz Rap"],
-  "url": "https://www.albumoftheyear.org/album/..."
-}
-```
-
----
-
-## 📊 Data Analysis
-
-### Export to CSV/Pandas
-
-```python
-import pandas as pd
-import json
-
-# Load scraped data
-with open('data/output/albums_20260221_035652.json', 'r') as f:
-    data = json.load(f)
-
-# Create DataFrame
-df = pd.DataFrame(data)
-
-# Filter and analyze
-high_rated = df[df['user_score'] > 80]
-print(f"Found {len(high_rated)} albums with user score > 80")
-
-# Export to CSV
-df.to_csv('albums_export.csv', index=False)
-```
-
-### Query Examples
-
-```python
-# Find albums with 100+ user reviews and 85+ score
-popular = df[(df['user_review_count'] > 100) & (df['user_score'] > 85)]
-
-# Find albums with specific genre tags
-jazz_hip_hop = df[df['genre_tags'].apply(lambda x: 'Jazz Rap' in x if x else False)]
-
-# Group by genre
-genre_stats = df.groupby('genres').agg({
-    'user_score': 'mean',
-    'user_review_count': 'sum'
-})
-```
-
----
-
-## ⚙️ Configuration
-
-### Rate Limiting (settings.py)
-
-```python
-DOWNLOAD_DELAY = 3              # 3 seconds between requests
-RANDOMIZE_DOWNLOAD_DELAY = True # Varies 1.5-4.5 seconds
-CONCURRENT_REQUESTS = 1         # One request at a time
-AUTOTHROTTLE_ENABLED = True     # Dynamic throttling
-ROBOTSTXT_OBEY = True          # Respect robots.txt
-```
-
-### User Agent
-
-```python
-USER_AGENT = "AOTY-Crawler/1.0 (Personal Project; Music Data Collection)"
-```
-
----
-
-## 🔍 Understanding the Workflow
-
-1. **Genre Page** → Extracts all genre links
-2. **Ratings Pages** → For each genre/year, gets album list
-   - URL pattern: `/ratings/user-highest-rated/{year}/{genre}/`
-3. **Album Pages** → Extracts detailed data for each album
-   - Scores, review counts, genres, tags, release dates
-4. **Data Output** → Saves to JSON files in `data/output/`
-
----
-
-## ⚠️ Legal & Ethical Notice
-
-### ✅ Compliance
-
-- **Fully compliant** with `albumoftheyear.org/robots.txt`
-- **Respectful rate limiting**: 3+ second delays between requests
-- **Personal, non-commercial use only**
-- **Data not redistributed or republished**
-- Last ToS Review: **February 2026**
-
-### ⚠️ Important Disclaimers
-
-1. **This tool is for PERSONAL USE ONLY**
-   - Music discovery and personal database creation
-   - NOT for commercial purposes
-   - NOT for republishing AOTY's data
-
-2. **Respect the Source**
-   - AOTY provides free access to music data
-   - Do not abuse rate limits
-   - Do not overwhelm their servers
-   - Support AOTY if you find value in their service
-
-3. **Monitor Changes**
-   - Check robots.txt periodically
-   - Respect any new restrictions
-   - If asked to stop, comply immediately
-
-4. **Data Storage**
-   - Store data locally only
-   - Do not create public databases with AOTY data
-   - Do not redistribute scraped content
-
-### 📧 Contact
-
-If you're AOTY's operator and have concerns:
-- Contact: [Your email - update this!]
-- I'm happy to adjust or cease scraping
-
----
-
-## 🎯 Performance Expectations
-
-### Scraping Speed
-- **10 albums**: ~30-45 seconds (with 3-second delays)
-- **250 albums**: ~12-15 minutes
-- **1,000 albums**: ~50-60 minutes
-- **10,000 albums**: ~8-9 hours
-
-### Storage
-- **1,000 albums**: ~2-5 MB (JSON)
-- **10,000 albums**: ~20-50 MB
-- Includes all metadata, genres, tags, scores
-
-### Recommendations
-- Start with **test mode** (10 albums) to verify setup
-- Run large scrapes **overnight** or during off-peak hours
-- Use `tmux` or `screen` for long-running jobs
-- Monitor logs in `logs/aoty_crawler.log`
 
 ---
 
 ## 🐛 Troubleshooting
 
-### Chrome/Selenium Issues
+### Streamlit Won't Start
 
-**Error: "ChromeDriver not found"**
+**Issue:** `streamlit: command not found`
+**Solution:**
 ```bash
-pip install --upgrade undetected-chromedriver
+# Make sure you've installed UI dependencies
+pip install -r ui/requirements.txt
+
+# Verify streamlit is installed
+pip list | grep streamlit
+
+# If not installed, install it directly
+pip install streamlit
 ```
 
-**Error: "Chrome version mismatch"**
-- Update Chrome to latest version
-- Reinstall undetected-chromedriver
+**Issue:** `ModuleNotFoundError: No module named 'aoty_crawler'`
+**Solution:**
+```bash
+# Run from project root directory, not from ui/ directory
+cd /path/to/aoty-crawler
+python ui/launch.py
+
+# Or use the launch script which handles paths
+python ui/launch.py
+```
+
+**Issue:** "No albums found" in Streamlit
+**Solution:**
+```bash
+# You need to scrape data first
+python -m cli scrape --year 2024 --max-items 50
+
+# Verify data exists
+ls data/output/
+```
 
 ### Scraping Issues
 
-**Error: "403 Forbidden" or Cloudflare blocking**
-- Already handled by undetected-chromedriver
-- Check if rate limits are respected (3+ seconds)
-- Try increasing `DOWNLOAD_DELAY` to 5 seconds
+**Issue:** ChromeDriver crashes or won't start
+**Solution:**
+1. Update Google Chrome to latest version
+2. Clear ChromeDriver cache:
+   ```bash
+   # Windows
+   del %USERPROFILE%\.wdm\drivers\chromedriver\*
+   
+   # macOS/Linux
+   rm -rf ~/.wdm/drivers/chromedriver/*
+   ```
+3. Reinstall undetected-chromedriver:
+   ```bash
+   pip uninstall undetected-chromedriver
+   pip install undetected-chromedriver
+   ```
 
-**No data scraped**
+**Issue:** "Cloudflare protection detected"
+**Solution:**
+- This is normal; the scraper uses `undetected-chromedriver` to handle this
+- If it persists, increase delays in `settings.py`:
+  ```python
+  DOWNLOAD_DELAY = 3  # Increase from 2
+  CONCURRENT_REQUESTS = 1  # Reduce from 2
+  ```
+
+**Issue:** No data being scraped
+**Solution:**
+1. Check logs in `logs/aoty_crawler.log`
+2. Verify you have internet connection
+3. Test with a small sample:
+   ```bash
+   python -m cli scrape --year 2024 --max-items 5
+   ```
+4. Check if AOTY website is accessible: https://www.albumoftheyear.org
+
+### General Python Issues
+
+**Issue:** Virtual environment not activating
+**Solution:**
 ```bash
-# Check logs
-cat logs/aoty_crawler.log | tail -50
+# Windows - try different activation methods
+venv\Scripts\activate.bat
+# or
+venv\Scripts\Activate.ps1  # PowerShell
 
-# Run debug spider to inspect HTML
-python -m cli crawl debug
+# macOS/Linux
+source venv/bin/activate
+# or
+. venv/bin/activate
 ```
 
-### Data Issues
-
-**Empty/null fields in output**
-- AOTY HTML structure may have changed
-- Check `debug_html/` folder for saved pages
-- Update selectors in spider if needed
-
----
-
-## 🧪 Development
-
-### Project Goals
-
-**Phase 1: Core Scraping** ✅
-- [x] Scrapy spider infrastructure
-- [x] Selenium middleware for Cloudflare
-- [x] Genre/year navigation
-- [x] Album data extraction
-- [x] JSON output
-
-**Phase 2: Database (In Progress)**
-- [ ] SQLite database integration
-- [ ] SQLAlchemy models
-- [ ] CLI search commands
-- [ ] Data deduplication
-
-**Phase 3: Advanced Features**
-- [ ] Resume interrupted scrapes
-- [ ] Incremental updates (new releases)
-- [ ] Genre tag filtering
-- [ ] Recommendation engine
-
-### Adding Features
-
-1. **New Spider**: Add to `aoty_crawler/spiders/`
-2. **Data Fields**: Update `items.py`
-3. **Processing**: Add pipeline in `pipelines.py`
-4. **CLI Command**: Extend `cli/main.py`
-
-### Testing
-
+**Issue:** Import errors
+**Solution:**
 ```bash
-# Quick test (10 albums)
-python -m cli crawl production --test-mode --albums-per-year 10
+# Reinstall all dependencies
+pip install --upgrade -r requirements.txt
+pip install --upgrade -r ui/requirements.txt
 
-# Verify extraction
-python quick_verification.py
+# Check Python version (must be 3.10+)
+python --version
 ```
 
 ---
 
-## 📖 Further Reading
+## 📊 Data Output
 
-### Relevant Documentation
-- [Scrapy Documentation](https://docs.scrapy.org/)
-- [Selenium Documentation](https://selenium-python.readthedocs.io/)
-- [Web Scraping Best Practices](https://www.scraperapi.com/blog/web-scraping-best-practices/)
+Scraped data is saved in `data/output/` in both JSON and CSV formats:
 
-### Similar Projects
-- Search GitHub for "albumoftheyear scraper" for other approaches
-- Many projects exist - this one emphasizes ethical scraping
+- **JSON files:** `albums_YYYY.json` - Full album data with all fields
+- **CSV files:** `albums_YYYY.csv` - Tabular format for spreadsheet analysis
+
+### Data Fields
+
+Each album record includes:
+- `title` - Album name
+- `artist_name` - Artist/band name
+- `scrape_year` - Release year
+- `genres` - List of genre tags
+- `critic_score` - Critic score (0-100)
+- `user_score` - User score (0-100)
+- `critic_review_count` - Number of critic reviews
+- `user_review_count` - Number of user reviews
+- `cover_image_url` - Album cover URL
+- `aoty_url` - Link to AOTY page
 
 ---
 
-## 🙏 Acknowledgments
+## 🔧 Configuration
 
-- **AlbumOfTheYear.org** - For providing comprehensive music data
-- **Scrapy** - Excellent web crawling framework
-- **undetected-chromedriver** - Cloudflare bypass capability
-- Inspired by the need for better music discovery tools
+### Rate Limiting
+
+The scraper is configured to be respectful to AOTY servers. Settings in `aoty_crawler/settings.py`:
+
+```python
+DOWNLOAD_DELAY = 2  # 2 seconds between requests
+CONCURRENT_REQUESTS = 2  # Max 2 simultaneous requests
+CONCURRENT_REQUESTS_PER_DOMAIN = 1  # 1 request per domain at a time
+```
+
+**To slow down even more (recommended for large scrapes):**
+```python
+DOWNLOAD_DELAY = 3
+CONCURRENT_REQUESTS = 1
+```
+
+### Environment Variables
+
+Create a `.env` file (copy from `.env.example`):
+```bash
+cp .env.example .env
+```
+
+Available settings:
+```env
+# Database
+DATABASE_URL=sqlite:///aoty_albums.db
+
+# Logging
+LOG_LEVEL=INFO
+
+# Scraping
+MAX_RETRY_TIMES=3
+DOWNLOAD_TIMEOUT=30
+```
+
+---
+
+## 🗑️ Superfluous Files (Safe to Delete)
+
+The following files in the root directory are leftover documentation/testing files and can be safely deleted:
+
+### Development/Testing Files (Delete These)
+- `BUG_FIXES_SUMMARY.md` - Development notes
+- `CLI_QUICK_REFERENCE.md` - Draft CLI docs (info now in README)
+- `DETAILED_CHANGES.md` - Development changelog
+- `FIXES_APPLIED.md` - Development notes
+- `NEXT_STEPS.md` - Development TODO
+- `QUICK_FIX_SUMMARY.txt` - Development notes
+- `README_FIXES.md` - Draft README notes
+- `TESTING_GUIDE.md` - Developer testing notes
+- `TEST_PLAN.md` - Developer testing notes
+- `VERIFICATION_CHECKLIST.md` - Development checklist
+- `WORK_COMPLETED.txt` - Development notes
+- `comprehensive_test.py` - Test script (use pytest instead)
+- `quick_verification.py` - Test script
+- `test_filtering.py` - Test script
+- `test_genres.py` - Test script
+- `test_import.py` - Test script
+- `test_regex_fix.py` - Test script
+- `verify_all_criteria.py` - Test script
+
+### Files to Keep
+- `README.md` - Main documentation (replace with this version)
+- `requirements.txt` - Dependencies (ESSENTIAL)
+- `scrapy.cfg` - Scrapy config (ESSENTIAL)
+- `.env.example` - Environment template
+- `.gitignore` - Git configuration
+- `startup.sh` - Optional startup script
+
+### Directories
+- `test_output/` - Can be deleted (test outputs)
+- `tests/` - Keep (contains official test suite)
+- `logs/` - Keep but can clear `logs/aoty_crawler.log` if it gets large
+- `data/output/` - Keep (contains your scraped data)
+
+**Quick cleanup command:**
+```bash
+# Delete all the superfluous markdown and test files
+rm -f BUG_FIXES_SUMMARY.md CLI_QUICK_REFERENCE.md DETAILED_CHANGES.md \
+      FIXES_APPLIED.md NEXT_STEPS.md QUICK_FIX_SUMMARY.txt \
+      README_FIXES.md TESTING_GUIDE.md TEST_PLAN.md \
+      VERIFICATION_CHECKLIST.md WORK_COMPLETED.txt \
+      comprehensive_test.py quick_verification.py test_filtering.py \
+      test_genres.py test_import.py test_regex_fix.py verify_all_criteria.py
+
+# Delete test output directory
+rm -rf test_output/
+```
+
+---
+
+## 📝 Examples
+
+### Example 1: Build a 2024 indie rock collection
+```bash
+# Scrape indie rock albums from 2024
+python -m cli scrape --genre indie-rock --year 2024 --max-items 100
+
+# Launch UI to explore
+python ui/launch.py
+```
+
+### Example 2: Find hidden gems
+```bash
+# Scrape albums, then search in CLI
+python -m cli scrape --year 2023 --max-items 200
+python -m cli search --min-score 75 --max-user-reviews 100
+```
+
+### Example 3: Multi-genre discovery
+```bash
+# Scrape different genres
+python -m cli scrape --genre electronic --year 2024 --max-items 50
+python -m cli scrape --genre hip-hop --year 2024 --max-items 50
+python -m cli scrape --genre jazz --year 2024 --max-items 50
+
+# Explore in Streamlit - filter by multiple genres
+python ui/launch.py
+```
+
+---
+
+## 🤝 Contributing
+
+This is a personal project, but suggestions and bug reports are welcome!
+
+1. Check existing issues
+2. Create a detailed bug report or feature request
+3. Include Python version, OS, and error messages
+
+---
+
+## ⚖️ Legal & Ethics
+
+- **Personal use only** - This scraper is for personal music discovery
+- **Respectful scraping** - Built-in rate limiting and robots.txt compliance
+- **No commercial use** - Data is for personal analysis only
+- **Attribution** - Data belongs to AlbumOfTheYear.org
+
+---
+
+## 📞 Support
+
+### Quick Checklist
+- [ ] Python 3.10+ installed?
+- [ ] Virtual environment activated?
+- [ ] Both `requirements.txt` and `ui/requirements.txt` installed?
+- [ ] Google Chrome installed?
+- [ ] Running commands from project root directory?
+- [ ] Data scraped before launching UI?
+
+### Still Having Issues?
+
+1. **Check logs:** `logs/aoty_crawler.log`
+2. **Check Python version:** `python --version` (must be 3.10+)
+3. **Check installed packages:** `pip list`
+4. **Check data exists:** `ls data/output/`
+5. **Try a minimal scrape:** `python -m cli scrape --year 2024 --max-items 5`
+
+---
+
+## 🚀 Quick Start TL;DR
+
+```bash
+# 1. Setup
+python -m venv venv
+source venv/bin/activate  # or venv\Scripts\activate on Windows
+pip install -r requirements.txt
+pip install -r ui/requirements.txt
+
+# 2. Scrape some data
+python -m cli scrape --year 2024 --max-items 50
+
+# 3. Launch dashboard
+python ui/launch.py
+```
 
 ---
 
 ## 📜 License
 
-**Personal Use Only**
-
-This project is provided for educational and personal use. It is NOT licensed for:
-- Commercial use
-- Data redistribution
-- Creating competing services
-- Any use that violates AOTY's Terms of Service
-
-By using this tool, you agree to:
-- Use it responsibly and ethically
-- Respect AOTY's servers and bandwidth
-- Not republish or redistribute scraped data
-- Cease use if requested by AOTY
+Personal Use - See LICENSE file
 
 ---
 
 ## 🎵 Happy Music Discovery!
 
-Built with ❤️ for music lovers who want to explore beyond the mainstream.
-
-**Questions? Issues? Suggestions?**
-- Open an issue on GitHub
-- Check the logs in `logs/aoty_crawler.log`
-- Review the troubleshooting section above
----
-
-**Last Updated**: February 2026
+Built with ❤️ for music lovers who want more control over their album discovery.

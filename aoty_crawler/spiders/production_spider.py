@@ -107,22 +107,60 @@ class ProductionSpider(scrapy.Spider):
         """Parse genre page and extract genre links"""
         self.logger.info(f"Parsing genre page: {response.url}")
         
-        # Extract genre links
-        genre_links = response.css('a[href*="/genre/"]')
-        self.logger.info(f"Found {len(genre_links)} genre links")
+        # Try to find "All Genres" section first
+        # Look for the "All Genres" heading and extract links from that section
+        all_genres_links = []
         
-        # Filter and process genre links
+        # Method 1: Look for "All Genres" heading and extract subsequent links
+        all_genres_heading = response.xpath('//*[contains(text(), "All Genres")]/following::a[contains(@href, "/genre/") and not(contains(text(), "View More")) and not(contains(text(), "similar artists")) and not(contains(text(), "follow"))]/@href').getall()
+        
+        if all_genres_heading:
+            self.logger.info(f"Found 'All Genres' section with {len(all_genres_heading)} genre links")
+            all_genres_links = all_genres_heading
+        else:
+            # Method 2: Fallback - extract all genre links but filter more aggressively
+            self.logger.info("'All Genres' section not found, using fallback method")
+            
+            # Get all genre links
+            all_links = response.css('a[href*="/genre/"]::attr(href)').getall()
+            
+            # Filter out common non-genre links
+            excluded_texts = ['view more', 'similar artists', 'follow', 'on this day', 'newsworthy', 'user updates', 'site updates', 'privacy policy', 'contact us', 'ad-free', 'highest rated', 'must hear albums', 'year end lists', 'new releases', 'random']
+            
+            for href in all_links:
+                # Skip if it's a genre list page (we want individual genre pages)
+                if '/genre/list' in href or '/genre.php' in href:
+                    continue
+                
+                # Extract genre slug to check if it looks like a genre page
+                match = re.search(r'/genre/\d+-(.+)/', href)
+                if match:
+                    all_genres_links.append(href)
+            
+            self.logger.info(f"Found {len(all_genres_links)} potential genre links (fallback method)")
+        
+        # Process the genre links
         genres_processed = set()
         
-        for link in genre_links:
-            href = link.css('::attr(href)').get()
-            text = link.css('::text').get()
+        for href in all_genres_links:
+            # Get the text for this link (try to find the corresponding anchor tag)
+            text = None
+            for link in response.css('a[href="' + href + '"]'):
+                text = link.css('::text').get()
+                if text:
+                    break
             
-            if not href or not text:
+            if not text:
+                # Try to extract text from the href itself
+                match = re.search(r'/genre/\d+-(.+)/', href)
+                if match:
+                    text = match.group(1).replace('-', ' ').title()
+            
+            if not text:
                 continue
             
             # Skip "View More" links and non-genre links
-            if text.lower() in ['view more', 'similar artists', 'follow']:
+            if text.lower() in ['view more', 'similar artists', 'follow', 'on this day', 'newsworthy', 'user updates', 'site updates', 'privacy policy', 'contact us']:
                 continue
             
             # Extract genre slug from URL: /genre/7-rock/ -> "rock"
@@ -190,6 +228,7 @@ class ProductionSpider(scrapy.Spider):
                 break
         
         self.logger.info(f"Total unique genres found: {len(genres_processed)}")
+        self.genres_scraped = len(genres_processed)
     
     def parse_ratings_page(self, response):
         """Parse ratings page and extract album links"""

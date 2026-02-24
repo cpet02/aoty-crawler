@@ -1,0 +1,7702 @@
+{
+  "version": 1,
+  "genres": {
+    "Ambient Pop": {
+      "type": "parent",
+      "children": [
+        "Slowcore"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "ASMR": {
+      "type": "parent",
+      "children": [],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Christmas": {
+      "type": "parent",
+      "children": [],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Epic Collage": {
+      "type": "parent",
+      "children": [],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Glitch Pop": {
+      "type": "parent",
+      "children": [],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hymns": {
+      "type": "parent",
+      "children": [],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hypnagogic Pop": {
+      "type": "parent",
+      "children": [],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Mashup": {
+      "type": "parent",
+      "children": [],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Musical Parody": {
+      "type": "parent",
+      "children": [],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Polka": {
+      "type": "parent",
+      "children": [],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Sampledelia": {
+      "type": "parent",
+      "children": [],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Standards": {
+      "type": "parent",
+      "children": [],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Totalism": {
+      "type": "parent",
+      "children": [],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Toypop": {
+      "type": "parent",
+      "children": [],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Ambient": {
+      "type": "parent",
+      "children": [
+        "Ambient Dub",
+        "Ambient Noise Wall",
+        "Black Ambient",
+        "Dark Ambient",
+        "Ritual Ambient",
+        "Space Ambient",
+        "Tribal Ambient"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Ambient Dub": {
+      "type": "child",
+      "parent": "Ambient",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Ambient Noise Wall": {
+      "type": "child",
+      "parent": "Ambient",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Black Ambient": {
+      "type": "child",
+      "parent": "Ambient",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dark Ambient": {
+      "type": "child",
+      "parent": "Ambient",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Ritual Ambient": {
+      "type": "child",
+      "parent": "Ambient",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Space Ambient": {
+      "type": "child",
+      "parent": "Ambient",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Tribal Ambient": {
+      "type": "child",
+      "parent": "Ambient",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Blues": {
+      "type": "parent",
+      "children": [
+        "Acoustic Chicago Blues",
+        "Boogie-Woogie",
+        "British Blues",
+        "Chicago Blues",
+        "Country Blues",
+        "Delta Blues",
+        "Electric Blues",
+        "Electric Texas Blues",
+        "Jump Blues",
+        "New Orleans Blues",
+        "Piano Blues",
+        "Piedmont Blues",
+        "Soul Blues",
+        "Swamp Blues",
+        "Vaudeville Blues"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Acoustic Chicago Blues": {
+      "type": "child",
+      "parent": "Blues",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Boogie-Woogie": {
+      "type": "child",
+      "parent": "Blues",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "British Blues": {
+      "type": "child",
+      "parent": "Blues",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Chicago Blues": {
+      "type": "child",
+      "parent": "Blues",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Country Blues": {
+      "type": "child",
+      "parent": "Blues",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Delta Blues": {
+      "type": "child",
+      "parent": "Blues",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Electric Blues": {
+      "type": "child",
+      "parent": "Blues",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Electric Texas Blues": {
+      "type": "child",
+      "parent": "Blues",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jump Blues": {
+      "type": "child",
+      "parent": "Blues",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "New Orleans Blues": {
+      "type": "child",
+      "parent": "Blues",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Piano Blues": {
+      "type": "child",
+      "parent": "Blues",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Piedmont Blues": {
+      "type": "child",
+      "parent": "Blues",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Soul Blues": {
+      "type": "child",
+      "parent": "Blues",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Swamp Blues": {
+      "type": "child",
+      "parent": "Blues",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Vaudeville Blues": {
+      "type": "child",
+      "parent": "Blues",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "CCM": {
+      "type": "parent",
+      "children": [
+        "Christian Hip Hop",
+        "Christian Rock",
+        "Praise & Worship",
+        "Urban Contemporary Gospel"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Christian Hip Hop": {
+      "type": "child",
+      "parent": "CCM",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Christian Rock": {
+      "type": "child",
+      "parent": "CCM",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Praise & Worship": {
+      "type": "child",
+      "parent": "CCM",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Urban Contemporary Gospel": {
+      "type": "child",
+      "parent": "CCM",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Chanson": {
+      "type": "parent",
+      "children": [
+        "Chanson à texte",
+        "Chanson Québécoise",
+        "Nouvelle Chanson Française"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Chanson à texte": {
+      "type": "child",
+      "parent": "Chanson",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Chanson Québécoise": {
+      "type": "child",
+      "parent": "Chanson",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Nouvelle Chanson Française": {
+      "type": "child",
+      "parent": "Chanson",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Children's Music": {
+      "type": "parent",
+      "children": [
+        "Fairy Tales",
+        "Lullabies"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Fairy Tales": {
+      "type": "child",
+      "parent": "Children's Music",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Lullabies": {
+      "type": "child",
+      "parent": "Children's Music",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Classical": {
+      "type": "parent",
+      "children": [
+        "Andalusian Classical Music",
+        "Ballet",
+        "Baroque Music",
+        "Carnatic Classical Music",
+        "Chamber Music",
+        "Chinese Classical Music",
+        "Choral",
+        "Cinematic Classical",
+        "Classical Period",
+        "East Asian Classical Music",
+        "Epic Music",
+        "Grand Opéra",
+        "Hindustani Classical Music",
+        "Holy Minimalism",
+        "Impressionism",
+        "Japanese Classical Music",
+        "Jeong-Ak",
+        "Korean Classical Music",
+        "Light Music",
+        "Middle Eastern Classical Music",
+        "Minimalism",
+        "Minyue",
+        "Modern Classical",
+        "Musique Concrète Instrumentale",
+        "Nagauta",
+        "Neoclassicism",
+        "Nocturne",
+        "Oratorio",
+        "Orchestral",
+        "Post-Minimalism",
+        "Renaissance Music",
+        "Romanticism",
+        "Singspiel",
+        "Spectralism",
+        "Symphony",
+        "Sōkyoku",
+        "Tone Poem",
+        "Western Classical Music"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Andalusian Classical Music": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Ballet": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Baroque Music": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Carnatic Classical Music": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Chamber Music": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Chinese Classical Music": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Choral": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Cinematic Classical": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Classical Period": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "East Asian Classical Music": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Epic Music": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Grand Opéra": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hindustani Classical Music": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Holy Minimalism": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Impressionism": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Japanese Classical Music": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jeong-Ak": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Korean Classical Music": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Light Music": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Middle Eastern Classical Music": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Minimalism": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Minyue": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Modern Classical": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Musique Concrète Instrumentale": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Nagauta": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Neoclassicism": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Nocturne": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Oratorio": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Orchestral": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Post-Minimalism": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Renaissance Music": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Romanticism": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Singspiel": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Spectralism": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Symphony": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Sōkyoku": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Tone Poem": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Western Classical Music": {
+      "type": "child",
+      "parent": "Classical",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Comedy": {
+      "type": "parent",
+      "children": [
+        "Break-In",
+        "Comedy Rap",
+        "Comedy Rock",
+        "Dutch Cabaret",
+        "Kabarett",
+        "Prank Calls",
+        "Sketch Comedy",
+        "Stand-Up Comedy"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Break-In": {
+      "type": "child",
+      "parent": "Comedy",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Comedy Rap": {
+      "type": "child",
+      "parent": "Comedy",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Comedy Rock": {
+      "type": "child",
+      "parent": "Comedy",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dutch Cabaret": {
+      "type": "child",
+      "parent": "Comedy",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Kabarett": {
+      "type": "child",
+      "parent": "Comedy",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Prank Calls": {
+      "type": "child",
+      "parent": "Comedy",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Sketch Comedy": {
+      "type": "child",
+      "parent": "Comedy",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Stand-Up Comedy": {
+      "type": "child",
+      "parent": "Comedy",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Country": {
+      "type": "parent",
+      "children": [
+        "Alt-Country",
+        "Bakersfield Sound",
+        "Bluegrass",
+        "Bluegrass Gospel",
+        "Bro-Country",
+        "Contemporary Country",
+        "Country Gospel",
+        "Country Pop",
+        "Country Rock",
+        "Country Soul",
+        "Countrypolitan",
+        "Gothic Country",
+        "Honky Tonk",
+        "Jamgrass",
+        "Nashville Sound",
+        "Neo-Traditionalist Country",
+        "Old-Time",
+        "Outlaw Country",
+        "Progressive Country",
+        "Traditional Country",
+        "Truck Driving Country",
+        "Urban Cowboy"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Alt-Country": {
+      "type": "child",
+      "parent": "Country",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Bakersfield Sound": {
+      "type": "child",
+      "parent": "Country",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Bluegrass": {
+      "type": "child",
+      "parent": "Country",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Bluegrass Gospel": {
+      "type": "child",
+      "parent": "Country",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Bro-Country": {
+      "type": "child",
+      "parent": "Country",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Contemporary Country": {
+      "type": "child",
+      "parent": "Country",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Country Gospel": {
+      "type": "child",
+      "parent": "Country",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Country Pop": {
+      "type": "child",
+      "parent": "Country",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Country Rock": {
+      "type": "child",
+      "parent": "Country",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Country Soul": {
+      "type": "child",
+      "parent": "Country",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Countrypolitan": {
+      "type": "child",
+      "parent": "Country",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Gothic Country": {
+      "type": "child",
+      "parent": "Country",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Honky Tonk": {
+      "type": "child",
+      "parent": "Country",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jamgrass": {
+      "type": "child",
+      "parent": "Country",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Nashville Sound": {
+      "type": "child",
+      "parent": "Country",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Neo-Traditionalist Country": {
+      "type": "child",
+      "parent": "Country",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Old-Time": {
+      "type": "child",
+      "parent": "Country",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Outlaw Country": {
+      "type": "child",
+      "parent": "Country",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Progressive Country": {
+      "type": "child",
+      "parent": "Country",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Traditional Country": {
+      "type": "child",
+      "parent": "Country",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Truck Driving Country": {
+      "type": "child",
+      "parent": "Country",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Urban Cowboy": {
+      "type": "child",
+      "parent": "Country",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dance": {
+      "type": "parent",
+      "children": [
+        "Acid Breaks",
+        "Acid Trance",
+        "Acidcore",
+        "Afro House",
+        "Aggrotech",
+        "Alternative Dance",
+        "Artcore",
+        "Bass House",
+        "Bassline",
+        "Belgian Techno",
+        "Birmingham Sound",
+        "Bleep Techno",
+        "Bouncy Techno",
+        "Brazilian Bass",
+        "Breakbeat",
+        "Breakcore",
+        "Briddim",
+        "Brostep",
+        "Bubblegum Dance",
+        "Changa Tuki",
+        "Chicago Hard House",
+        "Chillstep",
+        "Colour Bass",
+        "Coupé-Décalé",
+        "Crossbreed",
+        "Dance-Pop",
+        "Dancefloor Drum and Bass",
+        "Dariacore",
+        "Dark Electro",
+        "Dark Psytrance",
+        "Darkside",
+        "Darkstep",
+        "Deathchant Hardcore",
+        "Deathstep",
+        "Disco",
+        "Disco polo",
+        "Diva House",
+        "Doomcore",
+        "Dream Trance",
+        "Drum and Bass",
+        "Drumfunk",
+        "Dubstep",
+        "Dungeon Sound",
+        "Dutch House",
+        "East Coast Club",
+        "Electro House",
+        "Electro Latino",
+        "Electro-Disco",
+        "Electronic Dance Music",
+        "Euphoric Hardstyle",
+        "Euro-Disco",
+        "Eurodance",
+        "Florida Breaks",
+        "Footwork",
+        "Footwork Jungle",
+        "Forest Psytrance",
+        "French Electro",
+        "French House",
+        "Full-On Psytrance",
+        "Funk Mandelão",
+        "Funk Melody",
+        "Funkot",
+        "Future Bounce",
+        "Future House",
+        "Future Rave",
+        "Future Riddim",
+        "G-House",
+        "Ghetto House",
+        "Glitch Hop [EDM]",
+        "Grebo",
+        "Grime",
+        "Happy Hardcore",
+        "Hard Dance",
+        "Hard Techno",
+        "Hardbag",
+        "Hardbass",
+        "Hardcore [EDM]",
+        "Hardgroove Techno",
+        "Hardstep",
+        "Hardstyle",
+        "Hardtek",
+        "Hardwave",
+        "Heaven Trap",
+        "Hi-Tech Psytrance",
+        "House",
+        "Ibiza Trance",
+        "Italo Dance",
+        "Italo-Disco",
+        "Jersey Club",
+        "Juke",
+        "Jumpstyle",
+        "Jungle",
+        "Jungle Terror",
+        "Latin Disco",
+        "Liquid Drum and Bass",
+        "Lo-Fi House",
+        "Makina",
+        "Melbourne Bounce",
+        "Melodic Bass",
+        "Melodic House",
+        "Midtempo Bass",
+        "Minatory",
+        "Minimal Drum and Bass",
+        "Moombahcore",
+        "Moombahton",
+        "Mutant Disco",
+        "Neo-Grime",
+        "Neurohop",
+        "New Rave",
+        "Nitzhonot",
+        "NRG",
+        "Nu Skool Breaks",
+        "Organic House",
+        "Philly Club",
+        "Phonk House",
+        "Progressive Breaks",
+        "Progressive Psytrance",
+        "Psycore",
+        "Psystyle",
+        "Psytrance",
+        "Purple Sound",
+        "Ragga Jungle",
+        "Raggacore",
+        "Rawphoric",
+        "Rawstyle",
+        "Red Disco",
+        "Riddim",
+        "Ritmada",
+        "Romanian Popcorn",
+        "Schranz",
+        "Scouse House",
+        "Skullstep",
+        "Skweee",
+        "Space Disco",
+        "Spacesynth",
+        "Speed House",
+        "Suomisaundi",
+        "Tearout",
+        "Tearout [Brostep]",
+        "Techno",
+        "Techno Bass",
+        "Techstep",
+        "Tecnorumba",
+        "Terrorcore",
+        "Township Bubblegum",
+        "Trance",
+        "Trancestep",
+        "Trap [EDM]",
+        "UK Hard House",
+        "Wonky Techno"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Acid Breaks": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Acid Trance": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Acidcore": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Afro House": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Aggrotech": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Alternative Dance": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Artcore": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Bass House": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Bassline": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Belgian Techno": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Birmingham Sound": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Bleep Techno": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Bouncy Techno": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Brazilian Bass": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Breakbeat": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Breakcore": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Briddim": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Brostep": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Bubblegum Dance": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Changa Tuki": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Chicago Hard House": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Chillstep": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Colour Bass": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Coupé-Décalé": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Crossbreed": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dance-Pop": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dancefloor Drum and Bass": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dariacore": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dark Electro": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dark Psytrance": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Darkside": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Darkstep": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Deathchant Hardcore": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Deathstep": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Disco": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Disco polo": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Diva House": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Doomcore": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dream Trance": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Drum and Bass": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Drumfunk": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dubstep": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dungeon Sound": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dutch House": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "East Coast Club": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Electro House": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Electro Latino": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Electro-Disco": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Electronic Dance Music": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Euphoric Hardstyle": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Euro-Disco": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Eurodance": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Florida Breaks": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Footwork": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Footwork Jungle": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Forest Psytrance": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "French Electro": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "French House": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Full-On Psytrance": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Funk Mandelão": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Funk Melody": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Funkot": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Future Bounce": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Future House": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Future Rave": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Future Riddim": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "G-House": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Ghetto House": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Glitch Hop [EDM]": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Grebo": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Grime": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Happy Hardcore": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hard Dance": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hard Techno": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hardbag": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hardbass": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hardcore [EDM]": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hardgroove Techno": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hardstep": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hardstyle": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hardtek": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hardwave": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Heaven Trap": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hi-Tech Psytrance": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "House": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Ibiza Trance": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Italo Dance": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Italo-Disco": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jersey Club": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Juke": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jumpstyle": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jungle": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jungle Terror": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Latin Disco": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Liquid Drum and Bass": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Lo-Fi House": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Makina": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Melbourne Bounce": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Melodic Bass": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Melodic House": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Midtempo Bass": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Minatory": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Minimal Drum and Bass": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Moombahcore": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Moombahton": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Mutant Disco": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Neo-Grime": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Neurohop": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "New Rave": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Nitzhonot": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "NRG": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Nu Skool Breaks": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Organic House": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Philly Club": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Phonk House": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Progressive Breaks": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Progressive Psytrance": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Psycore": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Psystyle": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Psytrance": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Purple Sound": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Ragga Jungle": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Raggacore": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Rawphoric": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Rawstyle": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Red Disco": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Riddim": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Ritmada": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Romanian Popcorn": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Schranz": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Scouse House": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Skullstep": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Skweee": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Space Disco": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Spacesynth": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Speed House": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Suomisaundi": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Tearout": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Tearout [Brostep]": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Techno": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Techno Bass": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Techstep": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Tecnorumba": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Terrorcore": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Township Bubblegum": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Trance": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Trancestep": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Trap [EDM]": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "UK Hard House": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Wonky Techno": {
+      "type": "child",
+      "parent": "Dance",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Darkwave": {
+      "type": "parent",
+      "children": [
+        "Ethereal Wave",
+        "Neoclassical Darkwave"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Ethereal Wave": {
+      "type": "child",
+      "parent": "Darkwave",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Neoclassical Darkwave": {
+      "type": "child",
+      "parent": "Darkwave",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Easy Listening": {
+      "type": "parent",
+      "children": [
+        "Cocktail Nation",
+        "Exotica",
+        "Light Music",
+        "Lounge",
+        "Space Age Pop"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Cocktail Nation": {
+      "type": "child",
+      "parent": "Easy Listening",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Exotica": {
+      "type": "child",
+      "parent": "Easy Listening",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Lounge": {
+      "type": "child",
+      "parent": "Easy Listening",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Space Age Pop": {
+      "type": "child",
+      "parent": "Easy Listening",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Electronic": {
+      "type": "parent",
+      "children": [
+        "2-Step",
+        "Acid Breaks",
+        "Acid House",
+        "Acid Jazz",
+        "Acid Techno",
+        "Acid Trance",
+        "Acidcore",
+        "Afro House",
+        "Aggrotech",
+        "Amapiano",
+        "Ambient Dub",
+        "Ambient House",
+        "Ambient Techno",
+        "Ambient Trance",
+        "Artcore",
+        "Balearic Beat",
+        "Ballroom",
+        "Baltimore Club",
+        "Barber Beats",
+        "Bass House",
+        "Bassline",
+        "Batida",
+        "Belgian Techno",
+        "Berlin School",
+        "Big Beat",
+        "Big Room House",
+        "Big Room Trance",
+        "Binaural Beats",
+        "Birmingham Sound",
+        "Bit Music",
+        "Bitpop",
+        "Bleep Techno",
+        "Bouncy Techno",
+        "Brazilian Bass",
+        "Brazilian Phonk",
+        "Breakbeat",
+        "Breakbeat Hardcore",
+        "Breakcore",
+        "Breakstep",
+        "Briddim",
+        "Broken Beat",
+        "Brostep",
+        "Bubblegum Bass",
+        "Changa Tuki",
+        "Chicago Hard House",
+        "Chicago House",
+        "Chillout",
+        "Chillstep",
+        "Chillsynth",
+        "Chillwave",
+        "Colour Bass",
+        "Comfy Synth",
+        "Complextro",
+        "Coupé-Décalé",
+        "Crossbreed",
+        "Dancefloor Drum and Bass",
+        "Dariacore",
+        "Dark Ambient",
+        "Dark Electro",
+        "Dark Psytrance",
+        "Darkside",
+        "Darkstep",
+        "Darksynth",
+        "Death Industrial",
+        "Deathchant Hardcore",
+        "Deathstep",
+        "Deconstructed Club",
+        "Deep House",
+        "Deep Tech",
+        "Detroit Techno",
+        "Digital Fusion",
+        "Diva House",
+        "Doomcore",
+        "Downtempo",
+        "Dream Trance",
+        "Drift Phonk",
+        "Drill and Bass",
+        "Drum and Bass",
+        "Drumfunk",
+        "Dub Techno",
+        "Dubstep",
+        "Dungeon Sound",
+        "Dungeon Synth",
+        "Dutch House",
+        "East Coast Club",
+        "EBM",
+        "Eccojams",
+        "Electro",
+        "Electro Hop",
+        "Electro House",
+        "Electro Latino",
+        "Electro Swing",
+        "Electro-Disco",
+        "Electro-Industrial",
+        "Electroacoustic",
+        "Electroclash",
+        "Electronic Dance Music",
+        "Euphoric Hardstyle",
+        "Euro-Trance",
+        "Eurodance",
+        "Extratone",
+        "Festival Progressive House",
+        "Fidget House",
+        "Flashcore",
+        "Florida Breaks",
+        "Folktronica",
+        "Footwork",
+        "Footwork Jungle",
+        "Forest Psytrance",
+        "Freeform Hardcore",
+        "Freestyle",
+        "Freetekno",
+        "French Electro",
+        "French House",
+        "Frenchcore",
+        "Full-On Psytrance",
+        "Funk Mandelão",
+        "Funkot",
+        "Funky House",
+        "Future Bass",
+        "Future Bounce",
+        "Future Garage",
+        "Future House",
+        "Future Rave",
+        "Future Riddim",
+        "Futurepop",
+        "G-House",
+        "Gabber",
+        "Ghetto House",
+        "Ghettotech",
+        "Glitch",
+        "Glitch Hop",
+        "Glitch Hop [EDM]",
+        "Gqom",
+        "Grime",
+        "Halftime",
+        "Happy Hardcore",
+        "Hard Dance",
+        "Hard Drum",
+        "Hard Techno",
+        "Hard Trance",
+        "Hardbag",
+        "Hardbass",
+        "Hardcore Breaks",
+        "Hardcore [EDM]",
+        "Hardgroove Techno",
+        "Hardstep",
+        "Hardstyle",
+        "Hardtek",
+        "Hardvapour",
+        "Hardwave",
+        "Heaven Trap",
+        "HexD",
+        "Hi-NRG",
+        "Hi-Tech Psytrance",
+        "Horror Synth",
+        "House",
+        "Hybrid Trap",
+        "Hyperpop",
+        "Ibiza Trance",
+        "IDM",
+        "Illbient",
+        "Indietronica",
+        "Industrial Techno",
+        "Italo Dance",
+        "Italo-Disco",
+        "J-core",
+        "Jazzstep",
+        "Jersey Club",
+        "Juke",
+        "Jump-Up",
+        "Jumpstyle",
+        "Jungle",
+        "Jungle Terror",
+        "Kawaii Future Bass",
+        "Kuduro",
+        "Latin Electronic",
+        "Liquid Drum and Bass",
+        "Livetronica",
+        "Lo-Fi House",
+        "Lolicore",
+        "Makina",
+        "Melbourne Bounce",
+        "Melodic Bass",
+        "Melodic House",
+        "Melodic Techno",
+        "Microhouse",
+        "Microsound",
+        "Midtempo Bass",
+        "Minatory",
+        "Minimal Drum and Bass",
+        "Minimal Synth",
+        "Minimal Techno",
+        "Minimal Wave",
+        "Moogsploitation",
+        "Moombahcore",
+        "Moombahton",
+        "Musique Concrète",
+        "Neo-Grime",
+        "Nerdcore Techno",
+        "Neurofunk",
+        "Neurohop",
+        "New Beat",
+        "Nightcore",
+        "Nitzhonot",
+        "NRG",
+        "Nu Jazz",
+        "Nu Skool Breaks",
+        "Nu-Disco",
+        "Organic House",
+        "Outsider House",
+        "Peak Time Techno",
+        "Philly Club",
+        "Phonk House",
+        "Power Electronics",
+        "Progressive Breaks",
+        "Progressive Electronic",
+        "Progressive House",
+        "Progressive Psytrance",
+        "Psybient",
+        "Psycore",
+        "Psystyle",
+        "Psytrance",
+        "Purple Sound",
+        "Ragga Jungle",
+        "Raggacore",
+        "Rawphoric",
+        "Rawstyle",
+        "Red Disco",
+        "Riddim",
+        "Ritmada",
+        "Romanian Popcorn",
+        "Rominimal",
+        "Schranz",
+        "Scouse House",
+        "Sequencer & Tracker",
+        "Skullstep",
+        "Skweee",
+        "Slap House",
+        "Space Disco",
+        "Spacesynth",
+        "Speed Garage",
+        "Speed House",
+        "Speedcore",
+        "Splittercore",
+        "Suomisaundi",
+        "Synth Punk",
+        "Synthpop",
+        "Synthwave",
+        "Tearout",
+        "Tearout [Brostep]",
+        "Tech House",
+        "Tech Trance",
+        "Techno",
+        "Techno Bass",
+        "Techstep",
+        "Tecnobrega",
+        "Tecnorumba",
+        "Terrorcore",
+        "Trance",
+        "Trancestep",
+        "Trap [EDM]",
+        "Tribal House",
+        "Trip Hop",
+        "Tropical House",
+        "Turntablism",
+        "Twerk",
+        "UK Bass",
+        "UK Funky",
+        "UK Garage",
+        "UK Hard House",
+        "Uplifting Trance",
+        "Uptempo Hardcore",
+        "Utopian Virtual",
+        "Vaportrap",
+        "Vaporwave",
+        "Wave",
+        "Weightless",
+        "Winter Synth",
+        "Witch House",
+        "Wonky",
+        "Wonky Techno"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "2-Step": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Acid House": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Acid Jazz": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Acid Techno": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Amapiano": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Ambient House": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Ambient Techno": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Ambient Trance": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Balearic Beat": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Ballroom": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Baltimore Club": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Barber Beats": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Batida": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Berlin School": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Big Beat": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Big Room House": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Big Room Trance": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Binaural Beats": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Bit Music": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Bitpop": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Brazilian Phonk": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Breakbeat Hardcore": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Breakstep": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Broken Beat": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Bubblegum Bass": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Chicago House": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Chillout": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Chillsynth": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Chillwave": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Comfy Synth": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Complextro": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Darksynth": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Death Industrial": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Deconstructed Club": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Deep House": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Deep Tech": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Detroit Techno": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Digital Fusion": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Downtempo": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Drift Phonk": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Drill and Bass": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dub Techno": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dungeon Synth": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "EBM": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Eccojams": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Electro": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Electro Hop": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Electro Swing": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Electro-Industrial": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Electroacoustic": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Electroclash": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Euro-Trance": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Extratone": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Festival Progressive House": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Fidget House": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Flashcore": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Folktronica": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Freeform Hardcore": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Freestyle": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Freetekno": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Frenchcore": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Funky House": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Future Bass": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Future Garage": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Futurepop": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Gabber": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Ghettotech": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Glitch": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Glitch Hop": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Gqom": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Halftime": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hard Drum": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hard Trance": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hardcore Breaks": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hardvapour": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "HexD": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hi-NRG": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Horror Synth": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hybrid Trap": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hyperpop": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "IDM": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Illbient": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Indietronica": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Industrial Techno": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "J-core": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jazzstep": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jump-Up": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Kawaii Future Bass": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Kuduro": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Latin Electronic": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Livetronica": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Lolicore": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Melodic Techno": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Microhouse": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Microsound": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Minimal Synth": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Minimal Techno": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Minimal Wave": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Moogsploitation": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Musique Concrète": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Nerdcore Techno": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Neurofunk": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "New Beat": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Nightcore": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Nu Jazz": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Nu-Disco": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Outsider House": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Peak Time Techno": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Power Electronics": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Progressive Electronic": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Progressive House": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Psybient": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Rominimal": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Sequencer & Tracker": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Slap House": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Speed Garage": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Speedcore": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Splittercore": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Synth Punk": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Synthpop": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Synthwave": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Tech House": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Tech Trance": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Tecnobrega": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Tribal House": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Trip Hop": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Tropical House": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Turntablism": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Twerk": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "UK Bass": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "UK Funky": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "UK Garage": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Uplifting Trance": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Uptempo Hardcore": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Utopian Virtual": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Vaportrap": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Vaporwave": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Wave": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Weightless": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Winter Synth": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Witch House": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Wonky": {
+      "type": "child",
+      "parent": "Electronic",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Experimental": {
+      "type": "parent",
+      "children": [
+        "Conducted Improvisation",
+        "Data Sonification",
+        "Death Industrial",
+        "Drone",
+        "Electroacoustic",
+        "Free Improvisation",
+        "Hauntology",
+        "Indeterminacy",
+        "Lowercase",
+        "Microsound",
+        "Modern Creative",
+        "Musique Concrète",
+        "Musique Concrète Instrumentale",
+        "Noise",
+        "Onkyo",
+        "Plunderphonics",
+        "Power Electronics",
+        "Reductionism",
+        "Sound Art",
+        "Sound Collage",
+        "Sound Poetry",
+        "Tape Music",
+        "Turntable Music"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Conducted Improvisation": {
+      "type": "child",
+      "parent": "Experimental",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Data Sonification": {
+      "type": "child",
+      "parent": "Experimental",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Drone": {
+      "type": "child",
+      "parent": "Experimental",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Free Improvisation": {
+      "type": "child",
+      "parent": "Experimental",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hauntology": {
+      "type": "child",
+      "parent": "Experimental",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Indeterminacy": {
+      "type": "child",
+      "parent": "Experimental",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Lowercase": {
+      "type": "child",
+      "parent": "Experimental",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Modern Creative": {
+      "type": "child",
+      "parent": "Experimental",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Noise": {
+      "type": "child",
+      "parent": "Experimental",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Onkyo": {
+      "type": "child",
+      "parent": "Experimental",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Plunderphonics": {
+      "type": "child",
+      "parent": "Experimental",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Reductionism": {
+      "type": "child",
+      "parent": "Experimental",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Sound Art": {
+      "type": "child",
+      "parent": "Experimental",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Sound Collage": {
+      "type": "child",
+      "parent": "Experimental",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Sound Poetry": {
+      "type": "child",
+      "parent": "Experimental",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Tape Music": {
+      "type": "child",
+      "parent": "Experimental",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Turntable Music": {
+      "type": "child",
+      "parent": "Experimental",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Field Recordings": {
+      "type": "parent",
+      "children": [
+        "Animal Sounds",
+        "Birdsong",
+        "Nature Recordings",
+        "Radio Broadcast Recordings"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Animal Sounds": {
+      "type": "child",
+      "parent": "Field Recordings",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Birdsong": {
+      "type": "child",
+      "parent": "Field Recordings",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Nature Recordings": {
+      "type": "child",
+      "parent": "Field Recordings",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Radio Broadcast Recordings": {
+      "type": "child",
+      "parent": "Field Recordings",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Flamenco": {
+      "type": "parent",
+      "children": [
+        "Flamenco Jazz",
+        "Flamenco Nuevo"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Flamenco Jazz": {
+      "type": "child",
+      "parent": "Flamenco",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Flamenco Nuevo": {
+      "type": "child",
+      "parent": "Flamenco",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Folk": {
+      "type": "parent",
+      "children": [
+        "American Folk Music",
+        "American Primitivism",
+        "Anti-Folk",
+        "Appalachian Folk Music",
+        "Avant-Folk",
+        "Balkan Brass Band",
+        "Candombe",
+        "Celtic Folk",
+        "Chamber Folk",
+        "Contemporary Folk",
+        "Dark Folk",
+        "Folk Pop",
+        "Folk Punk",
+        "Folk Rock",
+        "Freak Folk",
+        "Greek Folk Music",
+        "Indie Folk",
+        "Irish Folk Music",
+        "Israeli Folk Music",
+        "Joropo",
+        "Jug Band",
+        "Korean Folk Music",
+        "Kurdish Folk",
+        "Laïko",
+        "Lithuanian Folk Music",
+        "Middle Eastern Folk",
+        "Musette",
+        "Muzică Lăutărească",
+        "Neo-Medieval Folk",
+        "Neofolk",
+        "Psychedelic Folk",
+        "Rembetika",
+        "Rock Rural",
+        "Sea Shanties",
+        "Stomp and Holler",
+        "Traditional Folk Music"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "American Folk Music": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "American Primitivism": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Anti-Folk": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Appalachian Folk Music": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Avant-Folk": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Balkan Brass Band": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Candombe": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Celtic Folk": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Chamber Folk": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Contemporary Folk": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dark Folk": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Folk Pop": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Folk Punk": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Folk Rock": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Freak Folk": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Greek Folk Music": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Indie Folk": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Irish Folk Music": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Israeli Folk Music": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Joropo": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jug Band": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Korean Folk Music": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Kurdish Folk": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Laïko": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Lithuanian Folk Music": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Middle Eastern Folk": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Musette": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Muzică Lăutărească": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Neo-Medieval Folk": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Neofolk": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Psychedelic Folk": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Rembetika": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Rock Rural": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Sea Shanties": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Stomp and Holler": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Traditional Folk Music": {
+      "type": "child",
+      "parent": "Folk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Funk": {
+      "type": "parent",
+      "children": [
+        "Afro-Funk",
+        "Britfunk",
+        "Go-Go",
+        "Jazz-Funk",
+        "Minneapolis Sound",
+        "P-Funk",
+        "Synth Funk"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Afro-Funk": {
+      "type": "child",
+      "parent": "Funk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Britfunk": {
+      "type": "child",
+      "parent": "Funk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Go-Go": {
+      "type": "child",
+      "parent": "Funk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jazz-Funk": {
+      "type": "child",
+      "parent": "Funk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Minneapolis Sound": {
+      "type": "child",
+      "parent": "Funk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "P-Funk": {
+      "type": "child",
+      "parent": "Funk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Synth Funk": {
+      "type": "child",
+      "parent": "Funk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Gamelan": {
+      "type": "parent",
+      "children": [
+        "Balinese Gamelan"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Balinese Gamelan": {
+      "type": "child",
+      "parent": "Gamelan",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Gospel": {
+      "type": "parent",
+      "children": [
+        "Bluegrass Gospel",
+        "Country Gospel",
+        "Southern Gospel",
+        "Urban Contemporary Gospel"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Southern Gospel": {
+      "type": "child",
+      "parent": "Gospel",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hip Hop": {
+      "type": "parent",
+      "children": [
+        "Abstract Hip Hop",
+        "Afro Trap",
+        "Afroswing",
+        "Ambient Plugg",
+        "Asian Rock",
+        "Atlanta Bass",
+        "Boom Bap",
+        "Bop",
+        "Bounce",
+        "Britcore",
+        "Chicago Drill",
+        "Chicano Rap",
+        "Chipmunk Soul",
+        "Chopped and Screwed",
+        "Christian Hip Hop",
+        "Cloud Rap",
+        "Comedy Rap",
+        "Conscious Hip Hop",
+        "Country Rap",
+        "Crunk",
+        "Dark Plugg",
+        "Detroit Trap",
+        "Digicore",
+        "Dirty South",
+        "Disco Rap",
+        "Drill",
+        "Drumless",
+        "Dungeon Rap",
+        "East Coast Hip Hop",
+        "Emo Rap",
+        "Experimental Hip Hop",
+        "Free Car Music",
+        "French Hip Hop",
+        "Futuristic Swag",
+        "G-Funk",
+        "Gangsta Rap",
+        "Genge",
+        "Hardcore Hip Hop",
+        "Hyphy",
+        "Industrial Hip Hop",
+        "Instrumental Hip Hop",
+        "Japanese Hip Hop",
+        "Jazz Rap",
+        "Jerk",
+        "Jerk Rap",
+        "Jersey Club Rap",
+        "Jersey Drill",
+        "Jook",
+        "Latin Rap",
+        "Lo-Fi Hip Hop",
+        "Lowend",
+        "Memphis Rap",
+        "Miami Bass",
+        "Mid-School Hip Hop",
+        "Mobb Music",
+        "Nerdcore Hip Hop",
+        "Nervous Music",
+        "New Jazz",
+        "New York Drill",
+        "No Melody",
+        "Phonk",
+        "Plugg",
+        "Political Hip Hop",
+        "Pop Rap",
+        "Rage",
+        "Rare Phonk",
+        "Ratchet Music",
+        "Regalia",
+        "Sexy Drill",
+        "Snap",
+        "Southern Hip Hop",
+        "Tamborzão",
+        "Techno Bass",
+        "Terror Plugg",
+        "Trap",
+        "Trap Latino",
+        "Trap Soul",
+        "Tread",
+        "UK Drill",
+        "UK Hip Hop",
+        "West Coast Hip Hop"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Abstract Hip Hop": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Afro Trap": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Afroswing": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Ambient Plugg": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Asian Rock": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Atlanta Bass": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Boom Bap": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Bop": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Bounce": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Britcore": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Chicago Drill": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Chicano Rap": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Chipmunk Soul": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Chopped and Screwed": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Cloud Rap": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Conscious Hip Hop": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Country Rap": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Crunk": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dark Plugg": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Detroit Trap": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Digicore": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dirty South": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Disco Rap": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Drill": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Drumless": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dungeon Rap": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "East Coast Hip Hop": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Emo Rap": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Experimental Hip Hop": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Free Car Music": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "French Hip Hop": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Futuristic Swag": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "G-Funk": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Gangsta Rap": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Genge": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hardcore Hip Hop": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hyphy": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Industrial Hip Hop": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Instrumental Hip Hop": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Japanese Hip Hop": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jazz Rap": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jerk": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jerk Rap": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jersey Club Rap": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jersey Drill": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jook": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Latin Rap": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Lo-Fi Hip Hop": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Lowend": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Memphis Rap": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Miami Bass": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Mid-School Hip Hop": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Mobb Music": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Nerdcore Hip Hop": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Nervous Music": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "New Jazz": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "New York Drill": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "No Melody": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Phonk": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Plugg": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Political Hip Hop": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Pop Rap": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Rage": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Rare Phonk": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Ratchet Music": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Regalia": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Sexy Drill": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Snap": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Southern Hip Hop": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Tamborzão": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Terror Plugg": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Trap": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Trap Latino": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Trap Soul": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Tread": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "UK Drill": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "UK Hip Hop": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "West Coast Hip Hop": {
+      "type": "child",
+      "parent": "Hip Hop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Industrial": {
+      "type": "parent",
+      "children": [
+        "Birmingham Sound",
+        "Cyber Metal",
+        "Death Industrial",
+        "Industrial Metal",
+        "Industrial Rock",
+        "Industrial Techno",
+        "Martial Industrial",
+        "Post-Industrial",
+        "Power Electronics"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Cyber Metal": {
+      "type": "child",
+      "parent": "Industrial",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Industrial Metal": {
+      "type": "child",
+      "parent": "Industrial",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Industrial Rock": {
+      "type": "child",
+      "parent": "Industrial",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Martial Industrial": {
+      "type": "child",
+      "parent": "Industrial",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Post-Industrial": {
+      "type": "child",
+      "parent": "Industrial",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jazz": {
+      "type": "parent",
+      "children": [
+        "Afro-Cuban Jazz",
+        "Afro-Jazz",
+        "Arabic Jazz",
+        "Avant-Garde Jazz",
+        "Bebop",
+        "Big Band",
+        "British Dance Band",
+        "Cape Jazz",
+        "Chamber Jazz",
+        "Cool Jazz",
+        "Crime Jazz",
+        "Dark Jazz",
+        "Dixieland",
+        "ECM Style Jazz",
+        "Ethio-Jazz",
+        "European Free Jazz",
+        "Flamenco Jazz",
+        "Free Jazz",
+        "Hard Bop",
+        "Indo Jazz",
+        "Jazz Fusion",
+        "Jazz manouche",
+        "Jazz Poetry",
+        "Jazz-Funk",
+        "Latin Jazz",
+        "Marabi",
+        "Mbaqanga",
+        "Modal Jazz",
+        "Post-Bop",
+        "Progressive Big Band",
+        "Samba-Jazz",
+        "Smooth Jazz",
+        "Soul Jazz",
+        "Spiritual Jazz",
+        "Spy Music",
+        "Stride",
+        "Swing",
+        "Swing Revival",
+        "Third Stream",
+        "Vocal Jazz",
+        "Yass"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Afro-Cuban Jazz": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Afro-Jazz": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Arabic Jazz": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Avant-Garde Jazz": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Bebop": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Big Band": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "British Dance Band": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Cape Jazz": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Chamber Jazz": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Cool Jazz": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Crime Jazz": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dark Jazz": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dixieland": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "ECM Style Jazz": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Ethio-Jazz": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "European Free Jazz": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Free Jazz": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hard Bop": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Indo Jazz": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jazz Fusion": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jazz manouche": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jazz Poetry": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Latin Jazz": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Marabi": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Mbaqanga": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Modal Jazz": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Post-Bop": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Progressive Big Band": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Samba-Jazz": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Smooth Jazz": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Soul Jazz": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Spiritual Jazz": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Spy Music": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Stride": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Swing": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Swing Revival": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Third Stream": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Vocal Jazz": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Yass": {
+      "type": "child",
+      "parent": "Jazz",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Marching Band": {
+      "type": "parent",
+      "children": [
+        "Pipe Band"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Pipe Band": {
+      "type": "child",
+      "parent": "Marching Band",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Metal": {
+      "type": "parent",
+      "children": [
+        "Alternative Metal",
+        "Atmospheric Black Metal",
+        "Atmospheric Sludge Metal",
+        "Avant-Garde Metal",
+        "Black Metal",
+        "Blackened Death Metal",
+        "Blackgaze",
+        "Brutal Death Metal",
+        "Celtic Metal",
+        "Cyber Metal",
+        "Cybergrind",
+        "Death 'n' Roll",
+        "Death Doom Metal",
+        "Death Metal",
+        "Deathcore",
+        "Depressive Black Metal",
+        "Dissonant Black Metal",
+        "Dissonant Death Metal",
+        "Djent",
+        "Doom Metal",
+        "Doomgaze",
+        "Downtempo Deathcore",
+        "Drone Metal",
+        "Epic Doom Metal",
+        "Folk Metal",
+        "Funeral Doom Metal",
+        "Funk Metal",
+        "Glam Metal",
+        "Gothic Metal",
+        "Grindcore",
+        "Groove Metal",
+        "Heavy Metal",
+        "Industrial Metal",
+        "Kawaii Metal",
+        "Melodic Black Metal",
+        "Melodic Death Metal",
+        "Melodic Metalcore",
+        "Metalcore",
+        "Mittelalter-Metal",
+        "Neoclassical Metal",
+        "Neue Deutsche Härte",
+        "Noisegrind",
+        "Nu Metal",
+        "NWOBHM",
+        "Pagan Black Metal",
+        "Pagan Metal",
+        "Pornogrind",
+        "Post-Black Metal",
+        "Post-Metal",
+        "Power Metal",
+        "Progressive Death Metal",
+        "Progressive Metal",
+        "Rap Metal",
+        "Raw Black Metal",
+        "Slam Death Metal",
+        "Sludge Metal",
+        "Southern Metal",
+        "Speed Metal",
+        "Stoner Metal",
+        "Symphonic Black Metal",
+        "Symphonic Metal",
+        "Technical Death Metal",
+        "Technical Thrash Metal",
+        "Thall",
+        "Thrash Metal",
+        "Traditional Doom Metal",
+        "Trance Metal",
+        "US Power Metal",
+        "Viking Metal",
+        "War Metal"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Alternative Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Atmospheric Black Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Atmospheric Sludge Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Avant-Garde Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Black Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Blackened Death Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Blackgaze": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Brutal Death Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Celtic Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Cybergrind": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Death 'n' Roll": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Death Doom Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Death Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Deathcore": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Depressive Black Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dissonant Black Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dissonant Death Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Djent": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Doom Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Doomgaze": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Downtempo Deathcore": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Drone Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Epic Doom Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Folk Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Funeral Doom Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Funk Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Glam Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Gothic Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Grindcore": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Groove Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Heavy Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Kawaii Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Melodic Black Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Melodic Death Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Melodic Metalcore": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Metalcore": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Mittelalter-Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Neoclassical Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Neue Deutsche Härte": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Noisegrind": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Nu Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "NWOBHM": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Pagan Black Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Pagan Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Pornogrind": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Post-Black Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Post-Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Power Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Progressive Death Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Progressive Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Rap Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Raw Black Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Slam Death Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Sludge Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Southern Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Speed Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Stoner Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Symphonic Black Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Symphonic Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Technical Death Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Technical Thrash Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Thall": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Thrash Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Traditional Doom Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Trance Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "US Power Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Viking Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "War Metal": {
+      "type": "child",
+      "parent": "Metal",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "MPB": {
+      "type": "parent",
+      "children": [
+        "Tropicália"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Tropicália": {
+      "type": "child",
+      "parent": "MPB",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Musical Theatre & Entertainment": {
+      "type": "parent",
+      "children": [
+        "Cabaret",
+        "Cuplé",
+        "Kabarett",
+        "Revue",
+        "Show Tunes",
+        "Singspiel",
+        "Vaudeville"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Cabaret": {
+      "type": "child",
+      "parent": "Musical Theatre & Entertainment",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Cuplé": {
+      "type": "child",
+      "parent": "Musical Theatre & Entertainment",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Revue": {
+      "type": "child",
+      "parent": "Musical Theatre & Entertainment",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Show Tunes": {
+      "type": "child",
+      "parent": "Musical Theatre & Entertainment",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Vaudeville": {
+      "type": "child",
+      "parent": "Musical Theatre & Entertainment",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "New Age": {
+      "type": "parent",
+      "children": [
+        "Neoclassical New Age"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Neoclassical New Age": {
+      "type": "child",
+      "parent": "New Age",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Pop": {
+      "type": "parent",
+      "children": [
+        "Adult Contemporary",
+        "Afrobeats",
+        "Akishibu-kei",
+        "Alt-Pop",
+        "Arabic Pop",
+        "Art Pop",
+        "Balkan Pop-Folk",
+        "Baroque Pop",
+        "Big Music",
+        "Boy Band",
+        "Brill Building",
+        "Britpop",
+        "Bubblegum Pop",
+        "C-Pop",
+        "Canción Melódica",
+        "Cantopop",
+        "City Pop",
+        "Classical Crossover",
+        "Country Pop",
+        "Countrypolitan",
+        "Cuddlecore",
+        "Dance-Pop",
+        "Dansbandsmusik",
+        "Denpa",
+        "Disco polo",
+        "Electropop",
+        "Europop",
+        "Flamenco Pop",
+        "Folk Pop",
+        "French Pop",
+        "Funk Melody",
+        "Futurepop",
+        "Girl Group",
+        "Group Sounds",
+        "Hyperpop",
+        "Indie Pop",
+        "Italo Pop",
+        "J-Pop",
+        "Jazz Pop",
+        "Jovem Guarda",
+        "K-Pop",
+        "Kayōkyoku",
+        "Korean Ballad",
+        "Latin Pop",
+        "Mood Kayō",
+        "Nederpop",
+        "OPM",
+        "Piano Rock",
+        "Picopop",
+        "Pop Raï",
+        "Pop Rock",
+        "Power Pop",
+        "Progressive Pop",
+        "Romanian Popcorn",
+        "Rumba catalana",
+        "Russian Chanson",
+        "Schlager",
+        "Sertanejo Romântico",
+        "Shibuya-kei",
+        "Sophisti-Pop",
+        "Soviet Estrada",
+        "Stereo",
+        "Stomp and Holler",
+        "Sunshine Pop",
+        "Synthpop",
+        "Techno Kayō",
+        "Tecnorumba",
+        "Teen Pop",
+        "Township Bubblegum",
+        "Traditional Pop",
+        "Tropical Rock",
+        "Turkish Pop",
+        "Twee Pop",
+        "V-Pop",
+        "Vocal Surf",
+        "Yakousei",
+        "Yé-yé"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Adult Contemporary": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Afrobeats": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Akishibu-kei": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Alt-Pop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Arabic Pop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Art Pop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Balkan Pop-Folk": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Baroque Pop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Big Music": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Boy Band": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Brill Building": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Britpop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Bubblegum Pop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "C-Pop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Canción Melódica": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Cantopop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "City Pop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Classical Crossover": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Cuddlecore": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dansbandsmusik": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Denpa": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Electropop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Europop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Flamenco Pop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "French Pop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Girl Group": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Group Sounds": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Indie Pop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Italo Pop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "J-Pop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jazz Pop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jovem Guarda": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "K-Pop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Kayōkyoku": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Korean Ballad": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Latin Pop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Mood Kayō": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Nederpop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "OPM": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Piano Rock": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Picopop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Pop Raï": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Pop Rock": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Power Pop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Progressive Pop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Rumba catalana": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Russian Chanson": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Schlager": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Sertanejo Romântico": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Shibuya-kei": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Sophisti-Pop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Soviet Estrada": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Stereo": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Sunshine Pop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Techno Kayō": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Teen Pop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Traditional Pop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Tropical Rock": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Turkish Pop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Twee Pop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "V-Pop": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Vocal Surf": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Yakousei": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Yé-yé": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Psychedelia": {
+      "type": "parent",
+      "children": [
+        "Heavy Psych",
+        "Neo-Psychedelia",
+        "Paisley Underground",
+        "Psichedelia occulta italiana",
+        "Psychedelic Folk",
+        "Psychedelic Pop",
+        "Psychedelic Rock",
+        "Psychedelic Soul",
+        "Raga Rock",
+        "Zamrock"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Heavy Psych": {
+      "type": "child",
+      "parent": "Psychedelia",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Neo-Psychedelia": {
+      "type": "child",
+      "parent": "Psychedelia",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Paisley Underground": {
+      "type": "child",
+      "parent": "Psychedelia",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Psichedelia occulta italiana": {
+      "type": "child",
+      "parent": "Psychedelia",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Psychedelic Pop": {
+      "type": "child",
+      "parent": "Psychedelia",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Psychedelic Rock": {
+      "type": "child",
+      "parent": "Psychedelia",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Psychedelic Soul": {
+      "type": "child",
+      "parent": "Psychedelia",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Raga Rock": {
+      "type": "child",
+      "parent": "Psychedelia",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Zamrock": {
+      "type": "child",
+      "parent": "Psychedelia",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Punk": {
+      "type": "parent",
+      "children": [
+        "Anarcho-Punk",
+        "Art Punk",
+        "Beatdown Hardcore",
+        "Blackened Crust",
+        "Burning Spirits",
+        "Celtic Punk",
+        "Cowpunk",
+        "Crust Punk",
+        "D-Beat",
+        "Dance-Punk",
+        "Digital Hardcore",
+        "Downtempo Deathcore",
+        "Easycore",
+        "Egg Punk",
+        "Emo",
+        "Emo-Pop",
+        "Emocore",
+        "Emoviolence",
+        "Folk Punk",
+        "Glam Punk",
+        "Grindcore",
+        "Hardcore Punk",
+        "Horror Punk",
+        "Mall Screamo",
+        "Melodic Hardcore",
+        "Metalcore",
+        "Midwest Emo",
+        "Neocrust",
+        "Nintendocore",
+        "Noisegrind",
+        "Oi!",
+        "Pop Punk",
+        "Post-Hardcore",
+        "Post-Punk",
+        "Proto-Punk",
+        "Psychobilly",
+        "Punk Blues",
+        "Punk Rock",
+        "Queercore",
+        "Riot Grrrl",
+        "Screamo",
+        "Ska Punk",
+        "Skacore",
+        "Skate Punk",
+        "Surf Punk",
+        "Swancore",
+        "Synth Punk",
+        "Trancecore",
+        "Vikingarock"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Anarcho-Punk": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Art Punk": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Beatdown Hardcore": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Blackened Crust": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Burning Spirits": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Celtic Punk": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Cowpunk": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Crust Punk": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "D-Beat": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dance-Punk": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Digital Hardcore": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Easycore": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Egg Punk": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Emo": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Emo-Pop": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Emocore": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Emoviolence": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Glam Punk": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hardcore Punk": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Horror Punk": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Mall Screamo": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Melodic Hardcore": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Midwest Emo": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Neocrust": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Nintendocore": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Oi!": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Pop Punk": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Post-Hardcore": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Post-Punk": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Proto-Punk": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Psychobilly": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Punk Blues": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Punk Rock": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Queercore": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Riot Grrrl": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Screamo": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Ska Punk": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Skacore": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Skate Punk": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Surf Punk": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Swancore": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Trancecore": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Vikingarock": {
+      "type": "child",
+      "parent": "Punk",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "R&B": {
+      "type": "parent",
+      "children": [
+        "Alternative R&B",
+        "Blue-Eyed Soul",
+        "Boogie",
+        "British Rhythm & Blues",
+        "Contemporary R&B",
+        "Doo-Wop",
+        "Hip Hop Soul",
+        "Neo-Soul",
+        "New Jack Swing",
+        "New Orleans R&B",
+        "Pop Soul",
+        "Progressive Soul",
+        "Rhythm and Blues",
+        "Smooth Soul",
+        "Soul",
+        "Soul Blues",
+        "Southern Soul",
+        "Trap Soul",
+        "Twist",
+        "UK Street Soul"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Alternative R&B": {
+      "type": "child",
+      "parent": "R&B",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Blue-Eyed Soul": {
+      "type": "child",
+      "parent": "R&B",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Boogie": {
+      "type": "child",
+      "parent": "R&B",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "British Rhythm & Blues": {
+      "type": "child",
+      "parent": "R&B",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Contemporary R&B": {
+      "type": "child",
+      "parent": "R&B",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Doo-Wop": {
+      "type": "child",
+      "parent": "R&B",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hip Hop Soul": {
+      "type": "child",
+      "parent": "R&B",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Neo-Soul": {
+      "type": "child",
+      "parent": "R&B",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "New Jack Swing": {
+      "type": "child",
+      "parent": "R&B",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "New Orleans R&B": {
+      "type": "child",
+      "parent": "R&B",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Pop Soul": {
+      "type": "child",
+      "parent": "R&B",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Progressive Soul": {
+      "type": "child",
+      "parent": "R&B",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Rhythm and Blues": {
+      "type": "child",
+      "parent": "R&B",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Smooth Soul": {
+      "type": "child",
+      "parent": "R&B",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Soul": {
+      "type": "child",
+      "parent": "R&B",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Southern Soul": {
+      "type": "child",
+      "parent": "R&B",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Twist": {
+      "type": "child",
+      "parent": "R&B",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "UK Street Soul": {
+      "type": "child",
+      "parent": "R&B",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Ragtime": {
+      "type": "parent",
+      "children": [
+        "Stride"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Reggae": {
+      "type": "parent",
+      "children": [
+        "Dancehall",
+        "Deejay",
+        "Dub",
+        "Pop Reggae",
+        "Roots Reggae"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dancehall": {
+      "type": "child",
+      "parent": "Reggae",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Deejay": {
+      "type": "child",
+      "parent": "Reggae",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dub": {
+      "type": "child",
+      "parent": "Reggae",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Pop Reggae": {
+      "type": "child",
+      "parent": "Reggae",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Roots Reggae": {
+      "type": "child",
+      "parent": "Reggae",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Regional": {
+      "type": "parent",
+      "children": [
+        "Afro-Jazz",
+        "Afrobeat",
+        "Americana",
+        "Andalusian Classical Music",
+        "Arabesk",
+        "Arabic Jazz",
+        "Arabic Pop",
+        "Arrocha",
+        "Avtorskaya pesnya",
+        "Axé",
+        "Bachata",
+        "Baião",
+        "Balkan Brass Band",
+        "Banda Sinaloense",
+        "Bolero",
+        "Bossa Nova",
+        "Brega",
+        "Brega calypso",
+        "British Folk Rock",
+        "Cajun Music",
+        "Calypso",
+        "Canción Melódica",
+        "Candombe",
+        "Canzone D'autore",
+        "Cape Jazz",
+        "Celtic Metal",
+        "Chachachá",
+        "Chalga",
+        "Changa Tuki",
+        "Chimurenga",
+        "Chinese Classical Music",
+        "Chinese Opera",
+        "Choro",
+        "Christian Liturgical Music",
+        "Corrido",
+        "Coupé-Décalé",
+        "Cumbia",
+        "Cumbia Argentina",
+        "Cumbia Colombiana",
+        "Cumbia Mexicana",
+        "Cumbia Peruana",
+        "Cuplé",
+        "Dabke",
+        "Dancehall",
+        "Dembow",
+        "Disco polo",
+        "Dutch Cabaret",
+        "Electric Texas Blues",
+        "Electro Latino",
+        "Eleki",
+        "Enka",
+        "Euskal Kantagintza Berria",
+        "Fado",
+        "Fado de Coimbra",
+        "Flamenco Pop",
+        "Forró",
+        "Forró eletrônico",
+        "Frevo",
+        "Fuji",
+        "Funk Brasileiro",
+        "Funk Carioca",
+        "Funk Melody",
+        "Ghazal",
+        "Gnawa",
+        "Grand Opéra",
+        "Gregorian Chant",
+        "Highlife",
+        "Huayno",
+        "Hyang-Ak",
+        "Indo Jazz",
+        "Irish Folk Music",
+        "Israeli Folk Music",
+        "Japanese Folk Music",
+        "Jùjú",
+        "Jeong-Ak",
+        "Jewish Music",
+        "Jongo",
+        "Joropo",
+        "Kabarett",
+        "Kizomba",
+        "Kleinkunst",
+        "Korean Classical Music",
+        "Kurdish Folk",
+        "Kwaito",
+        "Latin American Music",
+        "Latin Disco",
+        "Latin Electronic",
+        "Latin Soul",
+        "Levenslied",
+        "Lied",
+        "Liedermacher",
+        "Lithuanian Folk Music",
+        "Mambo",
+        "Mande Music",
+        "Manele",
+        "Manguebeat",
+        "Manila Sound",
+        "Marabi",
+        "Maracatu",
+        "Marchinha",
+        "Mariachi",
+        "Mbaqanga",
+        "Merengue",
+        "Middle Eastern Folk",
+        "Milonga",
+        "Minyue",
+        "Minyō",
+        "Mittelalter-Rock",
+        "Moda de viola",
+        "Modern Laika",
+        "Moroccan Chaabi",
+        "Musette",
+        "Musica De Intervençao",
+        "Muzică De Mahala",
+        "Muzică Lăutărească",
+        "Muzika Mizrahit",
+        "Neo-Medieval Folk",
+        "Nordic Folk Rock",
+        "Norteño",
+        "Nova Cançó",
+        "Peking Opera",
+        "Pimba",
+        "Piseiro",
+        "Plainsong",
+        "Poezja śpiewana",
+        "Pop Raï",
+        "Portuguese Folk Music",
+        "Psichedelia occulta italiana",
+        "Raï",
+        "Ranchera",
+        "Ritmada",
+        "Rock Andaluz",
+        "Rock Andino",
+        "Rock Rural",
+        "Rocksteady",
+        "Rumba catalana",
+        "Russian Chanson",
+        "Salsa",
+        "Salsa Dura",
+        "Samba",
+        "Samba-Canção",
+        "Samba-Choro",
+        "Samba-Reggae",
+        "Schlager",
+        "Sephardic Music",
+        "Sertanejo",
+        "Sertanejo de raiz",
+        "Sertanejo Romântico",
+        "Sertanejo Universitário",
+        "Shidaiqu",
+        "Sierreño",
+        "Singspiel",
+        "Son Cubano",
+        "Soukous",
+        "Stereo",
+        "Sōkyoku",
+        "Tamborzão",
+        "Tango",
+        "Tecnobrega",
+        "Tecnorumba",
+        "Tejano Music",
+        "Tex-Mex",
+        "Tishoumaren",
+        "Tizita",
+        "Township Bubblegum",
+        "Tropicanibalismo",
+        "Turbo-Folk",
+        "Turkish Pop",
+        "Vallenato",
+        "Vanguarda Paulista",
+        "Volkstümliche Musik",
+        "Waltz",
+        "Xote",
+        "Yiddish Folksong",
+        "Zamba",
+        "Zamrock"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Afrobeat": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Americana": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Arabesk": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Arrocha": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Avtorskaya pesnya": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Axé": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Bachata": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Baião": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Banda Sinaloense": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Bolero": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Bossa Nova": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Brega": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Brega calypso": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "British Folk Rock": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Cajun Music": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Calypso": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Canzone D'autore": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Chachachá": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Chalga": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Chimurenga": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Chinese Opera": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Choro": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Christian Liturgical Music": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Corrido": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Cumbia": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Cumbia Argentina": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Cumbia Colombiana": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Cumbia Mexicana": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Cumbia Peruana": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dabke": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dembow": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Eleki": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Enka": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Euskal Kantagintza Berria": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Fado": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Fado de Coimbra": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Forró": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Forró eletrônico": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Frevo": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Fuji": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Funk Brasileiro": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Funk Carioca": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Ghazal": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Gnawa": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Gregorian Chant": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Highlife": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Huayno": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hyang-Ak": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Japanese Folk Music": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jùjú": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jewish Music": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jongo": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Kizomba": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Kleinkunst": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Kwaito": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Latin American Music": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Latin Soul": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Levenslied": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Lied": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Liedermacher": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Mambo": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Mande Music": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Manele": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Manguebeat": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Manila Sound": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Maracatu": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Marchinha": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Mariachi": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Merengue": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Milonga": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Minyō": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Mittelalter-Rock": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Moda de viola": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Modern Laika": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Moroccan Chaabi": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Musica De Intervençao": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Muzică De Mahala": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Muzika Mizrahit": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Nordic Folk Rock": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Norteño": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Nova Cançó": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Peking Opera": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Pimba": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Piseiro": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Plainsong": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Poezja śpiewana": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Portuguese Folk Music": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Raï": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Ranchera": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Rock Andaluz": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Rock Andino": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Rocksteady": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Salsa": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Salsa Dura": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Samba": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Samba-Canção": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Samba-Choro": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Samba-Reggae": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Sephardic Music": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Sertanejo": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Sertanejo de raiz": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Sertanejo Universitário": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Shidaiqu": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Sierreño": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Son Cubano": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Soukous": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Tango": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Tejano Music": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Tex-Mex": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Tishoumaren": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Tizita": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Tropicanibalismo": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Turbo-Folk": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Vallenato": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Vanguarda Paulista": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Volkstümliche Musik": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Waltz": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Xote": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Yiddish Folksong": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Zamba": {
+      "type": "child",
+      "parent": "Regional",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Rock": {
+      "type": "parent",
+      "children": [
+        "Acid Rock",
+        "Acoustic Rock",
+        "Alternative Dance",
+        "Alternative Rock",
+        "Anatolian Rock",
+        "AOR",
+        "Art Rock",
+        "Baggy",
+        "Bard Rock",
+        "Big Music",
+        "Blues Rock",
+        "Boogie Rock",
+        "British Folk Rock",
+        "British Rhythm & Blues",
+        "Britpop",
+        "Brutal Prog",
+        "C86",
+        "Celtic Rock",
+        "Christian Rock",
+        "Country Rock",
+        "Cowpunk",
+        "Cuddlecore",
+        "Dance-Punk",
+        "Dark Cabaret",
+        "Deathrock",
+        "Dream Pop",
+        "Dunedin Sound",
+        "Egg Punk",
+        "Eleki",
+        "Emo",
+        "Experimental Rock",
+        "Folk Rock",
+        "Freakbeat",
+        "Funk Rock",
+        "Garage Rock",
+        "Garage Rock Revival",
+        "Geek Rock",
+        "Glam Punk",
+        "Glam Rock",
+        "Gothic Rock",
+        "Grebo",
+        "Group Sounds",
+        "Hard Rock",
+        "Heartland Rock",
+        "Indie Rock",
+        "Indie Surf",
+        "Industrial Rock",
+        "J-Rock",
+        "Jam Band",
+        "Jamgrass",
+        "Jangle Pop",
+        "Jazz-Rock",
+        "Jovem Guarda",
+        "Krautrock",
+        "Latin Rock",
+        "Livetronica",
+        "Mall Screamo",
+        "Manguebeat",
+        "Math Pop",
+        "Math Rock",
+        "Midwest Emo",
+        "Mittelalter-Rock",
+        "Neo-Prog",
+        "Neue Deutsche Welle",
+        "New Rave",
+        "New Wave",
+        "Noise Pop",
+        "Noise Rock",
+        "Nordic Folk Rock",
+        "Paisley Underground",
+        "Piano Rock",
+        "Pop Rock",
+        "Post-Punk",
+        "Post-Rock",
+        "Power Pop",
+        "Progressive Rock",
+        "Psychedelic Rock",
+        "Psychobilly",
+        "Pub Rock",
+        "Punk Blues",
+        "Punk Rock",
+        "Queercore",
+        "Raga Rock",
+        "Rap Rock",
+        "Rautalanka",
+        "Rock & Roll",
+        "Rock Andaluz",
+        "Rock Andino",
+        "Rock Opera",
+        "Rock Rural",
+        "Rockabilly",
+        "Roots Rock",
+        "Shoegaze",
+        "Ska Punk",
+        "Skacore",
+        "Slacker Rock",
+        "Soft Rock",
+        "Southern Rock",
+        "Space Rock",
+        "Space Rock Revival",
+        "Stereo",
+        "Stoner Rock",
+        "Surf Rock",
+        "Swamp Rock",
+        "Symphonic Rock",
+        "Tex-Mex",
+        "Tropical Rock",
+        "Twee Pop",
+        "Vikingarock",
+        "Visual kei",
+        "Vocal Surf",
+        "Yacht Rock",
+        "Zamrock",
+        "Zolo"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Acid Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Acoustic Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Alternative Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Anatolian Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "AOR": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Art Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Baggy": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Bard Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Blues Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Boogie Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Brutal Prog": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "C86": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Celtic Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dark Cabaret": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Deathrock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dream Pop": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dunedin Sound": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Experimental Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Freakbeat": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Funk Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Garage Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Garage Rock Revival": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Geek Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Glam Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Gothic Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Hard Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Heartland Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Indie Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Indie Surf": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "J-Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jam Band": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jangle Pop": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Jazz-Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Krautrock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Latin Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Math Pop": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Math Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Neo-Prog": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Neue Deutsche Welle": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "New Wave": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Noise Pop": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Noise Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Post-Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Progressive Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Pub Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Rap Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Rautalanka": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Rock & Roll": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Rock Opera": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Rockabilly": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Roots Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Shoegaze": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Slacker Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Soft Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Southern Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Space Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Space Rock Revival": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Stoner Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Surf Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Swamp Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Symphonic Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Visual kei": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Yacht Rock": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Zolo": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Singer-Songwriter": {
+      "type": "parent",
+      "children": [
+        "Avtorskaya pesnya",
+        "Canzone D'autore",
+        "Chanson à texte",
+        "Euskal Kantagintza Berria",
+        "Kleinkunst",
+        "Liedermacher",
+        "Musica De Intervençao",
+        "Nova Cançó",
+        "Poezja śpiewana"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Ska": {
+      "type": "parent",
+      "children": [
+        "2 Tone",
+        "New Tone",
+        "Rocksteady",
+        "Ska Punk",
+        "Third Wave Ska"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "2 Tone": {
+      "type": "child",
+      "parent": "Ska",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "New Tone": {
+      "type": "child",
+      "parent": "Ska",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Third Wave Ska": {
+      "type": "child",
+      "parent": "Ska",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Sound Effects": {
+      "type": "parent",
+      "children": [
+        "Battle Record",
+        "Binaural Beats",
+        "Broadband Noise"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Battle Record": {
+      "type": "child",
+      "parent": "Sound Effects",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Broadband Noise": {
+      "type": "child",
+      "parent": "Sound Effects",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Spoken Word": {
+      "type": "parent",
+      "children": [
+        "Beat Poetry",
+        "Fairy Tales",
+        "Guided Meditation",
+        "Interview",
+        "Jazz Poetry",
+        "Lectures",
+        "Poetry",
+        "Radio Drama",
+        "Speeches",
+        "Stand-Up Comedy"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Beat Poetry": {
+      "type": "child",
+      "parent": "Spoken Word",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Guided Meditation": {
+      "type": "child",
+      "parent": "Spoken Word",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Interview": {
+      "type": "child",
+      "parent": "Spoken Word",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Lectures": {
+      "type": "child",
+      "parent": "Spoken Word",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Poetry": {
+      "type": "child",
+      "parent": "Spoken Word",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Radio Drama": {
+      "type": "child",
+      "parent": "Spoken Word",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Speeches": {
+      "type": "child",
+      "parent": "Spoken Word",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Vapor": {
+      "type": "parent",
+      "children": [
+        "Barber Beats",
+        "Dreampunk",
+        "Eccojams",
+        "Hardvapour",
+        "Utopian Virtual",
+        "Vapornoise",
+        "Vaportrap",
+        "Vaporwave"
+      ],
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Dreampunk": {
+      "type": "child",
+      "parent": "Vapor",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Vapornoise": {
+      "type": "child",
+      "parent": "Vapor",
+      "discovered_at": "initial",
+      "source": "hardcoded"
+    },
+    "Chamber Pop": {
+      "type": "child",
+      "parent": null,
+      "discovered_at": "2026-02-24T13:32:18.274151",
+      "source": "auto-discovered"
+    },
+    "Post-Punk Revival": {
+      "type": "child",
+      "parent": null,
+      "discovered_at": "2026-02-24T13:32:18.284148",
+      "source": "auto-discovered"
+    },
+    "Slowcore": {
+      "type": "child",
+      "parent": "Ambient Pop",
+      "discovered_at": "2026-02-24T13:32:18.292148",
+      "source": "auto-discovered"
+    }
+  }
+}

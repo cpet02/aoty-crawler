@@ -298,77 +298,86 @@ def cmd_list_genres(args):
 
 
 def cmd_search(args):
-    """Handle search command"""
-    logger.info("Searching database...")
+    """Handle search command - search scraped data using data loader"""
+    logger.info("Searching scraped data...")
     
-    # Import database models
-    from database.models import (
-        Album, Artist, Genre, Review, get_session, create_database_engine
-    )
-    from sqlalchemy import or_, and_
-    
-    # Create database session
-    engine = create_database_engine()
-    session = get_session(engine)
+    # Import data loader
+    from aoty_crawler.utils.data_loader import load_all_albums, filter_albums
     
     try:
-        # Build query
-        query = session.query(Album).join(Artist)
+        # Load all albums
+        albums = load_all_albums()
         
-        # Apply filters
+        if not albums:
+            logger.info("No albums found. Run 'python -m cli scrape' to scrape data first.")
+            return 0
+        
+        # Build filter parameters
+        filter_kwargs = {}
+        
+        # Parse genres
         if args.genres:
             genres = [g.strip() for g in args.genres.split(',')]
             if args.match_all:
-                # Match albums with ALL specified genres
-                for genre_name in genres:
-                    query = query.join(Genre, Album.genres).filter(Genre.name == genre_name)
+                filter_kwargs['genres_all'] = genres
             else:
-                # Match albums with ANY of the specified genres
-                genre_conditions = [Album.genres.any(Genre.name == g) for g in genres]
-                query = query.filter(or_(*genre_conditions))
+                filter_kwargs['genres'] = genres
         
-        if args.min_score:
-            query = query.filter(Album.critic_score >= args.min_score)
+        # Add score filters
+        if args.min_score is not None:
+            filter_kwargs['min_score'] = args.min_score
+        if args.max_score is not None:
+            filter_kwargs['max_score'] = args.max_score
         
-        if args.max_score:
-            query = query.filter(Album.critic_score <= args.max_score)
+        # Add review filters
+        if args.min_reviews is not None:
+            filter_kwargs['min_reviews'] = args.min_reviews
         
-        if args.min_reviews:
-            query = query.filter(Album.review_count >= args.min_reviews)
+        # Add year filter
+        if args.year is not None:
+            filter_kwargs['year'] = args.year
         
-        if args.year:
-            from datetime import datetime
-            start_date = datetime(args.year, 1, 1)
-            end_date = datetime(args.year, 12, 31)
-            query = query.filter(Album.release_date >= start_date, Album.release_date <= end_date)
+        # Apply filters
+        filtered = filter_albums(albums, **filter_kwargs)
         
-        # Execute query
-        results = query.limit(args.limit).all()
+        # Limit results
+        if not args.show_all:
+            filtered = filtered[:args.limit]
         
         # Display results
-        if not results:
+        if not filtered:
             logger.info("No albums found matching your criteria.")
             return 0
         
-        logger.info(f"Found {len(results)} albums:")
+        logger.info(f"Found {len(filtered)} albums:")
         logger.info("-" * 80)
         
-        for album in results:
-            print(f"🎵 {album.title}")
-            print(f"   Artist: {album.artist.name}")
-            print(f"   Score: {album.critic_score}/100 (Critic), {album.user_score}/100 (User)")
-            print(f"   Reviews: {album.review_count}")
-            print(f"   Year: {album.release_date.year if album.release_date else 'Unknown'}")
-            print(f"   Genres: {', '.join(g.name for g in album.genres)}")
+        for album in filtered:
+            title = album.get('title', 'Unknown')
+            artist = album.get('artist_name', 'Unknown')
+            critic_score = album.get('critic_score')
+            user_score = album.get('user_score')
+            critic_reviews = album.get('critic_review_count')
+            user_reviews = album.get('user_review_count')
+            genres = album.get('genres', [])
+            
+            score_str = f"{critic_score}/100 (Critic), {user_score}/100 (User)" if critic_score or user_score else "N/A"
+            reviews_str = f"Critic: {critic_reviews}, User: {user_reviews}" if critic_reviews or user_reviews else "N/A"
+            
+            print(f"🎵 {title}")
+            print(f"   Artist: {artist}")
+            print(f"   Score: {score_str}")
+            print(f"   Reviews: {reviews_str}")
+            print(f"   Genres: {', '.join(genres) if genres else 'N/A'}")
             print()
         
         return 0
         
     except Exception as e:
         logger.error(f"Search error: {e}")
+        import traceback
+        traceback.print_exc()
         return 1
-    finally:
-        session.close()
 
 
 def cmd_export(args):
@@ -437,58 +446,102 @@ def cmd_export(args):
 
 
 def cmd_stats(args):
-    """Handle stats command"""
-    logger.info("Database Statistics:")
+    """Handle stats command - show statistics from scraped data"""
+    logger.info("Scraped Data Statistics:")
     logger.info("=" * 40)
     
-    # Import database models
-    from database.models import (
-        Album, Artist, Genre, Review, get_session, create_database_engine
-    )
-    
-    # Create database session
-    engine = create_database_engine()
-    session = get_session(engine)
+    # Import data loader
+    from aoty_crawler.utils.data_loader import load_all_albums
     
     try:
-        # Get counts
-        album_count = session.query(Album).count()
-        artist_count = session.query(Artist).count()
-        genre_count = session.query(Genre).count()
-        review_count = session.query(Review).count()
+        # Load all albums
+        albums = load_all_albums()
         
-        # Get average scores
-        avg_critic_score = session.query(Album.critic_score).filter(Album.critic_score != None).average()
-        avg_user_score = session.query(Album.user_score).filter(Album.user_score != None).average()
+        if not albums:
+            logger.info("No albums found. Run 'python -m cli scrape' to scrape data first.")
+            return 0
         
-        # Get top albums
-        top_albums = session.query(Album).order_by(Album.critic_score.desc()).limit(5).all()
+        # Basic counts
+        album_count = len(albums)
+        
+        # Count albums with scores
+        albums_with_critic_score = sum(1 for a in albums if a.get('critic_score') is not None)
+        albums_with_user_score = sum(1 for a in albums if a.get('user_score') is not None)
+        
+        # Calculate average scores
+        critic_scores = [a['critic_score'] for a in albums if a.get('critic_score') is not None]
+        user_scores = [a['user_score'] for a in albums if a.get('user_score') is not None]
+        
+        avg_critic_score = sum(critic_scores) / len(critic_scores) if critic_scores else None
+        avg_user_score = sum(user_scores) / len(user_scores) if user_scores else None
+        
+        # Count reviews
+        total_critic_reviews = sum(a.get('critic_review_count') or 0 for a in albums)
+        total_user_reviews = sum(a.get('user_review_count') or 0 for a in albums)
+        
+        # Get unique genres
+        all_genres = set()
+        for album in albums:
+            all_genres.update(album.get('genres', []))
+        
+        # Top albums by critic score
+        top_critic = sorted(albums, key=lambda x: x.get('critic_score') or 0, reverse=True)[:5]
+        
+        # Top albums by user score
+        top_user = sorted(albums, key=lambda x: x.get('user_score') or 0, reverse=True)[:5]
+        
+        # Most reviewed albums
+        most_reviewed = sorted(albums, key=lambda x: (x.get('critic_review_count') or 0) + (x.get('user_review_count') or 0), reverse=True)[:5]
         
         # Display statistics
         logger.info(f"Albums: {album_count}")
-        logger.info(f"Artists: {artist_count}")
-        logger.info(f"Genres: {genre_count}")
-        logger.info(f"Reviews: {review_count}")
+        logger.info(f"Albums with critic scores: {albums_with_critic_score}")
+        logger.info(f"Albums with user scores: {albums_with_user_score}")
+        logger.info(f"Genres: {len(all_genres)}")
+        logger.info(f"Total critic reviews: {total_critic_reviews}")
+        logger.info(f"Total user reviews: {total_user_reviews}")
         
         if avg_critic_score:
             logger.info(f"Average Critic Score: {avg_critic_score:.1f}")
         if avg_user_score:
             logger.info(f"Average User Score: {avg_user_score:.1f}")
         
-        # Display top albums
-        if top_albums:
+        # Display top albums by critic score
+        if top_critic:
             logger.info("\nTop 5 Albums by Critic Score:")
-            for i, album in enumerate(top_albums, 1):
-                artist_name = album.artist.name if album.artist else 'Unknown'
-                logger.info(f"{i}. {album.title} by {artist_name} ({album.critic_score}/100)")
+            for i, album in enumerate(top_critic, 1):
+                title = album.get('title', 'Unknown')
+                artist = album.get('artist_name', 'Unknown')
+                score = album.get('critic_score')
+                logger.info(f"{i}. {title} by {artist} ({score}/100)")
+        
+        # Display top albums by user score
+        if top_user:
+            logger.info("\nTop 5 Albums by User Score:")
+            for i, album in enumerate(top_user, 1):
+                title = album.get('title', 'Unknown')
+                artist = album.get('artist_name', 'Unknown')
+                score = album.get('user_score')
+                logger.info(f"{i}. {title} by {artist} ({score}/100)")
+        
+        # Display most reviewed albums
+        if most_reviewed:
+            logger.info("\nTop 5 Most Reviewed Albums:")
+            for i, album in enumerate(most_reviewed, 1):
+                title = album.get('title', 'Unknown')
+                artist = album.get('artist_name', 'Unknown')
+                critic_rev = album.get('critic_review_count') or 0
+                user_rev = album.get('user_review_count') or 0
+                total_rev = critic_rev + user_rev
+                logger.info(f"{i}. {title} by {artist} (Total: {total_rev}, Critic: {critic_rev}, User: {user_rev})")
         
         return 0
         
     except Exception as e:
         logger.error(f"Stats error: {e}")
+        import traceback
+        traceback.print_exc()
         return 1
-    finally:
-        session.close()
 
 
 def cmd_init(args):
