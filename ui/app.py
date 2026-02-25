@@ -130,7 +130,7 @@ with st.sidebar:
     if st.button("🚀 Start Scrape", type="primary"):
         import subprocess
         
-        cmd = ["python", "-m", "cli", "scrape"]
+        cmd = [sys.executable, "-m", "cli", "scrape"]
         cmd.extend(["--genre", selected_scrape_genre])
         cmd.extend(["--start-year", str(scrape_start_year)])
         cmd.extend(["--years-back", str(scrape_years_back)])
