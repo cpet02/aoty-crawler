@@ -1,3 +1,6 @@
+# UI
+streamlit>=1.28.0
+
 # Core scraping
 scrapy==2.11.0
 selenium==4.17.2
@@ -10,22 +13,22 @@ requests==2.31.0
 urllib3==2.1.0
 
 # Database
-sqlalchemy==2.0.25  # ORM for database abstraction
-alembic==1.13.1     # Database migrations
+sqlalchemy==2.0.25
+alembic==1.13.1
 
 # Data Processing
-pandas==2.2.0       # Data analysis and CSV export
-numpy==1.26.3
+pandas>=2.0.0
+numpy>=2.0.0
 
 # Rate Limiting & Retry
-tenacity==8.2.3     # Retry logic with exponential backoff
+tenacity==8.2.3
 
 # Logging & Monitoring
-loguru==0.7.2       # Better logging
+loguru==0.7.2
 
 # Configuration
 python-dotenv==1.0.0
-pydantic==2.5.3     # Configuration validation
+pydantic>=2.6.0
 
 # Testing
 pytest==7.4.4
