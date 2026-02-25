@@ -89,70 +89,33 @@ with st.sidebar:
     parent_genres_list = get_parent_genres()
     st.caption(f"🎵 {len(all_genres_list)} total genres available")
     
-    # FIXED: Use session state to track which tab and what genre is selected
-    if 'scrape_genre_tab' not in st.session_state:
-        st.session_state.scrape_genre_tab = 'search'
-    if 'scrape_genre_search' not in st.session_state:
-        st.session_state.scrape_genre_search = all_genres_list[0] if all_genres_list else ""
-    if 'scrape_genre_hierarchy' not in st.session_state:
-        st.session_state.scrape_genre_hierarchy = parent_genres_list[0] if parent_genres_list else ""
+    # FIXED: Use radio button for selection mode instead of tabs
+    selection_mode = st.radio("Genre selection mode", ["🔍 Search", "📂 Browse"], horizontal=True)
     
-    tab1, tab2 = st.tabs(["🔍 Search", "📂 Browse"])
-    
-    with tab1:
-        st.session_state.scrape_genre_tab = 'search'
+    if selection_mode == "🔍 Search":
         genre_search_text = st.text_input(
             "Search genres",
             placeholder="Type to filter (e.g., 'ethereal', 'wave', 'rock')...",
             help="Find genres by typing keywords"
         )
         
+        filtered_list = sorted([g for g in all_genres_list if genre_search_text.lower() in g.lower()]) if genre_search_text else sorted(all_genres_list)
         if genre_search_text:
-            filtered_list = sorted([g for g in all_genres_list if genre_search_text.lower() in g.lower()])
             st.caption(f"📍 Found {len(filtered_list)} of {len(all_genres_list)} genres")
-        else:
-            filtered_list = sorted(all_genres_list)
-        
-        st.session_state.scrape_genre_search = st.selectbox(
-            "Select Genre",
-            filtered_list,
-            index=0,
-            key="scrape_genre_search_select"
-        )
+        selected_scrape_genre = st.selectbox("Select Genre", filtered_list, index=0)
     
-    with tab2:
-        st.session_state.scrape_genre_tab = 'hierarchy'
-        selected_parent = st.selectbox(
-            "Select Parent Genre",
-            parent_genres_list,
-            key="scrape_parent_select"
-        )
-        
+    else:  # Browse
+        selected_parent = st.selectbox("Select Parent Genre", parent_genres_list)
         genre_info = get_genre_with_children(selected_parent)
-        
         if genre_info["has_children"]:
-            st.markdown(f"**Subgenres:** ({len(genre_info['children'])} available)")
-            cols = st.columns(3)
-            for idx, subgenre in enumerate(genre_info['children']):
-                with cols[idx % 3]:
-                    if st.button(subgenre, use_container_width=True, key=f"scrape_subgenre_btn_{subgenre}"):
-                        st.session_state.scrape_genre_hierarchy = subgenre
-            
-            st.session_state.scrape_genre_hierarchy = st.selectbox(
-                "Or select from dropdown",
-                genre_info['children'],
-                index=0 if st.session_state.scrape_genre_hierarchy not in genre_info['children'] else genre_info['children'].index(st.session_state.scrape_genre_hierarchy),
-                key="scrape_subgenre_dropdown"
+            selected_scrape_genre = st.selectbox(
+                "Select subgenre",
+                genre_info["children"],
+                index=0
             )
         else:
             st.info(f"ℹ️ {selected_parent} has no subgenres")
-            st.session_state.scrape_genre_hierarchy = selected_parent
-    
-    # CRITICAL: Get the genre from the ACTIVE tab only
-    if st.session_state.scrape_genre_tab == 'search':
-        selected_scrape_genre = st.session_state.scrape_genre_search
-    else:
-        selected_scrape_genre = st.session_state.scrape_genre_hierarchy
+            selected_scrape_genre = selected_parent
     
     st.info(f"📌 Selected Genre: **{selected_scrape_genre}**")
     

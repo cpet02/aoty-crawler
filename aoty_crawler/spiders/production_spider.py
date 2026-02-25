@@ -96,12 +96,31 @@ class ProductionSpider(scrapy.Spider):
             self.logger.warning(f"Could not load resume data: {e}")
     
     def start_requests(self):
-        """Start at the genre page"""
-        self.logger.info("Starting at genre page: https://www.albumoftheyear.org/genre.php")
-        yield scrapy.Request(
-            url="https://www.albumoftheyear.org/genre.php",
-            callback=self.parse_genre_page
-        )
+        """Start requests - bypass genre.php when target genre is specified"""
+        if self.target_genre:
+            # Bypass genre.php entirely - construct URL directly from genre name
+            slug = self.target_genre.lower().replace(' ', '-')
+            self.logger.info(f"Direct scrape for genre: {self.target_genre} (slug: {slug})")
+            for year in range(self.start_year, self.end_year - 1, -1):
+                url = f"https://www.albumoftheyear.org/ratings/user-highest-rated/{year}/{slug}/"
+                self.logger.info(f"  → Year {year}: {url}")
+                yield scrapy.Request(
+                    url=url,
+                    callback=self.parse_ratings_page,
+                    meta={
+                        'genre_name': self.target_genre,
+                        'genre_slug': slug,
+                        'year': year,
+                        'albums_scraped_this_page': 0
+                    }
+                )
+        else:
+            # Only hit genre.php when scraping ALL genres
+            self.logger.info("No genre specified - scraping all genres via genre.php")
+            yield scrapy.Request(
+                url="https://www.albumoftheyear.org/genre.php",
+                callback=self.parse_genre_page
+            )
     
     def parse_genre_page(self, response):
         """Parse genre page and extract genre links"""
@@ -184,16 +203,11 @@ class ProductionSpider(scrapy.Spider):
                 genre_slug_lower = genre_slug.lower()
                 genre_name_lower = genre_name.lower()
                 
-                # Check various possible matches
+                # Check various possible matches - use exact matching to avoid substring issues
                 matches = (
                     genre_slug_lower == target_genre_lower.replace(' ', '-') or
-                    genre_slug_lower == target_genre_lower.replace('-', ' ') or
-                    genre_slug_lower == target_genre_lower or
-                    genre_slug_lower == target_genre_lower.replace(' ', '') or
-                    genre_name_lower == target_genre_lower or
-                    genre_name_lower == target_genre_lower.replace('-', ' ') or
-                    target_genre_lower in genre_slug_lower or
-                    target_genre_lower in genre_name_lower
+                    genre_slug_lower == target_genre_lower.replace('-', ' ').replace(' ', '-') or
+                    genre_name_lower == target_genre_lower
                 )
                 
                 if not matches:

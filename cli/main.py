@@ -196,24 +196,22 @@ def cmd_scrape(args):
         spider_kwargs['genre'] = args.genre
         logger.info(f"Scraping genre: {args.genre}")
     
-    # Add year parameters
+    # Add year parameters - always pass them
     if args.start_year:
         spider_kwargs['start_year'] = args.start_year
         logger.info(f"Starting year: {args.start_year}")
     
-    if args.years_back and args.years_back != 1:
-        spider_kwargs['years_back'] = args.years_back
-        logger.info(f"Years back: {args.years_back}")
+    # Always pass years_back and albums_per_year
+    spider_kwargs['years_back'] = args.years_back
+    logger.info(f"Years back: {args.years_back}")
     
-    # Add albums per year parameter
-    if args.albums_per_year and args.albums_per_year != 250:
-        spider_kwargs['albums_per_year'] = args.albums_per_year
-        logger.info(f"Albums per year: {args.albums_per_year}")
-    
-    # Override albums_per_year in test mode
+    # Use limit for test mode, otherwise use albums_per_year
     if args.test_mode:
         spider_kwargs['albums_per_year'] = args.limit
         logger.info(f"Test mode: limiting to {args.limit} albums per year")
+    else:
+        spider_kwargs['albums_per_year'] = args.albums_per_year
+        logger.info(f"Albums per year: {args.albums_per_year}")
     
     # Add resume parameters
     if args.resume:
