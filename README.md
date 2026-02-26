@@ -52,6 +52,7 @@ source venv/bin/activate        # Windows: venv\Scripts\activate
 
 pip install -r requirements.txt
 pip install -r ui/requirements.txt
+mkdir logs
 ```
 
 ---
