@@ -2,13 +2,8 @@
 # Web scraping spiders for AlbumOfTheYear.org
 
 # Import all spiders
-from .test_spider import TestSpider
-from .debug_spider import DebugSpider
-from .html_debug_spider import HtmlDebugSpider
-from .genre_test_spider import GenreTestSpider
 from .comprehensive_album_spider import ComprehensiveAlbumSpider
 from .production_spider import ProductionSpider
-from .production_test_spider import ProductionTestSpider
 
 # Import placeholder spiders (to be implemented properly later)
 # For now, create simple placeholder classes

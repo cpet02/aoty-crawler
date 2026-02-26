@@ -11,7 +11,7 @@ from .pipelines import *
 from .middlewares import *
 
 # Import spiders
-from .spiders import AlbumSpider, ArtistSpider, GenreSpider, YearSpider, TestSpider
+from .spiders import AlbumSpider, ArtistSpider, GenreSpider, YearSpider
 
 # Import utilities
 from .utils.selenium_helper import (
