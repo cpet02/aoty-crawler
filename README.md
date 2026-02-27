@@ -55,6 +55,40 @@ pip install -r ui/requirements.txt
 mkdir logs
 ```
 
+### Easy Setup (Recommended)
+
+**Windows:**
+```powershell
+setup.bat
+```
+
+**Linux/Mac:**
+```bash
+chmod +x setup.sh
+./setup.sh
+```
+
+This installs everything automatically. Then activate the venv:
+- Windows: `venv\Scripts\activate`
+- Linux/Mac: `source venv/bin/activate`
+
+### Manual Setup
+
+<details>
+<summary>Click to expand manual installation steps</summary>
+```bash
+git clone https://github.com/cpet02/aoty-crawler.git
+cd aoty-crawler
+
+python -m venv venv
+source venv/bin/activate        # Windows: venv\Scripts\activate
+
+pip install -r requirements.txt
+pip install -r ui/requirements.txt
+mkdir logs
+```
+
+</details>
 ---
 
 ## Quick Start
