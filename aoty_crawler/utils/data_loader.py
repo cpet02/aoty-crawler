@@ -276,7 +276,15 @@ def filter_albums(albums, **kwargs):
     if 'min_critic_reviews' in kwargs and kwargs['min_critic_reviews'] is not None:
         filtered = [a for a in filtered if (a.get('critic_review_count') or 0) >= kwargs['min_critic_reviews']]
         print(f"🔍 Filtered by min critic reviews ≥ {kwargs['min_critic_reviews']} → {len(filtered)} albums")
-    
+
+    if 'max_critic_reviews' in kwargs and kwargs['max_critic_reviews'] is not None:
+        filtered = [a for a in filtered if (a.get('critic_review_count') or 0) <= kwargs['max_critic_reviews']]
+        print(f"🔍 Filtered by max critic reviews ≤ {kwargs['max_critic_reviews']} → {len(filtered)} albums")
+
+    if 'max_user_reviews' in kwargs and kwargs['max_user_reviews'] is not None:
+        filtered = [a for a in filtered if (a.get('user_review_count') or 0) <= kwargs['max_user_reviews']]
+        print(f"🔍 Filtered by max user reviews ≤ {kwargs['max_user_reviews']} → {len(filtered)} albums")
+
     # Filter by year
     if 'year' in kwargs and kwargs['year'] is not None:
         filtered = [a for a in filtered if a.get('scrape_year') == kwargs['year']]

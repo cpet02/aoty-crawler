@@ -250,14 +250,20 @@ class ProductionSpider(scrapy.Spider):
         genre_slug = response.meta['genre_slug']
         year = response.meta['year']
         albums_scraped_this_page = response.meta.get('albums_scraped_this_page', 0)
-        
-        self.logger.info(f"\nParsing ratings page: {genre_name} - {year}")
+        page_num = response.meta.get('page_num', 1)
+
+        self.logger.info(f"\nParsing ratings page: {genre_name} - {year} (page {page_num})")
         self.logger.info(f"URL: {response.url}")
-        
+
         # Extract album links
         album_links = response.css('.albumListRow .albumListTitle a::attr(href)').getall()
         self.logger.info(f"Found {len(album_links)} album links on this page")
-        
+
+        # If no albums found, we've gone past the last page - stop
+        if not album_links:
+            self.logger.info(f"No albums found on page {page_num}, stopping pagination")
+            return
+
         # Filter out already scraped URLs in resume mode
         if self.resume_mode:
             filtered_links = []
@@ -267,28 +273,25 @@ class ProductionSpider(scrapy.Spider):
                     filtered_links.append(link)
                 else:
                     self.logger.info(f"  Skipping already scraped: {full_url}")
-            
             album_links = filtered_links
             self.logger.info(f"After filtering: {len(album_links)} new albums to scrape")
-        
+
         # Limit number of albums based on configuration
         albums_to_scrape = min(
             len(album_links),
             self.albums_per_year - albums_scraped_this_page
         )
-        
+
         if albums_to_scrape <= 0:
             self.logger.info(f"Reached album limit for {genre_name} {year}")
             return
-        
+
         self.logger.info(f"Will scrape {albums_to_scrape} albums from this page")
-        
-        # Follow album links
+
         for i, album_link in enumerate(album_links[:albums_to_scrape]):
             full_album_url = response.urljoin(album_link)
-            
-            self.logger.info(f"  [{i+1}/{albums_to_scrape}] Album: {full_album_url}")
-            
+            self.logger.info(f"  [{albums_scraped_this_page + i + 1}/{self.albums_per_year}] Album: {full_album_url}")
+
             yield scrapy.Request(
                 url=full_album_url,
                 callback=self.parse_album_page,
@@ -299,20 +302,23 @@ class ProductionSpider(scrapy.Spider):
                     'album_number': albums_scraped_this_page + i + 1
                 }
             )
-        
-        # Check for pagination (next page)
-        next_page = response.css('a.next::attr(href)').get()
-        if next_page and albums_scraped_this_page + len(album_links) < self.albums_per_year:
-            self.logger.info(f"Found next page: {next_page}")
-            
+
+        # Paginate if we still need more albums
+        total_scraped = albums_scraped_this_page + len(album_links)
+        if total_scraped < self.albums_per_year:
+            next_page_num = page_num + 1
+            next_url = f"https://www.albumoftheyear.org/ratings/user-highest-rated/{year}/{genre_slug}/{next_page_num}/"
+            self.logger.info(f"Need more albums ({total_scraped}/{self.albums_per_year}), fetching page {next_page_num}: {next_url}")
+
             yield scrapy.Request(
-                url=response.urljoin(next_page),
+                url=next_url,
                 callback=self.parse_ratings_page,
                 meta={
                     'genre_name': genre_name,
                     'genre_slug': genre_slug,
                     'year': year,
-                    'albums_scraped_this_page': albums_scraped_this_page + len(album_links)
+                    'albums_scraped_this_page': total_scraped,
+                    'page_num': next_page_num
                 }
             )
     

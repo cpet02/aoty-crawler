@@ -5159,7 +5159,9 @@
         "V-Pop",
         "Vocal Surf",
         "Yakousei",
-        "Yé-yé"
+        "Yé-yé",
+        "Garage Punk",
+        "Post-Grunge"
       ],
       "discovered_at": "initial",
       "source": "hardcoded"
@@ -7696,6 +7698,60 @@
       "type": "child",
       "parent": "Ambient Pop",
       "discovered_at": "2026-02-24T13:32:18.292148",
+      "source": "auto-discovered"
+    },
+    "Klezmer": {
+      "type": "child",
+      "parent": null,
+      "discovered_at": "2026-02-26T17:49:15.073062",
+      "source": "auto-discovered"
+    },
+    "Mandopop": {
+      "type": "child",
+      "parent": null,
+      "discovered_at": "2026-02-26T17:49:15.083062",
+      "source": "auto-discovered"
+    },
+    "Post-Britpop": {
+      "type": "child",
+      "parent": null,
+      "discovered_at": "2026-02-26T17:49:15.092068",
+      "source": "auto-discovered"
+    },
+    "Latin Alternative": {
+      "type": "child",
+      "parent": null,
+      "discovered_at": "2026-02-26T17:49:15.102063",
+      "source": "auto-discovered"
+    },
+    "Bedroom Pop": {
+      "type": "child",
+      "parent": null,
+      "discovered_at": "2026-02-26T18:36:15.814552",
+      "source": "auto-discovered"
+    },
+    "Progressive Folk": {
+      "type": "child",
+      "parent": null,
+      "discovered_at": "2026-02-26T18:36:15.824521",
+      "source": "auto-discovered"
+    },
+    "Neo-Acoustic": {
+      "type": "child",
+      "parent": null,
+      "discovered_at": "2026-02-26T18:36:15.834519",
+      "source": "auto-discovered"
+    },
+    "Garage Punk": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "2026-02-26T19:41:00.797277",
+      "source": "auto-discovered"
+    },
+    "Post-Grunge": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "2026-02-26T19:41:00.807272",
       "source": "auto-discovered"
     }
   }

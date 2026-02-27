@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Streamlit UI for AOTY Crawler - FIXED GENRE SELECTION
+Streamlit UI for AOTY Crawler - FIXED GENRE SELECTION WITH RATING FILTERS
 """
 
 import sys
@@ -66,6 +66,64 @@ with st.sidebar:
     with col2:
         min_user_score = st.number_input("Min User Score", min_value=0.0, max_value=100.0, value=0.0, step=1.0)
     
+    # Critic review count filters
+    if albums:
+        data_max_critic_reviews = int(max((album.get('critic_review_count') or 0) for album in albums))
+    else:
+        data_max_critic_reviews = 1000
+
+    st.caption("Critic Reviews")
+    col1, col2 = st.columns(2)
+    with col1:
+        min_critic_reviews = st.number_input(
+            "Min",
+            min_value=0,
+            max_value=data_max_critic_reviews,
+            value=0,
+            step=5,
+            key="min_critic_reviews",
+            help="Minimum number of critic reviews"
+        )
+    with col2:
+        max_critic_reviews_filter = st.number_input(
+            "Max",
+            min_value=0,
+            max_value=data_max_critic_reviews,
+            value=data_max_critic_reviews,
+            step=5,
+            key="max_critic_reviews",
+            help="Maximum number of critic reviews"
+        )
+
+    # User review count filters
+    if albums:
+        data_max_user_reviews = int(max((album.get('user_review_count') or 0) for album in albums))
+    else:
+        data_max_user_reviews = 1000
+
+    st.caption("User Reviews")
+    col1, col2 = st.columns(2)
+    with col1:
+        min_user_reviews = st.number_input(
+            "Min",
+            min_value=0,
+            max_value=data_max_user_reviews,
+            value=0,
+            step=10,
+            key="min_user_reviews",
+            help="Minimum number of user reviews"
+        )
+    with col2:
+        max_user_reviews_filter = st.number_input(
+            "Max",
+            min_value=0,
+            max_value=data_max_user_reviews,
+            value=data_max_user_reviews,
+            step=10,
+            key="max_user_reviews",
+            help="Maximum number of user reviews"
+        )
+    
     if albums:
         min_year = min((album.get('scrape_year') or 2026) for album in albums)
         max_year = max((album.get('scrape_year') or 2026) for album in albums)
@@ -79,9 +137,13 @@ with st.sidebar:
         genres=selected_genres if selected_genres else None,
         min_score=min_critic_score if min_critic_score > 0 else None,
         min_user_score=min_user_score if min_user_score > 0 else None,
+        min_critic_reviews=min_critic_reviews if min_critic_reviews > 0 else None,
+        max_critic_reviews=max_critic_reviews_filter if max_critic_reviews_filter < data_max_critic_reviews else None,
+        min_user_reviews=min_user_reviews if min_user_reviews > 0 else None,
+        max_user_reviews=max_user_reviews_filter if max_user_reviews_filter < data_max_user_reviews else None,
         year=int(selected_year) if selected_year != "All" else None
     )
-    
+
     st.markdown("---")
     st.header("🚀 Start New Scrape")
     
@@ -120,7 +182,7 @@ with st.sidebar:
     st.info(f"📌 Selected Genre: **{selected_scrape_genre}**")
     
     scrape_start_year = st.number_input("Start Year", min_value=1800, max_value=2030, value=2026)
-    scrape_years_back = st.number_input("Years Back", min_value=1, max_value=10, value=1)
+    scrape_years_back = st.number_input("Years Back", min_value=1, max_value=50, value=1)
     scrape_albums_per_year = st.number_input("Albums per Year", min_value=1, max_value=500, value=250)
     scrape_test_mode = st.checkbox("Test Mode", value=False)
     scrape_limit = st.number_input("Limit (test mode)", min_value=1, max_value=100, value=10)
