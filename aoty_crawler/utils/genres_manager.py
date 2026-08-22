@@ -6,9 +6,12 @@ Automatically discovers and persists new genres from scraped data
 import json
 import os
 from pathlib import Path
-from genres_hierarchy import GENRE_HIERARCHY
+from aoty_crawler.utils.genres_hierarchy import GENRE_HIERARCHY
 
-# Path to persistent genre storage
+# Path to persistent genre storage. Kept alongside this module (not under
+# data/, which is entirely gitignored) since this file ships a bundled seed
+# list that's meant to be tracked in git, then grows in place as scrapes
+# discover new genres.
 GENRES_DB_PATH = Path(__file__).parent / "genres_db.json"
 
 class GenresManager:
@@ -100,14 +103,14 @@ class GenresManager:
         for album in albums:
             # Check scrape_genre (parent genre used for scraping)
             scrape_genre = album.get('scrape_genre')
-            if scrape_genre and scrape_genre not in self.genres_db["genres"]:
+            if scrape_genre and not self._find_existing_name(scrape_genre):
                 new_genres.append(scrape_genre)
                 self.add_genre(scrape_genre, genre_type="parent")
-            
+
             # Check genres (actual genres from album page)
             genres = album.get('genres', [])
             for genre in genres:
-                if genre not in self.genres_db["genres"]:
+                if not self._find_existing_name(genre):
                     new_genres.append(genre)
                     # Try to infer parent if it matches a known parent
                     parent = self._infer_parent(genre, scrape_genre)
@@ -119,6 +122,21 @@ class GenresManager:
             "new_children": list(set(new_children))
         }
     
+    def _find_existing_name(self, genre_name):
+        """Case-insensitive lookup for an already-known genre.
+
+        Genre names arrive from different sources with inconsistent casing
+        (the CLI's raw --genre argument, AOTY page text, the bundled
+        hierarchy), so a plain dict-key check would let e.g. "rock" and
+        "Rock" coexist as two separate genres. Returns the existing
+        canonical name if found, else None.
+        """
+        genre_name_lower = genre_name.lower()
+        for existing_name in self.genres_db["genres"]:
+            if existing_name.lower() == genre_name_lower:
+                return existing_name
+        return None
+
     def _infer_parent(self, genre, scrape_genre=None):
         """Try to infer parent genre for a new genre"""
         # If scrape_genre is a known parent, use it
@@ -138,9 +156,9 @@ class GenresManager:
             genre_type: "parent" or "child"
             parent: Parent genre name (for child genres)
         """
-        if genre_name in self.genres_db["genres"]:
-            return  # Already exists
-        
+        if self._find_existing_name(genre_name):
+            return  # Already exists (case-insensitive)
+
         from datetime import datetime
         
         if genre_type == "parent":

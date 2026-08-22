@@ -35,14 +35,17 @@ class SeleniumMiddleware:
         
         middleware = cls(timeout=timeout, headless=headless)
         crawler.signals.connect(middleware.spider_closed, signal=signals.spider_closed)
-        
+
         return middleware
-    
-    def spider_opened(self, spider):
-        """Initialize Selenium driver when spider opens"""
-        spider.logger.info("Initializing Selenium driver...")
-        self.driver = self._create_driver()
-    
+
+    def _ensure_driver(self, spider):
+        """Lazily create the Selenium driver on first use so spiders that never
+        request Selenium rendering don't pay the cost of launching Chrome."""
+        if self.driver is None:
+            spider.logger.info("Initializing Selenium driver...")
+            self.driver = self._create_driver()
+        return self.driver
+
     def _create_driver(self):
         """Create and configure Chrome driver with undetected-chromedriver"""
         options = uc.ChromeOptions()
@@ -73,18 +76,19 @@ class SeleniumMiddleware:
         
         try:
             spider.logger.info(f"Rendering {request.url} with Selenium...")
-            
+            driver = self._ensure_driver(spider)
+
             # Navigate to URL
-            self.driver.get(request.url)
-            
+            driver.get(request.url)
+
             # Wait for page to load
-            self.driver.implicitly_wait(self.timeout)
+            driver.implicitly_wait(self.timeout)
             
             # Add random delays to avoid detection
             time.sleep(random.uniform(2, 4))
             
             # Get page source
-            body = self.driver.page_source
+            body = driver.page_source
             
             # Return HtmlResponse with rendered content
             return HtmlResponse(

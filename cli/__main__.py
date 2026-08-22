@@ -51,6 +51,7 @@ Examples:
     scrape_parser.add_argument('--output-dir', '-o', help='Output directory for scraped data')
     scrape_parser.add_argument('--resume', action='store_true', help='Resume from previous scrape')
     scrape_parser.add_argument('--resume-file', help='File to resume from (default: latest JSON in output dir)')
+    scrape_parser.add_argument('--job-id', help='Job id to track this run under (default: auto-generated timestamp)')
     
     # List genres command
     list_genres_parser = subparsers.add_parser('list-genres', help='List available genres without scraping')
@@ -68,16 +69,13 @@ Examples:
     
     # Export command
     export_parser = subparsers.add_parser('export', help='Export data')
-    export_parser.add_argument('--format', '-f', choices=['csv', 'json', 'sqlite'], default='csv', help='Export format')
+    export_parser.add_argument('--format', '-f', choices=['csv', 'json'], default='csv', help='Export format')
     export_parser.add_argument('--output', '-o', required=True, help='Output file path')
     export_parser.add_argument('--genres', help='Filter by genres')
-    
+
     # Stats command
-    stats_parser = subparsers.add_parser('stats', help='Show database statistics')
-    
-    # Init command
-    init_parser = subparsers.add_parser('init', help='Initialize database')
-    
+    stats_parser = subparsers.add_parser('stats', help='Show statistics from scraped data')
+
     args = parser.parse_args()
     
     if not args.command:
@@ -97,8 +95,6 @@ Examples:
             return cmd_export(args)
         elif args.command == 'stats':
             return cmd_stats(args)
-        elif args.command == 'init':
-            return cmd_init(args)
         else:
             parser.print_help()
             return 1
@@ -120,21 +116,12 @@ def cmd_crawl(args):
     # Import Scrapy components
     from scrapy.crawler import CrawlerProcess
     from scrapy.utils.project import get_project_settings
-    from aoty_crawler.spiders import TestSpider, HtmlDebugSpider, GenreTestSpider, ComprehensiveAlbumSpider, ProductionSpider, ProductionTestSpider, AlbumSpider, ArtistSpider, GenreSpider, YearSpider
-    
+    from aoty_crawler.spiders import ComprehensiveAlbumSpider, ProductionSpider
+
     # Map spider names to classes
     spider_map = {
-        'test': TestSpider,
-        'debug': DebugSpider,
-        'html_debug': HtmlDebugSpider,
-        'genre_test': GenreTestSpider,
         'comprehensive_album': ComprehensiveAlbumSpider,
         'production': ProductionSpider,
-        'production_test': ProductionTestSpider,
-        'album': AlbumSpider,
-        'artist': ArtistSpider,
-        'genre': GenreSpider,
-        'year': YearSpider
     }
     
     # Get spider class
@@ -169,9 +156,13 @@ def cmd_scrape(args):
     from scrapy.crawler import CrawlerProcess
     from scrapy.utils.project import get_project_settings
     from aoty_crawler.spiders import ProductionSpider
-    
+    from aoty_crawler.utils import job_tracker
+
     # Get settings
     settings = get_project_settings()
+
+    job_id = args.job_id or job_tracker.new_job_id()
+    logger.info(f"Job ID: {job_id}")
     
     # Configure output directory
     if args.output_dir:
@@ -192,6 +183,7 @@ def cmd_scrape(args):
     # Configure spider parameters
     spider_kwargs = {
         'test_mode': args.test_mode,
+        'job_id': job_id,
     }
     
     if args.genre:
@@ -233,60 +225,25 @@ def cmd_scrape(args):
 
 
 def cmd_list_genres(args):
-    """Handle list-genres command - list available genres without scraping"""
-    logger.info("Fetching available genres from AOTY...")
-    
-    # Hardcoded genre list (updated from actual AOTY genre.php page)
-    # This avoids 403 errors and is more reliable since genres rarely change
-    genres = [
-        {'name': 'Alternative Rock', 'slug': 'alternative-rock'},
-        {'name': 'Ambient', 'slug': 'ambient'},
-        {'name': 'Ambient Pop', 'slug': 'ambient-pop'},
-        {'name': 'Art Pop', 'slug': 'art-pop'},
-        {'name': 'Black Metal', 'slug': 'black-metal'},
-        {'name': 'Children\'s Music', 'slug': 'childrens-music'},
-        {'name': 'Contemporary Folk', 'slug': 'contemporary-folk'},
-        {'name': 'Dance', 'slug': 'dance'},
-        {'name': 'DJ Mix', 'slug': 'dj-mix'},
-        {'name': 'Easy Listening', 'slug': 'easy-listening'},
-        {'name': 'Electronic', 'slug': 'electronic'},
-        {'name': 'Electronic Dance Music', 'slug': 'electronic-dance-music'},
-        {'name': 'Epic Collage', 'slug': 'epic-collage'},
-        {'name': 'Field Recordings', 'slug': 'field-recordings'},
-        {'name': 'Folk', 'slug': 'folk'},
-        {'name': 'Glitch Pop', 'slug': 'glitch-pop'},
-        {'name': 'Hardcore Punk', 'slug': 'hardcore-punk'},
-        {'name': 'Hip Hop', 'slug': 'hip-hop'},
-        {'name': 'Hypnagogic Pop', 'slug': 'hypnagogic-pop'},
-        {'name': 'Indie Pop', 'slug': 'indie-pop'},
-        {'name': 'Indie Rock', 'slug': 'indie-rock'},
-        {'name': 'Marching Band', 'slug': 'marching-band'},
-        {'name': 'Metal', 'slug': 'metal'},
-        {'name': 'Musical Parody', 'slug': 'musical-parody'},
-        {'name': 'Musical Theatre & Entertainment', 'slug': 'musical-theatre-and-entertainment'},
-        {'name': 'New Age', 'slug': 'new-age'},
-        {'name': 'Pop', 'slug': 'pop'},
-        {'name': 'Pop Rap', 'slug': 'pop-rap'},
-        {'name': 'Pop Rock', 'slug': 'pop-rock'},
-        {'name': 'Punk', 'slug': 'punk'},
-        {'name': 'R&B', 'slug': 'r-and-b'},
-        {'name': 'Rock', 'slug': 'rock'},
-        {'name': 'Singer-Songwriter', 'slug': 'singer-songwriter'},
-        {'name': 'Sound Effects', 'slug': 'sound-effects'},
-        {'name': 'Spoken Word', 'slug': 'spoken-word'},
-        {'name': 'Western Classical Music', 'slug': 'western-classical-music'},
-    ]
-    
-    # Sort alphabetically
+    """Handle list-genres command - list available genres without scraping
+
+    Reads from the same genre catalog the UI's genre picker uses
+    (aoty_crawler.utils.genres_manager, backed by data/genres_db.json), so
+    the two never drift apart. That catalog starts from a hardcoded
+    hierarchy and grows as scrapes discover new genres.
+    """
+    from aoty_crawler.utils.genres_manager import get_all_genres
+
+    genre_names = get_all_genres()
+    genres = [{'name': name, 'slug': name.lower().replace(' ', '-')} for name in genre_names]
     genres.sort(key=lambda x: x['name'].lower())
-    
-    # Display results
+
     logger.info(f"Found {len(genres)} genres:")
     logger.info("=" * 60)
-    
+
     for i, genre in enumerate(genres, 1):
         logger.info(f"{i:3d}. {genre['name']:30s} (slug: {genre['slug']})")
-    
+
     logger.info("=" * 60)
     logger.info("To scrape a specific genre, use:")
     logger.info(f"  python -m cli scrape --genre rock")
@@ -381,68 +338,51 @@ def cmd_search(args):
 
 
 def cmd_export(args):
-    """Handle export command"""
+    """Handle export command - export scraped data (from data/output/) to a single file"""
     logger.info(f"Exporting data to {args.output}...")
-    
-    # Import database models
-    from database.models import (
-        Album, Artist, Genre, Review, get_session, create_database_engine
-    )
+
+    from aoty_crawler.utils.data_loader import load_all_albums, filter_albums
     import pandas as pd
-    
-    # Create database session
-    engine = create_database_engine()
-    session = get_session(engine)
-    
+
     try:
-        # Get all albums
-        albums = session.query(Album).all()
-        
+        albums = load_all_albums()
+
+        if not albums:
+            logger.info("No albums found. Run 'python -m cli scrape' to scrape data first.")
+            return 0
+
+        if args.genres:
+            genres = [g.strip() for g in args.genres.split(',')]
+            albums = filter_albums(albums, genres=genres)
+
         if not albums:
             logger.info("No albums found to export.")
             return 0
-        
-        # Prepare data for export
+
+        # Flatten list fields for tabular export
         data = []
         for album in albums:
-            album_data = {
-                'title': album.title,
-                'artist': album.artist.name if album.artist else 'Unknown',
-                'critic_score': album.critic_score,
-                'user_score': album.user_score,
-                'review_count': album.review_count,
-                'release_year': album.release_date.year if album.release_date else None,
-                'genres': ', '.join(g.name for g in album.genres),
-                'url': album.url,
-                'scraped_at': album.scraped_at
-            }
-            data.append(album_data)
-        
-        # Create DataFrame
+            row = dict(album)
+            for field in ('genres', 'genre_tags'):
+                if isinstance(row.get(field), list):
+                    row[field] = ', '.join(row[field])
+            data.append(row)
+
         df = pd.DataFrame(data)
-        
-        # Export based on format
+
         if args.format == 'csv':
             df.to_csv(args.output, index=False)
-            logger.info(f"Exported {len(df)} albums to CSV: {args.output}")
         elif args.format == 'json':
             df.to_json(args.output, orient='records', indent=2)
-            logger.info(f"Exported {len(df)} albums to JSON: {args.output}")
-        elif args.format == 'sqlite':
-            # Export to new SQLite database
-            import sqlite3
-            conn = sqlite3.connect(args.output)
-            df.to_sql('albums', conn, index=False, if_exists='replace')
-            conn.close()
-            logger.info(f"Exported {len(df)} albums to SQLite: {args.output}")
-        
+
+        logger.info(f"Exported {len(df)} albums to {args.format.upper()}: {args.output}")
         return 0
-        
+
     except Exception as e:
         logger.error(f"Export error: {e}")
+        import traceback
+        traceback.print_exc()
         return 1
-    finally:
-        session.close()
 
 
 def cmd_stats(args):
@@ -541,20 +481,6 @@ def cmd_stats(args):
         logger.error(f"Stats error: {e}")
         import traceback
         traceback.print_exc()
-        return 1
-
-
-def cmd_init(args):
-    """Handle init command"""
-    logger.info("Initializing database...")
-    
-    try:
-        from database.models import init_database
-        init_database()
-        logger.info("Database initialized successfully!")
-        return 0
-    except Exception as e:
-        logger.error(f"Initialization error: {e}")
         return 1
 
 

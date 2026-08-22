@@ -5,35 +5,13 @@ streamlit>=1.28.0
 scrapy==2.11.0
 selenium==4.17.2
 undetected-chromedriver==3.5.5
-beautifulsoup4==4.12.3
 lxml==5.2.0
-
-# HTTP & Session Management
-requests==2.31.0
-urllib3==2.1.0
-
-# Database
-sqlalchemy==2.0.25
-alembic==1.13.1
 
 # Data Processing
 pandas>=2.2.0
-numpy>=2.0.0
-
-# Rate Limiting & Retry
-tenacity==8.2.3
-
-# Logging & Monitoring
-loguru==0.7.2
-
-# Configuration
-python-dotenv==1.0.0
-pydantic>=2.9.0
 
 # Testing
 pytest==7.4.4
-pytest-asyncio==0.23.2
 
-# Additional utilities
-python-dateutil==2.8.2
+# Timezone data (pandas needs this explicitly on some platforms, e.g. Windows)
 tzdata==2023.3

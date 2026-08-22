@@ -10,14 +10,28 @@ import os
 import json
 from datetime import datetime
 from aoty_crawler.items import AlbumItem
+from aoty_crawler.spiders.album_extraction import AlbumExtractionMixin
+from aoty_crawler.utils import job_tracker
+
+# Non-genre links that turn up alongside real genre links on genre.php,
+# keyed by their visible link text (lowercased). Used only by the "scrape
+# ALL genres" path (parse_genre_page) below, which the UI doesn't currently
+# expose (it always targets a single genre) — this list exists for whenever
+# that path gets exercised again.
+NON_GENRE_LINK_TEXTS = {
+    'view more', 'similar artists', 'follow', 'on this day', 'newsworthy',
+    'user updates', 'site updates', 'privacy policy', 'contact us',
+    'ad-free', 'highest rated', 'must hear albums', 'year end lists',
+    'new releases', 'random',
+}
 
 
-class ProductionSpider(scrapy.Spider):
+class ProductionSpider(AlbumExtractionMixin, scrapy.Spider):
     name = "production"
     allowed_domains = ["albumoftheyear.org"]
-    
+
     # Configuration (can be overridden via CLI)
-    DEFAULT_START_YEAR = 2026
+    DEFAULT_START_YEAR = datetime.utcnow().year
     DEFAULT_YEARS_BACK = 1
     DEFAULT_ALBUMS_PER_YEAR = 10  # Small for testing, increase to 250 for production
     DEFAULT_GENRE = None  # None = scrape all genres
@@ -29,11 +43,11 @@ class ProductionSpider(scrapy.Spider):
         'CONCURRENT_REQUESTS': 1,
     }
     
-    def __init__(self, genre=None, start_year=None, years_back=None, 
-                 albums_per_year=None, test_mode=False, resume=False, 
-                 resume_file=None, *args, **kwargs):
+    def __init__(self, genre=None, start_year=None, years_back=None,
+                 albums_per_year=None, test_mode=False, resume=False,
+                 resume_file=None, job_id=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        
+
         # Set configuration
         self.target_genre = genre or self.DEFAULT_GENRE
         self.start_year = int(start_year) if start_year else self.DEFAULT_START_YEAR
@@ -41,19 +55,27 @@ class ProductionSpider(scrapy.Spider):
         self.albums_per_year = int(albums_per_year) if albums_per_year else self.DEFAULT_ALBUMS_PER_YEAR
         self.test_mode = test_mode
         self.resume_mode = resume
-        
+
         # Calculate year range
         self.end_year = self.start_year - self.years_back + 1
-        
+
         # Track progress
         self.albums_scraped = 0
         self.genres_scraped = 0
-        
+
+        # Job tracking (completion-based progress, written for any UI to poll)
+        self.job_id = job_id or job_tracker.new_job_id()
+        # A single genre is targeted for the vast majority of runs, so the
+        # total amount of work is known up front. When scraping ALL genres
+        # the total isn't knowable until genre.php is parsed, so leave it
+        # unset (None) and let consumers treat that as "unbounded".
+        self.job_target_total = self.albums_per_year * self.years_back if self.target_genre else None
+
         # Resume functionality
         self.scraped_urls = set()
         if self.resume_mode:
             self._load_resume_data(resume_file)
-        
+
         self.logger.info(f"\n{'='*60}")
         self.logger.info("PRODUCTION SPIDER CONFIGURATION")
         self.logger.info(f"{'='*60}")
@@ -97,6 +119,24 @@ class ProductionSpider(scrapy.Spider):
     
     def start_requests(self):
         """Start requests - bypass genre.php when target genre is specified"""
+        # Absolute so the job status file's location doesn't depend on this
+        # process's cwd (see the matching note in pipelines.py).
+        self.output_dir = os.path.abspath(self.settings.get('OUTPUT_DIR', 'data/output'))
+        self.jobs_dir = job_tracker.jobs_dir_for(self.output_dir)
+        job_tracker.create_job(
+            self.job_id,
+            self.jobs_dir,
+            params={
+                'genre': self.target_genre,
+                'start_year': self.start_year,
+                'end_year': self.end_year,
+                'years_back': self.years_back,
+                'albums_per_year': self.albums_per_year,
+                'test_mode': self.test_mode,
+            },
+            target_total=self.job_target_total,
+        )
+
         if self.target_genre:
             # Bypass genre.php entirely - construct URL directly from genre name
             slug = self.target_genre.lower().replace(' ', '-')
@@ -142,10 +182,7 @@ class ProductionSpider(scrapy.Spider):
             
             # Get all genre links
             all_links = response.css('a[href*="/genre/"]::attr(href)').getall()
-            
-            # Filter out common non-genre links
-            excluded_texts = ['view more', 'similar artists', 'follow', 'on this day', 'newsworthy', 'user updates', 'site updates', 'privacy policy', 'contact us', 'ad-free', 'highest rated', 'must hear albums', 'year end lists', 'new releases', 'random']
-            
+
             for href in all_links:
                 # Skip if it's a genre list page (we want individual genre pages)
                 if '/genre/list' in href or '/genre.php' in href:
@@ -179,7 +216,7 @@ class ProductionSpider(scrapy.Spider):
                 continue
             
             # Skip "View More" links and non-genre links
-            if text.lower() in ['view more', 'similar artists', 'follow', 'on this day', 'newsworthy', 'user updates', 'site updates', 'privacy policy', 'contact us']:
+            if text.lower() in NON_GENRE_LINK_TEXTS:
                 continue
             
             # Extract genre slug from URL: /genre/7-rock/ -> "rock"
@@ -254,6 +291,11 @@ class ProductionSpider(scrapy.Spider):
 
         self.logger.info(f"\nParsing ratings page: {genre_name} - {year} (page {page_num})")
         self.logger.info(f"URL: {response.url}")
+
+        job_tracker.update_job(
+            self.job_id, self.jobs_dir,
+            current_genre=genre_name, current_year=year,
+        )
 
         # Extract album links
         album_links = response.css('.albumListRow .albumListTitle a::attr(href)').getall()
@@ -335,43 +377,8 @@ class ProductionSpider(scrapy.Spider):
         album = AlbumItem()
         album['url'] = response.url
         album['scraped_at'] = datetime.utcnow()
-        
-        # Extract AOTY ID from URL
-        album['aoty_id'] = self._extract_aoty_id(response.url)
-        
-        # 1. Extract Album Title
-        album['title'] = self._extract_album_title(response)
-        
-        # 2. Extract Artist Name
-        album['artist_name'] = self._extract_artist_name(response)
-        
-        # 3. Extract Release Date
-        album['release_date'] = self._extract_release_date(response)
-        
-        # 4. Extract Critic Score
-        album['critic_score'] = self._extract_critic_score(response)
-        
-        # 5. Extract User Score
-        album['user_score'] = self._extract_user_score(response)
-        
-        # 6. Extract Critic Review Count
-        album['critic_review_count'] = self._extract_critic_review_count(response)
-        
-        # 7. Extract User Review Count
-        album['user_review_count'] = self._extract_user_review_count(response)
-        
-        # 8. Extract Genres
-        album['genres'] = self._extract_genres(response)
-        
-        # 9. Extract Genre Tags (secondary genres)
-        album['genre_tags'] = self._extract_genre_tags(response)
-        
-        # 10. Extract Cover Image URL
-        album['cover_image_url'] = self._extract_cover_image(response)
-        
-        # 11. Extract Description
-        album['description'] = self._extract_description(response)
-        
+        self._extract_album_fields(response, album)
+
         # Add metadata
         album['scrape_genre'] = genre_name
         album['scrape_year'] = year
@@ -386,218 +393,15 @@ class ProductionSpider(scrapy.Spider):
         # Log progress
         self.logger.info(f"  ✓ Extracted: {album.get('title', 'Unknown')} by {album.get('artist_name', 'Unknown')}")
         self.logger.info(f"  Total albums scraped: {self.albums_scraped}")
-        
+
+        job_tracker.update_job(
+            self.job_id, self.jobs_dir,
+            completed=self.albums_scraped,
+            current_genre=genre_name, current_year=year,
+        )
+
         yield album
-    
-    # ===== EXTRACTION METHODS (reused from comprehensive_album_spider) =====
-    
-    def _extract_aoty_id(self, url):
-        """Extract AOTY ID from URL"""
-        match = re.search(r'/album/(\d+-[^/]+)\.php', url)
-        if match:
-            return match.group(1)
-        return None
-    
-    def _extract_album_title(self, response):
-        """Extract album title"""
-        selectors = [
-            'h1.albumTitle span[itemprop="name"]::text',
-            'meta[property="og:title"]::attr(content)',
-            'h1::text',
-        ]
-        
-        for selector in selectors:
-            title = response.css(selector).get()
-            if title:
-                if ' - ' in title:
-                    title = title.split(' - ', 1)[1].strip()
-                return title.strip()
-        
-        return None
-    
-    def _extract_artist_name(self, response):
-        """Extract artist name"""
-        selectors = [
-            '[itemprop="byArtist"] span[itemprop="name"] a::text',
-            '.artist a::text',
-            'meta[property="og:title"]::attr(content)',
-        ]
-        
-        for selector in selectors:
-            artist = response.css(selector).get()
-            if artist:
-                if ' - ' in artist:
-                    artist = artist.split(' - ', 1)[0].strip()
-                if artist.lower() not in ['discography', 'submit correction']:
-                    return artist.strip()
-        
-        return None
-    
-    def _extract_release_date(self, response):
-        """Extract release date"""
-        # Try to find release date in detail rows
-        detail_rows = response.css('.detailRow')
-        for row in detail_rows:
-            row_text = ' '.join(row.css('::text').getall())
-            if 'Release Date' in row_text:
-                # Extract date from this row
-                date_match = re.search(r'>([A-Za-z]+)\s+(\d+),\s+(\d{4})<', row.get())
-                if date_match:
-                    month, day, year = date_match.groups()
-                    return f"{month} {day}, {year}"
-        
-        # Fallback: try to extract from release links
-        date_parts = response.css('.detailRow a[href*="/releases/"]::text').getall()
-        if len(date_parts) >= 2:
-            month = date_parts[0]
-            year = date_parts[1].strip()
-            # Try to find day from any detail row
-            detail_text = ' '.join(response.css('.detailRow::text').getall())
-            day_match = re.search(r'(\d+),', detail_text)
-            day = day_match.group(1) if day_match else "1"
-            return f"{month} {day}, {year}"
-        
-        return None
-    
-    def _extract_critic_score(self, response):
-        """Extract critic score"""
-        score = response.css('[itemprop="ratingValue"] a::text').get()
-        if score:
-            try:
-                return float(score)
-            except ValueError:
-                return None
-        return None
-    
-    def _extract_user_score(self, response):
-        """Extract user score"""
-        score = response.css('.albumUserScore a::text').get()
-        if score:
-            try:
-                return float(score)
-            except ValueError:
-                return None
-        
-        ratings = response.css('.rating::text').getall()
-        for rating in ratings:
-            if rating.strip() and rating.strip() != 'NR':
-                try:
-                    return float(rating.strip())
-                except ValueError:
-                    continue
-        
-        return None
-    
-    def _extract_critic_review_count(self, response):
-        """Extract critic review count"""
-        count = response.css('meta[itemprop="reviewCount"]::attr(content)').get()
-        if count:
-            try:
-                return int(count)
-            except ValueError:
-                pass
-        
-        count = response.css('span[itemprop="ratingCount"]::text').get()
-        if count:
-            try:
-                return int(count)
-            except ValueError:
-                pass
-        
-        text = response.css('.albumCriticScoreBox .numReviews::text').get()
-        if text:
-            match = re.search(r'(\d+)', text)
-            if match:
-                try:
-                    return int(match.group(1))
-                except ValueError:
-                    pass
-        
-        return None
-    
-    def _extract_user_review_count(self, response):
-        """Extract user review count"""
-        # Method 1: Look for strong tag inside numReviews
-        text = response.css('.albumUserScoreBox .numReviews strong::text').get()
-        if text:
-            try:
-                # Remove commas before converting (handles "1,234" → 1234)
-                clean_text = text.replace(',', '').strip()
-                return int(clean_text)
-            except ValueError:
-                pass
-        
-        # Method 2: Look for link text with numbers
-        link_text = response.css('.albumUserScoreBox .numReviews a::text').get()
-        if link_text:
-            # Match numbers with optional commas: "2,341" or "2341"
-            match = re.search(r'([\d,]+)', link_text)
-            if match:
-                try:
-                    # Strip commas and convert: "2,341" → 2341
-                    clean_number = match.group(1).replace(',', '')
-                    return int(clean_number)
-                except ValueError:
-                    pass
-        
-        # If both methods fail, return None
-        return None
-    
-    def _extract_genres(self, response):
-        """Extract primary genres"""
-        genres = []
-        
-        meta_genres = response.css('meta[itemprop="genre"]::attr(content)').getall()
-        genres.extend(meta_genres)
-        
-        genre_links = response.css('.detailRow a[href*="/genre/"]::text').getall()
-        for genre in genre_links:
-            if genre and genre not in genres:
-                genres.append(genre.strip())
-        
-        seen = set()
-        unique_genres = []
-        for genre in genres:
-            if genre and genre not in seen:
-                seen.add(genre)
-                unique_genres.append(genre)
-        
-        return unique_genres if unique_genres else None
-    
-    def _extract_genre_tags(self, response):
-        """Extract secondary genre tags"""
-        tags = response.css('.detailRow .secondary::text').getall()
-        if tags:
-            return [tag.strip() for tag in tags if tag.strip()]
-        return None
-    
-    def _extract_cover_image(self, response):
-        """Extract cover image URL"""
-        selectors = [
-            '.albumTopBox.cover img::attr(src)',
-            'meta[property="og:image"]::attr(content)',
-            'img[alt*=" - "]::attr(src)',
-        ]
-        
-        for selector in selectors:
-            image = response.css(selector).get()
-            if image:
-                return image
-        
-        return None
-    
-    def _extract_description(self, response):
-        """Extract album description"""
-        desc = response.css('meta[name="Description"]::attr(content)').get()
-        if desc:
-            return desc
-        
-        desc = response.css('meta[property="og:description"]::attr(content)').get()
-        if desc:
-            return desc
-        
-        return None
-    
+
     def closed(self, reason):
         """Log final statistics when spider closes"""
         self.logger.info(f"\n{'='*60}")
@@ -609,3 +413,11 @@ class ProductionSpider(scrapy.Spider):
             self.logger.info(f"Total unique URLs scraped: {len(self.scraped_urls)}")
         self.logger.info(f"Finish reason: {reason}")
         self.logger.info(f"{'='*60}")
+
+        job_tracker.update_job(
+            self.job_id, self.jobs_dir,
+            status='completed' if reason == 'finished' else 'failed',
+            completed=self.albums_scraped,
+            ended_at=datetime.utcnow().isoformat(),
+            finish_reason=reason,
+        )

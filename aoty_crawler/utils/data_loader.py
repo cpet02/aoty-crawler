@@ -7,8 +7,24 @@ Loads album data from JSON/CSV files in data/output/
 import json
 import csv
 import os
+import sys
 import glob
+import logging
 from datetime import datetime
+
+logger = logging.getLogger(__name__)
+
+# The emoji in this module's log messages crash with UnicodeEncodeError on
+# Windows consoles/subprocesses that default to a legacy codepage (e.g.
+# cp1252) instead of UTF-8. Force UTF-8 output where the runtime supports it
+# (Python 3.7+) so this module works the same regardless of the caller's
+# console encoding (e.g. when run as a Streamlit subprocess).
+for _stream in (sys.stdout, sys.stderr):
+    if hasattr(_stream, 'reconfigure'):
+        try:
+            _stream.reconfigure(encoding='utf-8')
+        except Exception:
+            pass
 
 
 def load_albums_from_json(json_file_path):
@@ -44,11 +60,11 @@ def load_albums_from_json(json_file_path):
                 else:
                     album[field] = 0 if field != 'scrape_year' else None
         
-        print(f"✅ Loaded {len(albums)} albums from {json_file_path}")
+        logger.info(f"✅ Loaded {len(albums)} albums from {json_file_path}")
         return albums
-        
+
     except Exception as e:
-        print(f"❌ Error loading JSON file {json_file_path}: {e}")
+        logger.error(f"❌ Error loading JSON file {json_file_path}: {e}")
         return []
 
 
@@ -93,109 +109,122 @@ def load_albums_from_csv(csv_file_path):
                 
                 albums.append(album)
         
-        print(f"✅ Loaded {len(albums)} albums from {csv_file_path}")
+        logger.info(f"✅ Loaded {len(albums)} albums from {csv_file_path}")
         return albums
-        
+
     except Exception as e:
-        print(f"❌ Error loading CSV file {csv_file_path}: {e}")
+        logger.error(f"❌ Error loading CSV file {csv_file_path}: {e}")
         return []
 
 
-def load_all_albums(output_dir='data/output', deduplicate=True):
-    """Load all albums from all JSON/CSV files in the output directory"""
+def _dedupe_by_aoty_id(all_albums):
+    """Collapse albums sharing an aoty_id down to one, keeping whichever copy
+    has the newer `scraped_at` timestamp.
+
+    Multiple scrapes of the same album (e.g. re-running a genre/year to
+    refresh scores) all land in data/output/, so the same aoty_id can appear
+    in several files. Deciding the winner by `scraped_at` rather than by
+    "whichever file happened to load last" means the result doesn't depend
+    on file iteration order (JSON vs CSV, glob order, etc).
+    """
+    unique_albums = {}
+    for album in all_albums:
+        aoty_id = album.get('aoty_id')
+        # Only consider entries with a valid aoty_id and title
+        if not aoty_id or aoty_id == 'album' or not album.get('title'):
+            continue
+
+        existing = unique_albums.get(aoty_id)
+        if existing is None:
+            unique_albums[aoty_id] = album
+            continue
+
+        existing_ts = existing.get('scraped_at') or ''
+        new_ts = album.get('scraped_at') or ''
+        if new_ts >= existing_ts:
+            unique_albums[aoty_id] = album
+
+    duplicates_removed = len(all_albums) - len(unique_albums)
+    return list(unique_albums.values()), duplicates_removed
+
+
+def load_all_albums(output_dir='data/output', deduplicate=True, return_stats=False):
+    """Load all albums from all JSON/CSV files in the output directory.
+
+    With return_stats=True, returns (albums, stats) where stats reports how
+    many entries were dropped as duplicates vs. as invalid/placeholder data,
+    so callers can surface that to a user instead of silently hiding albums.
+    """
     all_albums = []
-    
+
     # Ensure directory exists
     if not os.path.exists(output_dir):
-        print(f"❌ Output directory not found: {output_dir}")
-        return []
-    
+        logger.warning(f"❌ Output directory not found: {output_dir}")
+        return ([], {'duplicates_removed': 0, 'invalid_removed': 0}) if return_stats else []
+
     # Find all JSON files
     json_files = glob.glob(os.path.join(output_dir, 'albums_*.json'))
-    
+
     # Find all CSV files
     csv_files = glob.glob(os.path.join(output_dir, 'albums_*.csv'))
-    
-    print(f"🔍 Found {len(json_files)} JSON files and {len(csv_files)} CSV files in {output_dir}")
-    
-    # Load from JSON files
+
+    logger.info(f"🔍 Found {len(json_files)} JSON files and {len(csv_files)} CSV files in {output_dir}")
+
     for json_file in sorted(json_files):
-        albums = load_albums_from_json(json_file)
-        all_albums.extend(albums)
-    
-    # Load from CSV files (if any)
+        all_albums.extend(load_albums_from_json(json_file))
+
     for csv_file in sorted(csv_files):
-        albums = load_albums_from_csv(csv_file)
-        all_albums.extend(albums)
-    
-    # Remove duplicates based on aoty_id (if enabled)
+        all_albums.extend(load_albums_from_csv(csv_file))
+
     if deduplicate:
-        unique_albums = {}
-        for album in all_albums:
-            aoty_id = album.get('aoty_id')
-            # Only add if we have a valid aoty_id and title
-            if aoty_id and aoty_id != 'album' and album.get('title'):
-                unique_albums[aoty_id] = album
-        
-        unique_albums_list = list(unique_albums.values())
-        duplicates_removed = len(all_albums) - len(unique_albums_list)
-        
+        unique_albums_list, duplicates_removed = _dedupe_by_aoty_id(all_albums)
         if duplicates_removed > 0:
-            print(f"🗑️  Removed {duplicates_removed} duplicate/invalid entries")
+            logger.info(f"🗑️  Removed {duplicates_removed} duplicate/invalid entries")
     else:
-        unique_albums_list = all_albums
-    
-    # Filter out invalid/placeholder albums
+        unique_albums_list, duplicates_removed = all_albums, 0
+
     valid_albums = filter_invalid_albums(unique_albums_list)
-    
-    print(f"📊 Total valid albums loaded: {len(valid_albums)}")
+    invalid_removed = len(unique_albums_list) - len(valid_albums)
+
+    logger.info(f"📊 Total valid albums loaded: {len(valid_albums)}")
+
+    if return_stats:
+        return valid_albums, {'duplicates_removed': duplicates_removed, 'invalid_removed': invalid_removed}
     return valid_albums
 
 
 def load_latest_albums(output_dir='data/output', limit=1, deduplicate=True):
     """Load albums from the most recent JSON/CSV files"""
     all_albums = []
-    
+
     # Ensure directory exists
     if not os.path.exists(output_dir):
-        print(f"❌ Output directory not found: {output_dir}")
+        logger.warning(f"❌ Output directory not found: {output_dir}")
         return []
-    
+
     # Find all JSON files and sort by modification time
-    json_files = sorted(glob.glob(os.path.join(output_dir, 'albums_*.json')), 
+    json_files = sorted(glob.glob(os.path.join(output_dir, 'albums_*.json')),
                        key=lambda x: os.path.getmtime(x), reverse=True)
-    
+
     # Find all CSV files and sort by modification time
-    csv_files = sorted(glob.glob(os.path.join(output_dir, 'albums_*.csv')), 
+    csv_files = sorted(glob.glob(os.path.join(output_dir, 'albums_*.csv')),
                       key=lambda x: os.path.getmtime(x), reverse=True)
-    
+
     # Load from latest files (up to limit of each type)
     for json_file in json_files[:limit]:
-        albums = load_albums_from_json(json_file)
-        all_albums.extend(albums)
-    
+        all_albums.extend(load_albums_from_json(json_file))
+
     for csv_file in csv_files[:limit]:
-        albums = load_albums_from_csv(csv_file)
-        all_albums.extend(albums)
-    
-    # Remove duplicates based on aoty_id (if enabled)
+        all_albums.extend(load_albums_from_csv(csv_file))
+
     if deduplicate:
-        unique_albums = {}
-        for album in all_albums:
-            aoty_id = album.get('aoty_id')
-            # Only add if we have a valid aoty_id and title
-            if aoty_id and aoty_id != 'album' and album.get('title'):
-                unique_albums[aoty_id] = album
-        
-        unique_albums_list = list(unique_albums.values())
-        duplicates_removed = len(all_albums) - len(unique_albums_list)
-        
+        unique_albums_list, duplicates_removed = _dedupe_by_aoty_id(all_albums)
         if duplicates_removed > 0:
-            print(f"🗑️  Removed {duplicates_removed} duplicate/invalid entries")
+            logger.info(f"🗑️  Removed {duplicates_removed} duplicate/invalid entries")
     else:
         unique_albums_list = all_albums
-    
-    print(f"📊 Loaded {len(unique_albums_list)} unique albums from latest files")
+
+    logger.info(f"📊 Loaded {len(unique_albums_list)} unique albums from latest files")
     return unique_albums_list
 
 
@@ -235,7 +264,7 @@ def filter_albums(albums, **kwargs):
             g.lower() in [ag.lower() for ag in a.get('genres', [])]
             for g in kwargs['genres']
         )]
-        print(f"🔍 Filtered by genres: {kwargs['genres']} → {len(filtered)} albums")
+        logger.debug(f"🔍 Filtered by genres: {kwargs['genres']} → {len(filtered)} albums")
     
     # Filter by genres (all must match)
     if 'genres_all' in kwargs and kwargs['genres_all']:
@@ -244,59 +273,59 @@ def filter_albums(albums, **kwargs):
             g.lower() in [ag.lower() for ag in a.get('genres', [])]
             for g in kwargs['genres_all']
         )]
-        print(f"🔍 Filtered by all genres: {kwargs['genres_all']} → {len(filtered)} albums")
+        logger.debug(f"🔍 Filtered by all genres: {kwargs['genres_all']} → {len(filtered)} albums")
     
     # Filter by critic score
     if 'min_score' in kwargs and kwargs['min_score'] is not None:
         filtered = [a for a in filtered if a.get('critic_score') is not None and a.get('critic_score') >= kwargs['min_score']]
-        print(f"🔍 Filtered by min critic score ≥ {kwargs['min_score']} → {len(filtered)} albums")
+        logger.debug(f"🔍 Filtered by min critic score ≥ {kwargs['min_score']} → {len(filtered)} albums")
     
     if 'max_score' in kwargs and kwargs['max_score'] is not None:
         filtered = [a for a in filtered if a.get('critic_score') is not None and a.get('critic_score') <= kwargs['max_score']]
-        print(f"🔍 Filtered by max critic score ≤ {kwargs['max_score']} → {len(filtered)} albums")
+        logger.debug(f"🔍 Filtered by max critic score ≤ {kwargs['max_score']} → {len(filtered)} albums")
     
     # Filter by user score
     if 'min_user_score' in kwargs and kwargs['min_user_score'] is not None:
         filtered = [a for a in filtered if a.get('user_score') is not None and a.get('user_score') >= kwargs['min_user_score']]
-        print(f"🔍 Filtered by min user score ≥ {kwargs['min_user_score']} → {len(filtered)} albums")
+        logger.debug(f"🔍 Filtered by min user score ≥ {kwargs['min_user_score']} → {len(filtered)} albums")
     
     if 'max_user_score' in kwargs and kwargs['max_user_score'] is not None:
         filtered = [a for a in filtered if a.get('user_score') is not None and a.get('user_score') <= kwargs['max_user_score']]
-        print(f"🔍 Filtered by max user score ≤ {kwargs['max_user_score']} → {len(filtered)} albums")
+        logger.debug(f"🔍 Filtered by max user score ≤ {kwargs['max_user_score']} → {len(filtered)} albums")
     
     # Filter by review count
     if 'min_reviews' in kwargs and kwargs['min_reviews'] is not None:
         filtered = [a for a in filtered if (a.get('critic_review_count') or 0) + (a.get('user_review_count') or 0) >= kwargs['min_reviews']]
-        print(f"🔍 Filtered by min reviews ≥ {kwargs['min_reviews']} → {len(filtered)} albums")
+        logger.debug(f"🔍 Filtered by min reviews ≥ {kwargs['min_reviews']} → {len(filtered)} albums")
     
     if 'min_user_reviews' in kwargs and kwargs['min_user_reviews'] is not None:
         filtered = [a for a in filtered if (a.get('user_review_count') or 0) >= kwargs['min_user_reviews']]
-        print(f"🔍 Filtered by min user reviews ≥ {kwargs['min_user_reviews']} → {len(filtered)} albums")
+        logger.debug(f"🔍 Filtered by min user reviews ≥ {kwargs['min_user_reviews']} → {len(filtered)} albums")
     
     if 'min_critic_reviews' in kwargs and kwargs['min_critic_reviews'] is not None:
         filtered = [a for a in filtered if (a.get('critic_review_count') or 0) >= kwargs['min_critic_reviews']]
-        print(f"🔍 Filtered by min critic reviews ≥ {kwargs['min_critic_reviews']} → {len(filtered)} albums")
+        logger.debug(f"🔍 Filtered by min critic reviews ≥ {kwargs['min_critic_reviews']} → {len(filtered)} albums")
 
     if 'max_critic_reviews' in kwargs and kwargs['max_critic_reviews'] is not None:
         filtered = [a for a in filtered if (a.get('critic_review_count') or 0) <= kwargs['max_critic_reviews']]
-        print(f"🔍 Filtered by max critic reviews ≤ {kwargs['max_critic_reviews']} → {len(filtered)} albums")
+        logger.debug(f"🔍 Filtered by max critic reviews ≤ {kwargs['max_critic_reviews']} → {len(filtered)} albums")
 
     if 'max_user_reviews' in kwargs and kwargs['max_user_reviews'] is not None:
         filtered = [a for a in filtered if (a.get('user_review_count') or 0) <= kwargs['max_user_reviews']]
-        print(f"🔍 Filtered by max user reviews ≤ {kwargs['max_user_reviews']} → {len(filtered)} albums")
+        logger.debug(f"🔍 Filtered by max user reviews ≤ {kwargs['max_user_reviews']} → {len(filtered)} albums")
 
     # Filter by year
     if 'year' in kwargs and kwargs['year'] is not None:
         filtered = [a for a in filtered if a.get('scrape_year') == kwargs['year']]
-        print(f"🔍 Filtered by year {kwargs['year']} → {len(filtered)} albums")
+        logger.debug(f"🔍 Filtered by year {kwargs['year']} → {len(filtered)} albums")
     
     if 'year_min' in kwargs and kwargs['year_min'] is not None:
         filtered = [a for a in filtered if a.get('scrape_year', 0) >= kwargs['year_min']]
-        print(f"🔍 Filtered by year ≥ {kwargs['year_min']} → {len(filtered)} albums")
+        logger.debug(f"🔍 Filtered by year ≥ {kwargs['year_min']} → {len(filtered)} albums")
     
     if 'year_max' in kwargs and kwargs['year_max'] is not None:
         filtered = [a for a in filtered if a.get('scrape_year', 9999) <= kwargs['year_max']]
-        print(f"🔍 Filtered by year ≤ {kwargs['year_max']} → {len(filtered)} albums")
+        logger.debug(f"🔍 Filtered by year ≤ {kwargs['year_max']} → {len(filtered)} albums")
     
     # Filter by search string
     if 'search' in kwargs and kwargs['search']:
@@ -305,7 +334,7 @@ def filter_albums(albums, **kwargs):
                    search_term in (a.get('title') or '').lower() or
                    search_term in (a.get('artist_name') or '').lower() or
                    search_term in (a.get('description') or '').lower()]
-        print(f"🔍 Filtered by search '{kwargs['search']}' → {len(filtered)} albums")
+        logger.debug(f"🔍 Filtered by search '{kwargs['search']}' → {len(filtered)} albums")
     
     return filtered
 
@@ -358,7 +387,7 @@ def filter_invalid_albums(albums):
     
     removed_count = len(albums) - len(valid_albums)
     if removed_count > 0:
-        print(f"🗑️  Removed {removed_count} invalid/placeholder albums")
+        logger.info(f"🗑️  Removed {removed_count} invalid/placeholder albums")
     
     return valid_albums
 

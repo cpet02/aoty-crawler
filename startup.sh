@@ -31,12 +31,6 @@ if [ -f "requirements.txt" ]; then
     pip install -r requirements.txt
 fi
 
-# Initialize database if it doesn't exist
-if [ ! -f "data/aoty_database.db" ]; then
-    echo "Initializing database..."
-    python -m database.init_db
-fi
-
 echo "✅ AOTY Crawler is ready!"
 echo ""
 echo "Usage:"

@@ -27,9 +27,10 @@ AOTY is great but its search is limited — one genre at a time, no review-count
 |---|---|
 | [Scrapy](https://scrapy.org/) | Web crawling with built-in rate limiting |
 | [Streamlit](https://streamlit.io/) | Interactive dashboard UI |
-| [SQLAlchemy](https://www.sqlalchemy.org/) + SQLite | Local database |
 | [Selenium](https://selenium.dev/) + undetected-chromedriver | JS rendering fallback |
 | Pandas | Data export and analysis |
+
+Scraped data is stored as JSON/CSV files under `data/output/` — there's no database; the dashboard and CLI both read those files directly.
 
 ---
 
@@ -51,7 +52,6 @@ python -m venv venv
 source venv/bin/activate        # Windows: venv\Scripts\activate
 
 pip install -r requirements.txt
-pip install -r ui/requirements.txt
 mkdir logs
 ```
 
@@ -107,24 +107,24 @@ aoty-crawler/
 ├── aoty_crawler/              # Scrapy package
 │   ├── spiders/
 │   │   ├── production_spider.py        # Main spider
-│   │   └── comprehensive_album_spider.py
+│   │   ├── comprehensive_album_spider.py
+│   │   └── album_extraction.py         # Shared page-parsing logic
 │   ├── utils/
-│   │   ├── data_loader.py
-│   │   └── selenium_helper.py
+│   │   ├── data_loader.py     # Reads albums_*.json/csv into memory
+│   │   ├── job_tracker.py     # Per-scrape progress/status files
+│   │   ├── genres_manager.py  # Genre hierarchy logic
+│   │   ├── genres_hierarchy.py
+│   │   └── genres_db.json     # Bundled + auto-discovered genre list
 │   ├── items.py               # Data models
 │   ├── pipelines.py           # Output pipeline (JSON + CSV)
 │   ├── middlewares.py         # Retry + Selenium middleware
 │   └── settings.py            # Scrapy config
 ├── cli/                       # CLI entry point
-│   └── main.py
-├── database/                  # SQLAlchemy models
-│   └── models.py
+│   └── __main__.py
 ├── ui/                        # Streamlit dashboard
 │   ├── app.py                 # Main app
-│   ├── genres_manager.py      # Genre hierarchy logic
-│   ├── genres_db.json         # Bundled genre list
 │   └── launch.py
-├── data/output/               # Scraped output (gitignored)
+├── data/output/               # Scraped output + job status (gitignored)
 ├── logs/                      # Run logs (gitignored)
 ├── .env.example               # Config template
 └── requirements.txt

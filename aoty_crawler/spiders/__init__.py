@@ -48,15 +48,10 @@ class YearSpider(scrapy.Spider):
         self.logger.warning("YearSpider is a placeholder. Use test spider for now.")
 
 __all__ = [
-    'TestSpider', 
-    'DebugSpider', 
-    'HtmlDebugSpider', 
-    'GenreTestSpider',
     'ComprehensiveAlbumSpider',
     'ProductionSpider',
-    'ProductionTestSpider',
-    'AlbumSpider', 
-    'ArtistSpider', 
-    'GenreSpider', 
-    'YearSpider'
+    'AlbumSpider',
+    'ArtistSpider',
+    'GenreSpider',
+    'YearSpider',
 ]
