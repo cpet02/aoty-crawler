@@ -339,6 +339,26 @@ def filter_albums(albums, **kwargs):
     return filtered
 
 
+def group_albums_by_artist(albums):
+    """Group albums by artist_name, each artist's albums sorted oldest-first.
+
+    Returns a dict of artist_name -> list of albums. Artist name matching is
+    exact (not fuzzy) since aoty_id-scoped scrapes already use AOTY's own
+    canonical artist names.
+    """
+    by_artist = {}
+    for album in albums:
+        artist = (album.get('artist_name') or '').strip()
+        if not artist:
+            continue
+        by_artist.setdefault(artist, []).append(album)
+
+    for artist_albums in by_artist.values():
+        artist_albums.sort(key=lambda a: a.get('scrape_year') or 0)
+
+    return by_artist
+
+
 def filter_invalid_albums(albums):
     """
     Filter out placeholder/invalid albums (e.g., artist='Submit Correction', no scores, no genres)

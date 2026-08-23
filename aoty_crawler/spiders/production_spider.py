@@ -16,8 +16,8 @@ from aoty_crawler.utils import job_tracker
 # Non-genre links that turn up alongside real genre links on genre.php,
 # keyed by their visible link text (lowercased). Used only by the "scrape
 # ALL genres" path (parse_genre_page) below, which the UI doesn't currently
-# expose (it always targets a single genre) — this list exists for whenever
-# that path gets exercised again.
+# expose (it always targets one or more specific genres) — this list exists
+# for whenever that path gets exercised again.
 NON_GENRE_LINK_TEXTS = {
     'view more', 'similar artists', 'follow', 'on this day', 'newsworthy',
     'user updates', 'site updates', 'privacy policy', 'contact us',
@@ -48,8 +48,13 @@ class ProductionSpider(AlbumExtractionMixin, scrapy.Spider):
                  resume_file=None, job_id=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # Set configuration
-        self.target_genre = genre or self.DEFAULT_GENRE
+        # Set configuration. `genre` may be a single genre or a
+        # comma-separated list (multi-genre jobs queued from one New Scrape
+        # submission) — normalize to a list up front and keep `target_genre`
+        # around as "the first one" for code that only cares about one.
+        genre = genre or self.DEFAULT_GENRE
+        self.target_genres = [g.strip() for g in genre.split(',') if g.strip()] if genre else []
+        self.target_genre = self.target_genres[0] if self.target_genres else None
         self.start_year = int(start_year) if start_year else self.DEFAULT_START_YEAR
         self.years_back = int(years_back) if years_back else self.DEFAULT_YEARS_BACK
         self.albums_per_year = int(albums_per_year) if albums_per_year else self.DEFAULT_ALBUMS_PER_YEAR
@@ -65,11 +70,14 @@ class ProductionSpider(AlbumExtractionMixin, scrapy.Spider):
 
         # Job tracking (completion-based progress, written for any UI to poll)
         self.job_id = job_id or job_tracker.new_job_id()
-        # A single genre is targeted for the vast majority of runs, so the
-        # total amount of work is known up front. When scraping ALL genres
-        # the total isn't knowable until genre.php is parsed, so leave it
-        # unset (None) and let consumers treat that as "unbounded".
-        self.job_target_total = self.albums_per_year * self.years_back if self.target_genre else None
+        # One or more specific genres are targeted for the vast majority of
+        # runs, so the total amount of work is known up front. When scraping
+        # ALL genres the total isn't knowable until genre.php is parsed, so
+        # leave it unset (None) and let consumers treat that as "unbounded".
+        self.job_target_total = (
+            self.albums_per_year * self.years_back * len(self.target_genres)
+            if self.target_genres else None
+        )
 
         # Resume functionality
         self.scraped_urls = set()
@@ -79,7 +87,7 @@ class ProductionSpider(AlbumExtractionMixin, scrapy.Spider):
         self.logger.info(f"\n{'='*60}")
         self.logger.info("PRODUCTION SPIDER CONFIGURATION")
         self.logger.info(f"{'='*60}")
-        self.logger.info(f"Target Genre: {self.target_genre or 'ALL GENRES'}")
+        self.logger.info(f"Target Genre(s): {', '.join(self.target_genres) or 'ALL GENRES'}")
         self.logger.info(f"Year Range: {self.start_year} to {self.end_year}")
         self.logger.info(f"Albums per Year: {self.albums_per_year}")
         self.logger.info(f"Test Mode: {self.test_mode}")
@@ -127,7 +135,7 @@ class ProductionSpider(AlbumExtractionMixin, scrapy.Spider):
             self.job_id,
             self.jobs_dir,
             params={
-                'genre': self.target_genre,
+                'genre': ', '.join(self.target_genres) if self.target_genres else None,
                 'start_year': self.start_year,
                 'end_year': self.end_year,
                 'years_back': self.years_back,
@@ -137,23 +145,24 @@ class ProductionSpider(AlbumExtractionMixin, scrapy.Spider):
             target_total=self.job_target_total,
         )
 
-        if self.target_genre:
-            # Bypass genre.php entirely - construct URL directly from genre name
-            slug = self.target_genre.lower().replace(' ', '-')
-            self.logger.info(f"Direct scrape for genre: {self.target_genre} (slug: {slug})")
-            for year in range(self.start_year, self.end_year - 1, -1):
-                url = f"https://www.albumoftheyear.org/ratings/user-highest-rated/{year}/{slug}/"
-                self.logger.info(f"  → Year {year}: {url}")
-                yield scrapy.Request(
-                    url=url,
-                    callback=self.parse_ratings_page,
-                    meta={
-                        'genre_name': self.target_genre,
-                        'genre_slug': slug,
-                        'year': year,
-                        'albums_scraped_this_page': 0
-                    }
-                )
+        if self.target_genres:
+            # Bypass genre.php entirely - construct URLs directly from each genre name
+            for target_genre in self.target_genres:
+                slug = target_genre.lower().replace(' ', '-')
+                self.logger.info(f"Direct scrape for genre: {target_genre} (slug: {slug})")
+                for year in range(self.start_year, self.end_year - 1, -1):
+                    url = f"https://www.albumoftheyear.org/ratings/user-highest-rated/{year}/{slug}/"
+                    self.logger.info(f"  → Year {year}: {url}")
+                    yield scrapy.Request(
+                        url=url,
+                        callback=self.parse_ratings_page,
+                        meta={
+                            'genre_name': target_genre,
+                            'genre_slug': slug,
+                            'year': year,
+                            'albums_scraped_this_page': 0
+                        }
+                    )
         else:
             # Only hit genre.php when scraping ALL genres
             self.logger.info("No genre specified - scraping all genres via genre.php")
