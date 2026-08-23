@@ -186,6 +186,15 @@ def render_new_scrape():
     if "genre_multiselect" not in st.session_state:
         st.session_state["genre_multiselect"] = []
 
+    # A widget's session_state key can't be written after the widget itself
+    # has been instantiated this run (Streamlit raises), so the "browse by
+    # category" button below can't add directly to "genre_multiselect" — it
+    # stashes the pick here instead, and this block applies it before the
+    # multiselect is created on the *next* rerun.
+    pending_genre = st.session_state.pop("_pending_add_genre", None)
+    if pending_genre and pending_genre not in st.session_state["genre_multiselect"]:
+        st.session_state["genre_multiselect"] = st.session_state["genre_multiselect"] + [pending_genre]
+
     # A multiselect already lets you type to filter its own options, so a
     # separate search box next to it would just do the same thing twice.
     # Each genre picked here becomes its own leg of one scrape job.
@@ -205,8 +214,7 @@ def render_new_scrape():
         else:
             browse_choice = selected_parent
         if st.button("➕ Add this genre", key="use_browsed_genre"):
-            if browse_choice not in st.session_state["genre_multiselect"]:
-                st.session_state["genre_multiselect"] = st.session_state["genre_multiselect"] + [browse_choice]
+            st.session_state["_pending_add_genre"] = browse_choice
             st.rerun()
 
     if len(selected_genres) > 1:
