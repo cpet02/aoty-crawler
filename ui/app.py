@@ -138,24 +138,16 @@ if live_job_id and st.session_state.view not in ('progress', 'past_scrapes', 're
 def render_new_scrape():
     st.header("🚀 Start a New Scrape")
 
-    all_genres_list = get_all_genres()
+    all_genres_list = sorted(get_all_genres())
 
-    col_search, col_pick = st.columns([1, 2])
-    with col_search:
-        genre_search_text = st.text_input(
-            "Search genres",
-            placeholder="e.g. 'rock', 'ethereal', 'hop'...",
-        )
-    filtered_list = sorted(
-        g for g in all_genres_list
-        if genre_search_text.lower() in g.lower()
-    ) if genre_search_text else sorted(all_genres_list)
-    with col_pick:
-        if not filtered_list:
-            st.warning("No genres match that search.")
-            selected_genre = None
-        else:
-            selected_genre = st.selectbox(f"Genre ({len(filtered_list)} match)", filtered_list)
+    # A selectbox already lets you type to filter its own options, so a
+    # separate search box next to it would just do the same thing twice.
+    selected_genre = st.selectbox(
+        f"Genre ({len(all_genres_list)} available — type to search)",
+        all_genres_list,
+        index=None,
+        placeholder="e.g. 'rock', 'ethereal', 'hop'...",
+    )
 
     with st.expander("📂 Browse genres by category instead"):
         parent_genres_list = get_parent_genres()

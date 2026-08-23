@@ -79,6 +79,15 @@ class AlbumExtractionMixin:
 
     def _extract_critic_score(self, response):
         """Extract critic score"""
+        # Primary: current markup, mirrors _extract_user_score below.
+        score = response.css('.albumCriticScore a::text').get()
+        if score:
+            try:
+                return float(score)
+            except ValueError:
+                pass
+
+        # Fallback: older markup some cached/alternate pages may still use.
         score = response.css('[itemprop="ratingValue"] a::text').get()
         if score:
             try:
@@ -108,6 +117,16 @@ class AlbumExtractionMixin:
 
     def _extract_critic_review_count(self, response):
         """Extract critic review count"""
+        # Primary: current markup ("Based on <strong>N</strong> review(s)"),
+        # mirrors _extract_user_review_count below.
+        text = response.css('.albumCriticScoreBox .numReviews strong::text').get()
+        if text:
+            try:
+                return int(text.replace(',', '').strip())
+            except ValueError:
+                pass
+
+        # Fallbacks: older/alternate markup.
         count = response.css('meta[itemprop="reviewCount"]::attr(content)').get()
         if count:
             try:
