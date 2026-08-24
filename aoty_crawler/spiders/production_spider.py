@@ -306,6 +306,19 @@ class ProductionSpider(AlbumExtractionMixin, scrapy.Spider):
             current_genre=genre_name, current_year=year,
         )
 
+        # AOTY sometimes silently falls back to an unrelated listing (e.g. the
+        # genre's all-time highest-rated page) instead of returning an empty/404
+        # page once real year/genre results run out. That fallback page still has
+        # real album links, so it wouldn't be caught by the empty-page check below -
+        # verify the page heading actually matches the requested genre/year first.
+        heading = response.css('h1.headline::text').get(default='')
+        if not heading or str(year) not in heading or genre_name.lower() not in heading.lower():
+            self.logger.warning(
+                f"Page heading '{heading}' does not match requested {genre_name} {year} "
+                f"(likely an AOTY fallback listing) - skipping page {page_num}"
+            )
+            return
+
         # Extract album links
         album_links = response.css('.albumListRow .albumListTitle a::attr(href)').getall()
         self.logger.info(f"Found {len(album_links)} album links on this page")

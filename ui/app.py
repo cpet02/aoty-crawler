@@ -23,7 +23,7 @@ from aoty_crawler.utils.data_loader import (
     load_all_albums, load_albums_from_json, filter_albums, filter_invalid_albums,
     group_albums_by_artist
 )
-from aoty_crawler.utils import job_tracker, ratings as ratings_store, filter_presets
+from aoty_crawler.utils import job_tracker, ratings as ratings_store, filter_presets, bookmarks as bookmarks_store
 from aoty_crawler.utils.genres_manager import (
     get_all_genres, get_parent_genres, get_genre_with_children, discover_from_albums
 )
@@ -95,6 +95,41 @@ def job_progress_fraction(job):
     return max(0.0, min(1.0, completed / target))
 
 
+def _render_bookmarkable_table(df, display_cols, column_config, key, height=None):
+    """st.data_editor wrapper that adds a "🔖 To Listen" checkbox column.
+
+    Toggling the checkbox writes straight through to bookmarks_store, so the
+    bookmark persists in data/bookmarks.json independent of this dataframe,
+    this scrape, or this session.
+    """
+    current_bookmarks = bookmarks_store.load_bookmarks(DATA_ROOT)
+    df = df.copy()
+    df['🔖'] = df['aoty_id'].apply(lambda aid: bookmarks_store.is_bookmarked(current_bookmarks, aid))
+
+    edited = st.data_editor(
+        df,
+        use_container_width=True,
+        height=height,
+        hide_index=True,
+        key=key,
+        column_order=display_cols + ['🔖'],
+        disabled=display_cols,
+        column_config={**column_config, '🔖': st.column_config.CheckboxColumn("To Listen")},
+    )
+
+    for aoty_id, was_bookmarked, is_bookmarked in zip(df['aoty_id'], df['🔖'], edited['🔖']):
+        if is_bookmarked and not was_bookmarked:
+            row = df.loc[df['aoty_id'] == aoty_id].iloc[0]
+            bookmarks_store.add_bookmark(
+                DATA_ROOT, aoty_id,
+                title=row.get('title'), artist_name=row.get('artist_name'),
+                genres=(row.get('genres') or '').split(', ') if isinstance(row.get('genres'), str) else row.get('genres'),
+                url=row.get('url'),
+            )
+        elif was_bookmarked and not is_bookmarked:
+            bookmarks_store.remove_bookmark(DATA_ROOT, aoty_id)
+
+
 # ---------------------------------------------------------------------------
 # Top navigation
 # ---------------------------------------------------------------------------
@@ -110,7 +145,7 @@ live_job_id = running_process_job()
 # progress view right after starting a scrape). A button is only True on
 # the exact rerun it was clicked, so it can't clobber state afterwards.
 current_view = st.session_state.view
-nav_col1, nav_col2, nav_col3, nav_col4, nav_col5 = st.columns(5)
+nav_col1, nav_col2, nav_col3, nav_col4, nav_col5, nav_col6 = st.columns(6)
 with nav_col1:
     if st.button("🏠 Home", use_container_width=True, key="nav_home",
                  type="primary" if current_view == 'home' else "secondary"):
@@ -135,6 +170,11 @@ with nav_col5:
     if st.button("⭐ Ratings", use_container_width=True, key="nav_ratings",
                  type="primary" if current_view == 'ratings' else "secondary"):
         goto('ratings')
+        st.rerun()
+with nav_col6:
+    if st.button("🔖 To Listen", use_container_width=True, key="nav_to_listen",
+                 type="primary" if current_view == 'to_listen' else "secondary"):
+        goto('to_listen')
         st.rerun()
 
 if live_job_id and st.session_state.view not in ('progress', 'past_scrapes', 'results'):
@@ -187,10 +227,14 @@ def render_new_scrape():
         st.session_state["genre_multiselect"] = []
 
     # A widget's session_state key can't be written after the widget itself
-    # has been instantiated this run (Streamlit raises), so the "browse by
-    # category" button below can't add directly to "genre_multiselect" — it
-    # stashes the pick here instead, and this block applies it before the
-    # multiselect is created on the *next* rerun.
+    # has been instantiated this run (Streamlit raises), so anything that
+    # wants to change "genre_multiselect" — the "browse by category" button,
+    # or the submit button resetting the form — stashes what it wants done
+    # here instead, and this block applies it before the multiselect is
+    # created on the *next* rerun.
+    if st.session_state.pop("_pending_clear_genres", False):
+        st.session_state["genre_multiselect"] = []
+
     pending_genre = st.session_state.pop("_pending_add_genre", None)
     if pending_genre and pending_genre not in st.session_state["genre_multiselect"]:
         st.session_state["genre_multiselect"] = st.session_state["genre_multiselect"] + [pending_genre]
@@ -267,7 +311,11 @@ def render_new_scrape():
             ", ".join(selected_genres), start_year, years_back, albums_per_year,
             test_mode=test_mode, resume=resume, output_dir=custom_output_dir,
         )
-        st.session_state["genre_multiselect"] = []
+        # Can't touch "genre_multiselect" directly here — same rule as the
+        # "browse by category" button above: its widget already ran this
+        # script pass. Flag it for the pending-apply block at the top of
+        # this view to clear before the widget is next created.
+        st.session_state["_pending_clear_genres"] = True
         goto('progress', job_id)
         st.rerun()
 
@@ -490,7 +538,7 @@ def render_results():
     all_genres = sorted(set(g for a in albums for g in a.get('genres', [])))
     max_critic_reviews_seen = max((a.get('critic_review_count') or 0) for a in albums) if albums else 0
     max_user_reviews_seen = max((a.get('user_review_count') or 0) for a in albums) if albums else 0
-    years_seen = sorted({a.get('scrape_year') for a in albums if a.get('scrape_year')})
+    years_seen = sorted({a.get('release_year') for a in albums if a.get('release_year')})
     year_options = ["All"] + years_seen[::-1]
 
     def _clamp_range_state(key, hi):
@@ -639,23 +687,19 @@ def render_results():
             df[col] = df[col].apply(lambda v: ', '.join(v) if isinstance(v, list) else v)
 
     display_cols = [c for c in [
-        'cover_image_url', 'title', 'artist_name', 'scrape_year',
+        'title', 'artist_name', 'release_year',
         'critic_score', 'user_score', 'critic_review_count', 'user_review_count',
         'genres', 'url'
     ] if c in df.columns]
 
     st.subheader("💿 Albums")
-    st.caption("Click a column header to sort. Use the search icon in the table toolbar to filter across all columns.")
-    st.dataframe(
-        df[display_cols],
-        use_container_width=True,
-        height=600,
-        hide_index=True,
+    st.caption("Click a column header to sort. Use the search icon in the table toolbar to filter across all columns. Check 🔖 To Listen to bookmark an album — it's saved even after this scrape is gone.")
+    _render_bookmarkable_table(
+        df, display_cols,
         column_config={
-            'cover_image_url': st.column_config.ImageColumn("Cover", width="small"),
             'title': st.column_config.TextColumn("Title"),
             'artist_name': st.column_config.TextColumn("Artist"),
-            'scrape_year': st.column_config.NumberColumn("Year", format="%d"),
+            'release_year': st.column_config.NumberColumn("Year", format="%d"),
             'critic_score': st.column_config.ProgressColumn("Critic", min_value=0, max_value=100, format="%.0f"),
             'user_score': st.column_config.ProgressColumn("User", min_value=0, max_value=100, format="%.0f"),
             'critic_review_count': st.column_config.NumberColumn("Critic Reviews"),
@@ -663,6 +707,8 @@ def render_results():
             'genres': st.column_config.TextColumn("Genres"),
             'url': st.column_config.LinkColumn("Link", display_text="Open"),
         },
+        key="results_table",
+        height=600,
     )
 
 
@@ -707,19 +753,17 @@ def render_artists():
         df['genres'] = df['genres'].apply(lambda v: ', '.join(v) if isinstance(v, list) else v)
 
     display_cols = [c for c in [
-        'cover_image_url', 'title', 'scrape_year',
+        'title', 'release_year',
         'critic_score', 'user_score', 'critic_review_count', 'user_review_count',
         'genres', 'url'
     ] if c in df.columns]
 
-    st.dataframe(
-        df[display_cols],
-        use_container_width=True,
-        hide_index=True,
+    st.caption("Check 🔖 To Listen to bookmark an album — it's saved even after this scrape is gone.")
+    _render_bookmarkable_table(
+        df, display_cols,
         column_config={
-            'cover_image_url': st.column_config.ImageColumn("Cover", width="small"),
             'title': st.column_config.TextColumn("Title"),
-            'scrape_year': st.column_config.NumberColumn("Year", format="%d"),
+            'release_year': st.column_config.NumberColumn("Year", format="%d"),
             'critic_score': st.column_config.ProgressColumn("Critic", min_value=0, max_value=100, format="%.0f"),
             'user_score': st.column_config.ProgressColumn("User", min_value=0, max_value=100, format="%.0f"),
             'critic_review_count': st.column_config.NumberColumn("Critic Reviews"),
@@ -727,6 +771,7 @@ def render_artists():
             'genres': st.column_config.TextColumn("Genres"),
             'url': st.column_config.LinkColumn("Link", display_text="Open"),
         },
+        key="artist_table",
     )
 
 
@@ -837,6 +882,46 @@ def render_ratings():
 
 
 # ---------------------------------------------------------------------------
+# To Listen: bookmarks that persist across scrapes
+# ---------------------------------------------------------------------------
+
+def render_to_listen():
+    st.header("🔖 To Listen")
+    st.caption("Bookmarks saved from any scrape. This list persists even after the scrape it came from is deleted or refreshed.")
+
+    current_bookmarks = bookmarks_store.load_bookmarks(DATA_ROOT)
+
+    if not current_bookmarks:
+        st.info("No bookmarks yet — use the 🔖 checkbox in the Albums or Artists table to save one here.")
+        return
+
+    search = st.text_input("Search title / artist", key="to_listen_search")
+    rows = sorted(current_bookmarks.items(), key=lambda kv: kv[1].get('bookmarked_at', ''), reverse=True)
+    if search:
+        term = search.lower()
+        rows = [
+            (aoty_id, b) for aoty_id, b in rows
+            if term in (b.get('title') or '').lower() or term in (b.get('artist_name') or '').lower()
+        ]
+
+    st.caption(f"{len(rows)} album{'s' if len(rows) != 1 else ''} bookmarked.")
+
+    for aoty_id, b in rows:
+        with st.container(border=True):
+            c1, c2 = st.columns([5, 1])
+            with c1:
+                if b.get('url'):
+                    st.write(f"**[{b.get('title')}]({b['url']})** by {b.get('artist_name')}")
+                else:
+                    st.write(f"**{b.get('title')}** by {b.get('artist_name')}")
+                st.caption(', '.join(b.get('genres') or []) or 'No genres recorded')
+            with c2:
+                if st.button("🗑️ Remove", key=f"del_bookmark_{aoty_id}"):
+                    bookmarks_store.remove_bookmark(DATA_ROOT, aoty_id)
+                    st.rerun()
+
+
+# ---------------------------------------------------------------------------
 # Home
 # ---------------------------------------------------------------------------
 
@@ -900,5 +985,7 @@ elif view == 'ratings':
     render_ratings()
 elif view == 'artists':
     render_artists()
+elif view == 'to_listen':
+    render_to_listen()
 else:
     render_home()

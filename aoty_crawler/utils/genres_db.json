@@ -5161,7 +5161,8 @@
         "Yakousei",
         "Yé-yé",
         "Garage Punk",
-        "Post-Grunge"
+        "Post-Grunge",
+        "Wa Euro"
       ],
       "discovered_at": "initial",
       "source": "hardcoded"
@@ -7139,7 +7140,8 @@
         "Vocal Surf",
         "Yacht Rock",
         "Zamrock",
-        "Zolo"
+        "Zolo",
+        "Powerviolence"
       ],
       "discovered_at": "initial",
       "source": "hardcoded"
@@ -7752,6 +7754,24 @@
       "type": "child",
       "parent": "Pop",
       "discovered_at": "2026-02-26T19:41:00.807272",
+      "source": "auto-discovered"
+    },
+    "Wa Euro": {
+      "type": "child",
+      "parent": "Pop",
+      "discovered_at": "2026-08-23T19:59:54.874019",
+      "source": "auto-discovered"
+    },
+    "Powerviolence": {
+      "type": "child",
+      "parent": "Rock",
+      "discovered_at": "2026-08-23T20:16:02.581865",
+      "source": "auto-discovered"
+    },
+    "Occult Rock": {
+      "type": "child",
+      "parent": null,
+      "discovered_at": "2026-08-23T20:18:39.578197",
       "source": "auto-discovered"
     }
   }

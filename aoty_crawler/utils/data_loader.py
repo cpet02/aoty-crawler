@@ -7,12 +7,28 @@ Loads album data from JSON/CSV files in data/output/
 import json
 import csv
 import os
+import re
 import sys
 import glob
 import logging
 from datetime import datetime
 
 logger = logging.getLogger(__name__)
+
+_RELEASE_YEAR_RE = re.compile(r'(\d{4})')
+
+
+def _parse_release_year(release_date):
+    """Extract the release year from a `release_date` string like "March 15, 2024".
+
+    Used instead of `scrape_year`, which is just the AOTY listing-page URL
+    parameter the album was discovered under (e.g. the "highest rated of
+    all time" page for a given year), not the album's actual release year.
+    """
+    if not release_date:
+        return None
+    match = _RELEASE_YEAR_RE.search(str(release_date))
+    return int(match.group(1)) if match else None
 
 # The emoji in this module's log messages crash with UnicodeEncodeError on
 # Windows consoles/subprocesses that default to a legacy codepage (e.g.
@@ -59,7 +75,9 @@ def load_albums_from_json(json_file_path):
                         album[field] = 0
                 else:
                     album[field] = 0 if field != 'scrape_year' else None
-        
+
+            album['release_year'] = _parse_release_year(album.get('release_date'))
+
         logger.info(f"✅ Loaded {len(albums)} albums from {json_file_path}")
         return albums
 
@@ -99,6 +117,8 @@ def load_albums_from_csv(csv_file_path):
                     else:
                         album[field] = 0 if field != 'scrape_year' else None
                 
+                album['release_year'] = _parse_release_year(album.get('release_date'))
+
                 # Parse genres from JSON string if needed
                 for field in ['genres', 'genre_tags']:
                     if field in album and album[field]:
@@ -316,15 +336,15 @@ def filter_albums(albums, **kwargs):
 
     # Filter by year
     if 'year' in kwargs and kwargs['year'] is not None:
-        filtered = [a for a in filtered if a.get('scrape_year') == kwargs['year']]
+        filtered = [a for a in filtered if a.get('release_year') == kwargs['year']]
         logger.debug(f"🔍 Filtered by year {kwargs['year']} → {len(filtered)} albums")
-    
+
     if 'year_min' in kwargs and kwargs['year_min'] is not None:
-        filtered = [a for a in filtered if a.get('scrape_year', 0) >= kwargs['year_min']]
+        filtered = [a for a in filtered if (a.get('release_year') or 0) >= kwargs['year_min']]
         logger.debug(f"🔍 Filtered by year ≥ {kwargs['year_min']} → {len(filtered)} albums")
-    
+
     if 'year_max' in kwargs and kwargs['year_max'] is not None:
-        filtered = [a for a in filtered if a.get('scrape_year', 9999) <= kwargs['year_max']]
+        filtered = [a for a in filtered if (a.get('release_year') or 9999) <= kwargs['year_max']]
         logger.debug(f"🔍 Filtered by year ≤ {kwargs['year_max']} → {len(filtered)} albums")
     
     # Filter by search string
@@ -354,7 +374,7 @@ def group_albums_by_artist(albums):
         by_artist.setdefault(artist, []).append(album)
 
     for artist_albums in by_artist.values():
-        artist_albums.sort(key=lambda a: a.get('scrape_year') or 0)
+        artist_albums.sort(key=lambda a: a.get('release_year') or 0)
 
     return by_artist
 
