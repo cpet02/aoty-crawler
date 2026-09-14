@@ -6,6 +6,7 @@ scrapy==2.11.0
 selenium==4.17.2
 undetected-chromedriver==3.5.5
 lxml==5.2.0
+requests>=2.31.0
 
 # Data Processing
 pandas>=2.2.0
