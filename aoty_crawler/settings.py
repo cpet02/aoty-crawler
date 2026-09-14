@@ -67,7 +67,7 @@ DOWNLOADER_MIDDLEWARES = {
 # real browser running in the FlareSolverr container, then handing back
 # the solved page + cookies. Enable this if scrapes are getting stopped by
 # Cloudflare verification pages.
-FLARESOLVERR_ENABLED = False
+FLARESOLVERR_ENABLED = True
 FLARESOLVERR_URL = "http://localhost:8191/v1"
 FLARESOLVERR_TIMEOUT = 60
 FLARESOLVERR_SESSION = "aoty_crawler"

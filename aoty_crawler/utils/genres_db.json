@@ -96,7 +96,10 @@
         "Dark Ambient",
         "Ritual Ambient",
         "Space Ambient",
-        "Tribal Ambient"
+        "Tribal Ambient",
+        "Free Folk",
+        "Black Noise",
+        "Harsh Noise"
       ],
       "discovered_at": "initial",
       "source": "hardcoded"
@@ -7772,6 +7775,96 @@
       "type": "child",
       "parent": null,
       "discovered_at": "2026-08-23T20:18:39.578197",
+      "source": "auto-discovered"
+    },
+    "Botanica": {
+      "type": "child",
+      "parent": null,
+      "discovered_at": "2026-08-25T18:59:36.693077",
+      "source": "auto-discovered"
+    },
+    "Central Asian Overtone Singing": {
+      "type": "child",
+      "parent": null,
+      "discovered_at": "2026-08-25T18:59:36.702539",
+      "source": "auto-discovered"
+    },
+    "Slushwave": {
+      "type": "child",
+      "parent": null,
+      "discovered_at": "2026-08-25T18:59:36.710812",
+      "source": "auto-discovered"
+    },
+    "Broken Transmission": {
+      "type": "child",
+      "parent": null,
+      "discovered_at": "2026-08-25T18:59:36.717914",
+      "source": "auto-discovered"
+    },
+    "Chiptune": {
+      "type": "child",
+      "parent": null,
+      "discovered_at": "2026-08-25T18:59:36.728554",
+      "source": "auto-discovered"
+    },
+    "No Wave": {
+      "type": "child",
+      "parent": null,
+      "discovered_at": "2026-08-25T18:59:36.742182",
+      "source": "auto-discovered"
+    },
+    "Progressive Trance": {
+      "type": "child",
+      "parent": null,
+      "discovered_at": "2026-08-25T18:59:36.749346",
+      "source": "auto-discovered"
+    },
+    "Vocal Trance": {
+      "type": "child",
+      "parent": null,
+      "discovered_at": "2026-08-25T18:59:36.757061",
+      "source": "auto-discovered"
+    },
+    "Coldwave": {
+      "type": "child",
+      "parent": null,
+      "discovered_at": "2026-08-25T18:59:36.769576",
+      "source": "auto-discovered"
+    },
+    "Atmospheric Drum and Bass": {
+      "type": "child",
+      "parent": null,
+      "discovered_at": "2026-08-25T18:59:36.786457",
+      "source": "auto-discovered"
+    },
+    "Hip House": {
+      "type": "child",
+      "parent": null,
+      "discovered_at": "2026-08-25T18:59:36.830931",
+      "source": "auto-discovered"
+    },
+    "Crunkcore": {
+      "type": "child",
+      "parent": null,
+      "discovered_at": "2026-08-25T18:59:36.839396",
+      "source": "auto-discovered"
+    },
+    "Free Folk": {
+      "type": "child",
+      "parent": "Ambient",
+      "discovered_at": "2026-08-30T13:18:15.387134",
+      "source": "auto-discovered"
+    },
+    "Black Noise": {
+      "type": "child",
+      "parent": "Ambient",
+      "discovered_at": "2026-08-30T13:18:15.396136",
+      "source": "auto-discovered"
+    },
+    "Harsh Noise": {
+      "type": "child",
+      "parent": "Ambient",
+      "discovered_at": "2026-08-30T13:18:15.406133",
       "source": "auto-discovered"
     }
   }
