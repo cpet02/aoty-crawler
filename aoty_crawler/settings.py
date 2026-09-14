@@ -57,16 +57,21 @@ DEFAULT_REQUEST_HEADERS = {
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-    "aoty_crawler.middlewares.FlareSolverrMiddleware": 540,
     "aoty_crawler.middlewares.SeleniumMiddleware": 543,
     "aoty_crawler.middlewares.RetryWithDelayMiddleware": 550,
+    # Priority must be higher than RetryWithDelayMiddleware/RetryMiddleware
+    # (550) so its process_response runs FIRST on the way back from the
+    # downloader and can swap in a solved page before the retry
+    # middlewares see (and burn retries on) the raw 403/503.
+    "aoty_crawler.middlewares.FlareSolverrMiddleware": 560,
 }
 
 # FlareSolverr (https://github.com/FlareSolverr/FlareSolverr) bypasses
 # Cloudflare's browser-verification challenges by solving them through a
 # real browser running in the FlareSolverr container, then handing back
-# the solved page + cookies. Enable this if scrapes are getting stopped by
-# Cloudflare verification pages.
+# the solved page + cookies. Requires a FlareSolverr instance running
+# (see FLARESOLVERR_URL below); enabled by default so any Cloudflare
+# challenge is retried through it automatically.
 FLARESOLVERR_ENABLED = True
 FLARESOLVERR_URL = "http://localhost:8191/v1"
 FLARESOLVERR_TIMEOUT = 60
