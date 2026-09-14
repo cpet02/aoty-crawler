@@ -97,10 +97,16 @@ class FlareSolverrMiddleware:
         }
         try:
             resp = requests.post(self.url, json=payload, timeout=self.timeout + 10)
-            resp.raise_for_status()
             data = resp.json()
         except (requests.RequestException, ValueError) as e:
             spider.logger.error(f"FlareSolverr request failed for {request.url}: {e}")
+            return None
+
+        if not resp.ok:
+            spider.logger.error(
+                f"FlareSolverr HTTP {resp.status_code} for {request.url}: "
+                f"{data.get('message') or resp.text[:500]}"
+            )
             return None
 
         if data.get('status') != 'ok':
