@@ -65,6 +65,7 @@ RADIUS_CSS = """
                   display:flex; align-items:center; justify-content:center;
                   font-size:1.6rem; opacity:.35; }
   .rad-body { min-width:0; flex:1; }
+  .rad-title-link { text-decoration:none; color:inherit; display:block; }
   .rad-title { font-weight:640; font-size:.98rem; line-height:1.25;
                overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
   .rad-artist { opacity:.68; font-size:.86rem; margin-bottom:.35rem;
@@ -80,6 +81,11 @@ RADIUS_CSS = """
                     background:linear-gradient(90deg,#8b5cf6,#d946a6); }
   .rad-pct { font-size:.73rem; opacity:.55; letter-spacing:.02em; }
   .rad-why { font-size:.74rem; opacity:.45; margin-top:.3rem; line-height:1.35; }
+
+  .rad-links { display:flex; flex-wrap:wrap; gap:.3rem; margin-top:.45rem; }
+  .rad-rating { font-size:.72rem; padding:.15rem .5rem; border-radius:999px;
+                background:rgba(255,196,0,.12); border:1px solid rgba(255,196,0,.28);
+                color:#ffce54; white-space:nowrap; }
 
   /* Fine-tuning: every slider row is the same shape regardless of how many
      axes share its group, and the group label reads like a section header
@@ -147,6 +153,14 @@ def _rad_art(url):
     return '<div class="ph">♪</div>'
 
 
+def _rad_reception_html(features):
+    """A rating pill, if the album has one."""
+    if not features.rating:
+        return ''
+    votes = f' ({features.rating_votes})' if features.rating_votes else ''
+    return f'<span class="rad-rating">★ {features.rating:.1f}{votes}</span>'
+
+
 def _rad_card(match):
     features = match.features
     pct = int(round(match.similarity * 100))
@@ -154,25 +168,31 @@ def _rad_card(match):
     tags = ', '.join(features.top_tags[:4])
     why = radius_similarity.describe_axes(match, limit=3)
     link = features.url or '#'
+    reception = _rad_reception_html(features)
+    reception_html = f'<div class="rad-links">{reception}</div>' if reception else ''
     return f"""
-    <a href="{link}" target="_blank" style="text-decoration:none;color:inherit;">
-      <div class="rad-card">
-        {_rad_art(features.image_url)}
-        <div class="rad-body">
+    <div class="rad-card">
+      {_rad_art(features.image_url)}
+      <div class="rad-body">
+        <a class="rad-title-link" href="{link}" target="_blank">
           <div class="rad-title">{html.escape(features.title)}</div>
-          <div class="rad-artist">{html.escape(features.artist)}{year}</div>
-          <div class="rad-meter"><span style="width:{pct}%"></span></div>
-          <div class="rad-pct">{pct}% match</div>
-          <div class="rad-tags">{html.escape(tags)}</div>
-          <div class="rad-why">{html.escape(why)}</div>
-        </div>
+        </a>
+        <div class="rad-artist">{html.escape(features.artist)}{year}</div>
+        <div class="rad-meter"><span style="width:{pct}%"></span></div>
+        <div class="rad-pct">{pct}% match</div>
+        <div class="rad-tags">{html.escape(tags)}</div>
+        <div class="rad-why">{html.escape(why)}</div>
+        {reception_html}
       </div>
-    </a>
+    </div>
     """
 
 
 def _rad_seed_card(seed):
     chips = []
+    if seed.rating:
+        votes = f' ({seed.rating_votes})' if seed.rating_votes else ''
+        chips.append(f'★ {seed.rating:.1f}{votes}')
     if seed.listeners:
         chips.append(f'{seed.listeners:,} listeners')
         chips.append(f'{seed.devotion:.0f} listens each')
@@ -367,6 +387,27 @@ def render_similar():
                      "boilerplate, so it measured worse than nothing.",
             )
 
+        st.divider()
+        st.markdown('<div class="rad-group-label">Reception</div>',
+                    unsafe_allow_html=True)
+        st.caption(
+            "This is a real \"people who heard it liked it\" signal — "
+            "MusicBrainz's own crowd rating — not another popularity count. "
+            "Checking it costs one more lookup per result checked, and can "
+            "pull in albums ranked below your Results count to replace ones "
+            "that get filtered out."
+        )
+        min_rating = st.slider(
+            "Minimum rating", 0.0, 5.0, 0.0, 0.5, key="radius_min_rating",
+            help="MusicBrainz's 0-5 community rating. 0 means off — "
+                 "unrated albums are allowed through.",
+        )
+        min_rating_votes = st.number_input(
+            "Minimum number of ratings", 0, 100, 0, 1, key="radius_min_votes",
+            help="Filters out albums with only one or two votes, since "
+                 "those aren't a real signal either way.",
+        )
+
     if submitted:
         if not seed_text.strip():
             st.warning("Type an album first — artist and title work best.")
@@ -449,6 +490,7 @@ def render_similar():
         confirmed.mbid, mode, radius_value, tuple(sorted(weight_values.items())),
         int(top_n), int(pool_size), studio_only, exclude_same_artist,
         int(max_per_artist), enrich_results, with_prose, crowd_tags,
+        min_rating, int(min_rating_votes),
     )
 
     if st.session_state.get('radius_result_signature') != run_signature:
@@ -459,7 +501,7 @@ def render_similar():
             'crowd tags': 'Adding crowd tags',
             'kinship': 'Mapping listener kinship',
             'prose': 'Reading Wikipedia',
-            'shape': 'Measuring runtime and pacing',
+            'shape': 'Checking finalists — runtime, rating',
         }
         status_box = st.status("Working…", expanded=False)
         progress_bar = st.progress(0.0)
@@ -477,6 +519,7 @@ def render_similar():
                 max_per_artist=max_per_artist,
                 enrich_results=enrich_results, with_prose=with_prose,
                 enrich_tags_with_lastfm=crowd_tags,
+                min_rating=min_rating or None, min_rating_votes=int(min_rating_votes),
                 services=services, progress=on_progress,
                 **RADIUS_MODES[mode]["kwargs"],
             )

@@ -31,7 +31,8 @@ from dataclasses import dataclass, field
 from . import candidates as candidates_mod
 from . import tags as tagmod
 from .albums import (
-    AlbumFeatures, attach_prose, attach_tracklist, enrich_tags, from_metadata,
+    AlbumFeatures, attach_prose, attach_reception, attach_tracklist,
+    enrich_tags, from_metadata,
 )
 from .clients import (
     ApiError, LastFmClient, ListenBrainzClient, MusicBrainzClient,
@@ -207,6 +208,14 @@ def resolve_seed(services, artist=None, album=None, query=None, mbid=None):
     )
 
 
+def _passes_reception(features, min_rating, min_rating_votes):
+    if min_rating and (features.rating is None or features.rating < min_rating):
+        return False
+    if min_rating_votes and features.rating_votes < min_rating_votes:
+        return False
+    return True
+
+
 def _vectors_for(features, idf, artist_idf, prose_idf):
     """The four idf-weighted vectors a comparison needs."""
     return {
@@ -226,6 +235,7 @@ def find_similar(artist=None, album=None, query=None, mbid=None,
                  exclude_same_artist=True, studio_only=True, max_per_artist=2,
                  obscurity='any', lateral=False, local_albums=None,
                  enrich_results=True, with_prose=True, enrich_tags_with_lastfm=True,
+                 min_rating=None, min_rating_votes=0,
                  services=None, progress=None, seed_features=None):
     """Find albums whose fingerprint sits within `radius` of the seed's.
 
@@ -248,8 +258,19 @@ def find_similar(artist=None, album=None, query=None, mbid=None,
                         thicken tag vectors with Last.fm crowd tags. Ignored
                         when no LASTFM_API_KEY is set.
     with_prose          fetch Wikipedia intros for finalists.
+    min_rating          drop finalists under this MusicBrainz community rating
+                        (0..5). This is people saying "this is good," not a
+                        popularity proxy — reach/devotion/canonicity already
+                        cover popularity. None or 0 disables the filter.
+    min_rating_votes    drop finalists with fewer than this many ratings, so a
+                        single 5-star vote doesn't count as "well received."
     local_albums        optional extra candidates, as dicts carrying an 'mbid'.
     seed_features       a pre-resolved seed, to skip re-resolving it.
+
+    min_rating and min_rating_votes check finalists *beyond* top_n as needed
+    to backfill anything they reject, so asking for only genuinely
+    well-rated albums still returns up to top_n results rather than
+    silently shrinking the list.
     """
     services = services or Services.create()
     weights = weights or SimilarityWeights()
@@ -419,23 +440,45 @@ def find_similar(artist=None, album=None, query=None, mbid=None,
             spread.append(match)
         matches = spread
 
-    matches = matches[:top_n]
+    reception_filtering = bool(min_rating or min_rating_votes)
+    shape_axes = weights.scale + weights.pacing + weights.titling
+    need_tracklist = enrich_results and shape_axes > 0
 
-    # The shape axes need a tracklist, which is the one genuinely expensive
-    # lookup left, so it runs on finalists only — and then the affected
-    # distances are recomputed so the extra data actually counts.
-    if enrich_results and matches:
-        shape_axes = weights.scale + weights.pacing + weights.titling
-        if shape_axes > 0:
+    if need_tracklist or reception_filtering:
+        if need_tracklist:
             attach_tracklist(seed, services.musicbrainz)
-            for index, match in enumerate(matches):
-                report('shape', index, len(matches),
-                       f'{match.features.artist} — {match.features.title}')
-                attach_tracklist(match.features, services.musicbrainz)
-            report('shape', len(matches), len(matches), 'done')
+        if reception_filtering:
+            attach_reception(seed, services.musicbrainz)
 
+        # Plain truncation when nothing needs filtering. When a rating
+        # requirement is set, walk the *full* ranked list instead and keep
+        # going past top_n until enough finalists actually pass — otherwise
+        # a low-rated album ranked #3 would just shrink the result count
+        # instead of being skipped over.
+        candidates_to_scan = matches if reception_filtering else matches[:top_n]
+        scan_cap = min(len(candidates_to_scan),
+                       max(top_n * 4, top_n + 20)) if reception_filtering else len(candidates_to_scan)
+
+        accepted = []
+        scanned = 0
+        for match in candidates_to_scan:
+            if len(accepted) >= top_n or scanned >= scan_cap:
+                break
+            scanned += 1
+            report('shape', scanned, scan_cap,
+                   f'{match.features.artist} — {match.features.title}')
+            if need_tracklist:
+                attach_tracklist(match.features, services.musicbrainz)
+            if reception_filtering:
+                attach_reception(match.features, services.musicbrainz)
+                if not _passes_reception(match.features, min_rating, min_rating_votes):
+                    continue
+            accepted.append(match)
+        report('shape', scanned, scan_cap, 'done')
+
+        if need_tracklist:
             rescored = []
-            for match in matches:
+            for match in accepted:
                 features = match.features
                 candidate = pool.get(features.mbid)
                 updated = compare(
@@ -449,7 +492,17 @@ def find_similar(artist=None, album=None, query=None, mbid=None,
                 )
                 rescored.append(updated or match)
             rescored.sort(key=lambda m: (m.distance, -m.features.listeners))
-            matches = rescored
+            accepted = rescored
+
+        matches = accepted
+        if reception_filtering and len(matches) < top_n and scanned >= scan_cap:
+            notes.append(
+                f'Only {len(matches)} matches met the rating filters after '
+                f'checking {scanned} ranked candidates — loosen them or '
+                f'widen the radius for more.'
+            )
+    else:
+        matches = matches[:top_n]
 
     if not matches:
         notes.append(

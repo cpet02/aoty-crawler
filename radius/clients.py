@@ -189,6 +189,19 @@ class MusicBrainzClient(_HttpClient):
                     lengths.append(int(length))
         return titles, lengths
 
+    def release_group_relations(self, release_group_mbid):
+        """One release-group lookup, shared by article_ref and reception so
+        asking for both costs one request instead of two: MusicBrainz
+        returns url relationships and the community rating off the same
+        `inc`.
+        """
+        body = self._cached(
+            'mb.rg.relations', {'mbid': release_group_mbid},
+            'GET', config.MUSICBRAINZ_API_ROOT + f'release-group/{release_group_mbid}',
+            params={'fmt': 'json', 'inc': 'url-rels ratings'},
+        )
+        return body or {}
+
     def article_ref(self, release_group_mbid):
         """Where to find this album's write-up, as ('wikipedia', title) or
         ('wikidata', 'Q123'), or None.
@@ -198,19 +211,30 @@ class MusicBrainzClient(_HttpClient):
         both shapes lets the caller resolve the Q-ids in bulk afterwards
         instead of one lookup per album.
         """
-        body = self._cached(
-            'mb.rg.urls', {'mbid': release_group_mbid},
-            'GET', config.MUSICBRAINZ_API_ROOT + f'release-group/{release_group_mbid}',
-            params={'fmt': 'json', 'inc': 'url-rels'},
-        )
+        body = self.release_group_relations(release_group_mbid)
         wikidata_id = None
-        for relation in (body or {}).get('relations') or []:
+        for relation in body.get('relations') or []:
             url = ((relation or {}).get('url') or {}).get('resource') or ''
             if 'wikipedia.org/wiki/' in url:
                 return 'wikipedia', url.rsplit('/wiki/', 1)[-1].replace('_', ' ')
             if 'wikidata.org/wiki/Q' in url:
                 wikidata_id = url.rsplit('/wiki/', 1)[-1]
         return ('wikidata', wikidata_id) if wikidata_id else None
+
+    def reception(self, release_group_mbid):
+        """{'rating': 0..5 or None, 'rating_votes': int}.
+
+        The rating is MusicBrainz's own crowd rating, not a popularity proxy
+        — it is people saying "this is good," independent of how many
+        listened. A vote count of 0 means nobody has rated it, not that it
+        was rated zero.
+        """
+        body = self.release_group_relations(release_group_mbid)
+        rating_info = body.get('rating') or {}
+        return {
+            'rating': rating_info.get('value'),
+            'rating_votes': rating_info.get('votes-count') or 0,
+        }
 
 
 def _escape(value):
