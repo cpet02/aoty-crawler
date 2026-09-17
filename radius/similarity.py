@@ -130,6 +130,25 @@ AXIS_LABELS = {
     'titling': 'track titling',
 }
 
+AXIS_HELP = {
+    'genre': "Overlap of the taxonomy-recognised part of each album's tags.",
+    'mood': "Overlap of mood, scene and texture tags — the non-genre part.",
+    'lineage': "Overlap of the *artist's* tag vector — scene and pedigree, not this one record.",
+    'neighbours': "Overlap of Last.fm similar-artist sets. Pure listener behaviour, independent of vocabulary.",
+    'prose': "Bag-of-words overlap over each album's Wikipedia article. Off by default — measured worse than nothing.",
+    'co_tagging': "How often the crowd already files this album next to the seed's own neighbourhoods.",
+    'reach': "How close their listener counts are, on a log scale.",
+    'devotion': "How close their listens-per-listener are — how hard their fans play them.",
+    'canonicity': "How similar each album's standing is within its own artist's catalogue.",
+    'era': "How close their release years are.",
+    'scale': "How close their total runtimes are.",
+    'pacing': "How close their average track lengths are.",
+    'definition': "How similarly confidently each album's genre tags cluster — easy to place vs. genre-fluid.",
+    'origin': "Whether the artists share a country/region of origin.",
+    'career': "How close each artist was to the start of their career at release.",
+    'titling': "Overlap in how the tracks are named. Curiosity more than signal — off by default.",
+}
+
 AXIS_GROUPS = {
     'Sound & association': ['genre', 'mood', 'lineage', 'neighbours', 'prose', 'co_tagging'],
     'Reception (no critics)': ['reach', 'devotion', 'canonicity'],

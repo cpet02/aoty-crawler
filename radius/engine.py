@@ -95,6 +95,16 @@ class Services:
             if client is not None
         )
 
+    @property
+    def requests_by_service(self):
+        """{service name: live requests made}, for services actually used."""
+        named = (('MusicBrainz', self.musicbrainz), ('ListenBrainz', self.listenbrainz),
+                 ('Wikipedia', self.wikipedia), ('Last.fm', self.lastfm))
+        return {
+            name: client.calls_made for name, client in named
+            if client is not None and client.calls_made > 0
+        }
+
 
 @dataclass
 class SimilarityResult:

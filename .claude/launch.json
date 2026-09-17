@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "radius-ui",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "ui.launch"],
+      "port": 8501
+    }
+  ]
+}

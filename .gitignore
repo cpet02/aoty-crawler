@@ -52,9 +52,6 @@ Thumbs.db
 .env
 .env.local
 
-# Scrapy
-.scrapy
-
 # Test coverage
 .coverage
 htmlcov/
@@ -80,11 +77,6 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
-
-# Scraped data files
-data/output/*
-logs/*.log
-debug_html/*
 
 # Temporary files
 *.bak

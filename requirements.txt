@@ -1,14 +1,8 @@
 # UI
 streamlit>=1.28.0
 
-# Core scraping
-scrapy==2.11.0
-selenium==4.17.2
-undetected-chromedriver==3.5.5
-lxml==5.2.0
-
-# HTTP. Used by the FlareSolverr middleware and by Radius, which talks to the
-# MusicBrainz, ListenBrainz and Wikipedia JSON APIs.
+# HTTP. Radius talks to the MusicBrainz, ListenBrainz, Wikipedia and (optional)
+# Last.fm JSON APIs through this, behind a disk cache.
 requests>=2.31.0
 
 # Data Processing

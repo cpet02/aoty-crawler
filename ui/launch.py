@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Launch the AOTY Crawler Streamlit UI
+Launch the Radius Streamlit UI
 """
 
 import subprocess
@@ -23,7 +23,7 @@ def main():
     project_root = os.path.dirname(ui_dir)
     app_path = os.path.join(ui_dir, "app.py")
 
-    print("🎵 Starting AOTY Crawler UI...")
+    print("🧭 Starting Radius UI...")
     print(f"UI Directory: {ui_dir}")
     print(f"App Path: {app_path}")
 

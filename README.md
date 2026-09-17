@@ -1,42 +1,69 @@
-# AOTY Crawler
+# Radius
 
-A personal music data explorer built on [AlbumOfTheYear.org](https://www.albumoftheyear.org). Scrapes album data by genre and year, stores it locally, and exposes it through a Streamlit dashboard with multi-genre filtering — something AOTY's own interface doesn't support.
+Give it one album you like and it finds albums with a similar overall
+fingerprint: genre and mood tags, artist lineage, listener kinship, audience
+size, listener devotion, era, runtime, pacing, origin, career stage and more.
+
+It runs on three keyless JSON APIs — MusicBrainz, ListenBrainz and Wikipedia —
+behind a disk cache. **No scraping, no robots.txt question, no critic
+scores.** An optional Last.fm key thickens the tag vectors if you have one.
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![Scrapy](https://img.shields.io/badge/scrapy-2.x-green.svg)](https://scrapy.org/)
 [![Streamlit](https://img.shields.io/badge/streamlit-1.x-red.svg)](https://streamlit.io/)
 
 ---
 
-## Two Tools In One Repo
-
-**🧭 Radius** — the part to use now. Give it one album you like and it finds
-albums with a similar overall fingerprint: genre and mood tags, artist
-lineage, listener kinship, audience size, listener devotion, era, runtime,
-pacing, origin, career stage and more. It runs on three keyless APIs
-(MusicBrainz, ListenBrainz, Wikipedia) behind a disk cache — **no crawling, no
-robots.txt question, and no critic scores.** An optional Last.fm key thickens
-the tag vectors if you have one. See [radius/README.md](radius/README.md).
+## Try it
 
 ```bash
 python -m radius "Bon Iver - For Emma, Forever Ago"
 ```
 
-**🕷 The AOTY crawler** — the original scrape-and-filter tool, described
-below. It still works, but Radius needs none of its data.
+```bash
+python -m ui.launch
+```
+
+Then name an album, confirm it's the one you meant, and pick from three modes
+(Closest / Sideways / Deep cuts) plus one "how far to roam" slider. Everything
+else lives under **Fine-tuning** and can be ignored forever.
 
 ---
 
-## Why This Exists
+## How it works
 
-AOTY is great but its search is limited — one genre at a time, no review-count filtering, no way to combine criteria. This project lets you build a local queryable copy of the data and explore it however you want.
+1. **Resolve** the seed to a MusicBrainz release-group id.
+2. **Gather candidates** two ways: MusicBrainz tag searches on the seed's own
+   prominent tags, and the most-played albums of ListenBrainz's collaborative
+   similar artists. Typically 300–500 candidates.
+3. **Prefilter** to `pool_size` (default 120) by how many independent
+   neighbourhoods surfaced each album.
+4. **Fingerprint in bulk** — ListenBrainz returns metadata and listen counts
+   for 25 mbids per request, so the pool costs ~10 calls, not ~400.
+5. **Score** by weighted distance across 16 axes, keep what is inside the
+   radius, cap albums per artist, then fetch tracklists for the finalists only.
 
-**What you can do with it:**
-- Filter albums by multiple genres simultaneously
-- Set minimum critic/user score thresholds
-- Filter by review count (find hidden gems or widely-reviewed releases)
-- Browse by year
-- Export to CSV/JSON for your own analysis
+Full detail, axis table, tuning flags and request-count math: [radius/README.md](radius/README.md).
+
+---
+
+## Services used
+
+| Service | Key? | Used for |
+|---|---|---|
+| MusicBrainz | no | catalogue, tag search, tracklists. **1 req/sec, their hard limit** |
+| ListenBrainz | no | tags, listen counts, similar artists. Bulk endpoints |
+| Wikipedia / Wikidata | no | article text for the (off-by-default) prose axis |
+| Last.fm | **optional** | crowd tags that thicken the vectors |
+
+The Last.fm key lives in `.env` (gitignored). It is purely additive: delete it
+and everything still runs, with thinner tags. Regenerate or revoke it at
+<https://www.last.fm/api/accounts> whenever you like.
+
+A cold run against the default 120-album pool costs roughly 70–90 requests
+total across those services; the UI shows the exact per-service count and
+cache-hit count for every run it makes. Repeat runs of the same or a
+neighbouring seed reuse the disk cache (`data/cache/radius.sqlite`) and cost
+close to nothing.
 
 ---
 
@@ -44,19 +71,15 @@ AOTY is great but its search is limited — one genre at a time, no review-count
 
 | Component | Purpose |
 |---|---|
-| [Scrapy](https://scrapy.org/) | Web crawling with built-in rate limiting |
-| [Streamlit](https://streamlit.io/) | Interactive dashboard UI |
-| [Selenium](https://selenium.dev/) + undetected-chromedriver | JS rendering fallback |
-| Pandas | Data export and analysis |
-
-Scraped data is stored as JSON/CSV files under `data/output/` — there's no database; the dashboard and CLI both read those files directly.
+| [Streamlit](https://streamlit.io/) | The UI |
+| [Requests](https://requests.readthedocs.io/) | Cached, rate-limited HTTP to MusicBrainz/ListenBrainz/Wikipedia/Last.fm |
+| Pandas | CSV export |
 
 ---
 
 ## Requirements
 
 - Python 3.10+
-- Google Chrome (for Selenium fallback)
 - pip
 
 ---
@@ -71,124 +94,10 @@ python -m venv venv
 source venv/bin/activate        # Windows: venv\Scripts\activate
 
 pip install -r requirements.txt
-mkdir logs
 ```
 
----
-
-## Quick Start
-
-**1. Scrape some data**
-
-```bash
-# Scrape Pop albums from 2026 (250 albums, 1 year back)
-python -m cli scrape --genre "Pop" --start-year 2026 --years-back 1 --albums-per-year 250
-
-# Scrape Rock albums across 3 years
-python -m cli scrape --genre "Rock" --start-year 2026 --years-back 3 --albums-per-year 100
-
-# Test run (10 albums, stops quickly)
-python -m cli scrape --genre "Jazz" --test-mode --limit 10
-```
-
-**2. Launch the dashboard**
-
-```bash
-python ui/launch.py
-# Opens at http://localhost:8501
-```
-
----
-
-## CLI Reference
-
-```
-python -m cli scrape [options]
-
-Options:
-  --genre TEXT            Genre to scrape (e.g. "Pop", "Hip-Hop", "Electronic")
-  --start-year INT        Starting year (default: current year)
-  --years-back INT        How many years to go back (default: 1)
-  --albums-per-year INT   Albums to collect per year (default: 250)
-  --test-mode             Limit scrape to --limit albums for testing
-  --limit INT             Album limit in test mode (default: 10)
-  --resume                Resume a previous scrape
-```
-
-Genre names match what's shown on AOTY (e.g. `"Hip-Hop"`, `"Indie Rock"`, `"Electronic"`). Capitalisation is not strict but spacing matters — use the genre name as written on the site.
-
----
-
-## Project Structure
-
-```
-aoty-crawler/
-├── aoty_crawler/              # Scrapy package
-│   ├── spiders/
-│   │   ├── production_spider.py        # Main spider
-│   │   ├── comprehensive_album_spider.py
-│   │   └── album_extraction.py         # Shared page-parsing logic
-│   ├── utils/
-│   │   ├── data_loader.py     # Reads albums_*.json/csv into memory
-│   │   ├── job_tracker.py     # Per-scrape progress/status files
-│   │   ├── genres_manager.py  # Genre hierarchy logic
-│   │   ├── genres_hierarchy.py
-│   │   └── genres_db.json     # Bundled + auto-discovered genre list
-│   ├── items.py               # Data models
-│   ├── pipelines.py           # Output pipeline (JSON + CSV)
-│   ├── middlewares.py         # Retry + Selenium middleware
-│   └── settings.py            # Scrapy config
-├── cli/                       # CLI entry point
-│   └── __main__.py
-├── ui/                        # Streamlit dashboard
-│   ├── app.py                 # Main app
-│   └── launch.py
-├── data/output/               # Scraped output + job status (gitignored)
-├── logs/                      # Run logs (gitignored)
-├── .env.example               # Config template
-└── requirements.txt
-```
-
----
-
-## Data Output
-
-Each scrape run writes two files to `data/output/`:
-
-- `albums_YYYYMMDD_HHMMSS.json` — full records
-- `albums_YYYYMMDD_HHMMSS.csv` — flat tabular format
-
-**Fields per album:**
-
-| Field | Description |
-|---|---|
-| `title` | Album title |
-| `artist_name` | Artist name |
-| `scrape_year` | Release year scraped |
-| `scrape_genre` | Genre used to find it |
-| `genres` | All genre tags on the album page |
-| `genre_tags` | Secondary genre tags |
-| `critic_score` | Critic aggregate score (0–100) |
-| `user_score` | User aggregate score (0–100) |
-| `critic_review_count` | Number of critic reviews |
-| `user_review_count` | Number of user ratings |
-| `release_date` | Release date string |
-| `cover_image_url` | Album art URL |
-| `url` | AOTY album page URL |
-
----
-
-## Configuration
-
-Default rate limiting is conservative and respectful. Settings in `aoty_crawler/settings.py`:
-
-```python
-DOWNLOAD_DELAY = 3           # seconds between requests
-CONCURRENT_REQUESTS = 1      # one request at a time
-ROBOTSTXT_OBEY = True        # always
-```
-
-Copy `.env.example` to `.env` to override settings without editing source:
+Copy `.env.example` to `.env` if you want to set a Last.fm key or your own
+contact string:
 
 ```bash
 cp .env.example .env
@@ -196,31 +105,35 @@ cp .env.example .env
 
 ---
 
-## Troubleshooting
+## Project structure
 
-**`ModuleNotFoundError: No module named 'aoty_crawler'`**
-Run commands from the project root directory, not from inside a subdirectory.
-
-**Scrape returns 0 albums**
-The CSS selectors for the ratings page may have changed. Check `aoty_crawler/spiders/production_spider.py` → `parse_ratings_page()`. You can debug interactively with:
-```bash
-scrapy shell "https://www.albumoftheyear.org/ratings/user-highest-rated/2026/pop/"
 ```
-
-**ChromeDriver crashes**
-Update Chrome, then clear its cached driver:
-```bash
-rm -rf ~/.wdm/drivers/chromedriver/*
+radius/                      # The engine — see radius/README.md
+├── clients.py                # Rate-limited, cached HTTP clients
+├── cache.py                  # SQLite response cache
+├── candidates.py             # Candidate gathering
+├── albums.py                 # AlbumFeatures fingerprint
+├── similarity.py             # Axes and distance function
+├── engine.py                 # find_similar() — the whole pipeline
+├── cli.py                    # python -m radius
+└── taxonomy.py                # Vendored genre hierarchy
+ui/                           # Streamlit app
+│   ├── app.py                 # The whole UI
+│   └── launch.py
+tests/test_radius.py          # 30 tests, offline against stub clients
+data/cache/                   # Response cache (gitignored)
 ```
-
-**Dashboard shows "No albums loaded"**
-You need to run a scrape first. The UI only reads from `data/output/`.
 
 ---
 
-## Legal
+## Testing
 
-This project is for **personal, non-commercial use only**. See [TERMS_OF_USE.md](TERMS_OF_USE.md) and [COMPLIANCE.md](COMPLIANCE.md) for full details. Data scraped using this tool belongs to AlbumOfTheYear.org.
+```bash
+python -m pytest tests/ -q
+```
+
+All 30 tests run offline against stub clients — no network, no API key
+needed.
 
 ---
 

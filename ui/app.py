@@ -1,991 +1,36 @@
 #!/usr/bin/env python3
 """
-Streamlit UI for AOTY Crawler
+Streamlit UI for Radius — seed one album, find its neighbours by fingerprint.
 
-Views are switched via a top nav. Alongside the scrape-and-filter views
-there is Similar, which is seeded by a single album and talks to the
-Last.fm and MusicBrainz APIs instead of crawling anything (see radius/).
-Progress is completion-based (albums scraped / target albums), computed from
-each job's own parameters rather than elapsed time, and read from small JSON
-status files the spider writes as it works (see aoty_crawler/utils/job_tracker.py).
+The whole app is this one view. See radius/README.md for how matching works,
+and radius/engine.py for the pipeline this screen drives.
 """
 
 import sys
 import os
 import html
-import subprocess
-import time
-from datetime import datetime
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import streamlit as st
 import pandas as pd
 
-from aoty_crawler.utils.data_loader import (
-    load_all_albums, load_albums_from_json, filter_albums, filter_invalid_albums,
-    group_albums_by_artist
-)
-from aoty_crawler.utils import job_tracker, ratings as ratings_store, filter_presets, bookmarks as bookmarks_store
-from aoty_crawler.utils.genres_manager import (
-    get_all_genres, get_parent_genres, get_genre_with_children, discover_from_albums
-)
-from aoty_crawler.utils.recommendations import recommend
 from radius import clients as radius_clients
 from radius import engine as radius_engine
 from radius import similarity as radius_similarity
 
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATA_ROOT = os.path.join(PROJECT_ROOT, 'data')
-DATA_DIR = os.path.join(DATA_ROOT, 'output')
-JOBS_DIR = job_tracker.jobs_dir_for(DATA_DIR)
-
 st.set_page_config(
-    page_title="AOTY Explorer",
-    page_icon="🎵",
+    page_title="Radius",
+    page_icon="🧭",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed",
 )
-
-DEFAULTS = {
-    'view': 'home',
-    'active_job_id': None,
-    'scrape_process': None,
-    'scrape_job_id': None,
-    'scrape_start_time': None,
-}
-for key, value in DEFAULTS.items():
-    if key not in st.session_state:
-        st.session_state[key] = value
-
-
-def goto(view, job_id=None):
-    st.session_state.view = view
-    if job_id is not None:
-        st.session_state.active_job_id = job_id
-
-
-def get_jobs():
-    return job_tracker.list_jobs(JOBS_DIR)
-
-
-def running_process_job():
-    """The job_id tied to a subprocess this session actually launched, if it's still running."""
-    proc = st.session_state.scrape_process
-    if proc is not None and proc.poll() is None:
-        return st.session_state.scrape_job_id
-    return None
-
-
-def fmt_duration(start_iso, end_iso=None):
-    try:
-        start = datetime.fromisoformat(start_iso)
-    except (TypeError, ValueError):
-        return "?"
-    end = datetime.fromisoformat(end_iso) if end_iso else datetime.utcnow()
-    secs = int((end - start).total_seconds())
-    if secs < 60:
-        return f"{secs}s"
-    mins, secs = divmod(secs, 60)
-    if mins < 60:
-        return f"{mins}m {secs}s"
-    hours, mins = divmod(mins, 60)
-    return f"{hours}h {mins}m"
-
-
-def job_progress_fraction(job):
-    target = job.get('target_total')
-    completed = job.get('completed', 0)
-    if not target:
-        return None
-    return max(0.0, min(1.0, completed / target))
-
-
-def _render_bookmarkable_table(df, display_cols, column_config, key, height=None):
-    """st.data_editor wrapper that adds a "🔖 To Listen" checkbox column.
-
-    Toggling the checkbox writes straight through to bookmarks_store, so the
-    bookmark persists in data/bookmarks.json independent of this dataframe,
-    this scrape, or this session.
-    """
-    current_bookmarks = bookmarks_store.load_bookmarks(DATA_ROOT)
-    df = df.copy()
-    df['🔖'] = df['aoty_id'].apply(lambda aid: bookmarks_store.is_bookmarked(current_bookmarks, aid))
-
-    edited = st.data_editor(
-        df,
-        use_container_width=True,
-        height=height,
-        hide_index=True,
-        key=key,
-        column_order=display_cols + ['🔖'],
-        disabled=display_cols,
-        column_config={**column_config, '🔖': st.column_config.CheckboxColumn("To Listen")},
-    )
-
-    for aoty_id, was_bookmarked, is_bookmarked in zip(df['aoty_id'], df['🔖'], edited['🔖']):
-        if is_bookmarked and not was_bookmarked:
-            row = df.loc[df['aoty_id'] == aoty_id].iloc[0]
-            bookmarks_store.add_bookmark(
-                DATA_ROOT, aoty_id,
-                title=row.get('title'), artist_name=row.get('artist_name'),
-                genres=(row.get('genres') or '').split(', ') if isinstance(row.get('genres'), str) else row.get('genres'),
-                url=row.get('url'),
-            )
-        elif was_bookmarked and not is_bookmarked:
-            bookmarks_store.remove_bookmark(DATA_ROOT, aoty_id)
-
-
-# ---------------------------------------------------------------------------
-# Top navigation
-# ---------------------------------------------------------------------------
-
-st.title("🎵 AOTY Explorer")
-
-jobs = get_jobs()
-live_job_id = running_process_job()
-
-# Plain buttons (not segmented_control/radio) are used deliberately: those
-# widgets persist their selection across every future rerun, which fights
-# with the programmatic view transitions below (e.g. jumping into the
-# progress view right after starting a scrape). A button is only True on
-# the exact rerun it was clicked, so it can't clobber state afterwards.
-current_view = st.session_state.view
-nav_col1, nav_col2, nav_col3, nav_col4, nav_col5, nav_col6, nav_col7 = st.columns(7)
-with nav_col1:
-    if st.button("🏠 Home", use_container_width=True, key="nav_home",
-                 type="primary" if current_view == 'home' else "secondary"):
-        goto('home')
-        st.rerun()
-with nav_col2:
-    if st.button("🧭 Similar", use_container_width=True, key="nav_similar",
-                 type="primary" if current_view == 'similar' else "secondary"):
-        goto('similar')
-        st.rerun()
-with nav_col3:
-    if st.button("📁 Past Scrapes", use_container_width=True, key="nav_past_scrapes",
-                 type="primary" if current_view == 'past_scrapes' else "secondary"):
-        goto('past_scrapes')
-        st.rerun()
-with nav_col4:
-    if st.button("🎤 Artists", use_container_width=True, key="nav_artists",
-                 type="primary" if current_view == 'artists' else "secondary"):
-        goto('artists')
-        st.rerun()
-with nav_col5:
-    if st.button("⭐ Ratings", use_container_width=True, key="nav_ratings",
-                 type="primary" if current_view == 'ratings' else "secondary"):
-        goto('ratings')
-        st.rerun()
-with nav_col6:
-    if st.button("🔖 To Listen", use_container_width=True, key="nav_to_listen",
-                 type="primary" if current_view == 'to_listen' else "secondary"):
-        goto('to_listen')
-        st.rerun()
-with nav_col7:
-    if st.button("🚀 New Scrape", use_container_width=True, key="nav_new_scrape",
-                 type="primary" if current_view == 'new_scrape' else "secondary"):
-        goto('new_scrape')
-        st.rerun()
-
-if live_job_id and st.session_state.view not in ('progress', 'past_scrapes', 'results', 'similar'):
-    # Only steer into progress automatically right after a launch; once the
-    # user has navigated elsewhere, let them stay there (Past Scrapes always
-    # offers a "View progress" button for any running job).
-    goto('progress', live_job_id)
-
-
-def launch_scrape(genre_str, start_year, years_back, albums_per_year,
-                   test_mode=False, resume=False, output_dir=None):
-    """Kick off a scrape subprocess with the given params and return its job_id.
-    Shared by the New Scrape form and the Past Scrapes "refresh" button so a
-    re-run always goes through the exact same launch path as the original."""
-    job_id = job_tracker.new_job_id()
-    cmd = [sys.executable, "-m", "cli", "scrape",
-           "--genre", genre_str,
-           "--start-year", str(start_year),
-           "--years-back", str(years_back),
-           "--albums-per-year", str(albums_per_year),
-           "--job-id", job_id]
-    if test_mode:
-        cmd.append("--test-mode")
-    if resume:
-        cmd.append("--resume")
-    if output_dir and output_dir.strip():
-        cmd.extend(["--output-dir", output_dir.strip()])
-
-    st.session_state.scrape_process = subprocess.Popen(cmd, cwd=PROJECT_ROOT)
-    st.session_state.scrape_job_id = job_id
-    st.session_state.scrape_start_time = time.time()
-    return job_id
-
-
-# ---------------------------------------------------------------------------
-# New Scrape form
-# ---------------------------------------------------------------------------
-
-def render_new_scrape():
-    st.header("🚀 Start a New Scrape")
-
-    all_genres_list = sorted(get_all_genres())
-
-    # The widget owns its value via `key` once created; to have the "browse
-    # by category" button add to the selection, we set that same
-    # session_state key directly before the widget is instantiated (rather
-    # than passing `default=`, which Streamlit only honors on first render —
-    # the same persistence gotcha noted for nav buttons above).
-    if "genre_multiselect" not in st.session_state:
-        st.session_state["genre_multiselect"] = []
-
-    # A widget's session_state key can't be written after the widget itself
-    # has been instantiated this run (Streamlit raises), so anything that
-    # wants to change "genre_multiselect" — the "browse by category" button,
-    # or the submit button resetting the form — stashes what it wants done
-    # here instead, and this block applies it before the multiselect is
-    # created on the *next* rerun.
-    if st.session_state.pop("_pending_clear_genres", False):
-        st.session_state["genre_multiselect"] = []
-
-    pending_genre = st.session_state.pop("_pending_add_genre", None)
-    if pending_genre and pending_genre not in st.session_state["genre_multiselect"]:
-        st.session_state["genre_multiselect"] = st.session_state["genre_multiselect"] + [pending_genre]
-
-    # A multiselect already lets you type to filter its own options, so a
-    # separate search box next to it would just do the same thing twice.
-    # Each genre picked here becomes its own leg of one scrape job.
-    selected_genres = st.multiselect(
-        f"Genres ({len(all_genres_list)} available — type to search, pick one or more)",
-        all_genres_list,
-        placeholder="e.g. 'rock', 'ethereal', 'hop'...",
-        key="genre_multiselect",
-    )
-
-    with st.expander("📂 Browse genres by category instead"):
-        parent_genres_list = get_parent_genres()
-        selected_parent = st.selectbox("Category", parent_genres_list, key="browse_parent")
-        genre_info = get_genre_with_children(selected_parent)
-        if genre_info["has_children"]:
-            browse_choice = st.selectbox("Subgenre", genre_info["children"], key="browse_child")
-        else:
-            browse_choice = selected_parent
-        if st.button("➕ Add this genre", key="use_browsed_genre"):
-            st.session_state["_pending_add_genre"] = browse_choice
-            st.rerun()
-
-    if len(selected_genres) > 1:
-        st.caption(f"📦 Queuing {len(selected_genres)} genres in one scrape job: {', '.join(selected_genres)}")
-
-    st.markdown("---")
-
-    current_year = datetime.utcnow().year
-    year_range = st.slider(
-        "Years to cover",
-        min_value=1970, max_value=current_year,
-        value=(current_year - 1, current_year),
-    )
-    start_year = year_range[1]
-    years_back = year_range[1] - year_range[0] + 1
-
-    albums_per_year = st.select_slider(
-        "Albums per year",
-        options=[10, 25, 50, 100, 150, 250, 500],
-        value=100,
-        help="How many top-rated albums to pull for each year in the range above.",
-    )
-
-    est_total = albums_per_year * years_back * max(len(selected_genres), 1)
-    genre_factor = f" × {len(selected_genres)} genres" if len(selected_genres) > 1 else ""
-    st.caption(
-        f"📊 This will scrape up to **{est_total} albums** "
-        f"({albums_per_year}/year × {years_back} year{'s' if years_back != 1 else ''}{genre_factor})."
-    )
-
-    with st.expander("⚙️ Advanced options"):
-        test_mode = st.checkbox(
-            "Test mode", value=False,
-            help="Faster and lighter: fewer albums, shorter delays between requests."
-        )
-        resume = st.checkbox(
-            "Resume", value=False,
-            help="Skip albums already present in a previous scrape's output before re-running."
-        )
-        custom_output_dir = st.text_input("Custom output directory", value="")
-
-    st.markdown("---")
-
-    disabled = not selected_genres or live_job_id is not None
-    if live_job_id:
-        st.info("A scrape is already running — wait for it to finish before starting another.")
-
-    if st.button("🚀 Start Scrape", type="primary", disabled=disabled, key="start_scrape_submit"):
-        job_id = launch_scrape(
-            ", ".join(selected_genres), start_year, years_back, albums_per_year,
-            test_mode=test_mode, resume=resume, output_dir=custom_output_dir,
-        )
-        # Can't touch "genre_multiselect" directly here — same rule as the
-        # "browse by category" button above: its widget already ran this
-        # script pass. Flag it for the pending-apply block at the top of
-        # this view to clear before the widget is next created.
-        st.session_state["_pending_clear_genres"] = True
-        goto('progress', job_id)
-        st.rerun()
-
-
-# ---------------------------------------------------------------------------
-# Progress view (completion-based, not time-based)
-# ---------------------------------------------------------------------------
-
-def render_progress():
-    job_id = st.session_state.active_job_id
-    job = job_tracker.load_job(job_id, JOBS_DIR)
-
-    if not job:
-        st.info("No progress to show yet — waiting for the scrape to start writing status...")
-        time.sleep(1)
-        st.rerun()
-        return
-
-    params = job.get('params', {})
-    st.header(f"🔄 Scraping: {params.get('genre', 'unknown genre')}")
-    st.caption(
-        f"Years {params.get('end_year')}–{params.get('start_year')} · "
-        f"{params.get('albums_per_year')} albums/year"
-        + (" · test mode" if params.get('test_mode') else "")
-    )
-
-    status = job.get('status', 'running')
-    completed = job.get('completed', 0)
-    target = job.get('target_total')
-    frac = job_progress_fraction(job)
-
-    if frac is not None:
-        st.progress(frac, text=f"{completed} / {target} albums scraped ({frac*100:.0f}%)")
-    else:
-        st.progress(0.0, text=f"{completed} albums scraped (total unknown for all-genre runs)")
-
-    where = []
-    if job.get('current_genre'):
-        where.append(job['current_genre'])
-    if job.get('current_year'):
-        where.append(str(job['current_year']))
-    if where:
-        st.caption(f"📍 Currently on: {' · '.join(where)}")
-
-    st.caption(f"⏱️ Elapsed: {fmt_duration(job.get('started_at'), job.get('ended_at'))}")
-
-    col1, col2 = st.columns(2)
-    with col1:
-        if status == 'running' and st.session_state.scrape_process is not None:
-            if st.button("⛔ Cancel scrape", key="cancel_scrape"):
-                proc = st.session_state.scrape_process
-                proc.terminate()
-                try:
-                    proc.wait(timeout=5)
-                except subprocess.TimeoutExpired:
-                    proc.kill()
-                # The killed process never gets to write its own final status,
-                # so record the cancellation here or the UI would show
-                # "running" forever.
-                job_tracker.update_job(
-                    job_id, JOBS_DIR,
-                    status='cancelled',
-                    ended_at=datetime.utcnow().isoformat(),
-                    finish_reason='cancelled_by_user',
-                )
-                st.session_state.scrape_process = None
-                st.rerun()
-    with col2:
-        if status in ('completed', 'failed', 'cancelled'):
-            if st.button("📊 View Results", type="primary", key="progress_view_results"):
-                goto('results', job_id)
-                st.rerun()
-
-    if status == 'running':
-        time.sleep(2)
-        st.rerun()
-    elif status == 'completed':
-        st.success(f"✅ Done — {completed} albums scraped.")
-    elif status == 'failed':
-        st.error(f"❌ Scrape stopped early ({job.get('finish_reason', 'unknown reason')}).")
-    elif status == 'cancelled':
-        st.warning(f"⛔ Cancelled — {completed} albums scraped before stopping.")
-
-
-# ---------------------------------------------------------------------------
-# Past scrapes list
-# ---------------------------------------------------------------------------
-
-def render_past_scrapes():
-    st.header("📁 Past Scrapes")
-
-    if not jobs:
-        st.info("No scrapes yet.")
-        if st.button("🚀 Start your first scrape", type="primary", key="past_scrapes_start_first"):
-            goto('new_scrape')
-            st.rerun()
-        return
-
-    if st.button("🗂️ Browse ALL scraped data combined", use_container_width=True, key="browse_all_data"):
-        goto('results', None)
-        st.rerun()
-
-    st.markdown("---")
-
-    status_icon = {'running': '🔄', 'completed': '✅', 'failed': '❌', 'cancelled': '⛔'}
-
-    for job in jobs:
-        params = job.get('params', {})
-        icon = status_icon.get(job.get('status'), '❓')
-        with st.container(border=True):
-            c1, c2, c3, c4 = st.columns([3, 2, 2, 2])
-            with c1:
-                st.write(f"**{icon} {params.get('genre', 'Unknown genre')}**")
-                st.caption(f"Years {params.get('end_year')}–{params.get('start_year')}")
-            with c2:
-                st.caption(f"{job.get('completed', 0)} albums scraped")
-                if job.get('target_total'):
-                    st.caption(f"target: {job['target_total']}")
-            with c3:
-                started = job.get('started_at', '')[:19].replace('T', ' ')
-                st.caption(f"🕒 {started}")
-                st.caption(f"⏱️ {fmt_duration(job.get('started_at'), job.get('ended_at'))}")
-            with c4:
-                if job.get('status') == 'running':
-                    if st.button("View progress", key=f"prog_{job['job_id']}"):
-                        goto('progress', job['job_id'])
-                        st.rerun()
-                else:
-                    if job.get('output_files'):
-                        if st.button("View results", key=f"res_{job['job_id']}"):
-                            goto('results', job['job_id'])
-                            st.rerun()
-                    else:
-                        st.caption("No data saved")
-
-                    if st.button("🔁 Refresh", key=f"refresh_{job['job_id']}",
-                                 disabled=live_job_id is not None,
-                                 help="Re-run this scrape with the same genre/years/albums-per-year."):
-                        new_job_id = launch_scrape(
-                            params.get('genre') or '',
-                            params.get('start_year'),
-                            params.get('years_back'),
-                            params.get('albums_per_year'),
-                            test_mode=params.get('test_mode', False),
-                        )
-                        goto('progress', new_job_id)
-                        st.rerun()
-
-                    confirm_key = f"confirm_delete_{job['job_id']}"
-                    if st.session_state.get(confirm_key):
-                        st.caption("Delete this scrape permanently?")
-                        dc1, dc2 = st.columns(2)
-                        with dc1:
-                            if st.button("✅ Yes, delete", key=f"confirm_yes_{job['job_id']}"):
-                                job_tracker.delete_job(job['job_id'], JOBS_DIR)
-                                st.session_state[confirm_key] = False
-                                st.rerun()
-                        with dc2:
-                            if st.button("Cancel", key=f"confirm_no_{job['job_id']}"):
-                                st.session_state[confirm_key] = False
-                                st.rerun()
-                    else:
-                        if st.button("🗑️ Delete", key=f"del_{job['job_id']}"):
-                            st.session_state[confirm_key] = True
-                            st.rerun()
-
-
-# ---------------------------------------------------------------------------
-# Results: searchable + sortable
-# ---------------------------------------------------------------------------
-
-def load_results_for_job(job_id):
-    """Returns (albums, stats) where stats reports how many entries were
-    dropped as duplicates or as invalid/incomplete, so the UI can tell the
-    user something was hidden instead of the count just quietly being off."""
-    if job_id is None:
-        return load_all_albums(output_dir=DATA_DIR, return_stats=True)
-    job = job_tracker.load_job(job_id, JOBS_DIR)
-    json_path = (job or {}).get('output_files', {}).get('json')
-    if json_path and not os.path.isabs(json_path):
-        # Older job files (written before paths were stored absolute) hold a
-        # path relative to whatever cwd the scraping process had. Resolve it
-        # against the project root as a best-effort fallback rather than
-        # just reporting "no albums found".
-        json_path = os.path.join(PROJECT_ROOT, json_path)
-    if json_path and os.path.exists(json_path):
-        raw = load_albums_from_json(json_path)
-        valid = filter_invalid_albums(raw)
-        return valid, {'duplicates_removed': 0, 'invalid_removed': len(raw) - len(valid)}
-    return [], {'duplicates_removed': 0, 'invalid_removed': 0}
-
-
-def render_results():
-    job_id = st.session_state.active_job_id
-    albums, load_stats = load_results_for_job(job_id)
-
-    if job_id:
-        job = job_tracker.load_job(job_id, JOBS_DIR)
-        params = (job or {}).get('params', {})
-        st.header(f"📊 Results: {params.get('genre', 'scrape')}")
-    else:
-        st.header("📊 All Scraped Data")
-
-    hidden_notes = []
-    if load_stats.get('duplicates_removed'):
-        hidden_notes.append(f"{load_stats['duplicates_removed']} duplicate re-scrapes (kept the newest)")
-    if load_stats.get('invalid_removed'):
-        hidden_notes.append(f"{load_stats['invalid_removed']} incomplete entries (no scores/reviews or genres)")
-    if hidden_notes:
-        st.caption(f"ℹ️ Hidden from results: {'; '.join(hidden_notes)}.")
-
-    if not albums:
-        st.info("No albums found for this scrape.")
-        return
-
-    discovery_result = discover_from_albums(albums)
-    if discovery_result["new_genres"]:
-        st.toast(f"🆕 Discovered {len(discovery_result['new_genres'])} new genre(s)!")
-
-    all_genres = sorted(set(g for a in albums for g in a.get('genres', [])))
-    max_critic_reviews_seen = max((a.get('critic_review_count') or 0) for a in albums) if albums else 0
-    max_user_reviews_seen = max((a.get('user_review_count') or 0) for a in albums) if albums else 0
-    years_seen = sorted({a.get('release_year') for a in albums if a.get('release_year')})
-    year_options = ["All"] + years_seen[::-1]
-
-    def _clamp_range_state(key, hi):
-        # Defends against a preset (or a leftover value from viewing a
-        # different scrape) carrying a range outside what this dataset
-        # actually has — sliders error if their session value falls
-        # outside [min, max] once the widget is (re)created below.
-        if key in st.session_state:
-            lo_v, hi_v = st.session_state[key]
-            st.session_state[key] = (max(0, min(lo_v, hi)), max(0, min(hi_v, hi)))
-
-    _clamp_range_state('filter_critic_score', 100)
-    _clamp_range_state('filter_user_score', 100)
-    _clamp_range_state('filter_critic_reviews', max(max_critic_reviews_seen, 1))
-    _clamp_range_state('filter_user_reviews', max(max_user_reviews_seen, 1))
-    if 'filter_genres' in st.session_state:
-        st.session_state['filter_genres'] = [g for g in st.session_state['filter_genres'] if g in all_genres]
-    if st.session_state.get('filter_year') not in year_options:
-        st.session_state['filter_year'] = 'All'
-
-    with st.sidebar:
-        st.header("🔍 Filter & Search")
-
-        with st.expander("📋 Filter presets"):
-            presets = filter_presets.load_presets(DATA_ROOT)
-            if presets:
-                preset_names = sorted(presets.keys())
-                chosen_preset = st.selectbox("Saved presets", preset_names, key="preset_select")
-                pcol1, pcol2 = st.columns(2)
-                with pcol1:
-                    if st.button("📥 Load", key="load_preset_btn", use_container_width=True):
-                        p = presets[chosen_preset]
-                        st.session_state['filter_genres'] = [g for g in p.get('genres', []) if g in all_genres]
-                        st.session_state['filter_match_all'] = p.get('match_all_genres', False)
-                        st.session_state['filter_critic_score'] = tuple(p.get('critic_score', (0, 100)))
-                        st.session_state['filter_user_score'] = tuple(p.get('user_score', (0, 100)))
-                        st.session_state['filter_critic_reviews'] = tuple(p.get('critic_reviews', (0, max(max_critic_reviews_seen, 1))))
-                        st.session_state['filter_user_reviews'] = tuple(p.get('user_reviews', (0, max(max_user_reviews_seen, 1))))
-                        st.session_state['filter_year'] = p.get('year', 'All')
-                        st.session_state['filter_search'] = p.get('search', '')
-                        _clamp_range_state('filter_critic_score', 100)
-                        _clamp_range_state('filter_user_score', 100)
-                        _clamp_range_state('filter_critic_reviews', max(max_critic_reviews_seen, 1))
-                        _clamp_range_state('filter_user_reviews', max(max_user_reviews_seen, 1))
-                        if st.session_state['filter_year'] not in year_options:
-                            st.session_state['filter_year'] = 'All'
-                        st.rerun()
-                with pcol2:
-                    if st.button("🗑️ Delete", key="delete_preset_btn", use_container_width=True):
-                        filter_presets.delete_preset(DATA_ROOT, chosen_preset)
-                        st.rerun()
-            else:
-                st.caption("No saved presets yet.")
-
-            new_preset_name = st.text_input("Save current filters as", key="new_preset_name")
-            if st.button("💾 Save preset", key="save_preset_btn"):
-                if new_preset_name.strip():
-                    filter_presets.set_preset(DATA_ROOT, new_preset_name.strip(), {
-                        'genres': st.session_state.get('filter_genres', []),
-                        'match_all_genres': st.session_state.get('filter_match_all', False),
-                        'critic_score': list(st.session_state.get('filter_critic_score', (0, 100))),
-                        'user_score': list(st.session_state.get('filter_user_score', (0, 100))),
-                        'critic_reviews': list(st.session_state.get('filter_critic_reviews', (0, max(max_critic_reviews_seen, 1)))),
-                        'user_reviews': list(st.session_state.get('filter_user_reviews', (0, max(max_user_reviews_seen, 1)))),
-                        'year': st.session_state.get('filter_year', 'All'),
-                        'search': st.session_state.get('filter_search', ''),
-                    })
-                    st.success(f"Saved preset '{new_preset_name.strip()}'.")
-                else:
-                    st.warning("Give the preset a name.")
-
-        def _default_kwarg(key, default):
-            # Streamlit warns if a widget is given both `value=` and a
-            # session_state entry for its key (which exists on every rerun
-            # after the first, or whenever a preset/clamp set it above) — so
-            # only pass `value=` the very first time the widget is created.
-            return {} if key in st.session_state else {'value': default}
-
-        selected_genres = st.multiselect("Genres", all_genres, key="filter_genres")
-        match_all_genres = st.checkbox(
-            "Must match ALL selected genres",
-            help="Off: album needs any one of the selected genres. On: album must have every one of them.",
-            key="filter_match_all",
-            **_default_kwarg('filter_match_all', False),
-        )
-
-        min_critic_score, max_critic_score = st.slider(
-            "Critic score", 0, 100, key="filter_critic_score",
-            **_default_kwarg('filter_critic_score', (0, 100)),
-        )
-        min_user_score, max_user_score = st.slider(
-            "User score", 0, 100, key="filter_user_score",
-            **_default_kwarg('filter_user_score', (0, 100)),
-        )
-
-        st.caption("Critic reviews")
-        min_critic_reviews, max_critic_reviews = st.slider(
-            "Critic reviews", 0, max(max_critic_reviews_seen, 1),
-            label_visibility="collapsed", key="filter_critic_reviews",
-            **_default_kwarg('filter_critic_reviews', (0, max(max_critic_reviews_seen, 1))),
-        )
-        st.caption("User reviews")
-        min_user_reviews, max_user_reviews = st.slider(
-            "User reviews", 0, max(max_user_reviews_seen, 1),
-            label_visibility="collapsed", key="filter_user_reviews",
-            **_default_kwarg('filter_user_reviews', (0, max(max_user_reviews_seen, 1))),
-        )
-
-        selected_year = st.selectbox("Year", options=year_options, key="filter_year")
-
-        text_search = st.text_input("Search title / artist / description", key="filter_search")
-
-    filtered = filter_albums(
-        albums,
-        **({'genres_all': selected_genres} if match_all_genres and selected_genres else
-           {'genres': selected_genres} if selected_genres else {}),
-        min_score=min_critic_score if min_critic_score > 0 else None,
-        max_score=max_critic_score if max_critic_score < 100 else None,
-        min_user_score=min_user_score if min_user_score > 0 else None,
-        max_user_score=max_user_score if max_user_score < 100 else None,
-        min_critic_reviews=min_critic_reviews if min_critic_reviews > 0 else None,
-        max_critic_reviews=max_critic_reviews if max_critic_reviews < max_critic_reviews_seen else None,
-        min_user_reviews=min_user_reviews if min_user_reviews > 0 else None,
-        max_user_reviews=max_user_reviews if max_user_reviews < max_user_reviews_seen else None,
-        year=selected_year if selected_year != "All" else None,
-        search=text_search if text_search else None,
-    )
-
-    col1, col2, col3, col4 = st.columns(4)
-    with col1:
-        st.metric("Albums", len(filtered))
-    with col2:
-        st.metric("Unique Genres", len(set(g for a in filtered for g in a.get('genres', []))))
-    with col3:
-        st.metric("With Scores", sum(1 for a in filtered if a.get('critic_score') or a.get('user_score')))
-    with col4:
-        st.metric("Total Reviews", sum((a.get('critic_review_count') or 0) + (a.get('user_review_count') or 0) for a in filtered))
-
-    if not filtered:
-        st.warning("Nothing matches the current filters.")
-        return
-
-    df = pd.DataFrame(filtered)
-    for col in ('genres', 'genre_tags'):
-        if col in df.columns:
-            df[col] = df[col].apply(lambda v: ', '.join(v) if isinstance(v, list) else v)
-
-    display_cols = [c for c in [
-        'title', 'artist_name', 'release_year',
-        'critic_score', 'user_score', 'critic_review_count', 'user_review_count',
-        'genres', 'url'
-    ] if c in df.columns]
-
-    st.subheader("💿 Albums")
-    st.caption("Click a column header to sort. Use the search icon in the table toolbar to filter across all columns. Check 🔖 To Listen to bookmark an album — it's saved even after this scrape is gone.")
-    _render_bookmarkable_table(
-        df, display_cols,
-        column_config={
-            'title': st.column_config.TextColumn("Title"),
-            'artist_name': st.column_config.TextColumn("Artist"),
-            'release_year': st.column_config.NumberColumn("Year", format="%d"),
-            'critic_score': st.column_config.ProgressColumn("Critic", min_value=0, max_value=100, format="%.0f"),
-            'user_score': st.column_config.ProgressColumn("User", min_value=0, max_value=100, format="%.0f"),
-            'critic_review_count': st.column_config.NumberColumn("Critic Reviews"),
-            'user_review_count': st.column_config.NumberColumn("User Reviews"),
-            'genres': st.column_config.TextColumn("Genres"),
-            'url': st.column_config.LinkColumn("Link", display_text="Open"),
-        },
-        key="results_table",
-        height=600,
-    )
-
-
-# ---------------------------------------------------------------------------
-# Artists: full scraped discography grouped together
-# ---------------------------------------------------------------------------
-
-def render_artists():
-    st.header("🎤 Artists")
-
-    all_albums, _ = load_all_albums(output_dir=DATA_DIR, return_stats=True)
-    if not all_albums:
-        st.info("No scraped albums yet — run a scrape first.")
-        return
-
-    by_artist = group_albums_by_artist(all_albums)
-    artist_names = sorted(by_artist.keys(), key=str.lower)
-
-    search = st.text_input("Search artists", placeholder="e.g. 'Radiohead'")
-    if search:
-        term = search.lower()
-        artist_names = [a for a in artist_names if term in a.lower()]
-
-    st.caption(f"{len(artist_names)} artist{'s' if len(artist_names) != 1 else ''} in your scraped data.")
-
-    if not artist_names:
-        st.warning("No artists match that search.")
-        return
-
-    selected_artist = st.selectbox(
-        f"Pick an artist ({len(artist_names)} available)",
-        artist_names, index=None, placeholder="Select an artist...",
-    )
-    if not selected_artist:
-        return
-
-    artist_albums = by_artist[selected_artist]
-    st.subheader(f"💿 {selected_artist} — {len(artist_albums)} album{'s' if len(artist_albums) != 1 else ''} scraped")
-
-    df = pd.DataFrame(artist_albums)
-    if 'genres' in df.columns:
-        df['genres'] = df['genres'].apply(lambda v: ', '.join(v) if isinstance(v, list) else v)
-
-    display_cols = [c for c in [
-        'title', 'release_year',
-        'critic_score', 'user_score', 'critic_review_count', 'user_review_count',
-        'genres', 'url'
-    ] if c in df.columns]
-
-    st.caption("Check 🔖 To Listen to bookmark an album — it's saved even after this scrape is gone.")
-    _render_bookmarkable_table(
-        df, display_cols,
-        column_config={
-            'title': st.column_config.TextColumn("Title"),
-            'release_year': st.column_config.NumberColumn("Year", format="%d"),
-            'critic_score': st.column_config.ProgressColumn("Critic", min_value=0, max_value=100, format="%.0f"),
-            'user_score': st.column_config.ProgressColumn("User", min_value=0, max_value=100, format="%.0f"),
-            'critic_review_count': st.column_config.NumberColumn("Critic Reviews"),
-            'user_review_count': st.column_config.NumberColumn("User Reviews"),
-            'genres': st.column_config.TextColumn("Genres"),
-            'url': st.column_config.LinkColumn("Link", display_text="Open"),
-        },
-        key="artist_table",
-    )
-
-
-# ---------------------------------------------------------------------------
-# Ratings + Recommendations
-# ---------------------------------------------------------------------------
-
-def render_ratings():
-    st.header("⭐ Ratings & Recommendations")
-
-    all_albums, _ = load_all_albums(output_dir=DATA_DIR, return_stats=True)
-    albums_by_id = {a['aoty_id']: a for a in all_albums if a.get('aoty_id')}
-    current_ratings = ratings_store.load_ratings(DATA_ROOT)
-
-    tab_rate, tab_mine, tab_recs = st.tabs(["Rate Albums", "My Ratings", "Recommendations"])
-
-    with tab_rate:
-        st.subheader("Rate a scraped album")
-        search = st.text_input("Search title / artist", key="rate_search")
-        if search:
-            term = search.lower()
-            matches = [
-                a for a in all_albums
-                if term in (a.get('title') or '').lower() or term in (a.get('artist_name') or '').lower()
-            ][:25]
-            if not matches:
-                st.caption("No matches in your scraped data.")
-            for a in matches:
-                aoty_id = a.get('aoty_id')
-                existing = current_ratings.get(aoty_id, {})
-                c1, c2, c3 = st.columns([4, 2, 1])
-                with c1:
-                    st.write(f"**{a.get('title')}** by {a.get('artist_name')}")
-                    st.caption(', '.join(a.get('genres') or []))
-                with c2:
-                    val = st.number_input(
-                        "Rating", min_value=0.0, max_value=10.0, step=0.5,
-                        value=float(existing.get('rating', 0.0)),
-                        key=f"rate_val_{aoty_id}", label_visibility="collapsed",
-                    )
-                with c3:
-                    if st.button("Save", key=f"rate_save_{aoty_id}"):
-                        ratings_store.set_rating(
-                            DATA_ROOT, aoty_id, val,
-                            title=a.get('title'), artist_name=a.get('artist_name'),
-                            genres=a.get('genres') or [],
-                        )
-                        st.rerun()
-
-        st.markdown("---")
-        st.subheader("Rate an album outside your scraped data")
-        with st.form("manual_rating_form", clear_on_submit=True):
-            m_artist = st.text_input("Artist")
-            m_title = st.text_input("Title")
-            m_genres = st.multiselect("Genres", sorted(get_all_genres()))
-            m_rating = st.number_input("Rating", min_value=0.0, max_value=10.0, step=0.5, value=5.0)
-            if st.form_submit_button("Save rating"):
-                if m_artist.strip() and m_title.strip():
-                    manual_aoty_id = ratings_store.manual_id(m_artist, m_title)
-                    ratings_store.set_rating(
-                        DATA_ROOT, manual_aoty_id, m_rating,
-                        title=m_title.strip(), artist_name=m_artist.strip(), genres=m_genres,
-                    )
-                    st.success(f"Saved rating for {m_title} by {m_artist}.")
-                else:
-                    st.warning("Artist and title are required.")
-
-    with tab_mine:
-        if not current_ratings:
-            st.info("No ratings yet — rate something in the first tab to get started.")
-        else:
-            rows = sorted(current_ratings.items(), key=lambda kv: kv[1].get('rating', 0), reverse=True)
-            for aoty_id, r in rows:
-                with st.container(border=True):
-                    c1, c2, c3 = st.columns([4, 1, 1])
-                    with c1:
-                        st.write(f"**{r.get('title')}** by {r.get('artist_name')}")
-                        st.caption(', '.join(r.get('genres') or []) or 'No genres recorded')
-                    with c2:
-                        st.metric("Rating", r.get('rating'))
-                    with c3:
-                        if st.button("🗑️ Remove", key=f"del_rating_{aoty_id}"):
-                            ratings_store.delete_rating(DATA_ROOT, aoty_id)
-                            st.rerun()
-
-    with tab_recs:
-        if not current_ratings:
-            st.info("Rate a few albums first — recommendations are built from your rating history.")
-        else:
-            top_n = st.slider("Number of recommendations", 5, 50, 25)
-            recs = recommend(all_albums, current_ratings, top_n=top_n)
-            if not recs:
-                st.info(
-                    "No recommendations yet — this usually means your rated genres don't "
-                    "overlap with genres in your scraped dataset. Rate more albums or scrape "
-                    "more genres you like."
-                )
-            else:
-                for rec in recs:
-                    with st.container(border=True):
-                        c1, c2 = st.columns([4, 1])
-                        with c1:
-                            st.write(f"**{rec.get('title')}** by {rec.get('artist_name')}")
-                            st.caption(', '.join(rec.get('genres') or []))
-                            st.caption(f"AOTY user score: {rec.get('user_score')}")
-                        with c2:
-                            st.metric("Match", f"{rec['similarity']:.2f}")
-
-
-# ---------------------------------------------------------------------------
-# To Listen: bookmarks that persist across scrapes
-# ---------------------------------------------------------------------------
-
-def render_to_listen():
-    st.header("🔖 To Listen")
-    st.caption("Bookmarks saved from any scrape. This list persists even after the scrape it came from is deleted or refreshed.")
-
-    current_bookmarks = bookmarks_store.load_bookmarks(DATA_ROOT)
-
-    if not current_bookmarks:
-        st.info("No bookmarks yet — use the 🔖 checkbox in the Albums or Artists table to save one here.")
-        return
-
-    search = st.text_input("Search title / artist", key="to_listen_search")
-    rows = sorted(current_bookmarks.items(), key=lambda kv: kv[1].get('bookmarked_at', ''), reverse=True)
-    if search:
-        term = search.lower()
-        rows = [
-            (aoty_id, b) for aoty_id, b in rows
-            if term in (b.get('title') or '').lower() or term in (b.get('artist_name') or '').lower()
-        ]
-
-    st.caption(f"{len(rows)} album{'s' if len(rows) != 1 else ''} bookmarked.")
-
-    for aoty_id, b in rows:
-        with st.container(border=True):
-            c1, c2 = st.columns([5, 1])
-            with c1:
-                if b.get('url'):
-                    st.write(f"**[{b.get('title')}]({b['url']})** by {b.get('artist_name')}")
-                else:
-                    st.write(f"**{b.get('title')}** by {b.get('artist_name')}")
-                st.caption(', '.join(b.get('genres') or []) or 'No genres recorded')
-            with c2:
-                if st.button("🗑️ Remove", key=f"del_bookmark_{aoty_id}"):
-                    bookmarks_store.remove_bookmark(DATA_ROOT, aoty_id)
-                    st.rerun()
-
-
-# ---------------------------------------------------------------------------
-# Home
-# ---------------------------------------------------------------------------
-
-def render_home():
-    if not jobs:
-        st.subheader("👋 Welcome — let's find some albums.")
-        st.write("You haven't run a scrape yet. Start one to begin building your local album database.")
-        if st.button("🚀 Start a Scrape", type="primary", key="home_start_scrape"):
-            goto('new_scrape')
-            st.rerun()
-        return
-
-    completed_jobs = [j for j in jobs if j.get('status') == 'completed']
-    running_jobs = [j for j in jobs if j.get('status') == 'running']
-
-    total_albums = sum(j.get('albums_count', 0) for j in completed_jobs)
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.metric("Total Scrapes", len(jobs))
-    with col2:
-        st.metric("Albums Collected", total_albums)
-    with col3:
-        st.metric("Currently Running", len(running_jobs))
-
-    st.markdown("---")
-
-    most_recent = jobs[0]
-    params = most_recent.get('params', {})
-    st.subheader("Most recent scrape")
-    with st.container(border=True):
-        st.write(f"**{params.get('genre', 'Unknown')}** — {most_recent.get('completed', 0)} albums")
-        st.caption(f"Started {most_recent.get('started_at', '')[:19].replace('T', ' ')}")
-
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("🚀 New Scrape", use_container_width=True, key="home_new_scrape"):
-            goto('new_scrape')
-            st.rerun()
-    with col2:
-        if st.button("📁 View Past Scrapes", use_container_width=True, key="home_view_past_scrapes"):
-            goto('past_scrapes')
-            st.rerun()
-
-
-# ---------------------------------------------------------------------------
-# Similar albums (Radius)
-# ---------------------------------------------------------------------------
 
 RADIUS_CSS = """
 <style>
-  /* Radius view. The engine has sixteen tunable axes; almost nobody wants to
-     meet all sixteen on arrival, so the surface here is one search box and
-     three plain-English choices, with the full control panel folded away. */
+  /* The engine has sixteen tunable axes; almost nobody wants to meet all
+     sixteen on arrival, so the surface here is one search box and three
+     plain-English choices, with the full control panel folded away. */
   .rad-hero { text-align:center; padding: 0.5rem 0 1.25rem; }
   .rad-hero h1 { font-size: 2.6rem; font-weight: 700; letter-spacing:-0.02em;
                  margin:0 0 .35rem; line-height:1.1; }
@@ -1035,6 +80,13 @@ RADIUS_CSS = """
                     background:linear-gradient(90deg,#8b5cf6,#d946a6); }
   .rad-pct { font-size:.73rem; opacity:.55; letter-spacing:.02em; }
   .rad-why { font-size:.74rem; opacity:.45; margin-top:.3rem; line-height:1.35; }
+
+  /* Fine-tuning: every slider row is the same shape regardless of how many
+     axes share its group, and the group label reads like a section header
+     rather than another line of body text. */
+  .rad-group-label { font-weight:640; font-size:.92rem; margin:1rem 0 .1rem;
+                      opacity:.85; text-transform:uppercase; letter-spacing:.03em; }
+  .rad-group-label:first-child { margin-top:0; }
 </style>
 """
 
@@ -1055,6 +107,11 @@ RADIUS_MODES = {
     },
 }
 
+# Consistent slider width regardless of how many axes are in a group — the
+# original layout put one column per axis, so a two-axis group ("Provenance")
+# rendered much wider sliders than a six-axis one ("Sound & association").
+FINE_TUNE_COLS = 2
+
 
 def radius_services():
     """One set of clients per session, so the rate limiters and cache counters
@@ -1064,7 +121,7 @@ def radius_services():
     return st.session_state.radius_services
 
 
-def _rad_art(url, size='card'):
+def _rad_art(url):
     if url:
         return f'<img src="{url}" alt="">'
     return '<div class="ph">♪</div>'
@@ -1094,7 +151,7 @@ def _rad_card(match):
     """
 
 
-def _rad_seed_card(seed, enriched):
+def _rad_seed_card(seed):
     chips = []
     if seed.listeners:
         chips.append(f'{seed.listeners:,} listeners')
@@ -1119,6 +176,51 @@ def _rad_seed_card(seed, enriched):
       </div>
     </div>
     """
+
+
+def resolve_seed_candidates(services, artist, album, query, limit=5):
+    """Up to `limit` fingerprinted matches for what the user typed, best
+    guess first — the pool the user picks their real seed from."""
+    results = radius_engine.search_albums(services, artist=artist, album=album,
+                                          query=query, limit=limit)
+    if not results:
+        return []
+    results.sort(key=lambda r: 0 if (r.get('type') or '').lower() == 'album' else 1)
+    built = radius_engine.fingerprint_many(services, [r['mbid'] for r in results[:limit]])
+    return [built[r['mbid']] for r in results[:limit] if built.get(r['mbid']) is not None]
+
+
+def _weight_control(axis, default):
+    """A slider paired with a click-to-type number field, kept in sync via
+    session_state so either one can drive the value."""
+    slider_key = f"radius_weight_{axis}"
+    num_key = f"radius_weight_num_{axis}"
+    if slider_key not in st.session_state:
+        st.session_state[slider_key] = float(default)
+    if num_key not in st.session_state:
+        st.session_state[num_key] = st.session_state[slider_key]
+
+    def sync_from_slider():
+        st.session_state[num_key] = st.session_state[slider_key]
+
+    def sync_from_num():
+        st.session_state[slider_key] = st.session_state[num_key]
+
+    slider_col, num_col = st.columns([4, 1.3])
+    with slider_col:
+        st.slider(
+            radius_similarity.AXIS_LABELS[axis],
+            min_value=0.0, max_value=2.0, step=0.05,
+            key=slider_key, on_change=sync_from_slider,
+            help=radius_similarity.AXIS_HELP.get(axis),
+        )
+    with num_col:
+        st.number_input(
+            radius_similarity.AXIS_LABELS[axis], min_value=0.0, max_value=2.0,
+            step=0.05, key=num_key, on_change=sync_from_num,
+            label_visibility="collapsed",
+        )
+    return st.session_state[slider_key]
 
 
 def render_similar():
@@ -1163,23 +265,23 @@ def render_similar():
     # Everything below here is for people who want it; nobody has to look.
     with st.expander("Fine-tuning"):
         st.caption(
-            "Each axis is one part of the fingerprint. Zero switches it off. "
-            "An axis with no data for an album is skipped rather than guessed, "
-            "so a missing value never counts as a perfect match."
+            "Each axis is one part of the fingerprint — hover the (?) on any "
+            "of them for what it measures. Zero switches it off; type an "
+            "exact value in the box, or drag the slider. An axis with no "
+            "data for an album is skipped rather than guessed, so a missing "
+            "value never counts as a perfect match."
         )
         weight_values = {}
         defaults = radius_similarity.SimilarityWeights()
         for group, axes in radius_similarity.AXIS_GROUPS.items():
-            st.markdown(f"**{group}**")
-            columns = st.columns(len(axes))
-            for column, axis in zip(columns, axes):
-                with column:
-                    weight_values[axis] = st.slider(
-                        radius_similarity.AXIS_LABELS[axis],
-                        min_value=0.0, max_value=2.0,
-                        value=float(getattr(defaults, axis)), step=0.05,
-                        key=f"radius_weight_{axis}",
-                    )
+            st.markdown(f'<div class="rad-group-label">{group}</div>',
+                        unsafe_allow_html=True)
+            for row_start in range(0, len(axes), FINE_TUNE_COLS):
+                row_axes = axes[row_start:row_start + FINE_TUNE_COLS]
+                columns = st.columns(FINE_TUNE_COLS)
+                for column, axis in zip(columns, row_axes):
+                    with column:
+                        weight_values[axis] = _weight_control(axis, getattr(defaults, axis))
         st.divider()
         col1, col2, col3 = st.columns(3)
         with col1:
@@ -1218,6 +320,8 @@ def render_similar():
             return
         st.session_state.radius_seed_text = seed_text
         st.session_state.radius_value = radius_value
+        st.session_state.radius_result = None
+        st.session_state.radius_confirmed_seed = None
 
         artist_name, album_name, query = None, None, None
         if ' - ' in seed_text:
@@ -1225,48 +329,91 @@ def render_similar():
         else:
             query = seed_text.strip()
 
-        stage_labels = {
-            'seed': 'Reading your album',
-            'candidates': 'Finding its neighbourhood',
-            'fingerprint': 'Fingerprinting candidates',
-            'crowd tags': 'Adding crowd tags',
-            'kinship': 'Mapping listener kinship',
-            'prose': 'Reading Wikipedia',
-            'shape': 'Measuring runtime and pacing',
-        }
-        status_box = st.status("Working…", expanded=False)
-        progress_bar = st.progress(0.0)
-
-        def on_progress(stage, done, total, label):
-            status_box.update(label=f"{stage_labels.get(stage, stage)} — {label}")
-            progress_bar.progress(min(max((done / total) if total else 0.0, 0.0), 1.0))
-
-        try:
-            result = radius_engine.find_similar(
-                artist=artist_name, album=album_name, query=query,
-                weights=radius_similarity.SimilarityWeights(**weight_values),
-                radius=radius_value, top_n=int(top_n), pool_size=int(pool_size),
-                studio_only=studio_only, exclude_same_artist=exclude_same_artist,
-                max_per_artist=max_per_artist,
-                enrich_results=enrich_results, with_prose=with_prose,
-                enrich_tags_with_lastfm=crowd_tags,
-                services=services, progress=on_progress,
-                **RADIUS_MODES[mode]["kwargs"],
+        with st.spinner("Looking that up…"):
+            try:
+                candidates = resolve_seed_candidates(services, artist_name, album_name, query)
+            except radius_clients.ApiError as exc:
+                st.error(str(exc))
+                return
+        if not candidates:
+            st.error(
+                "MusicBrainz has no album matching that. Check the spelling, "
+                "or try \"Artist - Album\"."
             )
-        except radius_engine.SeedNotFound as exc:
-            status_box.update(label="Couldn't find that album", state="error")
-            st.error(str(exc))
-            for suggestion in exc.suggestions[:5]:
-                st.write(f"- {suggestion['artist']} — {suggestion['album']}")
+            st.session_state.radius_candidates = None
             return
-        except radius_clients.ApiError as exc:
-            status_box.update(label="A lookup failed", state="error")
-            st.error(str(exc))
-            return
+        st.session_state.radius_candidates = candidates
 
-        progress_bar.empty()
-        status_box.update(label=f"Found {len(result.matches)}", state="complete")
-        st.session_state.radius_result = result
+    # --- Confirm step: nothing runs against the full pipeline until the user
+    # has said yes, this is the right album. ---
+    candidates = st.session_state.get('radius_candidates')
+    confirmed = st.session_state.get('radius_confirmed_seed')
+    if candidates and not confirmed:
+        st.markdown("#### Is this the album?")
+        options = [
+            f"{c.artist} — {c.title}" + (f" ({c.year})" if c.year else "")
+            for c in candidates
+        ]
+        picked_label = st.radio(
+            "Which match is right", options, index=0,
+            label_visibility="collapsed", key="radius_candidate_pick",
+        )
+        picked = candidates[options.index(picked_label)]
+        st.markdown(_rad_seed_card(picked), unsafe_allow_html=True)
+
+        confirm_col, cancel_col = st.columns([1, 1])
+        with confirm_col:
+            confirm_clicked = st.button(
+                "✅ Yes, find similar albums", type="primary",
+                use_container_width=True, key="radius_confirm",
+            )
+        with cancel_col:
+            if st.button("✖ Not it — clear search", use_container_width=True,
+                         key="radius_cancel"):
+                st.session_state.radius_candidates = None
+                st.rerun()
+
+        if confirm_clicked:
+            st.session_state.radius_confirmed_seed = picked
+
+            stage_labels = {
+                'seed': 'Reading your album',
+                'candidates': 'Finding its neighbourhood',
+                'fingerprint': 'Fingerprinting candidates',
+                'crowd tags': 'Adding crowd tags',
+                'kinship': 'Mapping listener kinship',
+                'prose': 'Reading Wikipedia',
+                'shape': 'Measuring runtime and pacing',
+            }
+            status_box = st.status("Working…", expanded=False)
+            progress_bar = st.progress(0.0)
+
+            def on_progress(stage, done, total, label):
+                status_box.update(label=f"{stage_labels.get(stage, stage)} — {label}")
+                progress_bar.progress(min(max((done / total) if total else 0.0, 0.0), 1.0))
+
+            try:
+                result = radius_engine.find_similar(
+                    seed_features=picked,
+                    weights=radius_similarity.SimilarityWeights(**weight_values),
+                    radius=radius_value, top_n=int(top_n), pool_size=int(pool_size),
+                    studio_only=studio_only, exclude_same_artist=exclude_same_artist,
+                    max_per_artist=max_per_artist,
+                    enrich_results=enrich_results, with_prose=with_prose,
+                    enrich_tags_with_lastfm=crowd_tags,
+                    services=services, progress=on_progress,
+                    **RADIUS_MODES[mode]["kwargs"],
+                )
+            except radius_clients.ApiError as exc:
+                status_box.update(label="A lookup failed", state="error")
+                st.error(str(exc))
+                return
+
+            progress_bar.empty()
+            status_box.update(label=f"Found {len(result.matches)}", state="complete")
+            st.session_state.radius_result = result
+            st.rerun()
+        return
 
     result = st.session_state.get('radius_result')
     if result is None:
@@ -1275,8 +422,15 @@ def render_similar():
         return
 
     seed = result.seed
-    st.markdown(_rad_seed_card(seed, services.tag_enrichment),
-                unsafe_allow_html=True)
+    seed_col, change_col = st.columns([5, 1])
+    with seed_col:
+        st.markdown(_rad_seed_card(seed), unsafe_allow_html=True)
+    with change_col:
+        if st.button("🔁 Change album", use_container_width=True, key="radius_change"):
+            st.session_state.radius_candidates = None
+            st.session_state.radius_confirmed_seed = None
+            st.session_state.radius_result = None
+            st.rerun()
 
     for note in result.notes:
         st.info(note)
@@ -1294,10 +448,13 @@ def render_similar():
     st.divider()
     detail_col, download_col = st.columns([3, 1])
     with detail_col:
+        breakdown = ' · '.join(
+            f'{name} {count}' for name, count in services.requests_by_service.items()
+        )
         st.caption(
             f"{result.fingerprinted} of {result.considered} candidates "
-            f"fingerprinted · {result.requests_made} requests · "
-            f"{result.cache_hits} from cache"
+            f"fingerprinted · {result.requests_made} requests this run "
+            f"({breakdown}) · {result.cache_hits} more served from cache"
             + (" · tags enriched with Last.fm" if services.tag_enrichment else "")
         )
     with download_col:
@@ -1326,28 +483,4 @@ def render_similar():
                 st.caption(f"Artists both sit next to: {', '.join(match.shared_neighbours)}")
 
 
-# ---------------------------------------------------------------------------
-# Router
-# ---------------------------------------------------------------------------
-
-view = st.session_state.view
-if view == 'home':
-    render_home()
-elif view == 'new_scrape':
-    render_new_scrape()
-elif view == 'progress':
-    render_progress()
-elif view == 'past_scrapes':
-    render_past_scrapes()
-elif view == 'results':
-    render_results()
-elif view == 'ratings':
-    render_ratings()
-elif view == 'artists':
-    render_artists()
-elif view == 'to_listen':
-    render_to_listen()
-elif view == 'similar':
-    render_similar()
-else:
-    render_home()
+render_similar()
