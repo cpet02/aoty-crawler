@@ -6,13 +6,13 @@ scrapy==2.11.0
 selenium==4.17.2
 undetected-chromedriver==3.5.5
 lxml==5.2.0
+
+# HTTP. Used by the FlareSolverr middleware and by Radius, which talks to the
+# MusicBrainz, ListenBrainz and Wikipedia JSON APIs.
 requests>=2.31.0
 
 # Data Processing
 pandas>=2.2.0
-
-# Radius (album similarity) - talks to the Last.fm and MusicBrainz JSON APIs
-requests>=2.31.0
 
 # Testing
 pytest==7.4.4
