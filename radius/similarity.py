@@ -131,22 +131,62 @@ AXIS_LABELS = {
 }
 
 AXIS_HELP = {
-    'genre': "Overlap of the taxonomy-recognised part of each album's tags.",
-    'mood': "Overlap of mood, scene and texture tags — the non-genre part.",
-    'lineage': "Overlap of the *artist's* tag vector — scene and pedigree, not this one record.",
-    'neighbours': "Overlap of Last.fm similar-artist sets. Pure listener behaviour, independent of vocabulary.",
-    'prose': "Bag-of-words overlap over each album's Wikipedia article. Off by default — measured worse than nothing.",
-    'co_tagging': "How often the crowd already files this album next to the seed's own neighbourhoods.",
-    'reach': "How close their listener counts are, on a log scale.",
-    'devotion': "How close their listens-per-listener are — how hard their fans play them.",
-    'canonicity': "How similar each album's standing is within its own artist's catalogue.",
-    'era': "How close their release years are.",
-    'scale': "How close their total runtimes are.",
-    'pacing': "How close their average track lengths are.",
-    'definition': "How similarly confidently each album's genre tags cluster — easy to place vs. genre-fluid.",
-    'origin': "Whether the artists share a country/region of origin.",
-    'career': "How close each artist was to the start of their career at release.",
-    'titling': "Overlap in how the tracks are named. Curiosity more than signal — off by default.",
+    'genre': "Increase to demand closer genre-tag overlap, decrease to let other "
+             "axes carry more of the match. E.g. raise it to keep results "
+             "strictly within post-rock; lower it to let mood matter more than "
+             "the genre label.",
+    'mood': "Increase to weight shared mood/texture tags more, decrease to "
+            "ignore them. E.g. raise it to surface other 'melancholic, "
+            "hypnagogic' records even in a different genre.",
+    'lineage': "Increase to favour artists from a similar scene or pedigree, "
+               "decrease to judge the album on its own. E.g. raise it to stay "
+               "inside the same underground scene rather than just the same "
+               "sound.",
+    'neighbours': "Increase to weight overlap in who else's fans listen to "
+                  "both artists, decrease to ignore listener behaviour. E.g. "
+                  "raise it to find albums real listeners already pair "
+                  "together, even if the tags don't obviously match.",
+    'prose': "Increase to weight shared wording in each album's Wikipedia "
+             "article, decrease to ignore it. Off by default — it measured "
+             "worse than nothing, since album write-ups are mostly "
+             "boilerplate. Leave at 0 unless you're experimenting.",
+    'co_tagging': "Increase to favour albums the crowd already files next to "
+                  "your seed, decrease to explore further from it. E.g. raise "
+                  "it for safer, more obviously-related picks; lower it to "
+                  "range wider.",
+    'reach': "Increase to match similar listener counts, decrease to ignore "
+             "popularity entirely. E.g. raise it to avoid pairing a niche cult "
+             "record with a mainstream hit.",
+    'devotion': "Increase to match how obsessively each album's fans replay "
+                "it, decrease to ignore that. E.g. raise it to find other "
+                "records with an equally devoted cult following.",
+    'canonicity': "Increase to match how central each album is to its own "
+                  "artist's catalogue, decrease to ignore it. E.g. raise it to "
+                  "compare a landmark record to other landmark records rather "
+                  "than to deep cuts.",
+    'era': "Increase to favour albums released around the same time, decrease "
+           "to range freely across eras. E.g. raise it to stay within a few "
+           "years of the seed; lower it to ignore release date completely.",
+    'scale': "Increase to match total runtime, decrease to ignore album "
+             "length. E.g. raise it to avoid pairing a 25-minute record with "
+             "a 90-minute one.",
+    'pacing': "Increase to match average track length, decrease to ignore it. "
+              "E.g. raise it to keep both albums built from similarly long "
+              "(or short) tracks.",
+    'definition': "Increase to match how easily each album sits in one genre "
+                  "vs. spreads across several, decrease to ignore it. E.g. "
+                  "raise it to keep a genre-fluid record paired with other "
+                  "genre-fluid ones rather than one narrowly-tagged record.",
+    'origin': "Increase to favour artists from the same country or region, "
+              "decrease to ignore geography. E.g. raise it to stay within the "
+              "same national scene.",
+    'career': "Increase to match how far into their career each artist was at "
+              "release, decrease to ignore it. E.g. raise it to pair debut "
+              "albums with other debuts rather than late-career records.",
+    'titling': "Increase to match how the tracks are named, decrease to "
+               "ignore it. Off by default — curiosity more than signal. "
+               "E.g. leave at 0 unless you're curious whether titling style "
+               "tracks with sound.",
 }
 
 AXIS_GROUPS = {
