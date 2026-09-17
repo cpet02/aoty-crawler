@@ -110,8 +110,6 @@ class AlbumFeatures:
     mean_track_seconds: float = 0.0
     track_length_spread: float = 0.0
     mean_title_words: float = 0.0
-    rating: float = None            # MusicBrainz community rating, 0..5
-    rating_votes: int = 0
 
     @property
     def key(self):
@@ -212,8 +210,6 @@ class AlbumFeatures:
             'mood_tags': ', '.join(t for t in self.top_tags if t in self.mood_profile)[:120],
             'lineage_tags': ', '.join(
                 sorted(self.artist_profile, key=self.artist_profile.get, reverse=True)[:5]),
-            'rating': self.rating,
-            'rating_votes': self.rating_votes or None,
             'url': self.url,
             'image_url': self.image_url,
             'mbid': self.mbid,
@@ -395,21 +391,6 @@ def attach_tracklist(features, musicbrainz):
         # Coefficient of variation: what separates an even run of songs from a
         # record built out of a nine-minute centrepiece and four interludes.
         features.track_length_spread = (math.sqrt(variance) / mean) if mean else 0.0
-    return features
-
-
-def attach_reception(features, musicbrainz):
-    """Fill in the community rating. One MusicBrainz request, same budget as
-    a tracklist, so callers save it for finalists too.
-    """
-    if not features.mbid or musicbrainz is None:
-        return features
-    try:
-        info = musicbrainz.reception(features.mbid)
-    except Exception:
-        return features
-    features.rating = info.get('rating')
-    features.rating_votes = info.get('rating_votes') or 0
     return features
 
 

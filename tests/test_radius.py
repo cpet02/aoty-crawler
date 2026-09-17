@@ -235,15 +235,6 @@ class StubMusicBrainz:
             return 'wikidata', 'Q-fleet'
         return 'wikipedia', ALBUMS[mbid][1]
 
-    def reception(self, mbid):
-        # rg-fleet is well-rated, rg-iron isn't, so the rating filter has
-        # something real to tell apart.
-        if mbid == 'rg-fleet':
-            return {'rating': 4.5, 'rating_votes': 12}
-        if mbid == 'rg-iron':
-            return {'rating': 2.0, 'rating_votes': 3}
-        return {'rating': None, 'rating_votes': 0}
-
 
 class StubListenBrainz:
     calls_made = 0
@@ -404,30 +395,3 @@ def test_one_artist_cannot_fill_the_whole_result_list():
                           max_per_artist=1)
     artists = [m.features.artist for m in result.matches]
     assert len(artists) == len(set(artists))
-
-
-def test_rating_filter_drops_finalists_below_the_floor():
-    result = find_similar(artist='Bon Iver', album='For Emma, Forever Ago',
-                          services=stub_services(), radius=0.95, top_n=10,
-                          enrich_results=False, min_rating=4.0)
-    titles = [m.features.title for m in result.matches]
-    assert titles == ['Fleet Foxes'], 'Our Endless Numbered Days rates 2.0, below the floor'
-
-
-def test_reception_filters_leave_a_note_when_they_shrink_the_result():
-    result = find_similar(artist='Bon Iver', album='For Emma, Forever Ago',
-                          services=stub_services(), radius=0.95, top_n=10,
-                          enrich_results=False, min_rating=4.9)
-    assert not result.matches
-    assert any('rating filters' in note for note in result.notes)
-
-
-def test_reception_filters_are_a_noop_when_unset():
-    """Filters left at their defaults shouldn't cost a reception lookup or
-    change which finalists make the list."""
-    filtered_off = find_similar(artist='Bon Iver', album='For Emma, Forever Ago',
-                                services=stub_services(), radius=0.95, top_n=10,
-                                enrich_results=False)
-    baseline_titles = {m.features.title for m in filtered_off.matches}
-    assert {'Fleet Foxes', 'Our Endless Numbered Days'} <= baseline_titles
-    assert all(m.features.rating is None for m in filtered_off.matches)
