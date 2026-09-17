@@ -112,6 +112,26 @@ RADIUS_MODES = {
 # rendered much wider sliders than a six-axis one ("Sound & association").
 FINE_TUNE_COLS = 2
 
+# Weight presets: a one-click starting point for the sliders below, distinct
+# from the three mode buttons above (which change *which candidates are
+# considered*, not what "similar" means). Each preset is a clean slate —
+# every axis not named here goes to 0 — rather than a nudge on top of
+# whatever is already set, so picking one always gives a predictable result.
+FINE_TUNE_PRESETS = {
+    "🔊 Sound only": {
+        'genre': 1.2, 'mood': 1.2, 'lineage': 0.5, 'co_tagging': 0.3,
+    },
+    "👥 Fans of both": {
+        'neighbours': 1.5, 'co_tagging': 1.0, 'genre': 0.3,
+    },
+    "📊 Same-size audience": {
+        'reach': 1.2, 'devotion': 1.0, 'canonicity': 0.5, 'genre': 0.3,
+    },
+    "🕰️ Same era & shape": {
+        'era': 1.2, 'scale': 0.8, 'pacing': 0.5, 'genre': 0.3,
+    },
+}
+
 
 def radius_services():
     """One set of clients per session, so the rate limiters and cache counters
@@ -223,6 +243,17 @@ def _weight_control(axis, default):
     return st.session_state[slider_key]
 
 
+def _set_weights(values):
+    """Write every axis's slider+number pair directly into session_state, so
+    the next rerun's widgets pick the new value up as their own state
+    instead of needing one to reset the other. Axes missing from `values`
+    go to 0 — see FINE_TUNE_PRESETS for why."""
+    for axis in radius_similarity.SimilarityWeights.axis_names():
+        value = float(values.get(axis, 0.0))
+        st.session_state[f"radius_weight_{axis}"] = value
+        st.session_state[f"radius_weight_num_{axis}"] = value
+
+
 def render_similar():
     st.markdown(RADIUS_CSS, unsafe_allow_html=True)
     services = radius_services()
@@ -261,18 +292,40 @@ def render_similar():
             label_visibility="collapsed", key="radius_reach",
         )
     st.caption(RADIUS_MODES[mode]["help"])
+    st.caption(
+        "🎯🧭💎 pick *which albums are even allowed in the running*. "
+        "\"How far to roam\" then sets how close a match has to be to make "
+        "the list. Fine-tuning, below, sets what \"close\" means in the "
+        "first place — the two don't overlap, but a tight roam with loose "
+        "fine-tuning can still feel wide, since it's only checking the "
+        "things you told it to check."
+    )
 
     # Everything below here is for people who want it; nobody has to look.
     with st.expander("Fine-tuning"):
         st.caption(
-            "Each axis is one part of the fingerprint — hover the (?) on any "
-            "of them for what it measures. Zero switches it off; type an "
-            "exact value in the box, or drag the slider. An axis with no "
-            "data for an album is skipped rather than guessed, so a missing "
-            "value never counts as a perfect match."
+            "Each slider is one thing \"similar\" can mean — hover the (?) "
+            "for what it does. 0 turns it off. Type a number in the box, or "
+            "drag the slider. If an album is missing the data for an axis, "
+            "that axis is skipped for it rather than guessed."
         )
-        weight_values = {}
         defaults = radius_similarity.SimilarityWeights()
+        preset_cols = st.columns(len(FINE_TUNE_PRESETS) + 1)
+        with preset_cols[0]:
+            if st.button("↺ Reset", use_container_width=True,
+                         key="radius_reset_weights",
+                         help="Put every slider back to its default."):
+                _set_weights(defaults.as_dict())
+                st.rerun()
+        for column, (name, values) in zip(preset_cols[1:], FINE_TUNE_PRESETS.items()):
+            with column:
+                if st.button(name, use_container_width=True, key=f"radius_preset_{name}",
+                             help="A starting point, not an add-on — this replaces "
+                                  "the sliders below rather than nudging them."):
+                    _set_weights(values)
+                    st.rerun()
+
+        weight_values = {}
         for group, axes in radius_similarity.AXIS_GROUPS.items():
             st.markdown(f'<div class="rad-group-label">{group}</div>',
                         unsafe_allow_html=True)
