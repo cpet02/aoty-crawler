@@ -2,7 +2,9 @@
 """
 Streamlit UI for AOTY Crawler
 
-Three views, switched via a top nav: Home, New Scrape, Past Scrapes.
+Views are switched via a top nav. Alongside the scrape-and-filter views
+there is Similar, which is seeded by a single album and talks to the
+Last.fm and MusicBrainz APIs instead of crawling anything (see radius/).
 Progress is completion-based (albums scraped / target albums), computed from
 each job's own parameters rather than elapsed time, and read from small JSON
 status files the spider writes as it works (see aoty_crawler/utils/job_tracker.py).
@@ -10,6 +12,7 @@ status files the spider writes as it works (see aoty_crawler/utils/job_tracker.p
 
 import sys
 import os
+import html
 import subprocess
 import time
 from datetime import datetime
@@ -28,6 +31,9 @@ from aoty_crawler.utils.genres_manager import (
     get_all_genres, get_parent_genres, get_genre_with_children, discover_from_albums
 )
 from aoty_crawler.utils.recommendations import recommend
+from radius import clients as radius_clients
+from radius import engine as radius_engine
+from radius import similarity as radius_similarity
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_ROOT = os.path.join(PROJECT_ROOT, 'data')
@@ -145,16 +151,16 @@ live_job_id = running_process_job()
 # progress view right after starting a scrape). A button is only True on
 # the exact rerun it was clicked, so it can't clobber state afterwards.
 current_view = st.session_state.view
-nav_col1, nav_col2, nav_col3, nav_col4, nav_col5, nav_col6 = st.columns(6)
+nav_col1, nav_col2, nav_col3, nav_col4, nav_col5, nav_col6, nav_col7 = st.columns(7)
 with nav_col1:
     if st.button("🏠 Home", use_container_width=True, key="nav_home",
                  type="primary" if current_view == 'home' else "secondary"):
         goto('home')
         st.rerun()
 with nav_col2:
-    if st.button("🚀 New Scrape", use_container_width=True, key="nav_new_scrape",
-                 type="primary" if current_view == 'new_scrape' else "secondary"):
-        goto('new_scrape')
+    if st.button("🧭 Similar", use_container_width=True, key="nav_similar",
+                 type="primary" if current_view == 'similar' else "secondary"):
+        goto('similar')
         st.rerun()
 with nav_col3:
     if st.button("📁 Past Scrapes", use_container_width=True, key="nav_past_scrapes",
@@ -176,8 +182,13 @@ with nav_col6:
                  type="primary" if current_view == 'to_listen' else "secondary"):
         goto('to_listen')
         st.rerun()
+with nav_col7:
+    if st.button("🚀 New Scrape", use_container_width=True, key="nav_new_scrape",
+                 type="primary" if current_view == 'new_scrape' else "secondary"):
+        goto('new_scrape')
+        st.rerun()
 
-if live_job_id and st.session_state.view not in ('progress', 'past_scrapes', 'results'):
+if live_job_id and st.session_state.view not in ('progress', 'past_scrapes', 'results', 'similar'):
     # Only steer into progress automatically right after a launch; once the
     # user has navigated elsewhere, let them stay there (Past Scrapes always
     # offers a "View progress" button for any running job).
@@ -967,6 +978,355 @@ def render_home():
 
 
 # ---------------------------------------------------------------------------
+# Similar albums (Radius)
+# ---------------------------------------------------------------------------
+
+RADIUS_CSS = """
+<style>
+  /* Radius view. The engine has sixteen tunable axes; almost nobody wants to
+     meet all sixteen on arrival, so the surface here is one search box and
+     three plain-English choices, with the full control panel folded away. */
+  .rad-hero { text-align:center; padding: 0.5rem 0 1.25rem; }
+  .rad-hero h1 { font-size: 2.6rem; font-weight: 700; letter-spacing:-0.02em;
+                 margin:0 0 .35rem; line-height:1.1; }
+  .rad-hero p  { opacity:.62; font-size:1.02rem; margin:0; }
+
+  .rad-seed { display:flex; gap:1.1rem; align-items:center;
+              padding:1.1rem 1.25rem; border-radius:16px;
+              background:rgba(255,255,255,.035);
+              border:1px solid rgba(255,255,255,.09); margin:.5rem 0 1.5rem; }
+  .rad-seed img { width:104px; height:104px; border-radius:10px;
+                  object-fit:cover; flex:none;
+                  box-shadow:0 6px 20px rgba(0,0,0,.45); }
+  .rad-seed .t  { font-size:1.3rem; font-weight:650; line-height:1.25; }
+  .rad-seed .a  { opacity:.7; font-size:1rem; margin-bottom:.5rem; }
+  .rad-stats    { display:flex; flex-wrap:wrap; gap:.4rem .45rem; }
+  .rad-chip { font-size:.76rem; padding:.2rem .6rem; border-radius:999px;
+              background:rgba(255,255,255,.07);
+              border:1px solid rgba(255,255,255,.1); opacity:.9;
+              white-space:nowrap; }
+
+  .rad-card { display:flex; gap:.95rem; padding:.8rem;
+              border-radius:14px; border:1px solid rgba(255,255,255,.07);
+              background:rgba(255,255,255,.022); height:100%;
+              transition:border-color .15s ease, background .15s ease; }
+  .rad-card:hover { border-color:rgba(255,255,255,.2);
+                    background:rgba(255,255,255,.05); }
+  .rad-card img { width:84px; height:84px; border-radius:8px;
+                  object-fit:cover; flex:none;
+                  box-shadow:0 4px 14px rgba(0,0,0,.4); }
+  .rad-card .ph { width:84px; height:84px; border-radius:8px; flex:none;
+                  background:linear-gradient(135deg,#2a2a33,#15151a);
+                  display:flex; align-items:center; justify-content:center;
+                  font-size:1.6rem; opacity:.35; }
+  .rad-body { min-width:0; flex:1; }
+  .rad-title { font-weight:640; font-size:.98rem; line-height:1.25;
+               overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .rad-artist { opacity:.68; font-size:.86rem; margin-bottom:.35rem;
+                overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .rad-tags { font-size:.74rem; opacity:.5; margin-top:.3rem; line-height:1.35;
+              overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+  /* The match bar is the one number that matters, so it gets the only colour
+     on the card and reads left-to-right like a fill gauge. */
+  .rad-meter { height:5px; border-radius:99px; background:rgba(255,255,255,.08);
+               overflow:hidden; margin:.15rem 0 .1rem; }
+  .rad-meter span { display:block; height:100%; border-radius:99px;
+                    background:linear-gradient(90deg,#8b5cf6,#d946a6); }
+  .rad-pct { font-size:.73rem; opacity:.55; letter-spacing:.02em; }
+  .rad-why { font-size:.74rem; opacity:.45; margin-top:.3rem; line-height:1.35; }
+</style>
+"""
+
+# The three modes are the whole options surface for most runs. Each is a
+# plain-English intention mapped onto engine arguments the user never sees.
+RADIUS_MODES = {
+    "🎯 Closest": {
+        "help": "Nearest fingerprints, whatever they are.",
+        "kwargs": {"lateral": False, "obscurity": "any"},
+    },
+    "🧭 Sideways": {
+        "help": "Same broad genre, but corners of it your album isn't in.",
+        "kwargs": {"lateral": True, "obscurity": "any"},
+    },
+    "💎 Deep cuts": {
+        "help": "Only records less heard than your album.",
+        "kwargs": {"lateral": False, "obscurity": "more_obscure"},
+    },
+}
+
+
+def radius_services():
+    """One set of clients per session, so the rate limiters and cache counters
+    survive Streamlit's reruns."""
+    if 'radius_services' not in st.session_state:
+        st.session_state.radius_services = radius_engine.Services.create()
+    return st.session_state.radius_services
+
+
+def _rad_art(url, size='card'):
+    if url:
+        return f'<img src="{url}" alt="">'
+    return '<div class="ph">♪</div>'
+
+
+def _rad_card(match):
+    features = match.features
+    pct = int(round(match.similarity * 100))
+    year = f' · {features.year}' if features.year else ''
+    tags = ', '.join(features.top_tags[:4])
+    why = radius_similarity.describe_axes(match, limit=3)
+    link = features.url or '#'
+    return f"""
+    <a href="{link}" target="_blank" style="text-decoration:none;color:inherit;">
+      <div class="rad-card">
+        {_rad_art(features.image_url)}
+        <div class="rad-body">
+          <div class="rad-title">{html.escape(features.title)}</div>
+          <div class="rad-artist">{html.escape(features.artist)}{year}</div>
+          <div class="rad-meter"><span style="width:{pct}%"></span></div>
+          <div class="rad-pct">{pct}% match</div>
+          <div class="rad-tags">{html.escape(tags)}</div>
+          <div class="rad-why">{html.escape(why)}</div>
+        </div>
+      </div>
+    </a>
+    """
+
+
+def _rad_seed_card(seed, enriched):
+    chips = []
+    if seed.listeners:
+        chips.append(f'{seed.listeners:,} listeners')
+        chips.append(f'{seed.devotion:.0f} listens each')
+    if seed.runtime_seconds:
+        chips.append(f'{seed.runtime_seconds // 60} min')
+    if seed.artist_area:
+        chips.append(seed.artist_area)
+    if seed.career_stage is not None:
+        chips.append(f'{seed.career_stage} yrs into career')
+    chips += seed.top_tags[:5]
+    chip_html = ''.join(f'<span class="rad-chip">{html.escape(str(c))}</span>'
+                        for c in chips)
+    year = f' · {seed.year}' if seed.year else ''
+    return f"""
+    <div class="rad-seed">
+      {_rad_art(seed.image_url)}
+      <div style="min-width:0;">
+        <div class="t">{html.escape(seed.title)}</div>
+        <div class="a">{html.escape(seed.artist)}{year}</div>
+        <div class="rad-stats">{chip_html}</div>
+      </div>
+    </div>
+    """
+
+
+def render_similar():
+    st.markdown(RADIUS_CSS, unsafe_allow_html=True)
+    services = radius_services()
+
+    st.markdown(
+        '<div class="rad-hero"><h1>What sounds like this?</h1>'
+        '<p>Name one album you love. Get its neighbours.</p></div>',
+        unsafe_allow_html=True,
+    )
+
+    search_col, button_col = st.columns([5, 1])
+    with search_col:
+        seed_text = st.text_input(
+            "Seed album", label_visibility="collapsed",
+            value=st.session_state.get('radius_seed_text', ''),
+            placeholder="Radiohead - Kid A",
+            key="radius_seed_input",
+        )
+    with button_col:
+        submitted = st.button("Find", type="primary", use_container_width=True,
+                              key="radius_go")
+
+    mode_col, reach_col = st.columns([2, 3])
+    with mode_col:
+        mode = st.radio(
+            "Mode", list(RADIUS_MODES), horizontal=True,
+            label_visibility="collapsed", key="radius_mode",
+        )
+    with reach_col:
+        radius_value = st.select_slider(
+            "How far to roam", options=[0.3, 0.4, 0.5, 0.6, 0.7],
+            value=st.session_state.get('radius_value', 0.5),
+            format_func=lambda v: {0.3: "Very close", 0.4: "Close",
+                                   0.5: "Balanced", 0.6: "Adventurous",
+                                   0.7: "Far afield"}[v],
+            label_visibility="collapsed", key="radius_reach",
+        )
+    st.caption(RADIUS_MODES[mode]["help"])
+
+    # Everything below here is for people who want it; nobody has to look.
+    with st.expander("Fine-tuning"):
+        st.caption(
+            "Each axis is one part of the fingerprint. Zero switches it off. "
+            "An axis with no data for an album is skipped rather than guessed, "
+            "so a missing value never counts as a perfect match."
+        )
+        weight_values = {}
+        defaults = radius_similarity.SimilarityWeights()
+        for group, axes in radius_similarity.AXIS_GROUPS.items():
+            st.markdown(f"**{group}**")
+            columns = st.columns(len(axes))
+            for column, axis in zip(columns, axes):
+                with column:
+                    weight_values[axis] = st.slider(
+                        radius_similarity.AXIS_LABELS[axis],
+                        min_value=0.0, max_value=2.0,
+                        value=float(getattr(defaults, axis)), step=0.05,
+                        key=f"radius_weight_{axis}",
+                    )
+        st.divider()
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            top_n = st.number_input("Results", 5, 60, 24, 3, key="radius_topn")
+            studio_only = st.checkbox("Studio albums only", True, key="radius_studio")
+        with col2:
+            pool_size = st.slider("Candidates to fingerprint", 40, 300, 120, 20,
+                                  key="radius_pool")
+            max_per_artist = st.slider(
+                "Max albums per artist", 1, 6, 2, 1, key="radius_per_artist",
+                help="Stops one close neighbour filling the list with its "
+                     "whole discography.",
+            )
+            exclude_same_artist = st.checkbox("Exclude the seed's artist", True,
+                                              key="radius_same_artist")
+        with col3:
+            enrich_results = st.checkbox(
+                "Fetch tracklists", True, key="radius_enrich",
+                help="Enables the runtime, pacing and titling axes. Adds about "
+                     "a second per result.",
+            )
+            crowd_tags = st.checkbox(
+                "Add Last.fm crowd tags", True, key="radius_crowd",
+                help="Thickens tag vectors, especially mood. Needs "
+                     "LASTFM_API_KEY; ignored without one.",
+            )
+            with_prose = st.checkbox(
+                "Read Wikipedia", False, key="radius_prose",
+                help="Prose axis. Off by default — album write-ups are mostly "
+                     "boilerplate, so it measured worse than nothing.",
+            )
+
+    if submitted:
+        if not seed_text.strip():
+            st.warning("Type an album first — artist and title work best.")
+            return
+        st.session_state.radius_seed_text = seed_text
+        st.session_state.radius_value = radius_value
+
+        artist_name, album_name, query = None, None, None
+        if ' - ' in seed_text:
+            artist_name, _, album_name = (p.strip() for p in seed_text.partition(' - '))
+        else:
+            query = seed_text.strip()
+
+        stage_labels = {
+            'seed': 'Reading your album',
+            'candidates': 'Finding its neighbourhood',
+            'fingerprint': 'Fingerprinting candidates',
+            'crowd tags': 'Adding crowd tags',
+            'kinship': 'Mapping listener kinship',
+            'prose': 'Reading Wikipedia',
+            'shape': 'Measuring runtime and pacing',
+        }
+        status_box = st.status("Working…", expanded=False)
+        progress_bar = st.progress(0.0)
+
+        def on_progress(stage, done, total, label):
+            status_box.update(label=f"{stage_labels.get(stage, stage)} — {label}")
+            progress_bar.progress(min(max((done / total) if total else 0.0, 0.0), 1.0))
+
+        try:
+            result = radius_engine.find_similar(
+                artist=artist_name, album=album_name, query=query,
+                weights=radius_similarity.SimilarityWeights(**weight_values),
+                radius=radius_value, top_n=int(top_n), pool_size=int(pool_size),
+                studio_only=studio_only, exclude_same_artist=exclude_same_artist,
+                max_per_artist=max_per_artist,
+                enrich_results=enrich_results, with_prose=with_prose,
+                enrich_tags_with_lastfm=crowd_tags,
+                services=services, progress=on_progress,
+                **RADIUS_MODES[mode]["kwargs"],
+            )
+        except radius_engine.SeedNotFound as exc:
+            status_box.update(label="Couldn't find that album", state="error")
+            st.error(str(exc))
+            for suggestion in exc.suggestions[:5]:
+                st.write(f"- {suggestion['artist']} — {suggestion['album']}")
+            return
+        except radius_clients.ApiError as exc:
+            status_box.update(label="A lookup failed", state="error")
+            st.error(str(exc))
+            return
+
+        progress_bar.empty()
+        status_box.update(label=f"Found {len(result.matches)}", state="complete")
+        st.session_state.radius_result = result
+
+    result = st.session_state.get('radius_result')
+    if result is None:
+        st.caption("Try: `Slint - Spiderland` · `Bon Iver - For Emma, Forever Ago` "
+                   "· `Portishead - Dummy`")
+        return
+
+    seed = result.seed
+    st.markdown(_rad_seed_card(seed, services.tag_enrichment),
+                unsafe_allow_html=True)
+
+    for note in result.notes:
+        st.info(note)
+    if not result.matches:
+        return
+
+    # Three across reads well on a laptop and stays legible when Streamlit
+    # stacks the columns on a narrow window.
+    columns = st.columns(3)
+    for index, match in enumerate(result.matches):
+        with columns[index % 3]:
+            st.markdown(_rad_card(match), unsafe_allow_html=True)
+            st.write("")
+
+    st.divider()
+    detail_col, download_col = st.columns([3, 1])
+    with detail_col:
+        st.caption(
+            f"{result.fingerprinted} of {result.considered} candidates "
+            f"fingerprinted · {result.requests_made} requests · "
+            f"{result.cache_hits} from cache"
+            + (" · tags enriched with Last.fm" if services.tag_enrichment else "")
+        )
+    with download_col:
+        st.download_button(
+            "⬇️ CSV", data=pd.DataFrame(result.rows()).to_csv(index=False).encode('utf-8'),
+            file_name=f"similar_to_{seed.artist}_{seed.title}.csv".replace(' ', '_'),
+            mime="text/csv", key="radius_csv", use_container_width=True,
+        )
+
+    with st.expander("Full table and per-album breakdown"):
+        st.dataframe(
+            pd.DataFrame(result.rows()), use_container_width=True, hide_index=True,
+            column_config={
+                'similarity': st.column_config.ProgressColumn(
+                    'Match', min_value=0.0, max_value=1.0, format="%.3f"),
+                'url': st.column_config.LinkColumn('MusicBrainz', display_text="open"),
+                'image_url': None,
+                'mbid': None,
+            },
+        )
+        for rank, match in enumerate(result.matches, 1):
+            st.markdown(f"**{rank}. {match.features.artist} — {match.features.title}** "
+                        f"· {match.similarity:.3f} over {len(match.axes)} axes")
+            st.caption(radius_similarity.describe_axes(match, limit=6))
+            if match.shared_neighbours:
+                st.caption(f"Artists both sit next to: {', '.join(match.shared_neighbours)}")
+
+
+# ---------------------------------------------------------------------------
 # Router
 # ---------------------------------------------------------------------------
 
@@ -987,5 +1347,7 @@ elif view == 'artists':
     render_artists()
 elif view == 'to_listen':
     render_to_listen()
+elif view == 'similar':
+    render_similar()
 else:
     render_home()
