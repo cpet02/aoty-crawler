@@ -321,6 +321,7 @@ def render_similar():
         st.session_state.radius_seed_text = seed_text
         st.session_state.radius_value = radius_value
         st.session_state.radius_result = None
+        st.session_state.radius_result_signature = None
         st.session_state.radius_confirmed_seed = None
 
         artist_name, album_name, query = None, None, None
@@ -375,52 +376,68 @@ def render_similar():
 
         if confirm_clicked:
             st.session_state.radius_confirmed_seed = picked
-
-            stage_labels = {
-                'seed': 'Reading your album',
-                'candidates': 'Finding its neighbourhood',
-                'fingerprint': 'Fingerprinting candidates',
-                'crowd tags': 'Adding crowd tags',
-                'kinship': 'Mapping listener kinship',
-                'prose': 'Reading Wikipedia',
-                'shape': 'Measuring runtime and pacing',
-            }
-            status_box = st.status("Working…", expanded=False)
-            progress_bar = st.progress(0.0)
-
-            def on_progress(stage, done, total, label):
-                status_box.update(label=f"{stage_labels.get(stage, stage)} — {label}")
-                progress_bar.progress(min(max((done / total) if total else 0.0, 0.0), 1.0))
-
-            try:
-                result = radius_engine.find_similar(
-                    seed_features=picked,
-                    weights=radius_similarity.SimilarityWeights(**weight_values),
-                    radius=radius_value, top_n=int(top_n), pool_size=int(pool_size),
-                    studio_only=studio_only, exclude_same_artist=exclude_same_artist,
-                    max_per_artist=max_per_artist,
-                    enrich_results=enrich_results, with_prose=with_prose,
-                    enrich_tags_with_lastfm=crowd_tags,
-                    services=services, progress=on_progress,
-                    **RADIUS_MODES[mode]["kwargs"],
-                )
-            except radius_clients.ApiError as exc:
-                status_box.update(label="A lookup failed", state="error")
-                st.error(str(exc))
-                return
-
-            progress_bar.empty()
-            status_box.update(label=f"Found {len(result.matches)}", state="complete")
-            st.session_state.radius_result = result
+            st.session_state.radius_result_signature = None
             st.rerun()
         return
 
-    result = st.session_state.get('radius_result')
-    if result is None:
+    confirmed = st.session_state.get('radius_confirmed_seed')
+    if confirmed is None:
         st.caption("Try: `Slint - Spiderland` · `Bon Iver - For Emma, Forever Ago` "
                    "· `Portishead - Dummy`")
         return
 
+    # Fine-tuning (or mode, or radius, or any other control above) changing
+    # is itself a "run again" — otherwise moving a slider after a result is
+    # already on screen just silently does nothing, which is what this
+    # replaced. The signature is what a run actually depends on, so an
+    # unrelated rerun (e.g. hovering a tooltip) reuses the stored result
+    # rather than re-hitting the pipeline.
+    run_signature = (
+        confirmed.mbid, mode, radius_value, tuple(sorted(weight_values.items())),
+        int(top_n), int(pool_size), studio_only, exclude_same_artist,
+        int(max_per_artist), enrich_results, with_prose, crowd_tags,
+    )
+
+    if st.session_state.get('radius_result_signature') != run_signature:
+        stage_labels = {
+            'seed': 'Reading your album',
+            'candidates': 'Finding its neighbourhood',
+            'fingerprint': 'Fingerprinting candidates',
+            'crowd tags': 'Adding crowd tags',
+            'kinship': 'Mapping listener kinship',
+            'prose': 'Reading Wikipedia',
+            'shape': 'Measuring runtime and pacing',
+        }
+        status_box = st.status("Working…", expanded=False)
+        progress_bar = st.progress(0.0)
+
+        def on_progress(stage, done, total, label):
+            status_box.update(label=f"{stage_labels.get(stage, stage)} — {label}")
+            progress_bar.progress(min(max((done / total) if total else 0.0, 0.0), 1.0))
+
+        try:
+            result = radius_engine.find_similar(
+                seed_features=confirmed,
+                weights=radius_similarity.SimilarityWeights(**weight_values),
+                radius=radius_value, top_n=int(top_n), pool_size=int(pool_size),
+                studio_only=studio_only, exclude_same_artist=exclude_same_artist,
+                max_per_artist=max_per_artist,
+                enrich_results=enrich_results, with_prose=with_prose,
+                enrich_tags_with_lastfm=crowd_tags,
+                services=services, progress=on_progress,
+                **RADIUS_MODES[mode]["kwargs"],
+            )
+        except radius_clients.ApiError as exc:
+            status_box.update(label="A lookup failed", state="error")
+            st.error(str(exc))
+            return
+
+        progress_bar.empty()
+        status_box.update(label=f"Found {len(result.matches)}", state="complete")
+        st.session_state.radius_result = result
+        st.session_state.radius_result_signature = run_signature
+
+    result = st.session_state.radius_result
     seed = result.seed
     seed_col, change_col = st.columns([5, 1])
     with seed_col:
@@ -430,6 +447,7 @@ def render_similar():
             st.session_state.radius_candidates = None
             st.session_state.radius_confirmed_seed = None
             st.session_state.radius_result = None
+            st.session_state.radius_result_signature = None
             st.rerun()
 
     for note in result.notes:
