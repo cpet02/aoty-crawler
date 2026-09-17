@@ -8,6 +8,25 @@ A personal music data explorer built on [AlbumOfTheYear.org](https://www.albumof
 
 ---
 
+## Two Tools In One Repo
+
+**🧭 Radius** — the part to use now. Give it one album you like and it finds
+albums with a similar overall fingerprint: genre and mood tags, artist
+lineage, listener kinship, audience size, listener devotion, era, runtime,
+pacing, origin, career stage and more. It runs on three keyless APIs
+(MusicBrainz, ListenBrainz, Wikipedia) behind a disk cache — **no crawling, no
+robots.txt question, and no critic scores.** An optional Last.fm key thickens
+the tag vectors if you have one. See [radius/README.md](radius/README.md).
+
+```bash
+python -m radius "Bon Iver - For Emma, Forever Ago"
+```
+
+**🕷 The AOTY crawler** — the original scrape-and-filter tool, described
+below. It still works, but Radius needs none of its data.
+
+---
+
 ## Why This Exists
 
 AOTY is great but its search is limited — one genre at a time, no review-count filtering, no way to combine criteria. This project lets you build a local queryable copy of the data and explore it however you want.
