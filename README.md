@@ -1,229 +1,185 @@
-# AOTY Crawler
+# Radius
 
-A personal music data explorer built on [AlbumOfTheYear.org](https://www.albumoftheyear.org). Scrapes album data by genre and year, stores it locally, and exposes it through a Streamlit dashboard with multi-genre filtering — something AOTY's own interface doesn't support.
+Name an album. Radius finds the records most deeply connected to it, and
+shows every statistic behind the verdict.
+
+Not "sounds a bit alike": connected. By the people who made it (a member's
+side project, the band a producer went on to record), by the production
+circle (same engineer, same studio, same label), by the listeners who play
+its tracks alongside others, by the scene it came from, and then by the
+whole descriptive profile of each record laid side by side: tags, audience,
+devotion, era, runtime, tempo, loudness, critic scores, collector demand.
+
+```bash
+python -m radius "Slint - Spiderland"
+python -m radius "Slint - Spiderland" "Talk Talk - Laughing Stock"   # blend two seeds
+python ui/launch.py                                                  # the app
+```
+
+**No API key required.** Radius reads five keyless JSON APIs, MusicBrainz,
+ListenBrainz, Wikidata, Deezer and Discogs, through a disk cache at a rate
+below what each service asks for. A Last.fm key and a Discogs token are
+optional and purely additive. Nothing is scraped.
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![Scrapy](https://img.shields.io/badge/scrapy-2.x-green.svg)](https://scrapy.org/)
 [![Streamlit](https://img.shields.io/badge/streamlit-1.x-red.svg)](https://streamlit.io/)
 
 ---
 
-## Two Tools In One Repo
-
-**🧭 Radius** — the part to use now. Give it one album you like and it finds
-albums with a similar overall fingerprint: genre and mood tags, artist
-lineage, listener kinship, audience size, listener devotion, era, runtime,
-pacing, origin, career stage and more. It runs on three keyless APIs
-(MusicBrainz, ListenBrainz, Wikipedia) behind a disk cache — **no crawling, no
-robots.txt question, and no critic scores.** An optional Last.fm key thickens
-the tag vectors if you have one. See [radius/README.md](radius/README.md).
-
-```bash
-python -m radius "Bon Iver - For Emma, Forever Ago"
-```
-
-**🕷 The AOTY crawler** — the original scrape-and-filter tool, described
-below. It still works, but Radius needs none of its data.
-
----
-
-## Why This Exists
-
-AOTY is great but its search is limited — one genre at a time, no review-count filtering, no way to combine criteria. This project lets you build a local queryable copy of the data and explore it however you want.
-
-**What you can do with it:**
-- Filter albums by multiple genres simultaneously
-- Set minimum critic/user score thresholds
-- Filter by review count (find hidden gems or widely-reviewed releases)
-- Browse by year
-- Export to CSV/JSON for your own analysis
-
----
-
-## Stack
-
-| Component | Purpose |
-|---|---|
-| [Scrapy](https://scrapy.org/) | Web crawling with built-in rate limiting |
-| [Streamlit](https://streamlit.io/) | Interactive dashboard UI |
-| [Selenium](https://selenium.dev/) + undetected-chromedriver | JS rendering fallback |
-| Pandas | Data export and analysis |
-
-Scraped data is stored as JSON/CSV files under `data/output/` — there's no database; the dashboard and CLI both read those files directly.
-
----
-
-## Requirements
-
-- Python 3.10+
-- Google Chrome (for Selenium fallback)
-- pip
-
----
-
-## Installation
+## Install
 
 ```bash
 git clone https://github.com/cpet02/aoty-crawler.git
 cd aoty-crawler
-
 python -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
-
+venv\Scripts\activate            # macOS/Linux: source venv/bin/activate
 pip install -r requirements.txt
-mkdir logs
+cp .env.example .env             # optional: contact address, Last.fm key, Discogs token
 ```
 
----
+Python 3.10 or newer. The first run of a seed takes a few minutes, because
+MusicBrainz is held to one request per second and the deep lookups ask it
+about every shortlisted record; every response is cached, so the same seed
+again, or a neighbouring one, takes seconds.
 
-## Quick Start
-
-**1. Scrape some data**
+## The app
 
 ```bash
-# Scrape Pop albums from 2026 (250 albums, 1 year back)
-python -m cli scrape --genre "Pop" --start-year 2026 --years-back 1 --albums-per-year 250
-
-# Scrape Rock albums across 3 years
-python -m cli scrape --genre "Rock" --start-year 2026 --years-back 3 --albums-per-year 100
-
-# Test run (10 albums, stops quickly)
-python -m cli scrape --genre "Jazz" --test-mode --limit 10
+python ui/launch.py            # http://localhost:8501
 ```
 
-**2. Launch the dashboard**
+* **Find.** Type `Artist - Album`. If MusicBrainz has several matches you
+  pick the one you meant. Up to four seeds can be blended into one
+  fingerprint. Results are cards: match bar, a *connected* badge when a real
+  connection fired, the three strongest reasons, and the key statistics.
+  Every card can become the next seed, join the blend, or be saved.
+* **Compare.** Seed and match side by side: every statistic in one table,
+  every axis as a bar, every reason.
+* **Filters** narrow the current result without re-running: year, runtime,
+  country, band or solo, audience size, "only connected".
+* **Fine-tuning** exposes every axis weight and every engine knob.
+* **Library.** Saved and rated records, seedable alone or blended. The old
+  ratings and bookmarks are imported once.
+* **Every statistic** is one table under the results, with CSV and JSON
+  export.
 
-```bash
-python ui/launch.py
-# Opens at http://localhost:8501
-```
+## How it works
 
----
+1. **Resolve** the seed to a MusicBrainz release group and fingerprint it in
+   full: tags, personnel, credits, canonical tracklist, audience, fans,
+   critic scores.
+2. **Gather** the neighbourhood from seven sources: MusicBrainz tag searches
+   and tag conjunctions, ListenBrainz's collaborative similar artists, the
+   seed artist's personnel graph (members' other bands, side projects,
+   aliases), the recordings listeners play alongside the seed's own tracks,
+   and, with a key, Last.fm's similar artists and tag charts. Typically
+   400 to 700 candidates.
+3. **Fingerprint in bulk.** ListenBrainz returns metadata and listen counts
+   for 25 albums per request, so the pool costs a handful of calls. Listener
+   kinship and crowd tags are added, everything is scored once, and a
+   shortlist survives.
+4. **Trace the connections.** For the shortlist only, the deep MusicBrainz
+   lookups: who played, who produced, where, on what label, how many
+   editions. Rescore, keep the top N.
+5. **Gather the statistics** for the finalists: Deezer fans, BPM and
+   loudness, Wikidata critic scores and producers, Last.fm listeners,
+   Discogs styles and want/have, the artist's whole catalogue. Rescore
+   again.
 
-## CLI Reference
+Services are independent, so each stage runs one worker thread per
+service; MusicBrainz stays serial at 1 rps. Design detail, the interface
+contract and every verified API quirk live in [docs/](docs/).
 
-```
-python -m cli scrape [options]
+## The fingerprint
 
-Options:
-  --genre TEXT            Genre to scrape (e.g. "Pop", "Hip-Hop", "Electronic")
-  --start-year INT        Starting year (default: current year)
-  --years-back INT        How many years to go back (default: 1)
-  --albums-per-year INT   Albums to collect per year (default: 250)
-  --test-mode             Limit scrape to --limit albums for testing
-  --limit INT             Album limit in test mode (default: 10)
-  --resume                Resume a previous scrape
-```
+Nineteen axes in five groups. Distance is a weighted mean over the axes
+measurable for both records; an axis with no data on either side is dropped,
+never guessed. Three axes are *evidence*: they only pull when there is an
+overlap, because not sharing a producer says nothing while sharing one says
+a lot.
 
-Genre names match what's shown on AOTY (e.g. `"Hip-Hop"`, `"Indie Rock"`, `"Electronic"`). Capitalisation is not strict but spacing matters — use the genre name as written on the site.
-
----
-
-## Project Structure
-
-```
-aoty-crawler/
-├── aoty_crawler/              # Scrapy package
-│   ├── spiders/
-│   │   ├── production_spider.py        # Main spider
-│   │   ├── comprehensive_album_spider.py
-│   │   └── album_extraction.py         # Shared page-parsing logic
-│   ├── utils/
-│   │   ├── data_loader.py     # Reads albums_*.json/csv into memory
-│   │   ├── job_tracker.py     # Per-scrape progress/status files
-│   │   ├── genres_manager.py  # Genre hierarchy logic
-│   │   ├── genres_hierarchy.py
-│   │   └── genres_db.json     # Bundled + auto-discovered genre list
-│   ├── items.py               # Data models
-│   ├── pipelines.py           # Output pipeline (JSON + CSV)
-│   ├── middlewares.py         # Retry + Selenium middleware
-│   └── settings.py            # Scrapy config
-├── cli/                       # CLI entry point
-│   └── __main__.py
-├── ui/                        # Streamlit dashboard
-│   ├── app.py                 # Main app
-│   └── launch.py
-├── data/output/               # Scraped output + job status (gitignored)
-├── logs/                      # Run logs (gitignored)
-├── .env.example               # Config template
-└── requirements.txt
-```
-
----
-
-## Data Output
-
-Each scrape run writes two files to `data/output/`:
-
-- `albums_YYYYMMDD_HHMMSS.json` — full records
-- `albums_YYYYMMDD_HHMMSS.csv` — flat tabular format
-
-**Fields per album:**
-
-| Field | Description |
+| Group | Axes |
 |---|---|
-| `title` | Album title |
-| `artist_name` | Artist name |
-| `scrape_year` | Release year scraped |
-| `scrape_genre` | Genre used to find it |
-| `genres` | All genre tags on the album page |
-| `genre_tags` | Secondary genre tags |
-| `critic_score` | Critic aggregate score (0–100) |
-| `user_score` | User aggregate score (0–100) |
-| `critic_review_count` | Number of critic reviews |
-| `user_review_count` | Number of user ratings |
-| `release_date` | Release date string |
-| `cover_image_url` | Album art URL |
-| `url` | AOTY album page URL |
+| Sound | genre, mood, definition (how easy the record is to place) |
+| Connection | **personnel**, **circle** (producers, engineers, studios, labels), **co-listening**, kinship (similar-artist overlap), lineage (the artist's own tags), convergence (how many sources surfaced it) |
+| Reception | reach (ListenBrainz, Deezer and Last.fm audiences), devotion (listens per listener), canonicity (share of the artist's audience), acclaim (off by default: Wikidata review scores are sparse) |
+| Shape | era, scale (runtime, tracks), pacing (mean track length and how uneven), energy (BPM, loudness) |
+| Provenance | origin (country, band or solo), career stage |
 
----
+```bash
+python -m radius --list-axes
+python -m radius "Radiohead - Kid A" --weight personnel=1.5 --weight era=0
+python -m radius "Duster - Stratosphere" --only kinship co_listening personnel
+```
+
+## CLI
+
+```
+python -m radius SEED [SEED ...]
+
+  --mode closest|sideways|deep_cuts   sideways: same broad genre, corners the seed
+                                      is not in; deep_cuts: less heard than the seed
+  -n, --top N          results (25)          --pool N       candidates fingerprinted (150)
+  --shortlist N        deep-checked (1.5x N) --per-artist N albums per artist (2)
+  --weight AXIS=V      override a weight     --only AXIS..  score on these alone
+  --include-same-artist  --include-non-studio  --no-crowd-tags  --discogs  --no-deep
+  --radius X           optional distance cap --explain      every axis and statistic
+  --json PATH  --csv PATH  --quiet
+```
+
+A seed is `"Artist - Album"`, `mbid:<release-group id>`, or free text.
+
+## Measuring changes
+
+`python -m radius.eval` runs a curated golden set (twelve seeds, the artists
+any listener would expect nearby) through the live engine and reports hits
+at N and mean reciprocal rank per seed. `--save` and `--compare` diff a
+baseline, so a tuning change is a number, not an impression.
 
 ## Configuration
 
-Default rate limiting is conservative and respectful. Settings in `aoty_crawler/settings.py`:
+Everything in `.env.example`. The one worth setting is `RADIUS_CONTACT`:
+each service asks to be told who is calling, and that courtesy is what
+keeps these APIs open. `LASTFM_API_KEY` thickens the tag vectors (mood
+vocabulary above all) and adds two candidate sources. `DISCOGS_TOKEN`
+raises Discogs' rate from 25 to 60 requests a minute and switches Discogs
+statistics on by default; without it they are one checkbox away.
 
-```python
-DOWNLOAD_DELAY = 3           # seconds between requests
-CONCURRENT_REQUESTS = 1      # one request at a time
-ROBOTSTXT_OBEY = True        # always
-```
+Rates live in `radius/config.py`. MusicBrainz's one request per second is
+their hard limit; do not raise it.
 
-Copy `.env.example` to `.env` to override settings without editing source:
+## Tests
 
 ```bash
-cp .env.example .env
+python -m pytest tests -q
 ```
 
----
+Fully offline: stub clients and saved API fixtures under `tests/fixtures`.
 
-## Troubleshooting
+## Layout
 
-**`ModuleNotFoundError: No module named 'aoty_crawler'`**
-Run commands from the project root directory, not from inside a subdirectory.
-
-**Scrape returns 0 albums**
-The CSS selectors for the ratings page may have changed. Check `aoty_crawler/spiders/production_spider.py` → `parse_ratings_page()`. You can debug interactively with:
-```bash
-scrapy shell "https://www.albumoftheyear.org/ratings/user-highest-rated/2026/pop/"
+```
+radius/
+  engine.py       the pipeline: Services, find_similar()
+  candidates.py   the seven candidate sources
+  similarity.py   the axes, weights, reasons
+  albums.py       AlbumFeatures, the fingerprint
+  credits.py      parsers for credits, personnel, Deezer, Wikidata, Discogs
+  clients.py      rate-limited, cached clients
+  workers.py      one thread per service, progress on the caller's thread
+  tags.py         tag normalisation, idf, genre/mood split
+  taxonomy.py     vendored genre hierarchy (root vs subgenre only)
+  library.py      saved and rated albums
+  eval.py         the golden set
+  cli.py          python -m radius
+ui/app.py         the Streamlit app
+docs/             DESIGN.md, INTERFACES.md, API_NOTES.md
+tests/
 ```
 
-**ChromeDriver crashes**
-Update Chrome, then clear its cached driver:
-```bash
-rm -rf ~/.wdm/drivers/chromedriver/*
-```
-
-**Dashboard shows "No albums loaded"**
-You need to run a scrape first. The UI only reads from `data/output/`.
-
----
-
-## Legal
-
-This project is for **personal, non-commercial use only**. See [TERMS_OF_USE.md](TERMS_OF_USE.md) and [COMPLIANCE.md](COMPLIANCE.md) for full details. Data scraped using this tool belongs to AlbumOfTheYear.org.
-
----
+This project began as an AlbumOfTheYear scraper; that code is gone. Radius
+needs nothing from it.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT, see [LICENSE](LICENSE).

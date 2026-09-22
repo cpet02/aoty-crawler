@@ -17,6 +17,14 @@ Three jobs here:
    candidate pool does that, and the vendored genre taxonomy adds a bonus for
    tags that are known subgenres rather than known roots (see
    radius/taxonomy.py — static offline data, nothing crawled).
+
+The taxonomy is NOT what decides whether a tag is a genre or a mood any more.
+That split comes from the sources: ListenBrainz marks its genre tags with a
+`genre_mbid`, and everything else is classified against a flat set of genre
+names (MusicBrainz's whitelist plus the taxonomy's own names, see
+`taxonomy_genre_names` / `split_profile`). The hierarchy is only consulted
+for depth - root vs subgenre - via `specificity`, `root_genres` and
+`subgenre_tags`.
 """
 
 import math
@@ -71,6 +79,41 @@ def hierarchy_index():
     if _HIERARCHY_INDEX is None:
         _HIERARCHY_INDEX = _build_hierarchy_index()
     return _HIERARCHY_INDEX
+
+
+_TAXONOMY_GENRE_NAMES = None
+
+
+def taxonomy_genre_names():
+    """Every parent and child of the vendored hierarchy, normalised - the
+    offline half of the genre-name set the engine classifies crowd tags
+    against (the other half is MusicBrainz's genre whitelist)."""
+    global _TAXONOMY_GENRE_NAMES
+    if _TAXONOMY_GENRE_NAMES is None:
+        names = set()
+        for parent, children in GENRE_HIERARCHY.items():
+            names.add(normalize_tag(parent))
+            names.update(normalize_tag(child) for child in children)
+        names.discard('')
+        _TAXONOMY_GENRE_NAMES = frozenset(names)
+    return _TAXONOMY_GENRE_NAMES
+
+
+def split_profile(profile, genre_names):
+    """(genres, moods): a tag is a genre iff its normalised name is in
+    `genre_names`; everything else - moods, scenes, textures - is a mood.
+    Weights are carried over untouched. With no name set given, the
+    taxonomy's own names stand in, which is what the engine falls back to
+    when MusicBrainz's list can't be fetched."""
+    if genre_names is None:
+        genre_names = taxonomy_genre_names()
+    genres, moods = {}, {}
+    for tag, weight in (profile or {}).items():
+        if normalize_tag(tag) in genre_names:
+            genres[tag] = weight
+        else:
+            moods[tag] = weight
+    return genres, moods
 
 
 def era_year(tag):

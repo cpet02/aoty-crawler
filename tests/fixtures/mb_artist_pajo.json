@@ -1,0 +1,668 @@
+{
+  "end-area": null,
+  "rating": {
+    "value": null,
+    "votes-count": 0
+  },
+  "tags": [
+    {
+      "name": "rock",
+      "count": 1
+    }
+  ],
+  "name": "David Pajo",
+  "type": "Person",
+  "isnis": [
+    "0000000116340526"
+  ],
+  "gender-id": "36d3d30a-839d-3eda-8cb3-29be4384e4a9",
+  "country": "US",
+  "sort-name": "Pajo, David",
+  "disambiguation": "",
+  "gender": "Male",
+  "begin-area": {
+    "disambiguation": "",
+    "id": "f934c8da-e40e-4056-8f8c-212e68fdcaec",
+    "sort-name": "Texas",
+    "iso-3166-2-codes": [
+      "US-TX"
+    ],
+    "type-id": null,
+    "type": null,
+    "name": "Texas"
+  },
+  "genres": [
+    {
+      "name": "rock",
+      "id": "0e3fc579-2d24-4f20-9dae-736e1ec78798",
+      "disambiguation": "",
+      "count": 1
+    }
+  ],
+  "ipis": [
+    "00338296927"
+  ],
+  "area": {
+    "sort-name": "United States",
+    "type-id": null,
+    "iso-3166-1-codes": [
+      "US"
+    ],
+    "id": "489ce91b-6658-3307-9877-795b68554c98",
+    "disambiguation": "",
+    "type": null,
+    "name": "United States"
+  },
+  "life-span": {
+    "end": null,
+    "begin": "1968-06-25",
+    "ended": false
+  },
+  "relations": [
+    {
+      "artist": {
+        "type": "Group",
+        "name": "Interpol",
+        "id": "b23e8a63-8f47-4882-b55b-df2c92ef400e",
+        "disambiguation": "NYC rock band",
+        "sort-name": "Interpol",
+        "country": "US",
+        "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b"
+      },
+      "ended": true,
+      "type": "instrumental supporting musician",
+      "attribute-values": {},
+      "target-credit": "",
+      "attribute-credits": {},
+      "source-credit": "",
+      "attribute-ids": {
+        "bass guitar": "17f9f065-2312-4a24-8309-6f6dd63e2e33"
+      },
+      "attributes": [
+        "bass guitar"
+      ],
+      "direction": "forward",
+      "type-id": "ed6a7891-ce70-4e08-9839-1f2f62270497",
+      "target-type": "artist",
+      "end": "2011-02",
+      "begin": "2010-06"
+    },
+    {
+      "type-id": "dd9886f2-1dfe-4270-97db-283f6839a666",
+      "target-type": "artist",
+      "end": null,
+      "begin": null,
+      "direction": "forward",
+      "target-credit": "",
+      "source-credit": "",
+      "attributes": [],
+      "attribute-ids": {},
+      "artist": {
+        "name": "Pajo",
+        "type": "Person",
+        "sort-name": "Pajo",
+        "country": "US",
+        "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+        "id": "374ed09c-1da6-478d-b909-1b25d4d4c35f",
+        "disambiguation": ""
+      },
+      "ended": false,
+      "type": "is person",
+      "attribute-values": {}
+    },
+    {
+      "type-id": "dd9886f2-1dfe-4270-97db-283f6839a666",
+      "begin": null,
+      "end": null,
+      "target-type": "artist",
+      "direction": "forward",
+      "target-credit": "",
+      "source-credit": "",
+      "attributes": [],
+      "attribute-ids": {},
+      "artist": {
+        "name": "Aerial M",
+        "type": "Person",
+        "disambiguation": "",
+        "id": "7f8f02bb-e2d9-4ee1-b5a6-b35ea4bdcac0",
+        "sort-name": "Aerial M",
+        "country": null,
+        "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df"
+      },
+      "ended": false,
+      "type": "is person",
+      "attribute-values": {}
+    },
+    {
+      "type-id": "dd9886f2-1dfe-4270-97db-283f6839a666",
+      "end": null,
+      "begin": null,
+      "target-type": "artist",
+      "direction": "forward",
+      "target-credit": "",
+      "source-credit": "",
+      "attributes": [],
+      "attribute-ids": {},
+      "artist": {
+        "type": "Person",
+        "name": "Papa M",
+        "id": "6edbe0fb-734e-4b1d-9c64-73ebb04853e1",
+        "disambiguation": "",
+        "country": "US",
+        "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+        "sort-name": "Papa M"
+      },
+      "ended": false,
+      "type": "is person",
+      "attribute-values": {}
+    },
+    {
+      "begin": "1996",
+      "end": "1998",
+      "target-type": "artist",
+      "type-id": "5be4c609-9afa-4ea0-910b-12ffb71e3821",
+      "direction": "forward",
+      "source-credit": "",
+      "attributes": [],
+      "attribute-ids": {},
+      "target-credit": "",
+      "type": "member of band",
+      "attribute-values": {},
+      "artist": {
+        "type": "Group",
+        "name": "Tortoise",
+        "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+        "country": "US",
+        "sort-name": "Tortoise",
+        "id": "e0953daa-860f-4dc8-9f1a-b12587cdaf17",
+        "disambiguation": ""
+      },
+      "ended": true
+    },
+    {
+      "type": "member of band",
+      "attribute-values": {},
+      "artist": {
+        "name": "Gang of Four",
+        "type": "Group",
+        "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+        "country": "GB",
+        "sort-name": "Gang of Four",
+        "id": "d8661c02-f423-4d72-8044-40ff05daf7a1",
+        "disambiguation": "English post‐punk band"
+      },
+      "ended": true,
+      "source-credit": "",
+      "attributes": [
+        "lead vocals"
+      ],
+      "attribute-ids": {
+        "lead vocals": "8e2a3255-87c2-4809-a174-98cb3704f1a5"
+      },
+      "attribute-credits": {},
+      "target-credit": "",
+      "direction": "forward",
+      "end": "2024",
+      "begin": "2021",
+      "target-type": "artist",
+      "type-id": "5be4c609-9afa-4ea0-910b-12ffb71e3821"
+    },
+    {
+      "target-credit": "",
+      "attribute-credits": {},
+      "attributes": [
+        "electric guitar"
+      ],
+      "attribute-ids": {
+        "electric guitar": "7ee8ebf5-3aed-4fc8-8004-49f4a8c45a87"
+      },
+      "source-credit": "",
+      "ended": true,
+      "artist": {
+        "sort-name": "Gang of Four",
+        "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+        "country": "GB",
+        "disambiguation": "English post‐punk band",
+        "id": "d8661c02-f423-4d72-8044-40ff05daf7a1",
+        "name": "Gang of Four",
+        "type": "Group"
+      },
+      "attribute-values": {},
+      "type": "member of band",
+      "type-id": "5be4c609-9afa-4ea0-910b-12ffb71e3821",
+      "target-type": "artist",
+      "end": "2024",
+      "begin": "2021",
+      "direction": "forward"
+    },
+    {
+      "attributes": [],
+      "attribute-ids": {},
+      "source-credit": "",
+      "target-credit": "",
+      "attribute-values": {},
+      "type": "member of band",
+      "ended": false,
+      "artist": {
+        "id": "ccee328b-cbc1-49e7-9b0f-74ffb0b7e0de",
+        "disambiguation": "",
+        "sort-name": "Havanarama",
+        "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+        "country": "US",
+        "type": "Group",
+        "name": "Havanarama"
+      },
+      "target-type": "artist",
+      "begin": null,
+      "end": null,
+      "type-id": "5be4c609-9afa-4ea0-910b-12ffb71e3821",
+      "direction": "forward"
+    },
+    {
+      "attribute-ids": {},
+      "attributes": [],
+      "source-credit": "",
+      "target-credit": "",
+      "attribute-values": {},
+      "type": "member of band",
+      "ended": false,
+      "artist": {
+        "type": "Group",
+        "name": "Zwan",
+        "sort-name": "Zwan",
+        "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+        "country": "US",
+        "disambiguation": "rock band",
+        "id": "5af2629b-36de-486c-ad50-a89a28ff050f"
+      },
+      "end": null,
+      "begin": null,
+      "target-type": "artist",
+      "type-id": "5be4c609-9afa-4ea0-910b-12ffb71e3821",
+      "direction": "forward"
+    },
+    {
+      "source-credit": "",
+      "attributes": [],
+      "attribute-ids": {},
+      "target-credit": "",
+      "type": "member of band",
+      "attribute-values": {},
+      "artist": {
+        "sort-name": "Slint",
+        "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+        "country": "US",
+        "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28",
+        "disambiguation": "",
+        "name": "Slint",
+        "type": "Group"
+      },
+      "ended": false,
+      "target-type": "artist",
+      "begin": null,
+      "end": null,
+      "type-id": "5be4c609-9afa-4ea0-910b-12ffb71e3821",
+      "direction": "forward"
+    },
+    {
+      "attributes": [],
+      "attribute-ids": {},
+      "source-credit": "",
+      "target-credit": "",
+      "attribute-values": {},
+      "type": "member of band",
+      "ended": false,
+      "artist": {
+        "type": "Group",
+        "name": "The For Carnation",
+        "id": "f3b9bb88-e82a-44e0-9f81-ae3acd4f8436",
+        "disambiguation": "",
+        "country": "US",
+        "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+        "sort-name": "For Carnation, The"
+      },
+      "target-type": "artist",
+      "end": null,
+      "begin": null,
+      "type-id": "5be4c609-9afa-4ea0-910b-12ffb71e3821",
+      "direction": "forward"
+    },
+    {
+      "end": null,
+      "begin": null,
+      "target-type": "artist",
+      "type-id": "5be4c609-9afa-4ea0-910b-12ffb71e3821",
+      "direction": "forward",
+      "source-credit": "",
+      "attributes": [],
+      "attribute-ids": {},
+      "target-credit": "",
+      "type": "member of band",
+      "attribute-values": {},
+      "artist": {
+        "disambiguation": "Louisville, KY rock band",
+        "id": "fd95f811-981e-4802-a712-f023fc4197fb",
+        "country": "US",
+        "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+        "sort-name": "King Kong",
+        "type": "Group",
+        "name": "King Kong"
+      },
+      "ended": false
+    },
+    {
+      "source-credit": "",
+      "attributes": [],
+      "attribute-ids": {},
+      "target-credit": "",
+      "type": "member of band",
+      "attribute-values": {},
+      "artist": {
+        "id": "12557bad-d7ef-43a2-9b5e-9c146fa10320",
+        "disambiguation": "",
+        "country": "US",
+        "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+        "sort-name": "Dead Child",
+        "type": "Group",
+        "name": "Dead Child"
+      },
+      "ended": false,
+      "target-type": "artist",
+      "end": null,
+      "begin": null,
+      "type-id": "5be4c609-9afa-4ea0-910b-12ffb71e3821",
+      "direction": "forward"
+    },
+    {
+      "source-credit": "",
+      "attributes": [
+        "original"
+      ],
+      "attribute-ids": {
+        "original": "4fd3b255-a7d7-4424-9a63-40fa543b601c"
+      },
+      "target-credit": "",
+      "type": "member of band",
+      "attribute-values": {},
+      "artist": {
+        "name": "David Pajo Band",
+        "type": "Group",
+        "id": "9f319303-e6b0-441d-b0c3-1ab8d05ee225",
+        "disambiguation": "",
+        "sort-name": "David Pajo Band",
+        "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+        "country": "US"
+      },
+      "ended": false,
+      "target-type": "artist",
+      "begin": null,
+      "end": null,
+      "type-id": "5be4c609-9afa-4ea0-910b-12ffb71e3821",
+      "direction": "forward"
+    },
+    {
+      "ended": false,
+      "artist": {
+        "sort-name": "Maurice",
+        "country": "US",
+        "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+        "disambiguation": "US heavy metal band, pre-Slint/Kinghorse",
+        "id": "82db43f7-62e9-4e3e-b843-db964d4b2788",
+        "name": "Maurice",
+        "type": "Group"
+      },
+      "attribute-values": {},
+      "type": "member of band",
+      "target-credit": "",
+      "attributes": [],
+      "attribute-ids": {},
+      "source-credit": "",
+      "direction": "forward",
+      "type-id": "5be4c609-9afa-4ea0-910b-12ffb71e3821",
+      "begin": null,
+      "end": null,
+      "target-type": "artist"
+    },
+    {
+      "type-id": "5be4c609-9afa-4ea0-910b-12ffb71e3821",
+      "begin": null,
+      "end": null,
+      "target-type": "artist",
+      "direction": "forward",
+      "target-credit": "",
+      "attribute-ids": {},
+      "attributes": [],
+      "source-credit": "",
+      "ended": false,
+      "artist": {
+        "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+        "country": null,
+        "sort-name": "Household Gods",
+        "id": "75d2948a-e13e-489e-9377-4f5eb8400180",
+        "disambiguation": "",
+        "type": "Group",
+        "name": "Household Gods"
+      },
+      "attribute-values": {},
+      "type": "member of band"
+    },
+    {
+      "target-type": "url",
+      "end": null,
+      "begin": null,
+      "type-id": "6b3e3c85-0002-4f34-aca6-80ace0d7e846",
+      "url": {
+        "id": "4d6a0aec-ef17-4803-8fd3-2dce14b9b66d",
+        "resource": "https://www.allmusic.com/artist/mn0000687948"
+      },
+      "direction": "forward",
+      "attribute-ids": {},
+      "attributes": [],
+      "source-credit": "",
+      "target-credit": "",
+      "attribute-values": {},
+      "type": "allmusic",
+      "ended": false
+    },
+    {
+      "type": "blog",
+      "attribute-values": {},
+      "ended": false,
+      "source-credit": "",
+      "attribute-ids": {},
+      "attributes": [],
+      "target-credit": "",
+      "direction": "forward",
+      "end": null,
+      "begin": null,
+      "target-type": "url",
+      "url": {
+        "resource": "http://pinkhollers.blogspot.com/",
+        "id": "ae9925af-2697-4e16-b866-4b5fde4ac71d"
+      },
+      "type-id": "eb535226-f8ca-499d-9b18-6a144df4ae6f"
+    },
+    {
+      "source-credit": "",
+      "attribute-ids": {},
+      "attributes": [],
+      "target-credit": "",
+      "type": "discogs",
+      "attribute-values": {},
+      "ended": false,
+      "begin": null,
+      "end": null,
+      "target-type": "url",
+      "url": {
+        "id": "67ccf426-5e6b-45b6-9eb2-99ef67cd43e2",
+        "resource": "https://www.discogs.com/artist/254025"
+      },
+      "type-id": "04a5b104-a4c2-4bac-99a1-7b837c37d9e4",
+      "direction": "forward"
+    },
+    {
+      "type-id": "08db8098-c0df-4b78-82c3-c8697b4bba7f",
+      "url": {
+        "id": "073fda4a-783e-483d-bec0-d844126bddaa",
+        "resource": "https://www.last.fm/music/David%20Pajo"
+      },
+      "target-type": "url",
+      "begin": null,
+      "end": null,
+      "direction": "forward",
+      "target-credit": "",
+      "source-credit": "",
+      "attributes": [],
+      "attribute-ids": {},
+      "ended": false,
+      "type": "last.fm",
+      "attribute-values": {}
+    },
+    {
+      "direction": "forward",
+      "target-type": "url",
+      "begin": null,
+      "end": null,
+      "type-id": "bac47923-ecde-4b59-822e-d08f0cd10156",
+      "url": {
+        "id": "ec4e65cf-d662-4435-8821-e78b13b1e5f3",
+        "resource": "https://myspace.com/davidpajo"
+      },
+      "attribute-values": {},
+      "type": "myspace",
+      "ended": false,
+      "attribute-ids": {},
+      "attributes": [],
+      "source-credit": "",
+      "target-credit": ""
+    },
+    {
+      "url": {
+        "resource": "http://www.davidpajo.com/",
+        "id": "a4d90df4-7040-49f2-b583-f98e95360f02"
+      },
+      "type-id": "fe33d22f-c3b0-4d68-bd53-a856badf2b15",
+      "begin": null,
+      "end": null,
+      "target-type": "url",
+      "direction": "forward",
+      "target-credit": "",
+      "attribute-ids": {},
+      "attributes": [],
+      "source-credit": "",
+      "ended": false,
+      "attribute-values": {},
+      "type": "official homepage"
+    },
+    {
+      "direction": "forward",
+      "target-type": "url",
+      "begin": null,
+      "end": null,
+      "type-id": "d94fb61c-fa20-4e3c-a19a-71a949fb2c55",
+      "url": {
+        "resource": "https://catalogue.bnf.fr/ark:/12148/cb140468753",
+        "id": "fd2f6ce7-3c59-479f-a44e-3a275db56666"
+      },
+      "attribute-values": {},
+      "type": "other databases",
+      "ended": false,
+      "attribute-ids": {},
+      "attributes": [],
+      "source-credit": "",
+      "target-credit": ""
+    },
+    {
+      "direction": "forward",
+      "url": {
+        "id": "fbd8153c-9633-46b9-be16-8832665b7d0d",
+        "resource": "https://twitter.com/davidpajo"
+      },
+      "type-id": "99429741-f3f6-484b-84f8-23af51991770",
+      "end": null,
+      "begin": null,
+      "target-type": "url",
+      "ended": false,
+      "type": "social network",
+      "attribute-values": {},
+      "target-credit": "",
+      "source-credit": "",
+      "attributes": [],
+      "attribute-ids": {}
+    },
+    {
+      "url": {
+        "id": "278099f6-307b-49f6-a64d-2bcc08d01a24",
+        "resource": "https://www.facebook.com/davidpajo"
+      },
+      "type-id": "99429741-f3f6-484b-84f8-23af51991770",
+      "end": null,
+      "begin": null,
+      "target-type": "url",
+      "direction": "forward",
+      "target-credit": "",
+      "attributes": [],
+      "attribute-ids": {},
+      "source-credit": "",
+      "ended": false,
+      "attribute-values": {},
+      "type": "social network"
+    },
+    {
+      "direction": "forward",
+      "type-id": "aac9c4bc-a5b9-30b8-9839-e3ac314c6e58",
+      "url": {
+        "id": "43f75a56-4e7c-4ee3-97b9-e55e2b375e1a",
+        "resource": "https://www.songkick.com/artists/306137"
+      },
+      "target-type": "url",
+      "end": null,
+      "begin": null,
+      "ended": false,
+      "attribute-values": {},
+      "type": "songkick",
+      "target-credit": "",
+      "attribute-ids": {},
+      "attributes": [],
+      "source-credit": ""
+    },
+    {
+      "end": null,
+      "begin": null,
+      "target-type": "url",
+      "url": {
+        "resource": "http://viaf.org/viaf/46500308",
+        "id": "f83a52f7-9ff5-473c-be37-17cfa34da9bc"
+      },
+      "type-id": "e8571dcc-35d4-4e91-a577-a3382fd84460",
+      "direction": "forward",
+      "attribute-ids": {},
+      "attributes": [],
+      "source-credit": "",
+      "target-credit": "",
+      "attribute-values": {},
+      "type": "VIAF",
+      "ended": false
+    },
+    {
+      "direction": "forward",
+      "begin": null,
+      "end": null,
+      "target-type": "url",
+      "url": {
+        "id": "9026acfe-731c-458a-b4a2-1e490a707686",
+        "resource": "https://www.wikidata.org/wiki/Q3018580"
+      },
+      "type-id": "689870a4-a1e4-4912-b17f-7b2664215698",
+      "attribute-values": {},
+      "type": "wikidata",
+      "ended": false,
+      "attribute-ids": {},
+      "attributes": [],
+      "source-credit": "",
+      "target-credit": ""
+    }
+  ],
+  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+  "id": "85188c46-d3ed-4517-ba78-5d06ec764f1c"
+}

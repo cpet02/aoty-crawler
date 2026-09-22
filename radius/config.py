@@ -1,6 +1,7 @@
 """Tunables and the tag stoplist.
 
-No credentials live here, because none of the services Radius uses need one.
+No credentials are required here: every service Radius depends on serves its
+data keyless. The two optional keys (Last.fm, Discogs) are purely additive.
 Everything network-facing is deliberately conservative — this project already
 got one IP blocked by hammering a site, and the fix was not to sneak around
 more carefully but to stop scraping and start asking APIs politely.
@@ -45,22 +46,36 @@ CACHE_PATH = os.path.join(DATA_ROOT, 'cache', 'radius.sqlite')
 MUSICBRAINZ_API_ROOT = 'https://musicbrainz.org/ws/2/'
 LISTENBRAINZ_API_ROOT = 'https://api.listenbrainz.org/'
 LISTENBRAINZ_LABS_ROOT = 'https://labs.api.listenbrainz.org/'
-WIKIPEDIA_API_ROOT = 'https://en.wikipedia.org/w/api.php'
 WIKIDATA_API_ROOT = 'https://www.wikidata.org/w/api.php'
+DEEZER_API_ROOT = 'https://api.deezer.com/'
+DISCOGS_API_ROOT = 'https://api.discogs.com/'
 LASTFM_API_ROOT = 'https://ws.audioscrobbler.com/2.0/'
 
 # MusicBrainz publish a hard limit of one request per second for anonymous
-# clients. ListenBrainz and Wikipedia are more generous, but there is no
+# clients (a 503 is how they say "too fast"). ListenBrainz's anonymous budget
+# is 30 requests per 10-second window, so 2.5/s leaves headroom for the
+# occasional retry. Wikidata and Deezer are more generous, but there is no
 # reason to crowd them either.
 MUSICBRAINZ_REQUESTS_PER_SECOND = float(os.getenv('RADIUS_MB_RPS', '1'))
-LISTENBRAINZ_REQUESTS_PER_SECOND = float(os.getenv('RADIUS_LB_RPS', '4'))
-WIKIPEDIA_REQUESTS_PER_SECOND = float(os.getenv('RADIUS_WIKI_RPS', '4'))
+LISTENBRAINZ_REQUESTS_PER_SECOND = float(os.getenv('RADIUS_LB_RPS', '2.5'))
+WIKIDATA_REQUESTS_PER_SECOND = float(os.getenv('RADIUS_WIKIDATA_RPS', '4'))
+# Deezer's documented limit is 50 requests per 5 seconds per IP.
+DEEZER_REQUESTS_PER_SECOND = float(os.getenv('RADIUS_DEEZER_RPS', '5'))
 
-# Last.fm is the one optional service, and the only one wanting a key. It is
-# a tag enricher and nothing more: MusicBrainz tags are accurate but sparse —
-# four votes on a record Last.fm has eighty tags for — and the thin end of
-# that is exactly the mood vocabulary the fingerprint most wants. With no key
-# set, every path here is skipped and the rest of Radius is unchanged.
+# Discogs works keyless at 25 requests/minute. A personal access token only
+# raises that to 60/minute (and switches Discogs enrichment on by default);
+# it unlocks no extra data.
+DISCOGS_TOKEN = os.getenv('DISCOGS_TOKEN', '')
+DISCOGS_REQUESTS_PER_MINUTE = float(
+    os.getenv('RADIUS_DISCOGS_RPM', '60' if DISCOGS_TOKEN else '25')
+)
+
+# Last.fm is the other optional service, and the only one wanting a key. It
+# thickens tag vectors (MusicBrainz tags are accurate but sparse — four votes
+# on a record Last.fm has eighty tags for — and the thin end of that is the
+# mood vocabulary the fingerprint most wants), and adds similar artists, tag
+# charts and listener counts as extra signals. With no key set, every path
+# is skipped and the rest of Radius is unchanged.
 LASTFM_API_KEY = os.getenv('LASTFM_API_KEY', '')
 # Their terms allow roughly 5 requests/second; we sit under that.
 LASTFM_REQUESTS_PER_SECOND = float(os.getenv('RADIUS_LASTFM_RPS', '4'))
@@ -76,12 +91,28 @@ LB_SIMILAR_ARTIST_ALGORITHM = os.getenv(
     'limit_100_filter_True_skip_30',
 )
 
+# The similar-recordings endpoint rejects any algorithm name outside this
+# set (the list is echoed in its 400 body). The days_9000 one is the broadest:
+# 174 hits for one Slint track against 83 for the listener-capped variants.
+LB_SIMILAR_RECORDING_ALGORITHMS = (
+    'session_based_days_9000_session_300_contribution_5_threshold_15_limit_50_skip_30',
+    'session_based_days_7500_session_300_contribution_5_threshold_15_limit_50_skip_30_top_n_listeners_1000',
+    'session_based_days_7500_session_300_contribution_5_threshold_15_limit_50_skip_30',
+    'session_based_days_180_session_300_contribution_5_threshold_15_limit_50_skip_30',
+    'session_based_days_1500_session_300_contribution_5_threshold_15_limit_50_skip_30_top_n_listeners_1000',
+    'session_based_days_7500_session_300_contribution_sqrt_threshold_15_limit_50_skip_30_top_n_listeners_1000',
+    'session_based_listens_session_300_contribution_5_threshold_15_limit_50_skip_30',
+)
+LB_SIMILAR_RECORDING_ALGORITHM = os.getenv(
+    'RADIUS_LB_SIMILAR_RECORDING_ALGORITHM', LB_SIMILAR_RECORDING_ALGORITHMS[0]
+)
+
 # Every one of these services asks to be told who is calling. Set
 # RADIUS_CONTACT to your own address or repo so an operator can reach you if
 # a run ever misbehaves — it is the courtesy that keeps these APIs open.
 _CONTACT = os.getenv('RADIUS_CONTACT', 'https://github.com/cpet02/aoty-crawler')
 USER_AGENT = os.getenv(
-    'RADIUS_USER_AGENT', f'radius-album-similarity/0.2 ( {_CONTACT} )'
+    'RADIUS_USER_AGENT', f'radius-album-similarity/0.3 ( {_CONTACT} )'
 )
 
 REQUEST_TIMEOUT = 25
@@ -91,17 +122,30 @@ MAX_RETRIES = 3
 # drift slowly enough that a month is plenty.
 TTL_DAYS = {
     'mb.rg.search': 60,
-    'mb.release.tracks': 365,
-    'mb.rg.urls': 365,
+    'mb.rg.full': 120,
+    'mb.rg.browse': 60,
+    'mb.release.full': 365,
+    'mb.artist.full': 120,
+    'mb.genres': 365,
     'lb.metadata': 60,
+    'lb.metadata.recording': 120,
     'lb.popularity.rg': 30,
     'lb.popularity.artist': 30,
     'lb.top.rg': 60,
     'lb.similar.artist': 60,
-    'wikipedia.extracts': 180,
-    'wikidata.sitelinks': 365,
+    'lb.similar.recording': 60,
+    'wikidata.entities': 120,
+    'wikidata.labels': 365,
+    'deezer.search': 120,
+    'deezer.album': 60,
+    'deezer.track': 365,
+    'discogs.master': 180,
+    'discogs.release': 60,
     'lastfm.album.tags': 90,
     'lastfm.artist.tags': 90,
+    'lastfm.artist.similar': 90,
+    'lastfm.album.info': 30,
+    'lastfm.tag.albums': 30,
 }
 DEFAULT_TTL_DAYS = 30
 
@@ -120,6 +164,8 @@ TAG_STOPLIST = {
     'brilliant', 'genius', 'epic', 'great', 'good', 'good stuff', 'nice',
     'music', 'albums', 'album', 'lp', 'ep', 'song', 'songs', 'tracks',
     'to listen', 'want to listen', 'to check out', 'wishlist', 'want',
+    'this album is exceptionally important', 'exceptionally important',
+    'overrated', 'underrated', 'albums to hear before you die',
     'listened', 'recently listened', 'currently listening', 'on repeat',
     'reviewed', 'rateyourmusic', 'rym', 'pitchfork', 'discogs',
     'male vocalists', 'female vocalists', 'male vocalist', 'female vocalist',

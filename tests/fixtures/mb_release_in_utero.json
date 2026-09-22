@@ -1,0 +1,2990 @@
+{
+  "release-group": {
+    "title": "In Utero",
+    "disambiguation": "",
+    "id": "2a0981fb-9593-3019-864b-ce934d97a16e",
+    "secondary-types": [],
+    "artist-credit": [
+      {
+        "name": "Nirvana",
+        "joinphrase": "",
+        "artist": {
+          "name": "Nirvana",
+          "type": "Group",
+          "country": "US",
+          "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+          "sort-name": "Nirvana",
+          "disambiguation": "1980s–1990s US grunge band",
+          "id": "5b11f4ce-a62d-471e-81fc-a69a8278c7da"
+        }
+      }
+    ],
+    "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+    "primary-type": "Album",
+    "secondary-type-ids": [],
+    "first-release-date": "1993-09-21"
+  },
+  "release-events": [
+    {
+      "date": "1993-09-21",
+      "area": {
+        "name": "United Kingdom",
+        "type": null,
+        "sort-name": "United Kingdom",
+        "type-id": null,
+        "id": "8a754a16-0027-3a29-b6d7-2b40ea0481ed",
+        "disambiguation": "",
+        "iso-3166-1-codes": [
+          "GB"
+        ]
+      }
+    },
+    {
+      "date": "1993",
+      "area": {
+        "sort-name": "Europe",
+        "type-id": null,
+        "id": "89a675c2-3e37-3518-b83c-418bad59a85a",
+        "disambiguation": "",
+        "iso-3166-1-codes": [
+          "XE"
+        ],
+        "type": null,
+        "name": "Europe"
+      }
+    }
+  ],
+  "barcode": "720642453629",
+  "date": "1993-09-21",
+  "cover-art-archive": {
+    "darkened": false,
+    "back": true,
+    "front": true,
+    "count": 9,
+    "artwork": true
+  },
+  "label-info": [
+    {
+      "catalog-number": "GED 24536",
+      "label": {
+        "name": "Geffen",
+        "type": "Imprint",
+        "label-code": 7266,
+        "disambiguation": "Geffen Records",
+        "id": "0fadc2ce-f7de-4e27-bbe6-612b317e716b",
+        "type-id": "b6285b2a-3514-3d43-80df-fcf528824ded",
+        "sort-name": "Geffen"
+      }
+    },
+    {
+      "catalog-number": null,
+      "label": {
+        "name": "Sub Pop Records",
+        "type": "Original Production",
+        "label-code": 8323,
+        "disambiguation": "",
+        "id": "38dc88de-7720-4100-9d5b-3cdc41b0c474",
+        "type-id": "7aaa37fe-2def-3476-b359-80245850062d",
+        "sort-name": "Sub Pop Records"
+      }
+    }
+  ],
+  "status": "Official",
+  "id": "80189394-8ca0-4a97-9d0e-aad32725de22",
+  "relations": [
+    {
+      "place": {
+        "coordinates": {
+          "latitude": 48.337922,
+          "longitude": -0.276323
+        },
+        "area": {
+          "sort-name": "Averton",
+          "type-id": "6fd8f29a-3d0a-32fc-980d-ea697b69da78",
+          "id": "eceb2674-5a29-4a6d-b422-36c458a49b93",
+          "disambiguation": "",
+          "type": "City",
+          "name": "Averton"
+        },
+        "name": "MPO",
+        "type": "Pressing plant",
+        "type-id": "ab750f51-cc41-47bb-8ba2-9bc34d7de514",
+        "address": "6228 Bd de l'Europe, 53700 Villaines-la-Juhel",
+        "id": "7bf304ff-c694-4b5e-a209-1d11dbf68876",
+        "disambiguation": ""
+      },
+      "source-credit": "",
+      "attributes": [],
+      "attribute-ids": {},
+      "target-credit": "",
+      "type": "manufactured at",
+      "attribute-values": {},
+      "ended": false,
+      "target-type": "place",
+      "begin": null,
+      "end": null,
+      "type-id": "3de9787f-c148-4b4f-b4bf-cb9a2616a092",
+      "direction": "backward"
+    },
+    {
+      "attribute-values": {},
+      "type": "mastered at",
+      "ended": false,
+      "attribute-ids": {},
+      "attributes": [],
+      "place": {
+        "type-id": "05fa6a09-ff92-3d34-bdbb-5141d3c24f38",
+        "address": "428 Cumberland Avenue",
+        "disambiguation": "",
+        "id": "c622cc2a-5179-40e0-81ce-54ae594bd067",
+        "area": {
+          "type-id": "6fd8f29a-3d0a-32fc-980d-ea697b69da78",
+          "sort-name": "Portland",
+          "type": "City",
+          "name": "Portland",
+          "id": "71e43d18-c6f2-4c6f-8026-5f85af905bcd",
+          "disambiguation": ""
+        },
+        "coordinates": {
+          "longitude": -70.26523,
+          "latitude": 43.65584
+        },
+        "name": "Gateway Mastering Studios",
+        "type": "Studio"
+      },
+      "source-credit": "",
+      "target-credit": "",
+      "direction": "backward",
+      "end": null,
+      "begin": null,
+      "target-type": "place",
+      "type-id": "5d075afa-6bb8-4327-9528-e3e4d3d68f49"
+    }
+  ],
+  "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+  "packaging": "Jewel Case",
+  "media": [
+    {
+      "track-offset": 0,
+      "tracks": [
+        {
+          "id": "9b9da3f9-3bb1-405f-ad23-db0c339e5bf0",
+          "position": 1,
+          "artist-credit": [
+            {
+              "artist": {
+                "id": "5b11f4ce-a62d-471e-81fc-a69a8278c7da",
+                "disambiguation": "1980s–1990s US grunge band",
+                "country": "US",
+                "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                "sort-name": "Nirvana",
+                "type": "Group",
+                "name": "Nirvana"
+              },
+              "name": "Nirvana",
+              "joinphrase": ""
+            }
+          ],
+          "number": "1",
+          "recording": {
+            "length": 216733,
+            "relations": [
+              {
+                "attribute-credits": {
+                  "guitar": "guitars"
+                },
+                "target-credit": "",
+                "source-credit": "",
+                "attribute-ids": {
+                  "guitar": "63021302-86cd-4aee-80df-2270d54f4978"
+                },
+                "attributes": [
+                  "guitar"
+                ],
+                "artist": {
+                  "type": "Person",
+                  "name": "Kurt Cobain",
+                  "sort-name": "Cobain, Kurt",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "disambiguation": "lead singer and guitarist for Nirvana",
+                  "id": "3c9b356d-d1db-4f4e-a7a3-2d00c1d70255"
+                },
+                "ended": true,
+                "type": "instrument",
+                "attribute-values": {},
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "target-type": "artist",
+                "direction": "backward"
+              },
+              {
+                "artist": {
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "Grohl, Dave",
+                  "id": "4d5f891d-9bce-45ae-ad86-912dd27252fa",
+                  "disambiguation": "",
+                  "type": "Person",
+                  "name": "Dave Grohl"
+                },
+                "ended": true,
+                "type": "instrument",
+                "attribute-values": {},
+                "attribute-credits": {},
+                "target-credit": "",
+                "source-credit": "",
+                "attribute-ids": {
+                  "drums (drum set)": "12092505-6ee1-46af-a15a-b5b468b6b155"
+                },
+                "attributes": [
+                  "drums (drum set)"
+                ],
+                "direction": "backward",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "begin": "1993-02-12",
+                "end": "1993-02-26",
+                "target-type": "artist"
+              },
+              {
+                "artist": {
+                  "type": "Person",
+                  "name": "Krist Novoselic",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "sort-name": "Novoselic, Krist",
+                  "id": "ac05e29f-0561-4445-bb26-5562d2389531",
+                  "disambiguation": ""
+                },
+                "ended": true,
+                "type": "instrument",
+                "attribute-values": {},
+                "target-credit": "",
+                "attribute-credits": {},
+                "source-credit": "",
+                "attribute-ids": {
+                  "bass guitar": "17f9f065-2312-4a24-8309-6f6dd63e2e33"
+                },
+                "attributes": [
+                  "bass guitar"
+                ],
+                "direction": "backward",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "target-type": "artist",
+                "end": "1993-02-26",
+                "begin": "1993-02-12"
+              },
+              {
+                "type": "recording",
+                "attribute-values": {},
+                "artist": {
+                  "id": "a4d486bd-6020-4a36-9c7d-bf5ce174bcd1",
+                  "disambiguation": "",
+                  "sort-name": "Albini, Steve",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "name": "Steve Albini",
+                  "type": "Person"
+                },
+                "ended": true,
+                "source-credit": "",
+                "attributes": [],
+                "attribute-ids": {},
+                "target-credit": "",
+                "direction": "backward",
+                "target-type": "artist",
+                "begin": "1993-02-12",
+                "end": "1993-02-26",
+                "type-id": "a01ee869-80a8-45ef-9447-c59e91aa7926"
+              },
+              {
+                "type-id": "0fdbe3c6-7700-4a31-ae54-b53f06ae1cfa",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "target-type": "artist",
+                "direction": "backward",
+                "attribute-credits": {},
+                "target-credit": "",
+                "source-credit": "",
+                "attributes": [
+                  "lead vocals"
+                ],
+                "attribute-ids": {
+                  "lead vocals": "8e2a3255-87c2-4809-a174-98cb3704f1a5"
+                },
+                "artist": {
+                  "type": "Person",
+                  "name": "Kurt Cobain",
+                  "id": "3c9b356d-d1db-4f4e-a7a3-2d00c1d70255",
+                  "disambiguation": "lead singer and guitarist for Nirvana",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "sort-name": "Cobain, Kurt"
+                },
+                "ended": true,
+                "type": "vocal",
+                "attribute-values": {}
+              },
+              {
+                "place": {
+                  "name": "Pachyderm Recording Studio",
+                  "type": "Studio",
+                  "area": {
+                    "type-id": "6fd8f29a-3d0a-32fc-980d-ea697b69da78",
+                    "sort-name": "Cannon Falls",
+                    "type": "City",
+                    "name": "Cannon Falls",
+                    "id": "b7f956d5-c802-4c70-bbb6-b23821c44417",
+                    "disambiguation": ""
+                  },
+                  "coordinates": {
+                    "longitude": -92.873948,
+                    "latitude": 44.531205
+                  },
+                  "id": "c4bc6844-78b1-4cee-bdfe-f7409905db94",
+                  "disambiguation": "",
+                  "address": "7840 County 17 Blvd Cannon Falls, Minnesota 55009",
+                  "type-id": "05fa6a09-ff92-3d34-bdbb-5141d3c24f38"
+                },
+                "source-credit": "",
+                "attribute-ids": {},
+                "attributes": [],
+                "target-credit": "",
+                "type": "recorded at",
+                "attribute-values": {},
+                "ended": true,
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "target-type": "place",
+                "type-id": "ad462279-14b0-4180-9b58-571d0eef7c51",
+                "direction": "backward"
+              }
+            ],
+            "title": "Serve the Servants",
+            "artist-credit": [
+              {
+                "artist": {
+                  "type": "Group",
+                  "name": "Nirvana",
+                  "country": "US",
+                  "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                  "sort-name": "Nirvana",
+                  "id": "5b11f4ce-a62d-471e-81fc-a69a8278c7da",
+                  "disambiguation": "1980s–1990s US grunge band"
+                },
+                "joinphrase": "",
+                "name": "Nirvana"
+              }
+            ],
+            "disambiguation": "",
+            "id": "52eadc0f-037a-4747-b234-e5412aff8215",
+            "first-release-date": "1993-09-21",
+            "video": false
+          },
+          "length": 216733,
+          "title": "Serve the Servants"
+        },
+        {
+          "length": 227640,
+          "recording": {
+            "video": false,
+            "first-release-date": "1993-09-21",
+            "title": "Scentless Apprentice",
+            "relations": [
+              {
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "target-type": "artist",
+                "direction": "backward",
+                "attribute-credits": {
+                  "guitar": "guitars"
+                },
+                "target-credit": "",
+                "source-credit": "",
+                "attribute-ids": {
+                  "guitar": "63021302-86cd-4aee-80df-2270d54f4978"
+                },
+                "attributes": [
+                  "guitar"
+                ],
+                "artist": {
+                  "type": "Person",
+                  "name": "Kurt Cobain",
+                  "disambiguation": "lead singer and guitarist for Nirvana",
+                  "id": "3c9b356d-d1db-4f4e-a7a3-2d00c1d70255",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "sort-name": "Cobain, Kurt"
+                },
+                "ended": true,
+                "type": "instrument",
+                "attribute-values": {}
+              },
+              {
+                "ended": true,
+                "artist": {
+                  "name": "Dave Grohl",
+                  "type": "Person",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "sort-name": "Grohl, Dave",
+                  "id": "4d5f891d-9bce-45ae-ad86-912dd27252fa",
+                  "disambiguation": ""
+                },
+                "attribute-values": {},
+                "type": "instrument",
+                "attribute-credits": {},
+                "target-credit": "",
+                "attributes": [
+                  "drums (drum set)"
+                ],
+                "attribute-ids": {
+                  "drums (drum set)": "12092505-6ee1-46af-a15a-b5b468b6b155"
+                },
+                "source-credit": "",
+                "direction": "backward",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "begin": "1993-02-12",
+                "end": "1993-02-26",
+                "target-type": "artist"
+              },
+              {
+                "attribute-ids": {
+                  "bass guitar": "17f9f065-2312-4a24-8309-6f6dd63e2e33"
+                },
+                "attributes": [
+                  "bass guitar"
+                ],
+                "source-credit": "",
+                "target-credit": "",
+                "attribute-credits": {},
+                "attribute-values": {},
+                "type": "instrument",
+                "ended": true,
+                "artist": {
+                  "type": "Person",
+                  "name": "Krist Novoselic",
+                  "id": "ac05e29f-0561-4445-bb26-5562d2389531",
+                  "disambiguation": "",
+                  "sort-name": "Novoselic, Krist",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df"
+                },
+                "target-type": "artist",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "direction": "backward"
+              },
+              {
+                "ended": true,
+                "artist": {
+                  "type": "Person",
+                  "name": "Steve Albini",
+                  "id": "a4d486bd-6020-4a36-9c7d-bf5ce174bcd1",
+                  "disambiguation": "",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "Albini, Steve"
+                },
+                "attribute-values": {},
+                "type": "recording",
+                "target-credit": "",
+                "attribute-ids": {},
+                "attributes": [],
+                "source-credit": "",
+                "direction": "backward",
+                "type-id": "a01ee869-80a8-45ef-9447-c59e91aa7926",
+                "target-type": "artist",
+                "end": "1993-02-26",
+                "begin": "1993-02-12"
+              },
+              {
+                "type": "vocal",
+                "attribute-values": {},
+                "artist": {
+                  "sort-name": "Cobain, Kurt",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "disambiguation": "lead singer and guitarist for Nirvana",
+                  "id": "3c9b356d-d1db-4f4e-a7a3-2d00c1d70255",
+                  "type": "Person",
+                  "name": "Kurt Cobain"
+                },
+                "ended": true,
+                "source-credit": "",
+                "attribute-ids": {
+                  "lead vocals": "8e2a3255-87c2-4809-a174-98cb3704f1a5"
+                },
+                "attributes": [
+                  "lead vocals"
+                ],
+                "target-credit": "",
+                "attribute-credits": {},
+                "direction": "backward",
+                "target-type": "artist",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "type-id": "0fdbe3c6-7700-4a31-ae54-b53f06ae1cfa"
+              },
+              {
+                "target-type": "place",
+                "begin": "1993-02-12",
+                "end": "1993-02-26",
+                "type-id": "ad462279-14b0-4180-9b58-571d0eef7c51",
+                "direction": "backward",
+                "place": {
+                  "address": "7840 County 17 Blvd Cannon Falls, Minnesota 55009",
+                  "type-id": "05fa6a09-ff92-3d34-bdbb-5141d3c24f38",
+                  "disambiguation": "",
+                  "id": "c4bc6844-78b1-4cee-bdfe-f7409905db94",
+                  "coordinates": {
+                    "longitude": -92.873948,
+                    "latitude": 44.531205
+                  },
+                  "area": {
+                    "name": "Cannon Falls",
+                    "type": "City",
+                    "disambiguation": "",
+                    "id": "b7f956d5-c802-4c70-bbb6-b23821c44417",
+                    "sort-name": "Cannon Falls",
+                    "type-id": "6fd8f29a-3d0a-32fc-980d-ea697b69da78"
+                  },
+                  "type": "Studio",
+                  "name": "Pachyderm Recording Studio"
+                },
+                "source-credit": "",
+                "attributes": [],
+                "attribute-ids": {},
+                "target-credit": "",
+                "type": "recorded at",
+                "attribute-values": {},
+                "ended": true
+              }
+            ],
+            "length": 227706,
+            "id": "83fef6a6-4ac2-4e77-8314-45a2d5cc7133",
+            "disambiguation": "",
+            "artist-credit": [
+              {
+                "artist": {
+                  "id": "5b11f4ce-a62d-471e-81fc-a69a8278c7da",
+                  "disambiguation": "1980s–1990s US grunge band",
+                  "sort-name": "Nirvana",
+                  "country": "US",
+                  "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                  "name": "Nirvana",
+                  "type": "Group"
+                },
+                "name": "Nirvana",
+                "joinphrase": ""
+              }
+            ]
+          },
+          "title": "Scentless Apprentice",
+          "number": "2",
+          "artist-credit": [
+            {
+              "name": "Nirvana",
+              "joinphrase": "",
+              "artist": {
+                "disambiguation": "1980s–1990s US grunge band",
+                "id": "5b11f4ce-a62d-471e-81fc-a69a8278c7da",
+                "sort-name": "Nirvana",
+                "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                "country": "US",
+                "name": "Nirvana",
+                "type": "Group"
+              }
+            }
+          ],
+          "position": 2,
+          "id": "ba36a635-a708-47f1-9567-99d7893cbcf4"
+        },
+        {
+          "artist-credit": [
+            {
+              "artist": {
+                "sort-name": "Nirvana",
+                "country": "US",
+                "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                "id": "5b11f4ce-a62d-471e-81fc-a69a8278c7da",
+                "disambiguation": "1980s–1990s US grunge band",
+                "name": "Nirvana",
+                "type": "Group"
+              },
+              "joinphrase": "",
+              "name": "Nirvana"
+            }
+          ],
+          "number": "3",
+          "id": "424c0498-aeda-48f7-b4d1-e12ed4b61fc7",
+          "position": 3,
+          "length": 281600,
+          "recording": {
+            "id": "b2f70fb6-3c89-45ec-9df2-a4be8daba564",
+            "disambiguation": "",
+            "artist-credit": [
+              {
+                "joinphrase": "",
+                "name": "Nirvana",
+                "artist": {
+                  "country": "US",
+                  "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                  "sort-name": "Nirvana",
+                  "disambiguation": "1980s–1990s US grunge band",
+                  "id": "5b11f4ce-a62d-471e-81fc-a69a8278c7da",
+                  "type": "Group",
+                  "name": "Nirvana"
+                }
+              }
+            ],
+            "length": 281333,
+            "relations": [
+              {
+                "target-credit": "",
+                "attributes": [],
+                "attribute-ids": {},
+                "source-credit": "",
+                "ended": false,
+                "artist": {
+                  "type": "Person",
+                  "name": "Steve Albini",
+                  "disambiguation": "",
+                  "id": "a4d486bd-6020-4a36-9c7d-bf5ce174bcd1",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "Albini, Steve"
+                },
+                "attribute-values": {},
+                "type": "engineer",
+                "type-id": "5dcc52af-7064-4051-8d62-7d80f4c3c907",
+                "target-type": "artist",
+                "begin": null,
+                "end": null,
+                "direction": "backward"
+              },
+              {
+                "target-credit": "",
+                "attributes": [
+                  "associate"
+                ],
+                "attribute-ids": {
+                  "associate": "8d23d2dd-13df-43ea-85a0-d7eb38dc32ec"
+                },
+                "source-credit": "",
+                "ended": false,
+                "artist": {
+                  "name": "Adam Kasper",
+                  "type": "Person",
+                  "id": "f5ae53ea-9d7b-4463-857d-b4bc09d7e441",
+                  "disambiguation": "",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "sort-name": "Kasper, Adam"
+                },
+                "attribute-values": {},
+                "type": "engineer",
+                "type-id": "5dcc52af-7064-4051-8d62-7d80f4c3c907",
+                "target-type": "artist",
+                "end": null,
+                "begin": null,
+                "direction": "backward"
+              },
+              {
+                "direction": "backward",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "target-type": "artist",
+                "artist": {
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "sort-name": "Cobain, Kurt",
+                  "id": "3c9b356d-d1db-4f4e-a7a3-2d00c1d70255",
+                  "disambiguation": "lead singer and guitarist for Nirvana",
+                  "type": "Person",
+                  "name": "Kurt Cobain"
+                },
+                "ended": true,
+                "type": "instrument",
+                "attribute-values": {},
+                "attribute-credits": {
+                  "guitar": "guitars"
+                },
+                "target-credit": "",
+                "source-credit": "",
+                "attribute-ids": {
+                  "guitar": "63021302-86cd-4aee-80df-2270d54f4978"
+                },
+                "attributes": [
+                  "guitar"
+                ]
+              },
+              {
+                "direction": "backward",
+                "begin": "1993-02-12",
+                "end": "1993-02-26",
+                "target-type": "artist",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "attribute-values": {},
+                "type": "instrument",
+                "ended": true,
+                "artist": {
+                  "sort-name": "Grohl, Dave",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "disambiguation": "",
+                  "id": "4d5f891d-9bce-45ae-ad86-912dd27252fa",
+                  "name": "Dave Grohl",
+                  "type": "Person"
+                },
+                "attribute-ids": {
+                  "drums (drum set)": "12092505-6ee1-46af-a15a-b5b468b6b155"
+                },
+                "attributes": [
+                  "drums (drum set)"
+                ],
+                "source-credit": "",
+                "attribute-credits": {},
+                "target-credit": ""
+              },
+              {
+                "direction": "backward",
+                "target-type": "artist",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "type": "instrument",
+                "attribute-values": {},
+                "artist": {
+                  "type": "Person",
+                  "name": "Krist Novoselic",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "Novoselic, Krist",
+                  "disambiguation": "",
+                  "id": "ac05e29f-0561-4445-bb26-5562d2389531"
+                },
+                "ended": true,
+                "source-credit": "",
+                "attributes": [
+                  "bass guitar"
+                ],
+                "attribute-ids": {
+                  "bass guitar": "17f9f065-2312-4a24-8309-6f6dd63e2e33"
+                },
+                "target-credit": "",
+                "attribute-credits": {}
+              },
+              {
+                "attribute-values": {},
+                "type": "mix",
+                "ended": false,
+                "artist": {
+                  "type": "Person",
+                  "name": "Scott Litt",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "sort-name": "Litt, Scott",
+                  "id": "a836308a-1832-4b69-9398-2d29edb55c98",
+                  "disambiguation": "producer and engineer"
+                },
+                "attributes": [
+                  "additional"
+                ],
+                "attribute-ids": {
+                  "additional": "0a5341f8-3b1d-4f99-a0c6-26b7f4e42c7f"
+                },
+                "source-credit": "",
+                "target-credit": "",
+                "direction": "backward",
+                "target-type": "artist",
+                "begin": null,
+                "end": null,
+                "type-id": "3e3102e1-1896-4f50-b5b2-dd9824e46efe"
+              },
+              {
+                "direction": "backward",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "target-type": "artist",
+                "type-id": "a01ee869-80a8-45ef-9447-c59e91aa7926",
+                "attribute-values": {},
+                "type": "recording",
+                "ended": true,
+                "artist": {
+                  "sort-name": "Albini, Steve",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "id": "a4d486bd-6020-4a36-9c7d-bf5ce174bcd1",
+                  "disambiguation": "",
+                  "name": "Steve Albini",
+                  "type": "Person"
+                },
+                "attribute-ids": {},
+                "attributes": [],
+                "source-credit": "",
+                "target-credit": ""
+              },
+              {
+                "target-type": "artist",
+                "begin": "1993-02-12",
+                "end": "1993-02-26",
+                "type-id": "0fdbe3c6-7700-4a31-ae54-b53f06ae1cfa",
+                "direction": "backward",
+                "attributes": [
+                  "lead vocals"
+                ],
+                "attribute-ids": {
+                  "lead vocals": "8e2a3255-87c2-4809-a174-98cb3704f1a5"
+                },
+                "source-credit": "",
+                "target-credit": "",
+                "attribute-credits": {},
+                "attribute-values": {},
+                "type": "vocal",
+                "ended": true,
+                "artist": {
+                  "disambiguation": "lead singer and guitarist for Nirvana",
+                  "id": "3c9b356d-d1db-4f4e-a7a3-2d00c1d70255",
+                  "sort-name": "Cobain, Kurt",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "type": "Person",
+                  "name": "Kurt Cobain"
+                }
+              },
+              {
+                "target-credit": "",
+                "attributes": [],
+                "attribute-ids": {},
+                "source-credit": "",
+                "ended": true,
+                "artist": {
+                  "name": "Dave Grohl",
+                  "type": "Person",
+                  "sort-name": "Grohl, Dave",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "id": "4d5f891d-9bce-45ae-ad86-912dd27252fa",
+                  "disambiguation": ""
+                },
+                "attribute-values": {},
+                "type": "vocal",
+                "type-id": "0fdbe3c6-7700-4a31-ae54-b53f06ae1cfa",
+                "begin": "1993-02-12",
+                "end": "1993-02-26",
+                "target-type": "artist",
+                "direction": "backward"
+              },
+              {
+                "direction": "backward",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "target-type": "place",
+                "type-id": "ad462279-14b0-4180-9b58-571d0eef7c51",
+                "type": "recorded at",
+                "attribute-values": {},
+                "ended": true,
+                "source-credit": "",
+                "place": {
+                  "type": "Studio",
+                  "name": "Pachyderm Recording Studio",
+                  "area": {
+                    "type": "City",
+                    "name": "Cannon Falls",
+                    "disambiguation": "",
+                    "id": "b7f956d5-c802-4c70-bbb6-b23821c44417",
+                    "type-id": "6fd8f29a-3d0a-32fc-980d-ea697b69da78",
+                    "sort-name": "Cannon Falls"
+                  },
+                  "coordinates": {
+                    "longitude": -92.873948,
+                    "latitude": 44.531205
+                  },
+                  "id": "c4bc6844-78b1-4cee-bdfe-f7409905db94",
+                  "disambiguation": "",
+                  "address": "7840 County 17 Blvd Cannon Falls, Minnesota 55009",
+                  "type-id": "05fa6a09-ff92-3d34-bdbb-5141d3c24f38"
+                },
+                "attributes": [],
+                "attribute-ids": {},
+                "target-credit": ""
+              }
+            ],
+            "title": "Heart‐Shaped Box",
+            "first-release-date": "1993-08-23",
+            "video": false
+          },
+          "title": "Heart‐Shaped Box"
+        },
+        {
+          "position": 4,
+          "id": "75d02a82-9f35-4cca-81f5-d6284d837215",
+          "artist-credit": [
+            {
+              "name": "Nirvana",
+              "joinphrase": "",
+              "artist": {
+                "disambiguation": "1980s–1990s US grunge band",
+                "id": "5b11f4ce-a62d-471e-81fc-a69a8278c7da",
+                "country": "US",
+                "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                "sort-name": "Nirvana",
+                "type": "Group",
+                "name": "Nirvana"
+              }
+            }
+          ],
+          "number": "4",
+          "title": "Rape Me",
+          "recording": {
+            "video": false,
+            "first-release-date": "1993-09-21",
+            "disambiguation": "",
+            "id": "3aab03c5-beef-49a3-a410-29a009760256",
+            "artist-credit": [
+              {
+                "name": "Nirvana",
+                "joinphrase": "",
+                "artist": {
+                  "sort-name": "Nirvana",
+                  "country": "US",
+                  "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                  "id": "5b11f4ce-a62d-471e-81fc-a69a8278c7da",
+                  "disambiguation": "1980s–1990s US grunge band",
+                  "name": "Nirvana",
+                  "type": "Group"
+                }
+              }
+            ],
+            "title": "Rape Me",
+            "relations": [
+              {
+                "direction": "backward",
+                "begin": null,
+                "end": null,
+                "target-type": "artist",
+                "type-id": "5dcc52af-7064-4051-8d62-7d80f4c3c907",
+                "attribute-values": {},
+                "type": "engineer",
+                "ended": false,
+                "artist": {
+                  "id": "a4d486bd-6020-4a36-9c7d-bf5ce174bcd1",
+                  "disambiguation": "",
+                  "sort-name": "Albini, Steve",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "name": "Steve Albini",
+                  "type": "Person"
+                },
+                "attribute-ids": {},
+                "attributes": [],
+                "source-credit": "",
+                "target-credit": ""
+              },
+              {
+                "type": "instrument",
+                "attribute-values": {},
+                "artist": {
+                  "disambiguation": "lead singer and guitarist for Nirvana",
+                  "id": "3c9b356d-d1db-4f4e-a7a3-2d00c1d70255",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "Cobain, Kurt",
+                  "name": "Kurt Cobain",
+                  "type": "Person"
+                },
+                "ended": true,
+                "source-credit": "",
+                "attributes": [
+                  "guitar"
+                ],
+                "attribute-ids": {
+                  "guitar": "63021302-86cd-4aee-80df-2270d54f4978"
+                },
+                "attribute-credits": {
+                  "guitar": "guitars"
+                },
+                "target-credit": "",
+                "direction": "backward",
+                "begin": "1993-02-12",
+                "end": "1993-02-26",
+                "target-type": "artist",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461"
+              },
+              {
+                "direction": "backward",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "target-type": "artist",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "type": "instrument",
+                "attribute-values": {},
+                "artist": {
+                  "id": "4d5f891d-9bce-45ae-ad86-912dd27252fa",
+                  "disambiguation": "",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "sort-name": "Grohl, Dave",
+                  "name": "Dave Grohl",
+                  "type": "Person"
+                },
+                "ended": true,
+                "source-credit": "",
+                "attributes": [
+                  "drums (drum set)"
+                ],
+                "attribute-ids": {
+                  "drums (drum set)": "12092505-6ee1-46af-a15a-b5b468b6b155"
+                },
+                "attribute-credits": {},
+                "target-credit": ""
+              },
+              {
+                "type": "instrument",
+                "attribute-values": {},
+                "artist": {
+                  "disambiguation": "",
+                  "id": "ac05e29f-0561-4445-bb26-5562d2389531",
+                  "sort-name": "Novoselic, Krist",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "type": "Person",
+                  "name": "Krist Novoselic"
+                },
+                "ended": true,
+                "source-credit": "",
+                "attributes": [
+                  "bass guitar"
+                ],
+                "attribute-ids": {
+                  "bass guitar": "17f9f065-2312-4a24-8309-6f6dd63e2e33"
+                },
+                "attribute-credits": {},
+                "target-credit": "",
+                "direction": "backward",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "target-type": "artist",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461"
+              },
+              {
+                "direction": "backward",
+                "begin": null,
+                "end": null,
+                "target-type": "artist",
+                "type-id": "3e3102e1-1896-4f50-b5b2-dd9824e46efe",
+                "type": "mix",
+                "attribute-values": {},
+                "artist": {
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "sort-name": "Albini, Steve",
+                  "id": "a4d486bd-6020-4a36-9c7d-bf5ce174bcd1",
+                  "disambiguation": "",
+                  "name": "Steve Albini",
+                  "type": "Person"
+                },
+                "ended": false,
+                "source-credit": "",
+                "attribute-ids": {},
+                "attributes": [],
+                "target-credit": ""
+              },
+              {
+                "direction": "backward",
+                "target-type": "artist",
+                "begin": "1993-02-12",
+                "end": "1993-02-26",
+                "type-id": "a01ee869-80a8-45ef-9447-c59e91aa7926",
+                "attribute-values": {},
+                "type": "recording",
+                "ended": true,
+                "artist": {
+                  "disambiguation": "",
+                  "id": "a4d486bd-6020-4a36-9c7d-bf5ce174bcd1",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "Albini, Steve",
+                  "name": "Steve Albini",
+                  "type": "Person"
+                },
+                "attributes": [],
+                "attribute-ids": {},
+                "source-credit": "",
+                "target-credit": ""
+              },
+              {
+                "target-type": "artist",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "type-id": "0fdbe3c6-7700-4a31-ae54-b53f06ae1cfa",
+                "direction": "backward",
+                "source-credit": "",
+                "attribute-ids": {
+                  "lead vocals": "8e2a3255-87c2-4809-a174-98cb3704f1a5"
+                },
+                "attributes": [
+                  "lead vocals"
+                ],
+                "target-credit": "",
+                "attribute-credits": {},
+                "type": "vocal",
+                "attribute-values": {},
+                "artist": {
+                  "type": "Person",
+                  "name": "Kurt Cobain",
+                  "sort-name": "Cobain, Kurt",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "id": "3c9b356d-d1db-4f4e-a7a3-2d00c1d70255",
+                  "disambiguation": "lead singer and guitarist for Nirvana"
+                },
+                "ended": true
+              },
+              {
+                "ended": true,
+                "artist": {
+                  "disambiguation": "",
+                  "id": "4d5f891d-9bce-45ae-ad86-912dd27252fa",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "Grohl, Dave",
+                  "name": "Dave Grohl",
+                  "type": "Person"
+                },
+                "attribute-values": {},
+                "type": "vocal",
+                "target-credit": "",
+                "attribute-ids": {},
+                "attributes": [],
+                "source-credit": "",
+                "direction": "backward",
+                "type-id": "0fdbe3c6-7700-4a31-ae54-b53f06ae1cfa",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "target-type": "artist"
+              },
+              {
+                "target-type": "place",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "type-id": "ad462279-14b0-4180-9b58-571d0eef7c51",
+                "direction": "backward",
+                "source-credit": "",
+                "place": {
+                  "type-id": "05fa6a09-ff92-3d34-bdbb-5141d3c24f38",
+                  "address": "7840 County 17 Blvd Cannon Falls, Minnesota 55009",
+                  "disambiguation": "",
+                  "id": "c4bc6844-78b1-4cee-bdfe-f7409905db94",
+                  "area": {
+                    "disambiguation": "",
+                    "id": "b7f956d5-c802-4c70-bbb6-b23821c44417",
+                    "name": "Cannon Falls",
+                    "type": "City",
+                    "sort-name": "Cannon Falls",
+                    "type-id": "6fd8f29a-3d0a-32fc-980d-ea697b69da78"
+                  },
+                  "coordinates": {
+                    "latitude": 44.531205,
+                    "longitude": -92.873948
+                  },
+                  "type": "Studio",
+                  "name": "Pachyderm Recording Studio"
+                },
+                "attribute-ids": {},
+                "attributes": [],
+                "target-credit": "",
+                "type": "recorded at",
+                "attribute-values": {},
+                "ended": true
+              }
+            ],
+            "length": 170000
+          },
+          "length": 169800
+        },
+        {
+          "id": "dc802f4e-958d-4d99-973d-0b5c77e15835",
+          "position": 5,
+          "artist-credit": [
+            {
+              "artist": {
+                "id": "5b11f4ce-a62d-471e-81fc-a69a8278c7da",
+                "disambiguation": "1980s–1990s US grunge band",
+                "country": "US",
+                "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                "sort-name": "Nirvana",
+                "name": "Nirvana",
+                "type": "Group"
+              },
+              "joinphrase": "",
+              "name": "Nirvana"
+            }
+          ],
+          "number": "5",
+          "recording": {
+            "video": false,
+            "first-release-date": "1993-09-21",
+            "artist-credit": [
+              {
+                "name": "Nirvana",
+                "joinphrase": "",
+                "artist": {
+                  "name": "Nirvana",
+                  "type": "Group",
+                  "id": "5b11f4ce-a62d-471e-81fc-a69a8278c7da",
+                  "disambiguation": "1980s–1990s US grunge band",
+                  "sort-name": "Nirvana",
+                  "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                  "country": "US"
+                }
+              }
+            ],
+            "disambiguation": "",
+            "id": "4fd82e6a-1984-44bf-9029-e0ddb11305c1",
+            "title": "Frances Farmer Will Have Her Revenge on Seattle",
+            "relations": [
+              {
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "target-type": "artist",
+                "begin": "1993-02-12",
+                "end": "1993-02-26",
+                "direction": "backward",
+                "target-credit": "",
+                "attribute-credits": {
+                  "guitar": "guitars"
+                },
+                "attribute-ids": {
+                  "guitar": "63021302-86cd-4aee-80df-2270d54f4978"
+                },
+                "attributes": [
+                  "guitar"
+                ],
+                "source-credit": "",
+                "ended": true,
+                "artist": {
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "Cobain, Kurt",
+                  "disambiguation": "lead singer and guitarist for Nirvana",
+                  "id": "3c9b356d-d1db-4f4e-a7a3-2d00c1d70255",
+                  "name": "Kurt Cobain",
+                  "type": "Person"
+                },
+                "attribute-values": {},
+                "type": "instrument"
+              },
+              {
+                "direction": "backward",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "target-type": "artist",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "ended": true,
+                "artist": {
+                  "name": "Dave Grohl",
+                  "type": "Person",
+                  "disambiguation": "",
+                  "id": "4d5f891d-9bce-45ae-ad86-912dd27252fa",
+                  "sort-name": "Grohl, Dave",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US"
+                },
+                "attribute-values": {},
+                "type": "instrument",
+                "target-credit": "",
+                "attribute-credits": {},
+                "attributes": [
+                  "drums (drum set)"
+                ],
+                "attribute-ids": {
+                  "drums (drum set)": "12092505-6ee1-46af-a15a-b5b468b6b155"
+                },
+                "source-credit": ""
+              },
+              {
+                "direction": "backward",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "target-type": "artist",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "attribute-values": {},
+                "type": "instrument",
+                "ended": true,
+                "artist": {
+                  "disambiguation": "",
+                  "id": "ac05e29f-0561-4445-bb26-5562d2389531",
+                  "sort-name": "Novoselic, Krist",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "type": "Person",
+                  "name": "Krist Novoselic"
+                },
+                "attribute-ids": {
+                  "bass guitar": "17f9f065-2312-4a24-8309-6f6dd63e2e33"
+                },
+                "attributes": [
+                  "bass guitar"
+                ],
+                "source-credit": "",
+                "attribute-credits": {},
+                "target-credit": ""
+              },
+              {
+                "target-type": "artist",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "type-id": "a01ee869-80a8-45ef-9447-c59e91aa7926",
+                "direction": "backward",
+                "source-credit": "",
+                "attributes": [],
+                "attribute-ids": {},
+                "target-credit": "",
+                "type": "recording",
+                "attribute-values": {},
+                "artist": {
+                  "type": "Person",
+                  "name": "Steve Albini",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "sort-name": "Albini, Steve",
+                  "id": "a4d486bd-6020-4a36-9c7d-bf5ce174bcd1",
+                  "disambiguation": ""
+                },
+                "ended": true
+              },
+              {
+                "attributes": [
+                  "lead vocals"
+                ],
+                "attribute-ids": {
+                  "lead vocals": "8e2a3255-87c2-4809-a174-98cb3704f1a5"
+                },
+                "source-credit": "",
+                "attribute-credits": {},
+                "target-credit": "",
+                "attribute-values": {},
+                "type": "vocal",
+                "ended": true,
+                "artist": {
+                  "type": "Person",
+                  "name": "Kurt Cobain",
+                  "sort-name": "Cobain, Kurt",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "id": "3c9b356d-d1db-4f4e-a7a3-2d00c1d70255",
+                  "disambiguation": "lead singer and guitarist for Nirvana"
+                },
+                "begin": "1993-02-12",
+                "end": "1993-02-26",
+                "target-type": "artist",
+                "type-id": "0fdbe3c6-7700-4a31-ae54-b53f06ae1cfa",
+                "direction": "backward"
+              },
+              {
+                "begin": "1993-02-12",
+                "end": "1993-02-26",
+                "target-type": "place",
+                "type-id": "ad462279-14b0-4180-9b58-571d0eef7c51",
+                "direction": "backward",
+                "place": {
+                  "type-id": "05fa6a09-ff92-3d34-bdbb-5141d3c24f38",
+                  "address": "7840 County 17 Blvd Cannon Falls, Minnesota 55009",
+                  "disambiguation": "",
+                  "id": "c4bc6844-78b1-4cee-bdfe-f7409905db94",
+                  "coordinates": {
+                    "latitude": 44.531205,
+                    "longitude": -92.873948
+                  },
+                  "area": {
+                    "name": "Cannon Falls",
+                    "type": "City",
+                    "disambiguation": "",
+                    "id": "b7f956d5-c802-4c70-bbb6-b23821c44417",
+                    "type-id": "6fd8f29a-3d0a-32fc-980d-ea697b69da78",
+                    "sort-name": "Cannon Falls"
+                  },
+                  "name": "Pachyderm Recording Studio",
+                  "type": "Studio"
+                },
+                "source-credit": "",
+                "attributes": [],
+                "attribute-ids": {},
+                "target-credit": "",
+                "type": "recorded at",
+                "attribute-values": {},
+                "ended": true
+              }
+            ],
+            "length": 249600
+          },
+          "length": 249560,
+          "title": "Frances Farmer Will Have Her Revenge on Seattle"
+        },
+        {
+          "title": "Dumb",
+          "length": 152133,
+          "recording": {
+            "length": 152106,
+            "title": "Dumb",
+            "relations": [
+              {
+                "begin": null,
+                "end": null,
+                "target-type": "artist",
+                "type-id": "5dcc52af-7064-4051-8d62-7d80f4c3c907",
+                "direction": "backward",
+                "attributes": [],
+                "attribute-ids": {},
+                "source-credit": "",
+                "target-credit": "",
+                "attribute-values": {},
+                "type": "engineer",
+                "ended": false,
+                "artist": {
+                  "disambiguation": "",
+                  "id": "a4d486bd-6020-4a36-9c7d-bf5ce174bcd1",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "Albini, Steve",
+                  "type": "Person",
+                  "name": "Steve Albini"
+                }
+              },
+              {
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "target-type": "artist",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "direction": "backward",
+                "attributes": [
+                  "guitar"
+                ],
+                "attribute-ids": {
+                  "guitar": "63021302-86cd-4aee-80df-2270d54f4978"
+                },
+                "source-credit": "",
+                "attribute-credits": {
+                  "guitar": "guitars"
+                },
+                "target-credit": "",
+                "attribute-values": {},
+                "type": "instrument",
+                "ended": true,
+                "artist": {
+                  "disambiguation": "lead singer and guitarist for Nirvana",
+                  "id": "3c9b356d-d1db-4f4e-a7a3-2d00c1d70255",
+                  "sort-name": "Cobain, Kurt",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "name": "Kurt Cobain",
+                  "type": "Person"
+                }
+              },
+              {
+                "attribute-credits": {},
+                "target-credit": "",
+                "source-credit": "",
+                "attribute-ids": {
+                  "drums (drum set)": "12092505-6ee1-46af-a15a-b5b468b6b155"
+                },
+                "attributes": [
+                  "drums (drum set)"
+                ],
+                "artist": {
+                  "disambiguation": "",
+                  "id": "4d5f891d-9bce-45ae-ad86-912dd27252fa",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "Grohl, Dave",
+                  "type": "Person",
+                  "name": "Dave Grohl"
+                },
+                "ended": true,
+                "type": "instrument",
+                "attribute-values": {},
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "begin": "1993-02-12",
+                "end": "1993-02-26",
+                "target-type": "artist",
+                "direction": "backward"
+              },
+              {
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "target-type": "artist",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "direction": "backward",
+                "source-credit": "",
+                "attribute-ids": {
+                  "bass guitar": "17f9f065-2312-4a24-8309-6f6dd63e2e33"
+                },
+                "attributes": [
+                  "bass guitar"
+                ],
+                "attribute-credits": {},
+                "target-credit": "",
+                "type": "instrument",
+                "attribute-values": {},
+                "artist": {
+                  "name": "Krist Novoselic",
+                  "type": "Person",
+                  "disambiguation": "",
+                  "id": "ac05e29f-0561-4445-bb26-5562d2389531",
+                  "sort-name": "Novoselic, Krist",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US"
+                },
+                "ended": true
+              },
+              {
+                "direction": "backward",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "target-type": "artist",
+                "begin": "1993-02-12",
+                "end": "1993-02-26",
+                "artist": {
+                  "country": null,
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "sort-name": "Schaley, Kera",
+                  "disambiguation": "",
+                  "id": "31649596-23c3-4454-a7b0-30615ed1f504",
+                  "name": "Kera Schaley",
+                  "type": "Person"
+                },
+                "ended": true,
+                "type": "instrument",
+                "attribute-values": {},
+                "target-credit": "",
+                "attribute-credits": {},
+                "source-credit": "",
+                "attribute-ids": {
+                  "guest": "b3045913-62ac-433e-9211-ac683cdf6b5c",
+                  "cello": "0db03a60-1142-4b25-ab1b-72027d0dc357"
+                },
+                "attributes": [
+                  "cello",
+                  "guest"
+                ]
+              },
+              {
+                "type-id": "3e3102e1-1896-4f50-b5b2-dd9824e46efe",
+                "end": null,
+                "begin": null,
+                "target-type": "artist",
+                "direction": "backward",
+                "target-credit": "",
+                "attribute-ids": {},
+                "attributes": [],
+                "source-credit": "",
+                "ended": false,
+                "artist": {
+                  "name": "Steve Albini",
+                  "type": "Person",
+                  "disambiguation": "",
+                  "id": "a4d486bd-6020-4a36-9c7d-bf5ce174bcd1",
+                  "sort-name": "Albini, Steve",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US"
+                },
+                "attribute-values": {},
+                "type": "mix"
+              },
+              {
+                "end": null,
+                "begin": null,
+                "target-type": "artist",
+                "type-id": "5c0ceac3-feb4-41f0-868d-dc06f6e27fc0",
+                "direction": "backward",
+                "attributes": [],
+                "attribute-ids": {},
+                "source-credit": "",
+                "target-credit": "",
+                "attribute-values": {},
+                "type": "producer",
+                "ended": false,
+                "artist": {
+                  "disambiguation": "British drummer and producer",
+                  "id": "638ddad6-363e-431a-9188-f329b3a5ac79",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "GB",
+                  "sort-name": "Griffin, Dale",
+                  "name": "Dale Griffin",
+                  "type": "Person"
+                }
+              },
+              {
+                "direction": "backward",
+                "type-id": "a01ee869-80a8-45ef-9447-c59e91aa7926",
+                "target-type": "artist",
+                "begin": "1993-02-12",
+                "end": "1993-02-26",
+                "ended": true,
+                "artist": {
+                  "sort-name": "Albini, Steve",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "id": "a4d486bd-6020-4a36-9c7d-bf5ce174bcd1",
+                  "disambiguation": "",
+                  "name": "Steve Albini",
+                  "type": "Person"
+                },
+                "attribute-values": {},
+                "type": "recording",
+                "target-credit": "",
+                "attributes": [],
+                "attribute-ids": {},
+                "source-credit": ""
+              },
+              {
+                "source-credit": "",
+                "attribute-ids": {
+                  "lead vocals": "8e2a3255-87c2-4809-a174-98cb3704f1a5"
+                },
+                "attributes": [
+                  "lead vocals"
+                ],
+                "target-credit": "",
+                "attribute-credits": {},
+                "type": "vocal",
+                "attribute-values": {},
+                "artist": {
+                  "id": "3c9b356d-d1db-4f4e-a7a3-2d00c1d70255",
+                  "disambiguation": "lead singer and guitarist for Nirvana",
+                  "sort-name": "Cobain, Kurt",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "type": "Person",
+                  "name": "Kurt Cobain"
+                },
+                "ended": true,
+                "target-type": "artist",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "type-id": "0fdbe3c6-7700-4a31-ae54-b53f06ae1cfa",
+                "direction": "backward"
+              },
+              {
+                "attribute-values": {},
+                "type": "vocal",
+                "ended": true,
+                "artist": {
+                  "sort-name": "Grohl, Dave",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "id": "4d5f891d-9bce-45ae-ad86-912dd27252fa",
+                  "disambiguation": "",
+                  "type": "Person",
+                  "name": "Dave Grohl"
+                },
+                "attribute-ids": {},
+                "attributes": [],
+                "source-credit": "",
+                "target-credit": "",
+                "direction": "backward",
+                "begin": "1993-02-12",
+                "end": "1993-02-26",
+                "target-type": "artist",
+                "type-id": "0fdbe3c6-7700-4a31-ae54-b53f06ae1cfa"
+              },
+              {
+                "direction": "backward",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "target-type": "place",
+                "type-id": "ad462279-14b0-4180-9b58-571d0eef7c51",
+                "attribute-values": {},
+                "type": "recorded at",
+                "ended": true,
+                "attribute-ids": {},
+                "attributes": [],
+                "source-credit": "",
+                "place": {
+                  "disambiguation": "",
+                  "id": "c4bc6844-78b1-4cee-bdfe-f7409905db94",
+                  "address": "7840 County 17 Blvd Cannon Falls, Minnesota 55009",
+                  "type-id": "05fa6a09-ff92-3d34-bdbb-5141d3c24f38",
+                  "name": "Pachyderm Recording Studio",
+                  "type": "Studio",
+                  "area": {
+                    "id": "b7f956d5-c802-4c70-bbb6-b23821c44417",
+                    "disambiguation": "",
+                    "name": "Cannon Falls",
+                    "type": "City",
+                    "type-id": "6fd8f29a-3d0a-32fc-980d-ea697b69da78",
+                    "sort-name": "Cannon Falls"
+                  },
+                  "coordinates": {
+                    "latitude": 44.531205,
+                    "longitude": -92.873948
+                  }
+                },
+                "target-credit": ""
+              }
+            ],
+            "id": "b6097e16-f138-4413-82a5-56aabaa0aab2",
+            "disambiguation": "",
+            "artist-credit": [
+              {
+                "artist": {
+                  "id": "5b11f4ce-a62d-471e-81fc-a69a8278c7da",
+                  "disambiguation": "1980s–1990s US grunge band",
+                  "sort-name": "Nirvana",
+                  "country": "US",
+                  "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                  "type": "Group",
+                  "name": "Nirvana"
+                },
+                "joinphrase": "",
+                "name": "Nirvana"
+              }
+            ],
+            "first-release-date": "1993-09-21",
+            "video": false
+          },
+          "number": "6",
+          "artist-credit": [
+            {
+              "artist": {
+                "type": "Group",
+                "name": "Nirvana",
+                "disambiguation": "1980s–1990s US grunge band",
+                "id": "5b11f4ce-a62d-471e-81fc-a69a8278c7da",
+                "sort-name": "Nirvana",
+                "country": "US",
+                "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b"
+              },
+              "joinphrase": "",
+              "name": "Nirvana"
+            }
+          ],
+          "id": "660e7549-dec3-46c4-9fe3-0c4051efc10e",
+          "position": 6
+        },
+        {
+          "recording": {
+            "length": 115693,
+            "title": "Very Ape",
+            "relations": [
+              {
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "target-type": "artist",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "direction": "backward",
+                "source-credit": "",
+                "attribute-ids": {
+                  "guitar": "63021302-86cd-4aee-80df-2270d54f4978"
+                },
+                "attributes": [
+                  "guitar"
+                ],
+                "attribute-credits": {
+                  "guitar": "guitars"
+                },
+                "target-credit": "",
+                "type": "instrument",
+                "attribute-values": {},
+                "artist": {
+                  "disambiguation": "lead singer and guitarist for Nirvana",
+                  "id": "3c9b356d-d1db-4f4e-a7a3-2d00c1d70255",
+                  "sort-name": "Cobain, Kurt",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "type": "Person",
+                  "name": "Kurt Cobain"
+                },
+                "ended": true
+              },
+              {
+                "direction": "backward",
+                "begin": "1993-02-12",
+                "end": "1993-02-26",
+                "target-type": "artist",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "attribute-values": {},
+                "type": "instrument",
+                "ended": true,
+                "artist": {
+                  "id": "4d5f891d-9bce-45ae-ad86-912dd27252fa",
+                  "disambiguation": "",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "Grohl, Dave",
+                  "type": "Person",
+                  "name": "Dave Grohl"
+                },
+                "attribute-ids": {
+                  "drums (drum set)": "12092505-6ee1-46af-a15a-b5b468b6b155"
+                },
+                "attributes": [
+                  "drums (drum set)"
+                ],
+                "source-credit": "",
+                "attribute-credits": {},
+                "target-credit": ""
+              },
+              {
+                "direction": "backward",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "begin": "1993-02-12",
+                "end": "1993-02-26",
+                "target-type": "artist",
+                "artist": {
+                  "type": "Person",
+                  "name": "Krist Novoselic",
+                  "sort-name": "Novoselic, Krist",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "disambiguation": "",
+                  "id": "ac05e29f-0561-4445-bb26-5562d2389531"
+                },
+                "ended": true,
+                "type": "instrument",
+                "attribute-values": {},
+                "attribute-credits": {},
+                "target-credit": "",
+                "source-credit": "",
+                "attributes": [
+                  "bass guitar"
+                ],
+                "attribute-ids": {
+                  "bass guitar": "17f9f065-2312-4a24-8309-6f6dd63e2e33"
+                }
+              },
+              {
+                "target-credit": "",
+                "attribute-ids": {},
+                "attributes": [],
+                "source-credit": "",
+                "ended": true,
+                "artist": {
+                  "sort-name": "Albini, Steve",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "id": "a4d486bd-6020-4a36-9c7d-bf5ce174bcd1",
+                  "disambiguation": "",
+                  "name": "Steve Albini",
+                  "type": "Person"
+                },
+                "attribute-values": {},
+                "type": "recording",
+                "type-id": "a01ee869-80a8-45ef-9447-c59e91aa7926",
+                "target-type": "artist",
+                "begin": "1993-02-12",
+                "end": "1993-02-26",
+                "direction": "backward"
+              },
+              {
+                "direction": "backward",
+                "type-id": "0fdbe3c6-7700-4a31-ae54-b53f06ae1cfa",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "target-type": "artist",
+                "ended": true,
+                "artist": {
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "Cobain, Kurt",
+                  "id": "3c9b356d-d1db-4f4e-a7a3-2d00c1d70255",
+                  "disambiguation": "lead singer and guitarist for Nirvana",
+                  "name": "Kurt Cobain",
+                  "type": "Person"
+                },
+                "attribute-values": {},
+                "type": "vocal",
+                "attribute-credits": {},
+                "target-credit": "",
+                "attributes": [
+                  "lead vocals"
+                ],
+                "attribute-ids": {
+                  "lead vocals": "8e2a3255-87c2-4809-a174-98cb3704f1a5"
+                },
+                "source-credit": ""
+              },
+              {
+                "attribute-values": {},
+                "type": "recorded at",
+                "ended": true,
+                "attribute-ids": {},
+                "attributes": [],
+                "place": {
+                  "type-id": "05fa6a09-ff92-3d34-bdbb-5141d3c24f38",
+                  "address": "7840 County 17 Blvd Cannon Falls, Minnesota 55009",
+                  "disambiguation": "",
+                  "id": "c4bc6844-78b1-4cee-bdfe-f7409905db94",
+                  "coordinates": {
+                    "latitude": 44.531205,
+                    "longitude": -92.873948
+                  },
+                  "area": {
+                    "sort-name": "Cannon Falls",
+                    "type-id": "6fd8f29a-3d0a-32fc-980d-ea697b69da78",
+                    "disambiguation": "",
+                    "id": "b7f956d5-c802-4c70-bbb6-b23821c44417",
+                    "type": "City",
+                    "name": "Cannon Falls"
+                  },
+                  "name": "Pachyderm Recording Studio",
+                  "type": "Studio"
+                },
+                "source-credit": "",
+                "target-credit": "",
+                "direction": "backward",
+                "target-type": "place",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "type-id": "ad462279-14b0-4180-9b58-571d0eef7c51"
+              }
+            ],
+            "id": "7a148826-c063-47b5-bba9-9c567d9d2b84",
+            "disambiguation": "",
+            "artist-credit": [
+              {
+                "joinphrase": "",
+                "name": "Nirvana",
+                "artist": {
+                  "sort-name": "Nirvana",
+                  "country": "US",
+                  "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                  "id": "5b11f4ce-a62d-471e-81fc-a69a8278c7da",
+                  "disambiguation": "1980s–1990s US grunge band",
+                  "type": "Group",
+                  "name": "Nirvana"
+                }
+              }
+            ],
+            "first-release-date": "1993-09-21",
+            "video": false
+          },
+          "length": 115666,
+          "title": "Very Ape",
+          "position": 7,
+          "id": "d0eabacd-664a-43d7-9738-89a9e53483f9",
+          "artist-credit": [
+            {
+              "artist": {
+                "name": "Nirvana",
+                "type": "Group",
+                "disambiguation": "1980s–1990s US grunge band",
+                "id": "5b11f4ce-a62d-471e-81fc-a69a8278c7da",
+                "sort-name": "Nirvana",
+                "country": "US",
+                "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b"
+              },
+              "joinphrase": "",
+              "name": "Nirvana"
+            }
+          ],
+          "number": "7"
+        },
+        {
+          "number": "8",
+          "artist-credit": [
+            {
+              "artist": {
+                "sort-name": "Nirvana",
+                "country": "US",
+                "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                "disambiguation": "1980s–1990s US grunge band",
+                "id": "5b11f4ce-a62d-471e-81fc-a69a8278c7da",
+                "type": "Group",
+                "name": "Nirvana"
+              },
+              "joinphrase": "",
+              "name": "Nirvana"
+            }
+          ],
+          "id": "e385eb99-0c31-430b-83d3-1694d37aeba9",
+          "position": 8,
+          "title": "Milk It",
+          "length": 234773,
+          "recording": {
+            "id": "38e1aadb-c9c5-4e58-9e08-3bb9626dd0fb",
+            "disambiguation": "",
+            "artist-credit": [
+              {
+                "artist": {
+                  "name": "Nirvana",
+                  "type": "Group",
+                  "sort-name": "Nirvana",
+                  "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                  "country": "US",
+                  "id": "5b11f4ce-a62d-471e-81fc-a69a8278c7da",
+                  "disambiguation": "1980s–1990s US grunge band"
+                },
+                "name": "Nirvana",
+                "joinphrase": ""
+              }
+            ],
+            "title": "Milk It",
+            "relations": [
+              {
+                "attribute-credits": {
+                  "guitar": "guitars"
+                },
+                "target-credit": "",
+                "attribute-ids": {
+                  "guitar": "63021302-86cd-4aee-80df-2270d54f4978"
+                },
+                "attributes": [
+                  "guitar"
+                ],
+                "source-credit": "",
+                "ended": true,
+                "artist": {
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "sort-name": "Cobain, Kurt",
+                  "disambiguation": "lead singer and guitarist for Nirvana",
+                  "id": "3c9b356d-d1db-4f4e-a7a3-2d00c1d70255",
+                  "name": "Kurt Cobain",
+                  "type": "Person"
+                },
+                "attribute-values": {},
+                "type": "instrument",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "target-type": "artist",
+                "direction": "backward"
+              },
+              {
+                "source-credit": "",
+                "attributes": [
+                  "drums (drum set)"
+                ],
+                "attribute-ids": {
+                  "drums (drum set)": "12092505-6ee1-46af-a15a-b5b468b6b155"
+                },
+                "target-credit": "",
+                "attribute-credits": {},
+                "type": "instrument",
+                "attribute-values": {},
+                "artist": {
+                  "disambiguation": "",
+                  "id": "4d5f891d-9bce-45ae-ad86-912dd27252fa",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "Grohl, Dave",
+                  "type": "Person",
+                  "name": "Dave Grohl"
+                },
+                "ended": true,
+                "target-type": "artist",
+                "begin": "1993-02-12",
+                "end": "1993-02-26",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "direction": "backward"
+              },
+              {
+                "attribute-values": {},
+                "type": "instrument",
+                "ended": true,
+                "artist": {
+                  "name": "Krist Novoselic",
+                  "type": "Person",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "sort-name": "Novoselic, Krist",
+                  "id": "ac05e29f-0561-4445-bb26-5562d2389531",
+                  "disambiguation": ""
+                },
+                "attribute-ids": {
+                  "bass guitar": "17f9f065-2312-4a24-8309-6f6dd63e2e33"
+                },
+                "attributes": [
+                  "bass guitar"
+                ],
+                "source-credit": "",
+                "target-credit": "",
+                "attribute-credits": {},
+                "direction": "backward",
+                "target-type": "artist",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461"
+              },
+              {
+                "target-credit": "",
+                "attributes": [],
+                "attribute-ids": {},
+                "source-credit": "",
+                "ended": true,
+                "artist": {
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "sort-name": "Albini, Steve",
+                  "disambiguation": "",
+                  "id": "a4d486bd-6020-4a36-9c7d-bf5ce174bcd1",
+                  "type": "Person",
+                  "name": "Steve Albini"
+                },
+                "attribute-values": {},
+                "type": "recording",
+                "type-id": "a01ee869-80a8-45ef-9447-c59e91aa7926",
+                "target-type": "artist",
+                "begin": "1993-02-12",
+                "end": "1993-02-26",
+                "direction": "backward"
+              },
+              {
+                "artist": {
+                  "id": "3c9b356d-d1db-4f4e-a7a3-2d00c1d70255",
+                  "disambiguation": "lead singer and guitarist for Nirvana",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "Cobain, Kurt",
+                  "name": "Kurt Cobain",
+                  "type": "Person"
+                },
+                "ended": true,
+                "type": "vocal",
+                "attribute-values": {},
+                "attribute-credits": {},
+                "target-credit": "",
+                "source-credit": "",
+                "attributes": [
+                  "lead vocals"
+                ],
+                "attribute-ids": {
+                  "lead vocals": "8e2a3255-87c2-4809-a174-98cb3704f1a5"
+                },
+                "direction": "backward",
+                "type-id": "0fdbe3c6-7700-4a31-ae54-b53f06ae1cfa",
+                "begin": "1993-02-12",
+                "end": "1993-02-26",
+                "target-type": "artist"
+              },
+              {
+                "attribute-values": {},
+                "type": "recorded at",
+                "ended": true,
+                "attributes": [],
+                "attribute-ids": {},
+                "place": {
+                  "type-id": "05fa6a09-ff92-3d34-bdbb-5141d3c24f38",
+                  "address": "7840 County 17 Blvd Cannon Falls, Minnesota 55009",
+                  "disambiguation": "",
+                  "id": "c4bc6844-78b1-4cee-bdfe-f7409905db94",
+                  "area": {
+                    "sort-name": "Cannon Falls",
+                    "type-id": "6fd8f29a-3d0a-32fc-980d-ea697b69da78",
+                    "type": "City",
+                    "name": "Cannon Falls",
+                    "id": "b7f956d5-c802-4c70-bbb6-b23821c44417",
+                    "disambiguation": ""
+                  },
+                  "coordinates": {
+                    "latitude": 44.531205,
+                    "longitude": -92.873948
+                  },
+                  "type": "Studio",
+                  "name": "Pachyderm Recording Studio"
+                },
+                "source-credit": "",
+                "target-credit": "",
+                "direction": "backward",
+                "target-type": "place",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "type-id": "ad462279-14b0-4180-9b58-571d0eef7c51"
+              }
+            ],
+            "length": 234773,
+            "video": false,
+            "first-release-date": "1993-08-23"
+          }
+        },
+        {
+          "title": "Pennyroyal Tea",
+          "length": 217200,
+          "recording": {
+            "artist-credit": [
+              {
+                "artist": {
+                  "sort-name": "Nirvana",
+                  "country": "US",
+                  "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                  "id": "5b11f4ce-a62d-471e-81fc-a69a8278c7da",
+                  "disambiguation": "1980s–1990s US grunge band",
+                  "type": "Group",
+                  "name": "Nirvana"
+                },
+                "joinphrase": "",
+                "name": "Nirvana"
+              }
+            ],
+            "id": "a9acd2ed-9dbd-4f13-a852-a3321a3ee586",
+            "disambiguation": "original “In Utero” mix",
+            "title": "Pennyroyal Tea",
+            "relations": [],
+            "length": 217200,
+            "video": false,
+            "first-release-date": "1993-09-21"
+          },
+          "number": "9",
+          "artist-credit": [
+            {
+              "artist": {
+                "name": "Nirvana",
+                "type": "Group",
+                "id": "5b11f4ce-a62d-471e-81fc-a69a8278c7da",
+                "disambiguation": "1980s–1990s US grunge band",
+                "country": "US",
+                "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                "sort-name": "Nirvana"
+              },
+              "joinphrase": "",
+              "name": "Nirvana"
+            }
+          ],
+          "position": 9,
+          "id": "57a5248b-8642-4f64-a692-113e19f23782"
+        },
+        {
+          "title": "Radio Friendly Unit Shifter",
+          "length": 291133,
+          "recording": {
+            "artist-credit": [
+              {
+                "name": "Nirvana",
+                "joinphrase": "",
+                "artist": {
+                  "name": "Nirvana",
+                  "type": "Group",
+                  "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                  "country": "US",
+                  "sort-name": "Nirvana",
+                  "id": "5b11f4ce-a62d-471e-81fc-a69a8278c7da",
+                  "disambiguation": "1980s–1990s US grunge band"
+                }
+              }
+            ],
+            "disambiguation": "",
+            "id": "602192ae-c8df-4447-a480-87944365e119",
+            "length": 291133,
+            "relations": [
+              {
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "target-type": "artist",
+                "begin": "1993-02-12",
+                "end": "1993-02-26",
+                "direction": "backward",
+                "target-credit": "",
+                "attribute-credits": {
+                  "guitar": "guitars"
+                },
+                "attribute-ids": {
+                  "guitar": "63021302-86cd-4aee-80df-2270d54f4978"
+                },
+                "attributes": [
+                  "guitar"
+                ],
+                "source-credit": "",
+                "ended": true,
+                "artist": {
+                  "disambiguation": "lead singer and guitarist for Nirvana",
+                  "id": "3c9b356d-d1db-4f4e-a7a3-2d00c1d70255",
+                  "sort-name": "Cobain, Kurt",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "name": "Kurt Cobain",
+                  "type": "Person"
+                },
+                "attribute-values": {},
+                "type": "instrument"
+              },
+              {
+                "source-credit": "",
+                "attributes": [
+                  "drums (drum set)"
+                ],
+                "attribute-ids": {
+                  "drums (drum set)": "12092505-6ee1-46af-a15a-b5b468b6b155"
+                },
+                "attribute-credits": {},
+                "target-credit": "",
+                "type": "instrument",
+                "attribute-values": {},
+                "artist": {
+                  "type": "Person",
+                  "name": "Dave Grohl",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "Grohl, Dave",
+                  "disambiguation": "",
+                  "id": "4d5f891d-9bce-45ae-ad86-912dd27252fa"
+                },
+                "ended": true,
+                "begin": "1993-02-12",
+                "end": "1993-02-26",
+                "target-type": "artist",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "direction": "backward"
+              },
+              {
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "target-type": "artist",
+                "begin": "1993-02-12",
+                "end": "1993-02-26",
+                "direction": "backward",
+                "target-credit": "",
+                "attribute-credits": {},
+                "attribute-ids": {
+                  "bass guitar": "17f9f065-2312-4a24-8309-6f6dd63e2e33"
+                },
+                "attributes": [
+                  "bass guitar"
+                ],
+                "source-credit": "",
+                "ended": true,
+                "artist": {
+                  "disambiguation": "",
+                  "id": "ac05e29f-0561-4445-bb26-5562d2389531",
+                  "sort-name": "Novoselic, Krist",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "type": "Person",
+                  "name": "Krist Novoselic"
+                },
+                "attribute-values": {},
+                "type": "instrument"
+              },
+              {
+                "target-credit": "",
+                "source-credit": "",
+                "attribute-ids": {},
+                "attributes": [],
+                "artist": {
+                  "id": "a4d486bd-6020-4a36-9c7d-bf5ce174bcd1",
+                  "disambiguation": "",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "sort-name": "Albini, Steve",
+                  "name": "Steve Albini",
+                  "type": "Person"
+                },
+                "ended": false,
+                "type": "producer",
+                "attribute-values": {},
+                "type-id": "5c0ceac3-feb4-41f0-868d-dc06f6e27fc0",
+                "target-type": "artist",
+                "begin": null,
+                "end": null,
+                "direction": "backward"
+              },
+              {
+                "ended": true,
+                "artist": {
+                  "type": "Person",
+                  "name": "Steve Albini",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "Albini, Steve",
+                  "disambiguation": "",
+                  "id": "a4d486bd-6020-4a36-9c7d-bf5ce174bcd1"
+                },
+                "attribute-values": {},
+                "type": "recording",
+                "target-credit": "",
+                "attribute-ids": {},
+                "attributes": [],
+                "source-credit": "",
+                "direction": "backward",
+                "type-id": "a01ee869-80a8-45ef-9447-c59e91aa7926",
+                "target-type": "artist",
+                "begin": "1993-02-12",
+                "end": "1993-02-26"
+              },
+              {
+                "attribute-values": {},
+                "type": "vocal",
+                "ended": true,
+                "artist": {
+                  "type": "Person",
+                  "name": "Kurt Cobain",
+                  "sort-name": "Cobain, Kurt",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "id": "3c9b356d-d1db-4f4e-a7a3-2d00c1d70255",
+                  "disambiguation": "lead singer and guitarist for Nirvana"
+                },
+                "attributes": [
+                  "lead vocals"
+                ],
+                "attribute-ids": {
+                  "lead vocals": "8e2a3255-87c2-4809-a174-98cb3704f1a5"
+                },
+                "source-credit": "",
+                "attribute-credits": {},
+                "target-credit": "",
+                "direction": "backward",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "target-type": "artist",
+                "type-id": "0fdbe3c6-7700-4a31-ae54-b53f06ae1cfa"
+              },
+              {
+                "target-type": "place",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "type-id": "ad462279-14b0-4180-9b58-571d0eef7c51",
+                "direction": "backward",
+                "attributes": [],
+                "attribute-ids": {},
+                "place": {
+                  "id": "c4bc6844-78b1-4cee-bdfe-f7409905db94",
+                  "disambiguation": "",
+                  "address": "7840 County 17 Blvd Cannon Falls, Minnesota 55009",
+                  "type-id": "05fa6a09-ff92-3d34-bdbb-5141d3c24f38",
+                  "name": "Pachyderm Recording Studio",
+                  "type": "Studio",
+                  "area": {
+                    "id": "b7f956d5-c802-4c70-bbb6-b23821c44417",
+                    "disambiguation": "",
+                    "name": "Cannon Falls",
+                    "type": "City",
+                    "sort-name": "Cannon Falls",
+                    "type-id": "6fd8f29a-3d0a-32fc-980d-ea697b69da78"
+                  },
+                  "coordinates": {
+                    "latitude": 44.531205,
+                    "longitude": -92.873948
+                  }
+                },
+                "source-credit": "",
+                "target-credit": "",
+                "attribute-values": {},
+                "type": "recorded at",
+                "ended": true
+              }
+            ],
+            "title": "Radio Friendly Unit Shifter",
+            "first-release-date": "1993-09-21",
+            "video": false
+          },
+          "number": "10",
+          "artist-credit": [
+            {
+              "artist": {
+                "type": "Group",
+                "name": "Nirvana",
+                "id": "5b11f4ce-a62d-471e-81fc-a69a8278c7da",
+                "disambiguation": "1980s–1990s US grunge band",
+                "sort-name": "Nirvana",
+                "country": "US",
+                "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b"
+              },
+              "joinphrase": "",
+              "name": "Nirvana"
+            }
+          ],
+          "id": "bbb6c9c2-f019-43a4-8b83-862b7928a33f",
+          "position": 10
+        },
+        {
+          "length": 95026,
+          "recording": {
+            "length": 95133,
+            "title": "Tourette’s",
+            "relations": [
+              {
+                "attributes": [
+                  "guitar"
+                ],
+                "attribute-ids": {
+                  "guitar": "63021302-86cd-4aee-80df-2270d54f4978"
+                },
+                "source-credit": "",
+                "attribute-credits": {
+                  "guitar": "guitars"
+                },
+                "target-credit": "",
+                "attribute-values": {},
+                "type": "instrument",
+                "ended": true,
+                "artist": {
+                  "type": "Person",
+                  "name": "Kurt Cobain",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "Cobain, Kurt",
+                  "disambiguation": "lead singer and guitarist for Nirvana",
+                  "id": "3c9b356d-d1db-4f4e-a7a3-2d00c1d70255"
+                },
+                "begin": "1993-02-12",
+                "end": "1993-02-26",
+                "target-type": "artist",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "direction": "backward"
+              },
+              {
+                "direction": "backward",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "target-type": "artist",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "type": "instrument",
+                "attribute-values": {},
+                "artist": {
+                  "sort-name": "Grohl, Dave",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "disambiguation": "",
+                  "id": "4d5f891d-9bce-45ae-ad86-912dd27252fa",
+                  "type": "Person",
+                  "name": "Dave Grohl"
+                },
+                "ended": true,
+                "source-credit": "",
+                "attributes": [
+                  "drums (drum set)"
+                ],
+                "attribute-ids": {
+                  "drums (drum set)": "12092505-6ee1-46af-a15a-b5b468b6b155"
+                },
+                "attribute-credits": {},
+                "target-credit": ""
+              },
+              {
+                "direction": "backward",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "target-type": "artist",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "attribute-values": {},
+                "type": "instrument",
+                "ended": true,
+                "artist": {
+                  "type": "Person",
+                  "name": "Krist Novoselic",
+                  "disambiguation": "",
+                  "id": "ac05e29f-0561-4445-bb26-5562d2389531",
+                  "sort-name": "Novoselic, Krist",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US"
+                },
+                "attribute-ids": {
+                  "bass guitar": "17f9f065-2312-4a24-8309-6f6dd63e2e33"
+                },
+                "attributes": [
+                  "bass guitar"
+                ],
+                "source-credit": "",
+                "attribute-credits": {},
+                "target-credit": ""
+              },
+              {
+                "direction": "backward",
+                "target-type": "artist",
+                "begin": "1993-02-12",
+                "end": "1993-02-26",
+                "type-id": "a01ee869-80a8-45ef-9447-c59e91aa7926",
+                "attribute-values": {},
+                "type": "recording",
+                "ended": true,
+                "artist": {
+                  "name": "Steve Albini",
+                  "type": "Person",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "Albini, Steve",
+                  "id": "a4d486bd-6020-4a36-9c7d-bf5ce174bcd1",
+                  "disambiguation": ""
+                },
+                "attribute-ids": {},
+                "attributes": [],
+                "source-credit": "",
+                "target-credit": ""
+              },
+              {
+                "direction": "backward",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "target-type": "artist",
+                "type-id": "0fdbe3c6-7700-4a31-ae54-b53f06ae1cfa",
+                "type": "vocal",
+                "attribute-values": {},
+                "artist": {
+                  "id": "3c9b356d-d1db-4f4e-a7a3-2d00c1d70255",
+                  "disambiguation": "lead singer and guitarist for Nirvana",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "Cobain, Kurt",
+                  "name": "Kurt Cobain",
+                  "type": "Person"
+                },
+                "ended": true,
+                "source-credit": "",
+                "attribute-ids": {
+                  "lead vocals": "8e2a3255-87c2-4809-a174-98cb3704f1a5"
+                },
+                "attributes": [
+                  "lead vocals"
+                ],
+                "attribute-credits": {},
+                "target-credit": ""
+              },
+              {
+                "type-id": "ad462279-14b0-4180-9b58-571d0eef7c51",
+                "target-type": "place",
+                "end": "1993-02-26",
+                "begin": "1993-02-12",
+                "direction": "backward",
+                "target-credit": "",
+                "place": {
+                  "type-id": "05fa6a09-ff92-3d34-bdbb-5141d3c24f38",
+                  "address": "7840 County 17 Blvd Cannon Falls, Minnesota 55009",
+                  "disambiguation": "",
+                  "id": "c4bc6844-78b1-4cee-bdfe-f7409905db94",
+                  "area": {
+                    "type-id": "6fd8f29a-3d0a-32fc-980d-ea697b69da78",
+                    "sort-name": "Cannon Falls",
+                    "id": "b7f956d5-c802-4c70-bbb6-b23821c44417",
+                    "disambiguation": "",
+                    "type": "City",
+                    "name": "Cannon Falls"
+                  },
+                  "coordinates": {
+                    "longitude": -92.873948,
+                    "latitude": 44.531205
+                  },
+                  "name": "Pachyderm Recording Studio",
+                  "type": "Studio"
+                },
+                "source-credit": "",
+                "attributes": [],
+                "attribute-ids": {},
+                "ended": true,
+                "type": "recorded at",
+                "attribute-values": {}
+              }
+            ],
+            "disambiguation": "",
+            "id": "d1571fc9-a88a-4f19-a00e-f34234b7d082",
+            "artist-credit": [
+              {
+                "name": "Nirvana",
+                "joinphrase": "",
+                "artist": {
+                  "id": "5b11f4ce-a62d-471e-81fc-a69a8278c7da",
+                  "disambiguation": "1980s–1990s US grunge band",
+                  "sort-name": "Nirvana",
+                  "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                  "country": "US",
+                  "name": "Nirvana",
+                  "type": "Group"
+                }
+              }
+            ],
+            "first-release-date": "1993-09-21",
+            "video": false
+          },
+          "title": "Tourette’s",
+          "artist-credit": [
+            {
+              "name": "Nirvana",
+              "joinphrase": "",
+              "artist": {
+                "sort-name": "Nirvana",
+                "country": "US",
+                "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                "id": "5b11f4ce-a62d-471e-81fc-a69a8278c7da",
+                "disambiguation": "1980s–1990s US grunge band",
+                "type": "Group",
+                "name": "Nirvana"
+              }
+            }
+          ],
+          "number": "11",
+          "id": "339c879a-9055-48f6-96af-2dbb66b1b350",
+          "position": 11
+        },
+        {
+          "id": "758be459-2edb-47e2-a5c6-becde9a8a5d9",
+          "position": 12,
+          "number": "12",
+          "artist-credit": [
+            {
+              "artist": {
+                "type": "Group",
+                "name": "Nirvana",
+                "disambiguation": "1980s–1990s US grunge band",
+                "id": "5b11f4ce-a62d-471e-81fc-a69a8278c7da",
+                "sort-name": "Nirvana",
+                "country": "US",
+                "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b"
+              },
+              "name": "Nirvana",
+              "joinphrase": ""
+            }
+          ],
+          "title": "All Apologies / Gallons of Rubbing Alcohol Flow Through the Strip",
+          "recording": {
+            "video": false,
+            "first-release-date": "1993-09-21",
+            "relations": [
+              {
+                "attribute-credits": {},
+                "target-credit": "",
+                "source-credit": "",
+                "attributes": [
+                  "guitar"
+                ],
+                "attribute-ids": {
+                  "guitar": "63021302-86cd-4aee-80df-2270d54f4978"
+                },
+                "artist": {
+                  "type": "Person",
+                  "name": "Kurt Cobain",
+                  "id": "3c9b356d-d1db-4f4e-a7a3-2d00c1d70255",
+                  "disambiguation": "lead singer and guitarist for Nirvana",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "sort-name": "Cobain, Kurt"
+                },
+                "ended": false,
+                "type": "instrument",
+                "attribute-values": {},
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "end": null,
+                "begin": null,
+                "target-type": "artist",
+                "direction": "backward"
+              },
+              {
+                "ended": false,
+                "artist": {
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "sort-name": "Grohl, Dave",
+                  "disambiguation": "",
+                  "id": "4d5f891d-9bce-45ae-ad86-912dd27252fa",
+                  "type": "Person",
+                  "name": "Dave Grohl"
+                },
+                "attribute-values": {},
+                "type": "instrument",
+                "attribute-credits": {},
+                "target-credit": "",
+                "attribute-ids": {
+                  "drums (drum set)": "12092505-6ee1-46af-a15a-b5b468b6b155"
+                },
+                "attributes": [
+                  "drums (drum set)"
+                ],
+                "source-credit": "",
+                "direction": "backward",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "begin": null,
+                "end": null,
+                "target-type": "artist"
+              },
+              {
+                "attribute-credits": {},
+                "target-credit": "",
+                "source-credit": "",
+                "attribute-ids": {
+                  "bass guitar": "17f9f065-2312-4a24-8309-6f6dd63e2e33"
+                },
+                "attributes": [
+                  "bass guitar"
+                ],
+                "artist": {
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "sort-name": "Novoselic, Krist",
+                  "id": "ac05e29f-0561-4445-bb26-5562d2389531",
+                  "disambiguation": "",
+                  "type": "Person",
+                  "name": "Krist Novoselic"
+                },
+                "ended": false,
+                "type": "instrument",
+                "attribute-values": {},
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "begin": null,
+                "end": null,
+                "target-type": "artist",
+                "direction": "backward"
+              },
+              {
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "end": null,
+                "begin": null,
+                "target-type": "artist",
+                "direction": "backward",
+                "attribute-credits": {},
+                "target-credit": "",
+                "source-credit": "",
+                "attribute-ids": {
+                  "cello": "0db03a60-1142-4b25-ab1b-72027d0dc357",
+                  "guest": "b3045913-62ac-433e-9211-ac683cdf6b5c"
+                },
+                "attributes": [
+                  "cello",
+                  "guest"
+                ],
+                "artist": {
+                  "name": "Kera Schaley",
+                  "type": "Person",
+                  "sort-name": "Schaley, Kera",
+                  "country": null,
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "id": "31649596-23c3-4454-a7b0-30615ed1f504",
+                  "disambiguation": ""
+                },
+                "ended": false,
+                "type": "instrument",
+                "attribute-values": {}
+              },
+              {
+                "attribute-values": {},
+                "type": "recording",
+                "ended": false,
+                "artist": {
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "Albini, Steve",
+                  "disambiguation": "",
+                  "id": "a4d486bd-6020-4a36-9c7d-bf5ce174bcd1",
+                  "name": "Steve Albini",
+                  "type": "Person"
+                },
+                "attributes": [],
+                "attribute-ids": {},
+                "source-credit": "",
+                "target-credit": "",
+                "direction": "backward",
+                "target-type": "artist",
+                "end": null,
+                "begin": null,
+                "type-id": "a01ee869-80a8-45ef-9447-c59e91aa7926"
+              },
+              {
+                "type": "vocal",
+                "attribute-values": {},
+                "artist": {
+                  "name": "Kurt Cobain",
+                  "type": "Person",
+                  "id": "3c9b356d-d1db-4f4e-a7a3-2d00c1d70255",
+                  "disambiguation": "lead singer and guitarist for Nirvana",
+                  "sort-name": "Cobain, Kurt",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US"
+                },
+                "ended": false,
+                "source-credit": "",
+                "attribute-ids": {
+                  "lead vocals": "8e2a3255-87c2-4809-a174-98cb3704f1a5"
+                },
+                "attributes": [
+                  "lead vocals"
+                ],
+                "attribute-credits": {},
+                "target-credit": "",
+                "direction": "backward",
+                "end": null,
+                "begin": null,
+                "target-type": "artist",
+                "type-id": "0fdbe3c6-7700-4a31-ae54-b53f06ae1cfa"
+              },
+              {
+                "attribute-ids": {},
+                "attributes": [],
+                "source-credit": "",
+                "place": {
+                  "address": "7840 County 17 Blvd Cannon Falls, Minnesota 55009",
+                  "type-id": "05fa6a09-ff92-3d34-bdbb-5141d3c24f38",
+                  "id": "c4bc6844-78b1-4cee-bdfe-f7409905db94",
+                  "disambiguation": "",
+                  "coordinates": {
+                    "latitude": 44.531205,
+                    "longitude": -92.873948
+                  },
+                  "area": {
+                    "sort-name": "Cannon Falls",
+                    "type-id": "6fd8f29a-3d0a-32fc-980d-ea697b69da78",
+                    "type": "City",
+                    "name": "Cannon Falls",
+                    "id": "b7f956d5-c802-4c70-bbb6-b23821c44417",
+                    "disambiguation": ""
+                  },
+                  "name": "Pachyderm Recording Studio",
+                  "type": "Studio"
+                },
+                "target-credit": "",
+                "attribute-values": {},
+                "type": "recorded at",
+                "ended": false,
+                "target-type": "place",
+                "begin": null,
+                "end": null,
+                "type-id": "ad462279-14b0-4180-9b58-571d0eef7c51",
+                "direction": "backward"
+              }
+            ],
+            "title": "All Apologies / Gallons of Rubbing Alcohol Flow Through the Strip",
+            "length": 1892266,
+            "artist-credit": [
+              {
+                "name": "Nirvana",
+                "joinphrase": "",
+                "artist": {
+                  "sort-name": "Nirvana",
+                  "country": "US",
+                  "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                  "disambiguation": "1980s–1990s US grunge band",
+                  "id": "5b11f4ce-a62d-471e-81fc-a69a8278c7da",
+                  "name": "Nirvana",
+                  "type": "Group"
+                }
+              }
+            ],
+            "disambiguation": "",
+            "id": "5da0f9c8-732f-459f-a8bf-bb97a48ebafa"
+          },
+          "length": 1892266
+        }
+      ],
+      "track-count": 12,
+      "format": "CD",
+      "position": 1,
+      "id": "878e8184-d092-3d18-86e9-a9e1f8e0fec3",
+      "format-id": "9712d52a-4509-3d4b-a1a2-67c88c643e31",
+      "title": ""
+    }
+  ],
+  "quality": "normal",
+  "disambiguation": "MPO",
+  "packaging-id": "ec27701a-4a22-37f4-bfac-6616e0f9750a",
+  "artist-credit": [
+    {
+      "artist": {
+        "country": "US",
+        "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+        "sort-name": "Nirvana",
+        "disambiguation": "1980s–1990s US grunge band",
+        "id": "5b11f4ce-a62d-471e-81fc-a69a8278c7da",
+        "name": "Nirvana",
+        "type": "Group"
+      },
+      "name": "Nirvana",
+      "joinphrase": ""
+    }
+  ],
+  "asin": null,
+  "country": "GB",
+  "title": "In Utero",
+  "text-representation": {
+    "language": "eng",
+    "script": "Latn"
+  }
+}

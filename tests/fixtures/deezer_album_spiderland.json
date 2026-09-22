@@ -1,0 +1,272 @@
+{
+  "id": 13254973,
+  "title": "Spiderland",
+  "upc": "036172076468",
+  "link": "https://www.deezer.com/album/13254973",
+  "share": "https://www.deezer.com/album/13254973?utm_source=deezer&utm_content=album-13254973&utm_term=0_1790041149&utm_medium=web",
+  "cover": "https://api.deezer.com/album/13254973/image",
+  "cover_small": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/56x56-000000-80-0-0.jpg",
+  "cover_medium": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/250x250-000000-80-0-0.jpg",
+  "cover_big": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/500x500-000000-80-0-0.jpg",
+  "cover_xl": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/1000x1000-000000-80-0-0.jpg",
+  "md5_image": "eda1db8a1e9ddd35691c9fa22f7c6a2e",
+  "genre_id": 85,
+  "genres": {
+    "data": [
+      {
+        "id": 85,
+        "name": "Alternative",
+        "picture": "https://api.deezer.com/genre/85/image",
+        "type": "genre"
+      },
+      {
+        "id": 152,
+        "name": "Rock",
+        "picture": "https://api.deezer.com/genre/152/image",
+        "type": "genre"
+      }
+    ]
+  },
+  "label": "Touch and Go Records",
+  "nb_tracks": 6,
+  "duration": 2371,
+  "fans": 6104,
+  "release_date": "1991-03-15",
+  "record_type": "album",
+  "available": true,
+  "tracklist": "https://api.deezer.com/album/13254973/tracks",
+  "explicit_lyrics": false,
+  "explicit_content_lyrics": 0,
+  "explicit_content_cover": 2,
+  "contributors": [
+    {
+      "id": 4760,
+      "name": "Slint",
+      "link": "https://www.deezer.com/artist/4760",
+      "share": "https://www.deezer.com/artist/4760?utm_source=deezer&utm_content=artist-4760&utm_term=0_1790041149&utm_medium=web",
+      "picture": "https://api.deezer.com/artist/4760/image",
+      "picture_small": "https://cdn-images.dzcdn.net/images/artist/00047b022eedf88e46ccee82696d7fc1/56x56-000000-80-0-0.jpg",
+      "picture_medium": "https://cdn-images.dzcdn.net/images/artist/00047b022eedf88e46ccee82696d7fc1/250x250-000000-80-0-0.jpg",
+      "picture_big": "https://cdn-images.dzcdn.net/images/artist/00047b022eedf88e46ccee82696d7fc1/500x500-000000-80-0-0.jpg",
+      "picture_xl": "https://cdn-images.dzcdn.net/images/artist/00047b022eedf88e46ccee82696d7fc1/1000x1000-000000-80-0-0.jpg",
+      "radio": true,
+      "tracklist": "https://api.deezer.com/artist/4760/top?limit=50",
+      "type": "artist",
+      "role": "Main"
+    }
+  ],
+  "artist": {
+    "id": 4760,
+    "name": "Slint",
+    "picture": "https://api.deezer.com/artist/4760/image",
+    "picture_small": "https://cdn-images.dzcdn.net/images/artist/00047b022eedf88e46ccee82696d7fc1/56x56-000000-80-0-0.jpg",
+    "picture_medium": "https://cdn-images.dzcdn.net/images/artist/00047b022eedf88e46ccee82696d7fc1/250x250-000000-80-0-0.jpg",
+    "picture_big": "https://cdn-images.dzcdn.net/images/artist/00047b022eedf88e46ccee82696d7fc1/500x500-000000-80-0-0.jpg",
+    "picture_xl": "https://cdn-images.dzcdn.net/images/artist/00047b022eedf88e46ccee82696d7fc1/1000x1000-000000-80-0-0.jpg",
+    "tracklist": "https://api.deezer.com/artist/4760/top?limit=50",
+    "type": "artist"
+  },
+  "type": "album",
+  "tracks": {
+    "data": [
+      {
+        "id": 125953469,
+        "readable": true,
+        "title": "Breadcrumb Trail",
+        "title_short": "Breadcrumb Trail",
+        "link": "https://www.deezer.com/track/125953469",
+        "duration": 355,
+        "rank": 286515,
+        "explicit_lyrics": false,
+        "explicit_content_lyrics": 0,
+        "explicit_content_cover": 2,
+        "preview": "https://cdnt-preview.dzcdn.net/api/1/1/8/d/8/0/8d8b7e7ffb69f9113c04a4fa897c4f0f.mp3?hdnea=exp=1790042049~acl=/api/1/1/8/d/8/0/8d8b7e7ffb69f9113c04a4fa897c4f0f.mp3*~data=user_id=0,application_id=42~hmac=7de8cd32b4a65918a14873564341327b5e9f932fe07fe0641ca39a1d9b286fa7",
+        "md5_image": "eda1db8a1e9ddd35691c9fa22f7c6a2e",
+        "artist": {
+          "id": 4760,
+          "name": "Slint",
+          "tracklist": "https://api.deezer.com/artist/4760/top?limit=50",
+          "type": "artist"
+        },
+        "album": {
+          "id": 13254973,
+          "title": "Spiderland",
+          "cover": "https://api.deezer.com/album/13254973/image",
+          "cover_small": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/56x56-000000-80-0-0.jpg",
+          "cover_medium": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/250x250-000000-80-0-0.jpg",
+          "cover_big": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/500x500-000000-80-0-0.jpg",
+          "cover_xl": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/1000x1000-000000-80-0-0.jpg",
+          "md5_image": "eda1db8a1e9ddd35691c9fa22f7c6a2e",
+          "tracklist": "https://api.deezer.com/album/13254973/tracks",
+          "type": "album"
+        },
+        "type": "track"
+      },
+      {
+        "id": 125953471,
+        "readable": true,
+        "title": "Nosferatu Man",
+        "title_short": "Nosferatu Man",
+        "link": "https://www.deezer.com/track/125953471",
+        "duration": 334,
+        "rank": 228810,
+        "explicit_lyrics": false,
+        "explicit_content_lyrics": 0,
+        "explicit_content_cover": 2,
+        "preview": "https://cdnt-preview.dzcdn.net/api/1/1/8/5/9/0/85936c157fe18dea8a4a311468cf861d.mp3?hdnea=exp=1790042049~acl=/api/1/1/8/5/9/0/85936c157fe18dea8a4a311468cf861d.mp3*~data=user_id=0,application_id=42~hmac=406dd2120b76303eee9992f813370b0f5524d811f3e84006e2657606908a1081",
+        "md5_image": "eda1db8a1e9ddd35691c9fa22f7c6a2e",
+        "artist": {
+          "id": 4760,
+          "name": "Slint",
+          "tracklist": "https://api.deezer.com/artist/4760/top?limit=50",
+          "type": "artist"
+        },
+        "album": {
+          "id": 13254973,
+          "title": "Spiderland",
+          "cover": "https://api.deezer.com/album/13254973/image",
+          "cover_small": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/56x56-000000-80-0-0.jpg",
+          "cover_medium": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/250x250-000000-80-0-0.jpg",
+          "cover_big": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/500x500-000000-80-0-0.jpg",
+          "cover_xl": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/1000x1000-000000-80-0-0.jpg",
+          "md5_image": "eda1db8a1e9ddd35691c9fa22f7c6a2e",
+          "tracklist": "https://api.deezer.com/album/13254973/tracks",
+          "type": "album"
+        },
+        "type": "track"
+      },
+      {
+        "id": 125953473,
+        "readable": true,
+        "title": "Don, Aman",
+        "title_short": "Don, Aman",
+        "link": "https://www.deezer.com/track/125953473",
+        "duration": 388,
+        "rank": 200903,
+        "explicit_lyrics": false,
+        "explicit_content_lyrics": 0,
+        "explicit_content_cover": 2,
+        "preview": "https://cdnt-preview.dzcdn.net/api/1/1/5/0/5/0/50576eef2472366bcf4930ea49d389ef.mp3?hdnea=exp=1790042049~acl=/api/1/1/5/0/5/0/50576eef2472366bcf4930ea49d389ef.mp3*~data=user_id=0,application_id=42~hmac=495d5d8d1538db29f69ee605a185ae55a05ab09eaa0014b995d2a0af36b4aa4b",
+        "md5_image": "eda1db8a1e9ddd35691c9fa22f7c6a2e",
+        "artist": {
+          "id": 4760,
+          "name": "Slint",
+          "tracklist": "https://api.deezer.com/artist/4760/top?limit=50",
+          "type": "artist"
+        },
+        "album": {
+          "id": 13254973,
+          "title": "Spiderland",
+          "cover": "https://api.deezer.com/album/13254973/image",
+          "cover_small": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/56x56-000000-80-0-0.jpg",
+          "cover_medium": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/250x250-000000-80-0-0.jpg",
+          "cover_big": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/500x500-000000-80-0-0.jpg",
+          "cover_xl": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/1000x1000-000000-80-0-0.jpg",
+          "md5_image": "eda1db8a1e9ddd35691c9fa22f7c6a2e",
+          "tracklist": "https://api.deezer.com/album/13254973/tracks",
+          "type": "album"
+        },
+        "type": "track"
+      },
+      {
+        "id": 125953475,
+        "readable": true,
+        "title": "Washer",
+        "title_short": "Washer",
+        "link": "https://www.deezer.com/track/125953475",
+        "duration": 530,
+        "rank": 226677,
+        "explicit_lyrics": false,
+        "explicit_content_lyrics": 0,
+        "explicit_content_cover": 2,
+        "preview": "https://cdnt-preview.dzcdn.net/api/1/1/1/2/e/0/12e35cb7f849183a99f643c4ad19c58b.mp3?hdnea=exp=1790042049~acl=/api/1/1/1/2/e/0/12e35cb7f849183a99f643c4ad19c58b.mp3*~data=user_id=0,application_id=42~hmac=4e7a9c4632bb3b537a2d4e7cf37759355bfbd565efe59a29d719c38c472a3d5b",
+        "md5_image": "eda1db8a1e9ddd35691c9fa22f7c6a2e",
+        "artist": {
+          "id": 4760,
+          "name": "Slint",
+          "tracklist": "https://api.deezer.com/artist/4760/top?limit=50",
+          "type": "artist"
+        },
+        "album": {
+          "id": 13254973,
+          "title": "Spiderland",
+          "cover": "https://api.deezer.com/album/13254973/image",
+          "cover_small": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/56x56-000000-80-0-0.jpg",
+          "cover_medium": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/250x250-000000-80-0-0.jpg",
+          "cover_big": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/500x500-000000-80-0-0.jpg",
+          "cover_xl": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/1000x1000-000000-80-0-0.jpg",
+          "md5_image": "eda1db8a1e9ddd35691c9fa22f7c6a2e",
+          "tracklist": "https://api.deezer.com/album/13254973/tracks",
+          "type": "album"
+        },
+        "type": "track"
+      },
+      {
+        "id": 125953477,
+        "readable": true,
+        "title": "For Dinner…",
+        "title_short": "For Dinner…",
+        "link": "https://www.deezer.com/track/125953477",
+        "duration": 305,
+        "rank": 145578,
+        "explicit_lyrics": false,
+        "explicit_content_lyrics": 0,
+        "explicit_content_cover": 2,
+        "preview": "https://cdnt-preview.dzcdn.net/api/1/1/5/6/f/0/56f2115959ae02e144778ec8e77b78a6.mp3?hdnea=exp=1790042049~acl=/api/1/1/5/6/f/0/56f2115959ae02e144778ec8e77b78a6.mp3*~data=user_id=0,application_id=42~hmac=f9af3dc4b9b60ab067177a8de63da7a79ea7bbc6559d2d6895b7820dc7a716c5",
+        "md5_image": "eda1db8a1e9ddd35691c9fa22f7c6a2e",
+        "artist": {
+          "id": 4760,
+          "name": "Slint",
+          "tracklist": "https://api.deezer.com/artist/4760/top?limit=50",
+          "type": "artist"
+        },
+        "album": {
+          "id": 13254973,
+          "title": "Spiderland",
+          "cover": "https://api.deezer.com/album/13254973/image",
+          "cover_small": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/56x56-000000-80-0-0.jpg",
+          "cover_medium": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/250x250-000000-80-0-0.jpg",
+          "cover_big": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/500x500-000000-80-0-0.jpg",
+          "cover_xl": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/1000x1000-000000-80-0-0.jpg",
+          "md5_image": "eda1db8a1e9ddd35691c9fa22f7c6a2e",
+          "tracklist": "https://api.deezer.com/album/13254973/tracks",
+          "type": "album"
+        },
+        "type": "track"
+      },
+      {
+        "id": 125953479,
+        "readable": true,
+        "title": "Good Morning, Captain",
+        "title_short": "Good Morning, Captain",
+        "link": "https://www.deezer.com/track/125953479",
+        "duration": 459,
+        "rank": 263774,
+        "explicit_lyrics": false,
+        "explicit_content_lyrics": 0,
+        "explicit_content_cover": 2,
+        "preview": "https://cdnt-preview.dzcdn.net/api/1/1/0/4/7/0/047bb55b52498b0f30b5db2f6db5fc13.mp3?hdnea=exp=1790042049~acl=/api/1/1/0/4/7/0/047bb55b52498b0f30b5db2f6db5fc13.mp3*~data=user_id=0,application_id=42~hmac=b892397426f537529fb5b5cd978370bc825ebd02dad0d4edab84745f493cefbd",
+        "md5_image": "eda1db8a1e9ddd35691c9fa22f7c6a2e",
+        "artist": {
+          "id": 4760,
+          "name": "Slint",
+          "tracklist": "https://api.deezer.com/artist/4760/top?limit=50",
+          "type": "artist"
+        },
+        "album": {
+          "id": 13254973,
+          "title": "Spiderland",
+          "cover": "https://api.deezer.com/album/13254973/image",
+          "cover_small": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/56x56-000000-80-0-0.jpg",
+          "cover_medium": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/250x250-000000-80-0-0.jpg",
+          "cover_big": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/500x500-000000-80-0-0.jpg",
+          "cover_xl": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/1000x1000-000000-80-0-0.jpg",
+          "md5_image": "eda1db8a1e9ddd35691c9fa22f7c6a2e",
+          "tracklist": "https://api.deezer.com/album/13254973/tracks",
+          "type": "album"
+        },
+        "type": "track"
+      }
+    ]
+  }
+}

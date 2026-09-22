@@ -1,21 +1,15 @@
 # UI
-streamlit>=1.28.0
+streamlit>=1.40.0
 
-# Core scraping
-scrapy==2.11.0
-selenium==4.17.2
-undetected-chromedriver==3.5.5
-lxml==5.2.0
-
-# HTTP. Used by the FlareSolverr middleware and by Radius, which talks to the
-# MusicBrainz, ListenBrainz and Wikipedia JSON APIs.
+# HTTP for the MusicBrainz, ListenBrainz, Wikidata, Deezer, Last.fm and
+# Discogs JSON APIs.
 requests>=2.31.0
 
-# Data Processing
+# Result tables and CSV export in the UI.
 pandas>=2.2.0
 
 # Testing
-pytest==7.4.4
+pytest>=7.4.4
 
 # Timezone data (pandas needs this explicitly on some platforms, e.g. Windows)
-tzdata==2023.3
+tzdata>=2023.3

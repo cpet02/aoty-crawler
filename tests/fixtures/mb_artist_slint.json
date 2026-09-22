@@ -1,0 +1,574 @@
+{
+  "tags": [
+    {
+      "name": "math rock",
+      "count": 5
+    },
+    {
+      "name": "post-hardcore",
+      "count": 3
+    },
+    {
+      "count": 8,
+      "name": "post-rock"
+    },
+    {
+      "name": "rock",
+      "count": 1
+    },
+    {
+      "name": "the lost generation",
+      "count": 1
+    }
+  ],
+  "type": "Group",
+  "isnis": [],
+  "name": "Slint",
+  "rating": {
+    "votes-count": 2,
+    "value": 5
+  },
+  "end-area": null,
+  "begin-area": {
+    "disambiguation": "",
+    "id": "b21e4552-050d-4c0c-ac5a-031108eb0c47",
+    "name": "Louisville",
+    "type": null,
+    "sort-name": "Louisville",
+    "type-id": null
+  },
+  "gender": null,
+  "disambiguation": "",
+  "country": "US",
+  "sort-name": "Slint",
+  "gender-id": null,
+  "life-span": {
+    "end": "1992",
+    "begin": "1986",
+    "ended": true
+  },
+  "genres": [
+    {
+      "count": 5,
+      "name": "math rock",
+      "disambiguation": "",
+      "id": "a6b55d73-bba3-49fc-a361-ca4bde004717"
+    },
+    {
+      "count": 3,
+      "disambiguation": "",
+      "id": "aec382b7-b635-470c-9051-2f84e0b5ea1e",
+      "name": "post-hardcore"
+    },
+    {
+      "count": 8,
+      "disambiguation": "",
+      "id": "0bfffa19-4e4a-4bf7-bf53-6ec44f0a2f8e",
+      "name": "post-rock"
+    },
+    {
+      "disambiguation": "",
+      "id": "0e3fc579-2d24-4f20-9dae-736e1ec78798",
+      "name": "rock",
+      "count": 1
+    }
+  ],
+  "ipis": [],
+  "area": {
+    "type-id": null,
+    "sort-name": "United States",
+    "disambiguation": "",
+    "id": "489ce91b-6658-3307-9877-795b68554c98",
+    "iso-3166-1-codes": [
+      "US"
+    ],
+    "name": "United States",
+    "type": null
+  },
+  "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28",
+  "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+  "relations": [
+    {
+      "target-credit": "",
+      "attribute-credits": {},
+      "attribute-ids": {
+        "electric bass guitar": "0b9d87fa-93fa-4956-8b6a-a419566cc915",
+        "original": "4fd3b255-a7d7-4424-9a63-40fa543b601c"
+      },
+      "attributes": [
+        "electric bass guitar",
+        "original"
+      ],
+      "source-credit": "",
+      "ended": true,
+      "artist": {
+        "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+        "country": "US",
+        "sort-name": "Buckler, Ethan",
+        "id": "469a8cde-8e09-4cec-bcdf-98b0943ca7ee",
+        "disambiguation": "",
+        "name": "Ethan Buckler",
+        "type": "Person"
+      },
+      "attribute-values": {},
+      "type": "member of band",
+      "type-id": "5be4c609-9afa-4ea0-910b-12ffb71e3821",
+      "target-type": "artist",
+      "end": "1987",
+      "begin": "1986",
+      "direction": "backward"
+    },
+    {
+      "target-type": "artist",
+      "end": "1991",
+      "begin": "1988",
+      "type-id": "5be4c609-9afa-4ea0-910b-12ffb71e3821",
+      "direction": "backward",
+      "source-credit": "",
+      "attributes": [],
+      "attribute-ids": {},
+      "target-credit": "",
+      "type": "member of band",
+      "attribute-values": {},
+      "artist": {
+        "type": "Person",
+        "name": "Todd Brashear",
+        "disambiguation": "",
+        "id": "9fecf563-bce8-4960-89e9-7075bbffe84f",
+        "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+        "country": "US",
+        "sort-name": "Brashear, Todd"
+      },
+      "ended": true
+    },
+    {
+      "attributes": [],
+      "attribute-ids": {},
+      "source-credit": "",
+      "target-credit": "",
+      "attribute-values": {},
+      "type": "member of band",
+      "ended": false,
+      "artist": {
+        "id": "bebfec95-35a3-4cc8-b85e-8b178d09526d",
+        "disambiguation": "",
+        "sort-name": "McMahan, Brian",
+        "country": "US",
+        "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+        "type": "Person",
+        "name": "Brian McMahan"
+      },
+      "end": null,
+      "begin": null,
+      "target-type": "artist",
+      "type-id": "5be4c609-9afa-4ea0-910b-12ffb71e3821",
+      "direction": "backward"
+    },
+    {
+      "type": "member of band",
+      "attribute-values": {},
+      "artist": {
+        "disambiguation": "",
+        "id": "85188c46-d3ed-4517-ba78-5d06ec764f1c",
+        "sort-name": "Pajo, David",
+        "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+        "country": "US",
+        "type": "Person",
+        "name": "David Pajo"
+      },
+      "ended": false,
+      "source-credit": "",
+      "attribute-ids": {},
+      "attributes": [],
+      "target-credit": "",
+      "direction": "backward",
+      "end": null,
+      "begin": null,
+      "target-type": "artist",
+      "type-id": "5be4c609-9afa-4ea0-910b-12ffb71e3821"
+    },
+    {
+      "direction": "backward",
+      "end": null,
+      "begin": null,
+      "target-type": "artist",
+      "type-id": "5be4c609-9afa-4ea0-910b-12ffb71e3821",
+      "type": "member of band",
+      "attribute-values": {},
+      "artist": {
+        "name": "Britt Walford",
+        "type": "Person",
+        "country": "US",
+        "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+        "sort-name": "Walford, Britt",
+        "id": "7fde6efa-750a-49c1-abee-7767230407ff",
+        "disambiguation": ""
+      },
+      "ended": false,
+      "source-credit": "",
+      "attributes": [],
+      "attribute-ids": {},
+      "target-credit": ""
+    },
+    {
+      "direction": "forward",
+      "url": {
+        "resource": "https://www.allmusic.com/artist/mn0000751604",
+        "id": "9ca2a88e-b8b6-4824-a107-187e07355b74"
+      },
+      "type-id": "6b3e3c85-0002-4f34-aca6-80ace0d7e846",
+      "end": null,
+      "begin": null,
+      "target-type": "url",
+      "ended": false,
+      "attribute-values": {},
+      "type": "allmusic",
+      "target-credit": "",
+      "attributes": [],
+      "attribute-ids": {},
+      "source-credit": ""
+    },
+    {
+      "direction": "forward",
+      "target-type": "url",
+      "end": null,
+      "begin": null,
+      "type-id": "c550166e-0548-4a18-b1d4-e2ae423a3e88",
+      "url": {
+        "id": "174571e6-0627-468a-a29e-a21dd426dd35",
+        "resource": "https://slint.bandcamp.com/"
+      },
+      "type": "bandcamp",
+      "attribute-values": {},
+      "ended": false,
+      "source-credit": "",
+      "attributes": [],
+      "attribute-ids": {},
+      "target-credit": ""
+    },
+    {
+      "attribute-values": {},
+      "type": "discogs",
+      "ended": false,
+      "attribute-ids": {},
+      "attributes": [],
+      "source-credit": "",
+      "target-credit": "",
+      "direction": "forward",
+      "target-type": "url",
+      "end": null,
+      "begin": null,
+      "type-id": "04a5b104-a4c2-4bac-99a1-7b837c37d9e4",
+      "url": {
+        "resource": "https://www.discogs.com/artist/56206",
+        "id": "4277e96b-2c29-4279-8a97-38898b722851"
+      }
+    },
+    {
+      "ended": false,
+      "type": "free streaming",
+      "attribute-values": {},
+      "target-credit": "",
+      "source-credit": "",
+      "attributes": [],
+      "attribute-ids": {},
+      "direction": "forward",
+      "url": {
+        "resource": "https://open.spotify.com/artist/4IwOItqRhsIoRuD5HP4vyC",
+        "id": "49181c4c-83a8-44ea-92aa-44ace77b9ee6"
+      },
+      "type-id": "769085a1-c2f7-4c24-a532-2375a77693bd",
+      "begin": null,
+      "end": null,
+      "target-type": "url"
+    },
+    {
+      "end": null,
+      "begin": null,
+      "target-type": "url",
+      "url": {
+        "id": "c819d602-2cd5-4ac5-b84b-41e7c434dea7",
+        "resource": "https://www.deezer.com/artist/4760"
+      },
+      "type-id": "769085a1-c2f7-4c24-a532-2375a77693bd",
+      "direction": "forward",
+      "attribute-ids": {},
+      "attributes": [],
+      "source-credit": "",
+      "target-credit": "",
+      "attribute-values": {},
+      "type": "free streaming",
+      "ended": false
+    },
+    {
+      "attribute-ids": {},
+      "attributes": [],
+      "source-credit": "",
+      "target-credit": "",
+      "attribute-values": {},
+      "type": "last.fm",
+      "ended": false,
+      "target-type": "url",
+      "end": null,
+      "begin": null,
+      "type-id": "08db8098-c0df-4b78-82c3-c8697b4bba7f",
+      "url": {
+        "id": "498e217b-cd9a-4ce6-9239-a8a68d2309ec",
+        "resource": "https://www.last.fm/music/Slint"
+      },
+      "direction": "forward"
+    },
+    {
+      "begin": null,
+      "end": null,
+      "target-type": "url",
+      "url": {
+        "id": "e76d166e-624d-4537-a9ef-6ebfb651ade7",
+        "resource": "http://www.slint.us/"
+      },
+      "type-id": "fe33d22f-c3b0-4d68-bd53-a856badf2b15",
+      "direction": "forward",
+      "source-credit": "",
+      "attribute-ids": {},
+      "attributes": [],
+      "target-credit": "",
+      "type": "official homepage",
+      "attribute-values": {},
+      "ended": false
+    },
+    {
+      "ended": false,
+      "type": "other databases",
+      "attribute-values": {},
+      "target-credit": "",
+      "source-credit": "",
+      "attribute-ids": {},
+      "attributes": [],
+      "direction": "forward",
+      "type-id": "d94fb61c-fa20-4e3c-a19a-71a949fb2c55",
+      "url": {
+        "id": "305380fc-fc6f-498c-a55e-4b9ecbfe5a9c",
+        "resource": "https://d-nb.info/gnd/10301768-9"
+      },
+      "target-type": "url",
+      "begin": null,
+      "end": null
+    },
+    {
+      "url": {
+        "resource": "https://rateyourmusic.com/artist/slint",
+        "id": "a19179b8-2441-4dc7-9b6f-b4061e0434e2"
+      },
+      "type-id": "d94fb61c-fa20-4e3c-a19a-71a949fb2c55",
+      "begin": null,
+      "end": null,
+      "target-type": "url",
+      "direction": "forward",
+      "target-credit": "",
+      "attributes": [],
+      "attribute-ids": {},
+      "source-credit": "",
+      "ended": false,
+      "attribute-values": {},
+      "type": "other databases"
+    },
+    {
+      "end": null,
+      "begin": null,
+      "target-type": "url",
+      "url": {
+        "resource": "https://itunes.apple.com/us/artist/id18280238",
+        "id": "03fa2fba-aadc-4680-bd08-bce188f19b2a"
+      },
+      "type-id": "f8319a2f-f824-4617-81c8-be6560b3b203",
+      "direction": "forward",
+      "source-credit": "",
+      "attributes": [],
+      "attribute-ids": {},
+      "target-credit": "",
+      "type": "purchase for download",
+      "attribute-values": {},
+      "ended": false
+    },
+    {
+      "attribute-values": {},
+      "type": "purchase for download",
+      "ended": false,
+      "attributes": [],
+      "attribute-ids": {},
+      "source-credit": "",
+      "target-credit": "",
+      "direction": "forward",
+      "begin": null,
+      "end": null,
+      "target-type": "url",
+      "url": {
+        "resource": "https://www.qobuz.com/us-en/interpreter/slint/2435607",
+        "id": "a6c6d53e-323f-4678-b37c-5839202cab9f"
+      },
+      "type-id": "f8319a2f-f824-4617-81c8-be6560b3b203"
+    },
+    {
+      "type": "social network",
+      "attribute-values": {},
+      "ended": false,
+      "source-credit": "",
+      "attribute-ids": {},
+      "attributes": [],
+      "target-credit": "",
+      "direction": "forward",
+      "target-type": "url",
+      "end": null,
+      "begin": null,
+      "type-id": "99429741-f3f6-484b-84f8-23af51991770",
+      "url": {
+        "resource": "https://twitter.com/SlintOfficial",
+        "id": "cafc8e8d-cdff-4243-b789-3d1a963cff65"
+      }
+    },
+    {
+      "type": "social network",
+      "attribute-values": {},
+      "ended": false,
+      "source-credit": "",
+      "attributes": [],
+      "attribute-ids": {},
+      "target-credit": "",
+      "direction": "forward",
+      "end": null,
+      "begin": null,
+      "target-type": "url",
+      "url": {
+        "id": "5f8014b3-eaef-4a35-9da1-0c19328623e1",
+        "resource": "https://www.facebook.com/Slint"
+      },
+      "type-id": "99429741-f3f6-484b-84f8-23af51991770"
+    },
+    {
+      "type": "songkick",
+      "attribute-values": {},
+      "ended": false,
+      "source-credit": "",
+      "attributes": [],
+      "attribute-ids": {},
+      "target-credit": "",
+      "direction": "forward",
+      "target-type": "url",
+      "begin": null,
+      "end": null,
+      "type-id": "aac9c4bc-a5b9-30b8-9839-e3ac314c6e58",
+      "url": {
+        "id": "d2610b19-0043-4db4-b6f7-5b0b5ebaab1c",
+        "resource": "https://www.songkick.com/artists/148899"
+      }
+    },
+    {
+      "attribute-values": {},
+      "type": "streaming",
+      "ended": false,
+      "attribute-ids": {},
+      "attributes": [],
+      "source-credit": "",
+      "target-credit": "",
+      "direction": "forward",
+      "end": null,
+      "begin": null,
+      "target-type": "url",
+      "url": {
+        "resource": "https://music.apple.com/us/artist/18280238",
+        "id": "1af7ae73-397f-47df-ac2d-dea2e8238e21"
+      },
+      "type-id": "63cc5d1f-f096-4c94-a43f-ecb32ea94161"
+    },
+    {
+      "target-credit": "",
+      "attributes": [],
+      "attribute-ids": {},
+      "source-credit": "",
+      "ended": false,
+      "attribute-values": {},
+      "type": "streaming",
+      "url": {
+        "resource": "https://tidal.com/artist/3833071",
+        "id": "fdd13e2e-c407-4a47-b345-4bcdae4ee0ee"
+      },
+      "type-id": "63cc5d1f-f096-4c94-a43f-ecb32ea94161",
+      "end": null,
+      "begin": null,
+      "target-type": "url",
+      "direction": "forward"
+    },
+    {
+      "source-credit": "",
+      "attributes": [],
+      "attribute-ids": {},
+      "target-credit": "",
+      "type": "streaming",
+      "attribute-values": {},
+      "ended": false,
+      "begin": null,
+      "end": null,
+      "target-type": "url",
+      "url": {
+        "resource": "https://www.qobuz.com/us-en/interpreter/slint/2435607",
+        "id": "a6c6d53e-323f-4678-b37c-5839202cab9f"
+      },
+      "type-id": "63cc5d1f-f096-4c94-a43f-ecb32ea94161",
+      "direction": "forward"
+    },
+    {
+      "end": null,
+      "begin": null,
+      "target-type": "url",
+      "url": {
+        "resource": "http://viaf.org/viaf/128623081",
+        "id": "0cd873fa-4e95-47bb-9062-809960b4bcc3"
+      },
+      "type-id": "e8571dcc-35d4-4e91-a577-a3382fd84460",
+      "direction": "forward",
+      "source-credit": "",
+      "attribute-ids": {},
+      "attributes": [],
+      "target-credit": "",
+      "type": "VIAF",
+      "attribute-values": {},
+      "ended": false
+    },
+    {
+      "direction": "forward",
+      "url": {
+        "resource": "https://www.wikidata.org/wiki/Q578979",
+        "id": "27de4131-dc01-496b-8355-1e9cd2a6a8c5"
+      },
+      "type-id": "689870a4-a1e4-4912-b17f-7b2664215698",
+      "end": null,
+      "begin": null,
+      "target-type": "url",
+      "ended": false,
+      "attribute-values": {},
+      "type": "wikidata",
+      "target-credit": "",
+      "attribute-ids": {},
+      "attributes": [],
+      "source-credit": ""
+    },
+    {
+      "ended": false,
+      "type": "youtube music",
+      "attribute-values": {},
+      "target-credit": "",
+      "source-credit": "",
+      "attribute-ids": {},
+      "attributes": [],
+      "direction": "forward",
+      "type-id": "631712a0-7525-42ba-b7a3-605aa7a238c4",
+      "url": {
+        "resource": "https://music.youtube.com/channel/UCiHdxkS3T69_-I0uCRQbZVA",
+        "id": "86c87953-ec81-455a-9991-685843f6bcd8"
+      },
+      "target-type": "url",
+      "begin": null,
+      "end": null
+    }
+  ]
+}

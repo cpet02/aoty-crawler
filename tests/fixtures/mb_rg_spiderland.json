@@ -1,0 +1,1613 @@
+{
+  "primary-type": "Album",
+  "title": "Spiderland",
+  "disambiguation": "",
+  "secondary-types": [],
+  "secondary-type-ids": [],
+  "id": "e9f4b96a-94df-36be-9659-c9a811caead6",
+  "releases": [
+    {
+      "barcode": "",
+      "status": "Official",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "release-events": [
+        {
+          "date": "1991-03-15",
+          "area": {
+            "type-id": null,
+            "name": "United States",
+            "type": null,
+            "id": "489ce91b-6658-3307-9877-795b68554c98",
+            "sort-name": "United States",
+            "iso-3166-1-codes": [
+              "US"
+            ],
+            "disambiguation": ""
+          }
+        }
+      ],
+      "id": "2c8cba8b-a80a-4d7f-9a7f-22c922f1a42e",
+      "disambiguation": "",
+      "country": "US",
+      "text-representation": {
+        "script": "Latn",
+        "language": "eng"
+      },
+      "quality": "normal",
+      "title": "Spiderland",
+      "date": "1991-03-15",
+      "genres": [],
+      "packaging": null,
+      "packaging-id": null,
+      "tags": [],
+      "artist-credit": [
+        {
+          "name": "Slint",
+          "joinphrase": "",
+          "artist": {
+            "disambiguation": "",
+            "country": "US",
+            "name": "Slint",
+            "type": "Group",
+            "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+            "genres": [
+              {
+                "disambiguation": "",
+                "name": "math rock",
+                "count": 5,
+                "id": "a6b55d73-bba3-49fc-a361-ca4bde004717"
+              },
+              {
+                "disambiguation": "",
+                "name": "post-hardcore",
+                "id": "aec382b7-b635-470c-9051-2f84e0b5ea1e",
+                "count": 3
+              },
+              {
+                "id": "0bfffa19-4e4a-4bf7-bf53-6ec44f0a2f8e",
+                "count": 8,
+                "name": "post-rock",
+                "disambiguation": ""
+              },
+              {
+                "id": "0e3fc579-2d24-4f20-9dae-736e1ec78798",
+                "count": 1,
+                "name": "rock",
+                "disambiguation": ""
+              }
+            ],
+            "tags": [
+              {
+                "count": 5,
+                "name": "math rock"
+              },
+              {
+                "count": 3,
+                "name": "post-hardcore"
+              },
+              {
+                "count": 8,
+                "name": "post-rock"
+              },
+              {
+                "name": "rock",
+                "count": 1
+              },
+              {
+                "count": 1,
+                "name": "the lost generation"
+              }
+            ],
+            "sort-name": "Slint",
+            "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28"
+          }
+        }
+      ],
+      "media": [
+        {
+          "format": "CD",
+          "track-count": 6,
+          "format-id": "9712d52a-4509-3d4b-a1a2-67c88c643e31",
+          "title": "",
+          "position": 1,
+          "id": "d8f3a5de-d6f1-3330-84c0-128843097839"
+        }
+      ]
+    },
+    {
+      "disambiguation": "",
+      "quality": "normal",
+      "title": "Spiderland",
+      "text-representation": {
+        "script": "Latn",
+        "language": null
+      },
+      "country": "XW",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "status": "Official",
+      "barcode": "00036172076468",
+      "id": "94268466-8891-412a-8394-f555e3548076",
+      "release-events": [
+        {
+          "area": {
+            "disambiguation": "",
+            "type-id": null,
+            "name": "[Worldwide]",
+            "type": null,
+            "id": "525d4e18-3d00-31b9-a58b-a146a916de8f",
+            "sort-name": "[Worldwide]",
+            "iso-3166-1-codes": [
+              "XW"
+            ]
+          },
+          "date": "1991-03-15"
+        }
+      ],
+      "artist-credit": [
+        {
+          "artist": {
+            "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28",
+            "sort-name": "Slint",
+            "tags": [
+              {
+                "name": "math rock",
+                "count": 5
+              },
+              {
+                "count": 3,
+                "name": "post-hardcore"
+              },
+              {
+                "count": 8,
+                "name": "post-rock"
+              },
+              {
+                "name": "rock",
+                "count": 1
+              },
+              {
+                "count": 1,
+                "name": "the lost generation"
+              }
+            ],
+            "genres": [
+              {
+                "name": "math rock",
+                "disambiguation": "",
+                "count": 5,
+                "id": "a6b55d73-bba3-49fc-a361-ca4bde004717"
+              },
+              {
+                "id": "aec382b7-b635-470c-9051-2f84e0b5ea1e",
+                "count": 3,
+                "name": "post-hardcore",
+                "disambiguation": ""
+              },
+              {
+                "id": "0bfffa19-4e4a-4bf7-bf53-6ec44f0a2f8e",
+                "count": 8,
+                "disambiguation": "",
+                "name": "post-rock"
+              },
+              {
+                "disambiguation": "",
+                "name": "rock",
+                "count": 1,
+                "id": "0e3fc579-2d24-4f20-9dae-736e1ec78798"
+              }
+            ],
+            "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+            "type": "Group",
+            "name": "Slint",
+            "country": "US",
+            "disambiguation": ""
+          },
+          "joinphrase": "",
+          "name": "Slint"
+        }
+      ],
+      "media": [
+        {
+          "track-count": 6,
+          "format-id": "907a28d9-b3b2-3ef6-89a8-7b18d91d4794",
+          "format": "Digital Media",
+          "id": "d7e46a47-c46c-4e7f-b09b-41f4ab65b4fd",
+          "title": "",
+          "position": 1
+        }
+      ],
+      "genres": [],
+      "date": "1991-03-15",
+      "tags": [],
+      "packaging-id": "119eba76-b343-3e02-a292-f0f00644bb9b",
+      "packaging": "None"
+    },
+    {
+      "id": "a16b871f-3b71-3bb0-9a9d-798b513a4fc0",
+      "release-events": [
+        {
+          "date": "1991-03-27",
+          "area": {
+            "disambiguation": "",
+            "sort-name": "United States",
+            "id": "489ce91b-6658-3307-9877-795b68554c98",
+            "iso-3166-1-codes": [
+              "US"
+            ],
+            "type-id": null,
+            "name": "United States",
+            "type": null
+          }
+        }
+      ],
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "status": "Official",
+      "barcode": "036172076413",
+      "title": "Spiderland",
+      "quality": "normal",
+      "text-representation": {
+        "language": "eng",
+        "script": "Latn"
+      },
+      "country": "US",
+      "disambiguation": "",
+      "tags": [],
+      "packaging-id": null,
+      "packaging": null,
+      "genres": [],
+      "date": "1991-03-27",
+      "media": [
+        {
+          "format-id": "3e9080b0-5e6c-34ab-bd15-f526b6306a64",
+          "track-count": 6,
+          "format": "12\" Vinyl",
+          "id": "a7a32886-f7b0-3f02-80c4-c2aa2732cb77",
+          "title": "",
+          "position": 1
+        }
+      ],
+      "artist-credit": [
+        {
+          "name": "Slint",
+          "joinphrase": "",
+          "artist": {
+            "type": "Group",
+            "name": "Slint",
+            "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+            "genres": [
+              {
+                "disambiguation": "",
+                "name": "math rock",
+                "id": "a6b55d73-bba3-49fc-a361-ca4bde004717",
+                "count": 5
+              },
+              {
+                "disambiguation": "",
+                "name": "post-hardcore",
+                "count": 3,
+                "id": "aec382b7-b635-470c-9051-2f84e0b5ea1e"
+              },
+              {
+                "count": 8,
+                "id": "0bfffa19-4e4a-4bf7-bf53-6ec44f0a2f8e",
+                "disambiguation": "",
+                "name": "post-rock"
+              },
+              {
+                "id": "0e3fc579-2d24-4f20-9dae-736e1ec78798",
+                "count": 1,
+                "name": "rock",
+                "disambiguation": ""
+              }
+            ],
+            "tags": [
+              {
+                "count": 5,
+                "name": "math rock"
+              },
+              {
+                "count": 3,
+                "name": "post-hardcore"
+              },
+              {
+                "name": "post-rock",
+                "count": 8
+              },
+              {
+                "count": 1,
+                "name": "rock"
+              },
+              {
+                "count": 1,
+                "name": "the lost generation"
+              }
+            ],
+            "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28",
+            "sort-name": "Slint",
+            "disambiguation": "",
+            "country": "US"
+          }
+        }
+      ]
+    },
+    {
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "barcode": "718751776425",
+      "status": "Official",
+      "id": "804ec70f-3c1b-452b-b719-eeee9dcb32f3",
+      "release-events": [
+        {
+          "date": "1991",
+          "area": {
+            "iso-3166-1-codes": [
+              "XE"
+            ],
+            "id": "89a675c2-3e37-3518-b83c-418bad59a85a",
+            "sort-name": "Europe",
+            "name": "Europe",
+            "type": null,
+            "type-id": null,
+            "disambiguation": ""
+          }
+        }
+      ],
+      "disambiguation": "",
+      "quality": "normal",
+      "title": "Spiderland",
+      "text-representation": {
+        "script": "Latn",
+        "language": "eng"
+      },
+      "country": "XE",
+      "genres": [],
+      "date": "1991",
+      "tags": [],
+      "packaging-id": "ec27701a-4a22-37f4-bfac-6616e0f9750a",
+      "packaging": "Jewel Case",
+      "artist-credit": [
+        {
+          "name": "Slint",
+          "artist": {
+            "country": "US",
+            "disambiguation": "",
+            "sort-name": "Slint",
+            "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28",
+            "tags": [
+              {
+                "name": "math rock",
+                "count": 5
+              },
+              {
+                "count": 3,
+                "name": "post-hardcore"
+              },
+              {
+                "count": 8,
+                "name": "post-rock"
+              },
+              {
+                "count": 1,
+                "name": "rock"
+              },
+              {
+                "count": 1,
+                "name": "the lost generation"
+              }
+            ],
+            "genres": [
+              {
+                "id": "a6b55d73-bba3-49fc-a361-ca4bde004717",
+                "count": 5,
+                "name": "math rock",
+                "disambiguation": ""
+              },
+              {
+                "name": "post-hardcore",
+                "disambiguation": "",
+                "count": 3,
+                "id": "aec382b7-b635-470c-9051-2f84e0b5ea1e"
+              },
+              {
+                "name": "post-rock",
+                "disambiguation": "",
+                "count": 8,
+                "id": "0bfffa19-4e4a-4bf7-bf53-6ec44f0a2f8e"
+              },
+              {
+                "disambiguation": "",
+                "name": "rock",
+                "id": "0e3fc579-2d24-4f20-9dae-736e1ec78798",
+                "count": 1
+              }
+            ],
+            "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+            "type": "Group",
+            "name": "Slint"
+          },
+          "joinphrase": ""
+        }
+      ],
+      "media": [
+        {
+          "format": "CD",
+          "format-id": "9712d52a-4509-3d4b-a1a2-67c88c643e31",
+          "track-count": 6,
+          "position": 1,
+          "title": "",
+          "id": "d0b3ce32-87d0-3c05-80c5-8afc7a6f4de1"
+        }
+      ]
+    },
+    {
+      "disambiguation": "1995 Reissue",
+      "text-representation": {
+        "language": "eng",
+        "script": "Latn"
+      },
+      "country": "US",
+      "quality": "normal",
+      "title": "Spiderland",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "barcode": "036172076420",
+      "status": "Official",
+      "release-events": [
+        {
+          "area": {
+            "iso-3166-1-codes": [
+              "US"
+            ],
+            "id": "489ce91b-6658-3307-9877-795b68554c98",
+            "sort-name": "United States",
+            "name": "United States",
+            "type": null,
+            "type-id": null,
+            "disambiguation": ""
+          },
+          "date": "1995"
+        }
+      ],
+      "id": "35ff10b7-f69d-47e8-8921-79e0ffd2a51b",
+      "artist-credit": [
+        {
+          "joinphrase": "",
+          "artist": {
+            "country": "US",
+            "disambiguation": "",
+            "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28",
+            "sort-name": "Slint",
+            "tags": [
+              {
+                "name": "math rock",
+                "count": 5
+              },
+              {
+                "name": "post-hardcore",
+                "count": 3
+              },
+              {
+                "name": "post-rock",
+                "count": 8
+              },
+              {
+                "count": 1,
+                "name": "rock"
+              },
+              {
+                "name": "the lost generation",
+                "count": 1
+              }
+            ],
+            "genres": [
+              {
+                "name": "math rock",
+                "disambiguation": "",
+                "count": 5,
+                "id": "a6b55d73-bba3-49fc-a361-ca4bde004717"
+              },
+              {
+                "name": "post-hardcore",
+                "disambiguation": "",
+                "id": "aec382b7-b635-470c-9051-2f84e0b5ea1e",
+                "count": 3
+              },
+              {
+                "count": 8,
+                "id": "0bfffa19-4e4a-4bf7-bf53-6ec44f0a2f8e",
+                "disambiguation": "",
+                "name": "post-rock"
+              },
+              {
+                "id": "0e3fc579-2d24-4f20-9dae-736e1ec78798",
+                "count": 1,
+                "name": "rock",
+                "disambiguation": ""
+              }
+            ],
+            "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+            "type": "Group",
+            "name": "Slint"
+          },
+          "name": "Slint"
+        }
+      ],
+      "media": [
+        {
+          "id": "0c8b2130-597b-3a53-98d8-f967f52df50d",
+          "title": "",
+          "position": 1,
+          "format-id": "9712d52a-4509-3d4b-a1a2-67c88c643e31",
+          "track-count": 6,
+          "format": "CD"
+        }
+      ],
+      "date": "1995",
+      "genres": [],
+      "packaging": "Jewel Case",
+      "tags": [],
+      "packaging-id": "ec27701a-4a22-37f4-bfac-6616e0f9750a"
+    },
+    {
+      "release-events": [
+        {
+          "date": "2004-01-20",
+          "area": {
+            "disambiguation": "",
+            "name": "United States",
+            "type": null,
+            "type-id": null,
+            "iso-3166-1-codes": [
+              "US"
+            ],
+            "sort-name": "United States",
+            "id": "489ce91b-6658-3307-9877-795b68554c98"
+          }
+        }
+      ],
+      "id": "51f9c6f7-a7fd-47b4-8f44-5f649a7897d7",
+      "status": "Official",
+      "barcode": "036172076413",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "country": "US",
+      "text-representation": {
+        "language": "eng",
+        "script": "Latn"
+      },
+      "title": "Spiderland",
+      "quality": "normal",
+      "disambiguation": "sticker with barcode and “www.touchandgorecords.com”",
+      "packaging": "Cardboard/Paper Sleeve",
+      "packaging-id": "f7101ce3-0384-39ce-9fde-fbbd0044d35f",
+      "tags": [],
+      "date": "2004-01-20",
+      "genres": [],
+      "media": [
+        {
+          "id": "3ace9638-dc50-3863-b3e7-2dd3eb3c133a",
+          "title": "",
+          "position": 1,
+          "format-id": "3e9080b0-5e6c-34ab-bd15-f526b6306a64",
+          "track-count": 6,
+          "format": "12\" Vinyl"
+        }
+      ],
+      "artist-credit": [
+        {
+          "name": "Slint",
+          "joinphrase": "",
+          "artist": {
+            "type": "Group",
+            "name": "Slint",
+            "genres": [
+              {
+                "id": "a6b55d73-bba3-49fc-a361-ca4bde004717",
+                "count": 5,
+                "name": "math rock",
+                "disambiguation": ""
+              },
+              {
+                "id": "aec382b7-b635-470c-9051-2f84e0b5ea1e",
+                "count": 3,
+                "disambiguation": "",
+                "name": "post-hardcore"
+              },
+              {
+                "id": "0bfffa19-4e4a-4bf7-bf53-6ec44f0a2f8e",
+                "count": 8,
+                "name": "post-rock",
+                "disambiguation": ""
+              },
+              {
+                "name": "rock",
+                "disambiguation": "",
+                "count": 1,
+                "id": "0e3fc579-2d24-4f20-9dae-736e1ec78798"
+              }
+            ],
+            "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+            "sort-name": "Slint",
+            "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28",
+            "tags": [
+              {
+                "name": "math rock",
+                "count": 5
+              },
+              {
+                "name": "post-hardcore",
+                "count": 3
+              },
+              {
+                "count": 8,
+                "name": "post-rock"
+              },
+              {
+                "count": 1,
+                "name": "rock"
+              },
+              {
+                "name": "the lost generation",
+                "count": 1
+              }
+            ],
+            "disambiguation": "",
+            "country": "US"
+          }
+        }
+      ]
+    },
+    {
+      "id": "104f994c-7c01-4fa9-b880-49bd2f29b115",
+      "release-events": [
+        {
+          "date": "2014-04-15",
+          "area": {
+            "disambiguation": "",
+            "iso-3166-1-codes": [
+              "US"
+            ],
+            "id": "489ce91b-6658-3307-9877-795b68554c98",
+            "sort-name": "United States",
+            "name": "United States",
+            "type": null,
+            "type-id": null
+          }
+        }
+      ],
+      "status": "Official",
+      "barcode": "036172106486",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "title": "Spiderland",
+      "quality": "normal",
+      "country": "US",
+      "text-representation": {
+        "script": "Latn",
+        "language": "eng"
+      },
+      "disambiguation": "",
+      "packaging-id": "815b7785-8284-3926-8f04-e48bc6c4d102",
+      "tags": [],
+      "packaging": "Other",
+      "genres": [],
+      "date": "2014-04-15",
+      "media": [
+        {
+          "format-id": "3e9080b0-5e6c-34ab-bd15-f526b6306a64",
+          "track-count": 6,
+          "format": "12\" Vinyl",
+          "id": "91f25ad3-2f51-3aeb-8675-9f48ca3200b0",
+          "position": 1,
+          "title": "Spiderland (remastered)"
+        },
+        {
+          "format-id": "3e9080b0-5e6c-34ab-bd15-f526b6306a64",
+          "track-count": 6,
+          "format": "12\" Vinyl",
+          "id": "d1a3f6b0-7219-3f0f-9550-b6830364d68d",
+          "title": "Outtakes and Bonus",
+          "position": 2
+        },
+        {
+          "position": 3,
+          "title": "",
+          "id": "4937d6cf-6c1d-3655-8335-37d01802e4ac",
+          "format": "12\" Vinyl",
+          "track-count": 8,
+          "format-id": "3e9080b0-5e6c-34ab-bd15-f526b6306a64"
+        },
+        {
+          "position": 4,
+          "title": "Spiderland (remastered)",
+          "id": "07ae5096-8484-32e0-ab4a-a81484a2761b",
+          "format": "CD",
+          "format-id": "9712d52a-4509-3d4b-a1a2-67c88c643e31",
+          "track-count": 6
+        },
+        {
+          "track-count": 14,
+          "format-id": "9712d52a-4509-3d4b-a1a2-67c88c643e31",
+          "format": "CD",
+          "id": "d3c31a88-d727-3bf4-a697-c4bf6d7ec92b",
+          "position": 5,
+          "title": "Outtakes and Bonus"
+        },
+        {
+          "id": "aad66055-050b-3d6e-8e65-4a90d4b88bb7",
+          "position": 6,
+          "title": "Breadcrumb Trail",
+          "track-count": 1,
+          "format-id": "bb71fd58-ff93-32b4-a201-4ad1b2a80e5f",
+          "format": "DVD-Video"
+        }
+      ],
+      "artist-credit": [
+        {
+          "joinphrase": "",
+          "artist": {
+            "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+            "genres": [
+              {
+                "id": "a6b55d73-bba3-49fc-a361-ca4bde004717",
+                "count": 5,
+                "disambiguation": "",
+                "name": "math rock"
+              },
+              {
+                "disambiguation": "",
+                "name": "post-hardcore",
+                "count": 3,
+                "id": "aec382b7-b635-470c-9051-2f84e0b5ea1e"
+              },
+              {
+                "count": 8,
+                "id": "0bfffa19-4e4a-4bf7-bf53-6ec44f0a2f8e",
+                "disambiguation": "",
+                "name": "post-rock"
+              },
+              {
+                "name": "rock",
+                "disambiguation": "",
+                "count": 1,
+                "id": "0e3fc579-2d24-4f20-9dae-736e1ec78798"
+              }
+            ],
+            "name": "Slint",
+            "type": "Group",
+            "tags": [
+              {
+                "count": 5,
+                "name": "math rock"
+              },
+              {
+                "name": "post-hardcore",
+                "count": 3
+              },
+              {
+                "name": "post-rock",
+                "count": 8
+              },
+              {
+                "count": 1,
+                "name": "rock"
+              },
+              {
+                "count": 1,
+                "name": "the lost generation"
+              }
+            ],
+            "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28",
+            "sort-name": "Slint",
+            "disambiguation": "",
+            "country": "US"
+          },
+          "name": "Slint"
+        }
+      ]
+    },
+    {
+      "date": "2014-06-14",
+      "genres": [
+        {
+          "name": "alternative rock",
+          "disambiguation": "",
+          "count": 2,
+          "id": "ceeaa283-5d7b-4202-8d1d-e25d116b2a18"
+        },
+        {
+          "name": "rock",
+          "disambiguation": "",
+          "id": "0e3fc579-2d24-4f20-9dae-736e1ec78798",
+          "count": 2
+        }
+      ],
+      "packaging": "None",
+      "tags": [
+        {
+          "name": "alternative",
+          "count": 1
+        },
+        {
+          "name": "alternative rock",
+          "count": 2
+        },
+        {
+          "name": "louisville",
+          "count": 1
+        },
+        {
+          "count": 2,
+          "name": "rock"
+        }
+      ],
+      "packaging-id": "119eba76-b343-3e02-a292-f0f00644bb9b",
+      "artist-credit": [
+        {
+          "artist": {
+            "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+            "genres": [
+              {
+                "disambiguation": "",
+                "name": "math rock",
+                "count": 5,
+                "id": "a6b55d73-bba3-49fc-a361-ca4bde004717"
+              },
+              {
+                "name": "post-hardcore",
+                "disambiguation": "",
+                "count": 3,
+                "id": "aec382b7-b635-470c-9051-2f84e0b5ea1e"
+              },
+              {
+                "name": "post-rock",
+                "disambiguation": "",
+                "count": 8,
+                "id": "0bfffa19-4e4a-4bf7-bf53-6ec44f0a2f8e"
+              },
+              {
+                "id": "0e3fc579-2d24-4f20-9dae-736e1ec78798",
+                "count": 1,
+                "name": "rock",
+                "disambiguation": ""
+              }
+            ],
+            "type": "Group",
+            "name": "Slint",
+            "tags": [
+              {
+                "name": "math rock",
+                "count": 5
+              },
+              {
+                "count": 3,
+                "name": "post-hardcore"
+              },
+              {
+                "name": "post-rock",
+                "count": 8
+              },
+              {
+                "name": "rock",
+                "count": 1
+              },
+              {
+                "count": 1,
+                "name": "the lost generation"
+              }
+            ],
+            "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28",
+            "sort-name": "Slint",
+            "disambiguation": "",
+            "country": "US"
+          },
+          "joinphrase": "",
+          "name": "Slint"
+        }
+      ],
+      "media": [
+        {
+          "track-count": 6,
+          "format-id": "907a28d9-b3b2-3ef6-89a8-7b18d91d4794",
+          "format": "Digital Media",
+          "id": "b05254b8-8b02-32f0-acf6-f6772cbf8404",
+          "position": 1,
+          "title": "Spiderland (Remastered)"
+        },
+        {
+          "id": "5f4fb5d4-5c10-3776-9688-bce9a9fe3132",
+          "title": "Outtakes and Bonus",
+          "position": 2,
+          "track-count": 14,
+          "format-id": "907a28d9-b3b2-3ef6-89a8-7b18d91d4794",
+          "format": "Digital Media"
+        }
+      ],
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "barcode": "036172106431",
+      "status": "Official",
+      "release-events": [
+        {
+          "date": "2014-06-14",
+          "area": {
+            "type": null,
+            "name": "[Worldwide]",
+            "type-id": null,
+            "iso-3166-1-codes": [
+              "XW"
+            ],
+            "sort-name": "[Worldwide]",
+            "id": "525d4e18-3d00-31b9-a58b-a146a916de8f",
+            "disambiguation": ""
+          }
+        }
+      ],
+      "id": "266e8eb6-244f-450d-b419-7e3cdf815d4c",
+      "disambiguation": "",
+      "text-representation": {
+        "script": "Latn",
+        "language": "eng"
+      },
+      "country": "XW",
+      "title": "Spiderland",
+      "quality": "normal"
+    },
+    {
+      "country": "US",
+      "text-representation": {
+        "script": "Latn",
+        "language": "eng"
+      },
+      "quality": "normal",
+      "title": "Spiderland",
+      "disambiguation": "",
+      "release-events": [
+        {
+          "date": "2014-06-24",
+          "area": {
+            "type": null,
+            "name": "United States",
+            "type-id": null,
+            "iso-3166-1-codes": [
+              "US"
+            ],
+            "sort-name": "United States",
+            "id": "489ce91b-6658-3307-9877-795b68554c98",
+            "disambiguation": ""
+          }
+        }
+      ],
+      "id": "7b476430-55d0-4586-a9aa-cde9f898e5a5",
+      "barcode": "036172106417",
+      "status": "Official",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "media": [
+        {
+          "title": "Spiderland (Remastered)",
+          "position": 1,
+          "id": "bb7f45b7-1e82-3670-b0fa-feec3bd89251",
+          "format": "12\" Vinyl",
+          "track-count": 6,
+          "format-id": "3e9080b0-5e6c-34ab-bd15-f526b6306a64"
+        },
+        {
+          "format-id": "907a28d9-b3b2-3ef6-89a8-7b18d91d4794",
+          "track-count": 14,
+          "format": "Digital Media",
+          "id": "9d3c3233-2408-3515-a988-d7b93d44e6bc",
+          "position": 2,
+          "title": "Outtakes and Bonus"
+        },
+        {
+          "id": "c4aa0fec-71fe-3672-9683-d4a310ec554b",
+          "position": 3,
+          "title": "Breadcrumb Trail",
+          "format-id": "bb71fd58-ff93-32b4-a201-4ad1b2a80e5f",
+          "track-count": 1,
+          "format": "DVD-Video"
+        }
+      ],
+      "artist-credit": [
+        {
+          "name": "Slint",
+          "joinphrase": "",
+          "artist": {
+            "sort-name": "Slint",
+            "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28",
+            "tags": [
+              {
+                "name": "math rock",
+                "count": 5
+              },
+              {
+                "name": "post-hardcore",
+                "count": 3
+              },
+              {
+                "name": "post-rock",
+                "count": 8
+              },
+              {
+                "count": 1,
+                "name": "rock"
+              },
+              {
+                "count": 1,
+                "name": "the lost generation"
+              }
+            ],
+            "type": "Group",
+            "name": "Slint",
+            "genres": [
+              {
+                "name": "math rock",
+                "disambiguation": "",
+                "count": 5,
+                "id": "a6b55d73-bba3-49fc-a361-ca4bde004717"
+              },
+              {
+                "count": 3,
+                "id": "aec382b7-b635-470c-9051-2f84e0b5ea1e",
+                "name": "post-hardcore",
+                "disambiguation": ""
+              },
+              {
+                "id": "0bfffa19-4e4a-4bf7-bf53-6ec44f0a2f8e",
+                "count": 8,
+                "disambiguation": "",
+                "name": "post-rock"
+              },
+              {
+                "count": 1,
+                "id": "0e3fc579-2d24-4f20-9dae-736e1ec78798",
+                "disambiguation": "",
+                "name": "rock"
+              }
+            ],
+            "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+            "country": "US",
+            "disambiguation": ""
+          }
+        }
+      ],
+      "packaging": "Gatefold Cover",
+      "packaging-id": "e724a489-a7e8-30a1-a17c-30dfd6831202",
+      "tags": [],
+      "date": "2014-06-24",
+      "genres": []
+    },
+    {
+      "id": "b1e3adb3-76d2-4d4b-aefe-10feb62e752d",
+      "release-events": [
+        {
+          "date": "2014",
+          "area": {
+            "sort-name": "[Worldwide]",
+            "id": "525d4e18-3d00-31b9-a58b-a146a916de8f",
+            "iso-3166-1-codes": [
+              "XW"
+            ],
+            "type-id": null,
+            "type": null,
+            "name": "[Worldwide]",
+            "disambiguation": ""
+          }
+        }
+      ],
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "barcode": "036172106424",
+      "status": "Official",
+      "title": "Spiderland",
+      "quality": "normal",
+      "text-representation": {
+        "script": "Latn",
+        "language": "eng"
+      },
+      "country": "XW",
+      "disambiguation": "",
+      "tags": [],
+      "packaging-id": "f7101ce3-0384-39ce-9fde-fbbd0044d35f",
+      "packaging": "Cardboard/Paper Sleeve",
+      "genres": [],
+      "date": "2014",
+      "media": [
+        {
+          "track-count": 6,
+          "format-id": "9712d52a-4509-3d4b-a1a2-67c88c643e31",
+          "format": "CD",
+          "id": "c9db7d44-4b16-335c-b3cf-30bbffd1ed30",
+          "position": 1,
+          "title": "Spiderland"
+        },
+        {
+          "track-count": 1,
+          "format-id": "bb71fd58-ff93-32b4-a201-4ad1b2a80e5f",
+          "format": "DVD-Video",
+          "id": "ce8602b9-4664-3684-a4b1-2d2d73705e3e",
+          "position": 2,
+          "title": "Breadcrumb Trail"
+        }
+      ],
+      "artist-credit": [
+        {
+          "artist": {
+            "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28",
+            "sort-name": "Slint",
+            "tags": [
+              {
+                "count": 5,
+                "name": "math rock"
+              },
+              {
+                "count": 3,
+                "name": "post-hardcore"
+              },
+              {
+                "count": 8,
+                "name": "post-rock"
+              },
+              {
+                "count": 1,
+                "name": "rock"
+              },
+              {
+                "count": 1,
+                "name": "the lost generation"
+              }
+            ],
+            "name": "Slint",
+            "type": "Group",
+            "genres": [
+              {
+                "disambiguation": "",
+                "name": "math rock",
+                "count": 5,
+                "id": "a6b55d73-bba3-49fc-a361-ca4bde004717"
+              },
+              {
+                "id": "aec382b7-b635-470c-9051-2f84e0b5ea1e",
+                "count": 3,
+                "disambiguation": "",
+                "name": "post-hardcore"
+              },
+              {
+                "count": 8,
+                "id": "0bfffa19-4e4a-4bf7-bf53-6ec44f0a2f8e",
+                "name": "post-rock",
+                "disambiguation": ""
+              },
+              {
+                "id": "0e3fc579-2d24-4f20-9dae-736e1ec78798",
+                "count": 1,
+                "disambiguation": "",
+                "name": "rock"
+              }
+            ],
+            "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+            "country": "US",
+            "disambiguation": ""
+          },
+          "joinphrase": "",
+          "name": "Slint"
+        }
+      ]
+    },
+    {
+      "artist-credit": [
+        {
+          "artist": {
+            "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+            "genres": [
+              {
+                "disambiguation": "",
+                "name": "math rock",
+                "count": 5,
+                "id": "a6b55d73-bba3-49fc-a361-ca4bde004717"
+              },
+              {
+                "disambiguation": "",
+                "name": "post-hardcore",
+                "id": "aec382b7-b635-470c-9051-2f84e0b5ea1e",
+                "count": 3
+              },
+              {
+                "disambiguation": "",
+                "name": "post-rock",
+                "id": "0bfffa19-4e4a-4bf7-bf53-6ec44f0a2f8e",
+                "count": 8
+              },
+              {
+                "id": "0e3fc579-2d24-4f20-9dae-736e1ec78798",
+                "count": 1,
+                "name": "rock",
+                "disambiguation": ""
+              }
+            ],
+            "name": "Slint",
+            "type": "Group",
+            "tags": [
+              {
+                "count": 5,
+                "name": "math rock"
+              },
+              {
+                "name": "post-hardcore",
+                "count": 3
+              },
+              {
+                "count": 8,
+                "name": "post-rock"
+              },
+              {
+                "count": 1,
+                "name": "rock"
+              },
+              {
+                "count": 1,
+                "name": "the lost generation"
+              }
+            ],
+            "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28",
+            "sort-name": "Slint",
+            "disambiguation": "",
+            "country": "US"
+          },
+          "joinphrase": "",
+          "name": "Slint"
+        }
+      ],
+      "media": [
+        {
+          "format-id": "9712d52a-4509-3d4b-a1a2-67c88c643e31",
+          "track-count": 6,
+          "format": "CD",
+          "id": "0a362de3-5026-3420-8a10-36a922fe8f2e",
+          "position": 1,
+          "title": ""
+        }
+      ],
+      "genres": [],
+      "packaging-id": "ec27701a-4a22-37f4-bfac-6616e0f9750a",
+      "tags": [],
+      "packaging": "Jewel Case",
+      "disambiguation": "Reissue",
+      "quality": "normal",
+      "title": "Spiderland",
+      "text-representation": {
+        "script": "Latn",
+        "language": "eng"
+      },
+      "barcode": "036172076420",
+      "status": "Official",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "id": "6cb2cb84-d064-46d1-9228-ff093225cb15"
+    },
+    {
+      "media": [
+        {
+          "format": "Digital Media",
+          "track-count": 7,
+          "format-id": "907a28d9-b3b2-3ef6-89a8-7b18d91d4794",
+          "position": 1,
+          "title": "",
+          "id": "f4098243-e83f-3fbc-9343-8a07101d3ea5"
+        }
+      ],
+      "artist-credit": [
+        {
+          "name": "Slint",
+          "joinphrase": "",
+          "artist": {
+            "sort-name": "Slint",
+            "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28",
+            "tags": [
+              {
+                "name": "math rock",
+                "count": 5
+              },
+              {
+                "count": 3,
+                "name": "post-hardcore"
+              },
+              {
+                "name": "post-rock",
+                "count": 8
+              },
+              {
+                "name": "rock",
+                "count": 1
+              },
+              {
+                "count": 1,
+                "name": "the lost generation"
+              }
+            ],
+            "genres": [
+              {
+                "count": 5,
+                "id": "a6b55d73-bba3-49fc-a361-ca4bde004717",
+                "name": "math rock",
+                "disambiguation": ""
+              },
+              {
+                "id": "aec382b7-b635-470c-9051-2f84e0b5ea1e",
+                "count": 3,
+                "disambiguation": "",
+                "name": "post-hardcore"
+              },
+              {
+                "count": 8,
+                "id": "0bfffa19-4e4a-4bf7-bf53-6ec44f0a2f8e",
+                "disambiguation": "",
+                "name": "post-rock"
+              },
+              {
+                "count": 1,
+                "id": "0e3fc579-2d24-4f20-9dae-736e1ec78798",
+                "name": "rock",
+                "disambiguation": ""
+              }
+            ],
+            "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+            "type": "Group",
+            "name": "Slint",
+            "country": "US",
+            "disambiguation": ""
+          }
+        }
+      ],
+      "packaging-id": "119eba76-b343-3e02-a292-f0f00644bb9b",
+      "tags": [],
+      "packaging": "None",
+      "genres": [],
+      "title": "Spiderland",
+      "quality": "normal",
+      "text-representation": {
+        "script": "Latn",
+        "language": "eng"
+      },
+      "disambiguation": "",
+      "id": "e9a77c7a-16c4-465d-a1a3-d42759988889",
+      "barcode": "036172076451",
+      "status": "Official",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe"
+    }
+  ],
+  "first-release-date": "1991-03-15",
+  "artist-credit": [
+    {
+      "artist": {
+        "disambiguation": "",
+        "country": "US",
+        "type": "Group",
+        "name": "Slint",
+        "genres": [
+          {
+            "id": "a6b55d73-bba3-49fc-a361-ca4bde004717",
+            "count": 5,
+            "disambiguation": "",
+            "name": "math rock"
+          },
+          {
+            "count": 3,
+            "id": "aec382b7-b635-470c-9051-2f84e0b5ea1e",
+            "disambiguation": "",
+            "name": "post-hardcore"
+          },
+          {
+            "count": 8,
+            "id": "0bfffa19-4e4a-4bf7-bf53-6ec44f0a2f8e",
+            "disambiguation": "",
+            "name": "post-rock"
+          },
+          {
+            "id": "0e3fc579-2d24-4f20-9dae-736e1ec78798",
+            "count": 1,
+            "disambiguation": "",
+            "name": "rock"
+          }
+        ],
+        "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+        "sort-name": "Slint",
+        "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28",
+        "tags": [
+          {
+            "name": "math rock",
+            "count": 5
+          },
+          {
+            "count": 3,
+            "name": "post-hardcore"
+          },
+          {
+            "count": 8,
+            "name": "post-rock"
+          },
+          {
+            "count": 1,
+            "name": "rock"
+          },
+          {
+            "count": 1,
+            "name": "the lost generation"
+          }
+        ]
+      },
+      "joinphrase": "",
+      "name": "Slint"
+    }
+  ],
+  "relations": [
+    {
+      "type": "allmusic",
+      "source-credit": "",
+      "begin": null,
+      "target-type": "url",
+      "attribute-ids": {},
+      "url": {
+        "id": "550f3c71-3946-4283-838e-b8f3481a5a37",
+        "resource": "https://www.allmusic.com/album/mw0000267497"
+      },
+      "direction": "forward",
+      "target-credit": "",
+      "ended": false,
+      "attribute-values": {},
+      "type-id": "a50a1d20-2b20-4d2c-9a29-eb771dd78386",
+      "end": null,
+      "attributes": []
+    },
+    {
+      "type-id": "5849de4a-78ae-4876-975d-2181107e70b7",
+      "attribute-values": {},
+      "ended": false,
+      "target-credit": "",
+      "direction": "forward",
+      "url": {
+        "resource": "https://www.last.fm/music/Slint/Spiderland",
+        "id": "af7b62c0-c9fd-4f19-b96e-2ff62dd82903"
+      },
+      "attribute-ids": {},
+      "attributes": [],
+      "end": null,
+      "type": "discography entry",
+      "target-type": "url",
+      "source-credit": "",
+      "begin": null
+    },
+    {
+      "begin": null,
+      "source-credit": "",
+      "target-type": "url",
+      "type": "discogs",
+      "end": null,
+      "attributes": [],
+      "url": {
+        "resource": "https://www.discogs.com/master/38099",
+        "id": "aab7b262-97cb-4d69-8166-3af2e9b2b53c"
+      },
+      "attribute-ids": {},
+      "attribute-values": {},
+      "type-id": "99e550f3-5ab4-3110-b5b9-fe01d970b126",
+      "ended": false,
+      "direction": "forward",
+      "target-credit": ""
+    },
+    {
+      "attributes": [],
+      "end": null,
+      "direction": "forward",
+      "target-credit": "",
+      "attribute-values": {},
+      "ended": false,
+      "type-id": "38320e40-9f4a-3ae7-8cb2-3f3c9c5d856d",
+      "attribute-ids": {},
+      "url": {
+        "resource": "https://rateyourmusic.com/release/album/slint/spiderland/",
+        "id": "ef556de2-966d-4b49-b49c-3380d3ea1281"
+      },
+      "target-type": "url",
+      "begin": null,
+      "source-credit": "",
+      "type": "other databases"
+    },
+    {
+      "type": "review",
+      "source-credit": "",
+      "begin": null,
+      "target-type": "url",
+      "attribute-ids": {},
+      "url": {
+        "id": "611a97f8-9260-4b8a-89e0-aaf369c8bc4c",
+        "resource": "https://pitchfork.com/reviews/albums/19182-slint-spiderland-remastered-box-set/"
+      },
+      "target-credit": "",
+      "direction": "forward",
+      "type-id": "c3ac9c3b-f546-4d15-873f-b294d2c1b708",
+      "attribute-values": {},
+      "ended": false,
+      "end": null,
+      "attributes": []
+    },
+    {
+      "end": null,
+      "attributes": [],
+      "attribute-ids": {},
+      "url": {
+        "id": "e359c19a-4836-4730-8441-fe6da72648e9",
+        "resource": "http://www.xsilence.net/disque-229.htm"
+      },
+      "direction": "forward",
+      "target-credit": "",
+      "ended": false,
+      "attribute-values": {},
+      "type-id": "c3ac9c3b-f546-4d15-873f-b294d2c1b708",
+      "source-credit": "",
+      "begin": null,
+      "target-type": "url",
+      "type": "review"
+    },
+    {
+      "type": "wikidata",
+      "begin": null,
+      "source-credit": "",
+      "target-type": "url",
+      "attribute-ids": {},
+      "url": {
+        "resource": "https://www.wikidata.org/wiki/Q545227",
+        "id": "5674891e-bf40-4220-9a66-8541eff56a43"
+      },
+      "direction": "forward",
+      "target-credit": "",
+      "ended": false,
+      "attribute-values": {},
+      "type-id": "b988d08c-5d86-4a57-9557-c83b399e3580",
+      "end": null,
+      "attributes": []
+    }
+  ],
+  "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+  "tags": [
+    {
+      "name": "math rock",
+      "count": 3
+    },
+    {
+      "name": "post-hardcore",
+      "count": 2
+    },
+    {
+      "count": 9,
+      "name": "post-rock"
+    },
+    {
+      "name": "rock",
+      "count": 2
+    }
+  ],
+  "rating": {
+    "votes-count": 15,
+    "value": 4.25
+  },
+  "genres": [
+    {
+      "count": 3,
+      "id": "a6b55d73-bba3-49fc-a361-ca4bde004717",
+      "name": "math rock",
+      "disambiguation": ""
+    },
+    {
+      "disambiguation": "",
+      "name": "post-hardcore",
+      "id": "aec382b7-b635-470c-9051-2f84e0b5ea1e",
+      "count": 2
+    },
+    {
+      "count": 9,
+      "id": "0bfffa19-4e4a-4bf7-bf53-6ec44f0a2f8e",
+      "disambiguation": "",
+      "name": "post-rock"
+    },
+    {
+      "disambiguation": "",
+      "name": "rock",
+      "count": 2,
+      "id": "0e3fc579-2d24-4f20-9dae-736e1ec78798"
+    }
+  ]
+}
