@@ -120,8 +120,12 @@ DEFAULTS = {
     # The nav radio is driven by its own session-state key, never by index=:
     # Streamlit honours index= only when the widget is first registered, so a
     # programmatic view change (Seed from the Library, say) would be undone
-    # by the widget's remembered value on the very next rerun.
+    # by the widget's remembered value on the very next rerun. The key may
+    # only be written BEFORE the widget is instantiated, which is what
+    # `pending_view` is for: code anywhere sets it, and the sidebar applies
+    # it at the top of the next run, before the radio exists.
     'nav_view': 'Find',
+    'pending_view': None,
     'view': 'find',
     'seeds': [],           # [{'mbid','artist','album','year','image_url'}]
     'result': None,
@@ -149,7 +153,10 @@ def set_seeds(specs, run=True):
     st.session_state.seeds = [s for s in specs if s and s.get('mbid')][:MAX_SEEDS]
     st.session_state.run_requested = bool(run and st.session_state.seeds)
     st.session_state.view = 'find'
-    st.session_state.nav_view = 'Find'
+    # Not nav_view directly: that key belongs to the sidebar radio, and
+    # Streamlit raises if it is written once the widget exists. The sidebar
+    # picks this up on the next run.
+    st.session_state.pending_view = 'Find'
 
 
 def add_seed(spec, run=True):
@@ -193,6 +200,10 @@ def chips(items, hot=()):
 def render_sidebar():
     with st.sidebar:
         st.markdown('### 🧭 Radius')
+        pending = st.session_state.pop('pending_view', None)
+        if pending:
+            # Legal here and nowhere later: the radio does not exist yet.
+            st.session_state.nav_view = pending
         view = st.radio('View', ['Find', 'Library'], horizontal=True,
                         label_visibility='collapsed', key='nav_view')
         st.session_state.view = 'find' if view == 'Find' else 'library'

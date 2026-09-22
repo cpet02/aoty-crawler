@@ -679,3 +679,28 @@ def test_every_field_has_a_row_column():
     row = AlbumFeatures('A', 'B').as_row()
     for name in albums.FIELD_NAMES:
         assert aliases.get(name, name) in row, name
+
+
+def test_career_stage_is_measured_from_the_first_release_not_a_birthday():
+    """MusicBrainz gives a solo artist's begin year as their date of birth,
+    which would read a debut album as thirty years into a career. The
+    artist's own catalogue says when they actually started."""
+    features = AlbumFeatures('Weyes Blood', 'Titanic Rising', year=2019,
+                             artist_debut_year=1988)      # a birth year
+    assert features.career_stage == 31                    # the absurd reading
+    albums.apply_artist_release_groups(features, [
+        {'total_user_count': 5000, 'release_group': {'date': '2019-04-05'}},
+        {'total_user_count': 900, 'release_group': {'date': '2011-01-01'}},
+        {'total_user_count': 400, 'release_group': {'year': 2014}},
+    ])
+    assert features.artist_first_release_year == 2011
+    assert features.career_stage == 8                     # 2019 - 2011
+    # A catalogue thinner than the record itself cannot put its debut later
+    # than the record.
+    late = AlbumFeatures('A', 'B', year=1995)
+    albums.apply_artist_release_groups(late, [
+        {'total_user_count': 10, 'release_group': {'date': '2003-01-01'}},
+    ])
+    assert late.artist_first_release_year == 1995 and late.career_stage == 0
+    # No catalogue at all: the begin year still stands in.
+    assert AlbumFeatures('A', 'B', year=2000, artist_debut_year=1990).career_stage == 10

@@ -162,6 +162,7 @@ class AlbumFeatures:
     credits: list = field(default_factory=list)             # [{'role','name','mbid','level','source'}]
     artist_rg_listeners: int = 0                            # summed over the artist's release groups
     artist_top_listeners: int = 0                           # the artist's most-listened release group
+    artist_first_release_year: int = None                   # earliest release in that catalogue
     deezer_id: int = None
     fans: int = 0
     explicit: bool = None
@@ -235,10 +236,17 @@ class AlbumFeatures:
 
     @property
     def career_stage(self):
-        """Years into the artist's career, or None."""
-        if not self.year or not self.artist_debut_year:
+        """Years between the artist's first record and this one, or None.
+
+        The catalogue's earliest release is the honest start. MusicBrainz's
+        begin year only stands in until that is known, and for a solo artist
+        it is their date of birth, which would read a debut album as thirty
+        years into a career.
+        """
+        start = self.artist_first_release_year or self.artist_debut_year
+        if not self.year or not start:
             return None
-        return max(self.year - self.artist_debut_year, 0)
+        return max(self.year - start, 0)
 
     @property
     def has_tracklist(self):
@@ -330,6 +338,7 @@ class AlbumFeatures:
             'artist_gender': self.artist_gender or None,
             'artist_debut_year': self.artist_debut_year,
             'artist_end_year': self.artist_end_year,
+            'artist_first_release_year': self.artist_first_release_year,
             'career_stage': self.career_stage,
             'artist_links': _join_pairs(self.artist_links),
             # reception
@@ -921,16 +930,28 @@ def apply_lastfm_info(features, facts):
 
 
 def apply_artist_release_groups(features, top_release_groups):
-    """The canonicity denominators from the artist's catalogue: listeners
-    summed over every release group, and the biggest single one."""
+    """What the artist's catalogue says about this record: the canonicity
+    denominators (listeners summed over every release group, and the biggest
+    single one) and the year the artist first released anything, which is
+    what career stage is measured from."""
     total, top = 0, 0
+    first_year = None
     for entry in top_release_groups or []:
-        if isinstance(entry, dict):
-            count = _as_int(entry.get('total_user_count'))
-            total += count
-            top = max(top, count)
+        if not isinstance(entry, dict):
+            continue
+        count = _as_int(entry.get('total_user_count'))
+        total += count
+        top = max(top, count)
+        year = _year_from(entry.get('release_group') or {})
+        if year and (first_year is None or year < first_year):
+            first_year = year
     features.artist_rg_listeners = total
     features.artist_top_listeners = max(top, features.listeners if total else 0)
+    if first_year:
+        # This record cannot predate its own artist's first release; when the
+        # catalogue is thin enough to say otherwise, the record itself is the
+        # earliest thing we know about.
+        features.artist_first_release_year = min(first_year, features.year or first_year)
     features.enriched.add('canonicity')
     return features
 
@@ -942,7 +963,7 @@ def apply_artist_release_groups(features, top_release_groups):
 # Mean over the seeds that have a value; None and 0 both mean "unknown".
 _MEAN_INT_FIELDS = (
     'listeners', 'listen_count', 'artist_listeners', 'artist_rg_listeners', 'artist_top_listeners',
-    'year', 'artist_debut_year', 'artist_end_year', 'track_count',
+    'year', 'artist_debut_year', 'artist_end_year', 'artist_first_release_year', 'track_count',
     'runtime_seconds', 'editions', 'fans', 'lastfm_listeners',
     'lastfm_playcount', 'have', 'want', 'mb_rating_votes', 'discogs_votes',
     'tracks_with_bpm', 'num_for_sale',
