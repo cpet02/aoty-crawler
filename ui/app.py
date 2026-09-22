@@ -15,6 +15,7 @@ The engine runs synchronously in the script thread; its worker threads never
 touch Streamlit, and progress arrives on this thread through the callback.
 """
 
+import hashlib
 import html
 import json
 import os
@@ -740,12 +741,26 @@ def compare_dialog(seed, match):
 # Library view
 # ---------------------------------------------------------------------------
 
-def on_note_change(key):
-    library().set_note(key, st.session_state.get(f'note_{key}') or '')
+def _widget_key(prefix, entry_key, value):
+    """A widget key that changes when the stored value does.
+
+    A Streamlit widget keeps whatever it was first drawn with and ignores
+    `value=`/`index=` from then on, so a box whose entry changed underneath
+    — another tab, or a resolve() that merged two entries — would go on
+    showing the old text and write it back on the next edit. Folding the
+    stored value into the key makes that a different widget, which Streamlit
+    draws fresh. Typing is unaffected: the key only moves once a change has
+    been committed to the file.
+    """
+    return f'{prefix}_{entry_key}_{hashlib.sha1(repr(value).encode()).hexdigest()[:8]}'
 
 
-def on_rating_change(key):
-    rating = st.session_state.get(f'rate_{key}')
+def on_note_change(key, widget_key):
+    library().set_note(key, st.session_state.get(widget_key) or '')
+
+
+def on_rating_change(key, widget_key):
+    rating = st.session_state.get(widget_key)
     if rating is None:
         library().unrate(key)
     else:
@@ -795,16 +810,19 @@ def render_library():
             # over anything that changed underneath (a resolved legacy entry
             # merging its rating in, say).
             c_note, c_rating, a1, a2, a3 = c_text.columns([4, 2, 1, 1, 1])
-            c_note.text_input('Note', entry.get('note') or '', key=f'note_{entry["key"]}',
+            note_value = entry.get('note') or ''
+            note_key = _widget_key('note', entry['key'], note_value)
+            c_note.text_input('Note', note_value, key=note_key,
                               label_visibility='collapsed', placeholder='a note to yourself',
-                              on_change=on_note_change, args=(entry['key'],))
+                              on_change=on_note_change, args=(entry['key'], note_key))
             options = [None] + [x / 2 for x in range(0, 21)]
             current = entry.get('rating')
+            rating_key = _widget_key('rate', entry['key'], current)
             c_rating.selectbox('Rating', options,
                                index=options.index(current) if current in options else 0,
                                format_func=lambda v: 'unrated' if v is None else f'{v:g} / 10',
-                               key=f'rate_{entry["key"]}', label_visibility='collapsed',
-                               on_change=on_rating_change, args=(entry['key'],))
+                               key=rating_key, label_visibility='collapsed',
+                               on_change=on_rating_change, args=(entry['key'], rating_key))
             if entry.get('mbid'):
                 if a1.button('Seed', key=f'lib_seed_{entry["key"]}', width='stretch'):
                     set_seeds([seed_spec(entry['mbid'], entry['artist'], entry['title'], entry.get('year'),
