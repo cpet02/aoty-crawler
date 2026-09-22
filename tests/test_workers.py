@@ -9,6 +9,7 @@ import importlib
 import os
 import sys
 import threading
+import time
 import types
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -104,3 +105,64 @@ def test_done_and_total_aggregate_across_workers():
 def test_no_jobs_and_no_progress_are_fine():
     assert run_workers({}) == {}
     assert run_workers({'a': lambda report: report(1, 1, 'done') or 'r'}) == {'a': 'r'}
+
+
+def test_a_raising_progress_callback_cancels_the_workers_promptly():
+    """Streamlit signals a rerun by raising from a widget call inside the
+    progress callback. The workers have to come down at their next report
+    rather than run to completion, or the app freezes for the length of a
+    whole rate-limited stage."""
+
+    class Rerun(BaseException):
+        """A BaseException, like Streamlit's RerunException."""
+
+    started = threading.Event()
+    finished_all_steps = threading.Event()
+
+    def long_job(report):
+        started.set()
+        for step in range(50):
+            report(step, 50, f'step {step}')
+            time.sleep(0.01)
+        finished_all_steps.set()
+        return 'ran to the end'
+
+    def progress(stage, done, total, label):
+        if done >= 1:
+            raise Rerun()
+
+    raised = None
+    try:
+        run_workers({'slow': long_job}, progress=progress, stage='x')
+    except BaseException as exc:  # noqa: BLE001 - that is the point
+        raised = exc
+
+    assert isinstance(raised, Rerun), 'the interrupt must reach the caller'
+    assert started.is_set()
+    assert not finished_all_steps.is_set(), 'the worker must not run to completion'
+
+
+def test_cancellation_still_collects_the_other_workers():
+    class Rerun(BaseException):
+        pass
+
+    def quick(report):
+        report(1, 1, 'done')
+        return 'quick result'
+
+    def slow(report):
+        for step in range(100):
+            report(step, 100, 'work')
+            time.sleep(0.01)
+        return 'never'
+
+    def progress(stage, done, total, label):
+        if 'slow' in label and done >= 2:
+            raise Rerun()
+
+    try:
+        run_workers({'quick': quick, 'slow': slow}, progress=progress, stage='x')
+    except Rerun:
+        pass
+    # The point is that it returns at all: the pool's shutdown would
+    # otherwise wait out the slow worker's full hundred steps.

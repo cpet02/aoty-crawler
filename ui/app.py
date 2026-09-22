@@ -117,6 +117,11 @@ def library():
 
 
 DEFAULTS = {
+    # The nav radio is driven by its own session-state key, never by index=:
+    # Streamlit honours index= only when the widget is first registered, so a
+    # programmatic view change (Seed from the Library, say) would be undone
+    # by the widget's remembered value on the very next rerun.
+    'nav_view': 'Find',
     'view': 'find',
     'seeds': [],           # [{'mbid','artist','album','year','image_url'}]
     'result': None,
@@ -144,6 +149,7 @@ def set_seeds(specs, run=True):
     st.session_state.seeds = [s for s in specs if s and s.get('mbid')][:MAX_SEEDS]
     st.session_state.run_requested = bool(run and st.session_state.seeds)
     st.session_state.view = 'find'
+    st.session_state.nav_view = 'Find'
 
 
 def add_seed(spec, run=True):
@@ -187,8 +193,8 @@ def chips(items, hot=()):
 def render_sidebar():
     with st.sidebar:
         st.markdown('### 🧭 Radius')
-        view = st.radio('View', ['Find', 'Library'], horizontal=True, label_visibility='collapsed',
-                        index=0 if st.session_state.view == 'find' else 1, key='nav_view')
+        view = st.radio('View', ['Find', 'Library'], horizontal=True,
+                        label_visibility='collapsed', key='nav_view')
         st.session_state.view = 'find' if view == 'Find' else 'library'
 
         st.markdown('**Seeds**')
@@ -696,14 +702,22 @@ def compare_dialog(seed, match):
     st.markdown('**Axes**')
     st.markdown(axis_rows_html(match), unsafe_allow_html=True)
     st.markdown('**Every statistic, side by side**')
+    # Fixed column names: two records can share the first 40 characters of a
+    # title, and a repeated key would collapse the two columns into one.
+    seed_column, match_column = 'seed', 'match'
     rows = []
     for label, getter in STAT_ROWS:
         a, b = getter(seed), getter(other)
         a = '' if a in (None, '') else str(a)
         b = '' if b in (None, '') else str(b)
         if a or b:
-            rows.append({'statistic': label, seed.title[:40]: a, other.title[:40]: b})
-    st.dataframe(pd.DataFrame(rows), hide_index=True, width='stretch', height=min(38 * len(rows) + 40, 640))
+            rows.append({'statistic': label, seed_column: a, match_column: b})
+    st.dataframe(pd.DataFrame(rows), hide_index=True, width='stretch',
+                 height=min(38 * len(rows) + 40, 640),
+                 column_config={
+                     seed_column: st.column_config.TextColumn(f'{seed.artist} — {seed.title}'),
+                     match_column: st.column_config.TextColumn(f'{other.artist} — {other.title}'),
+                 })
     links = {k: v for k, v in other.links.items() if v}
     if other.url:
         links.setdefault('musicbrainz', other.url)
@@ -714,6 +728,18 @@ def compare_dialog(seed, match):
 # ---------------------------------------------------------------------------
 # Library view
 # ---------------------------------------------------------------------------
+
+def on_note_change(key):
+    library().set_note(key, st.session_state.get(f'note_{key}') or '')
+
+
+def on_rating_change(key):
+    rating = st.session_state.get(f'rate_{key}')
+    if rating is None:
+        library().unrate(key)
+    else:
+        library().rate(key, rating)
+
 
 def render_library():
     lib = library()
@@ -752,22 +778,22 @@ def render_library():
                 flags.append(f'found via {entry["from_seed"]}')
             c_text.markdown(f'**{entry["artist"]}** — {entry["title"]}{year}  \n'
                             f'<span class="rad-muted">{" · ".join(flags)}</span>', unsafe_allow_html=True)
+            # Note and rating are written on change, never by diffing the
+            # widget against the file each rerun: a widget keeps the value it
+            # was first drawn with, so a diff would write a stale value back
+            # over anything that changed underneath (a resolved legacy entry
+            # merging its rating in, say).
             c_note, c_rating, a1, a2, a3 = c_text.columns([4, 2, 1, 1, 1])
-            note = c_note.text_input('Note', entry.get('note') or '', key=f'note_{entry["key"]}',
-                                     label_visibility='collapsed', placeholder='a note to yourself')
-            if note != (entry.get('note') or ''):
-                lib.set_note(entry['key'], note)
+            c_note.text_input('Note', entry.get('note') or '', key=f'note_{entry["key"]}',
+                              label_visibility='collapsed', placeholder='a note to yourself',
+                              on_change=on_note_change, args=(entry['key'],))
             options = [None] + [x / 2 for x in range(0, 21)]
             current = entry.get('rating')
-            rating = c_rating.selectbox('Rating', options, index=options.index(current) if current in options else 0,
-                                        format_func=lambda v: 'unrated' if v is None else f'{v:g} / 10',
-                                        key=f'rate_{entry["key"]}', label_visibility='collapsed')
-            if rating != current:
-                if rating is None:
-                    lib.unrate(entry['key'])
-                else:
-                    lib.rate(entry['key'], rating)
-                st.rerun()
+            c_rating.selectbox('Rating', options,
+                               index=options.index(current) if current in options else 0,
+                               format_func=lambda v: 'unrated' if v is None else f'{v:g} / 10',
+                               key=f'rate_{entry["key"]}', label_visibility='collapsed',
+                               on_change=on_rating_change, args=(entry['key'],))
             if entry.get('mbid'):
                 if a1.button('Seed', key=f'lib_seed_{entry["key"]}', width='stretch'):
                     set_seeds([seed_spec(entry['mbid'], entry['artist'], entry['title'], entry.get('year'),

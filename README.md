@@ -136,6 +136,24 @@ any listener would expect nearby) through the live engine and reports hits
 at N and mean reciprocal rank per seed. `--save` and `--compare` diff a
 baseline, so a tuning change is a number, not an impression.
 
+```bash
+python -m radius.eval --compare docs/eval_baseline.json
+```
+
+The committed baseline, twelve seeds at 25 results each:
+
+| | |
+|---|---|
+| Hit rate, mean over seeds | 0.375 |
+| Mean reciprocal rank | 0.875 |
+| Requests for the whole run | 444 |
+
+Read the hit rate against its ceiling: the golden sets name 20 to 32 artists
+each, results are capped at 25 and at one album per artist, so no run can
+score 1.0 on the larger sets. Mean reciprocal rank near 1 says the first
+result is nearly always an artist you would have named yourself. Strongest
+seed: Miles Davis at 16 of 24. Weakest: Talk Talk at 5 of 24.
+
 ## Configuration
 
 Everything in `.env.example`. The one worth setting is `RADIUS_CONTACT`:

@@ -299,8 +299,11 @@ class MusicBrainzClient(_HttpClient):
         return self.search_release_groups(' AND '.join(clauses), limit=limit)
 
     def _lookup(self, namespace, entity, mbid, inc):
+        # `inc` is part of the key: it is what the answer answers. Widen a
+        # lookup later and the old, thinner body must not be served for a
+        # year in place of the one the new parser needs.
         body = self._cached(
-            namespace, {'mbid': mbid},
+            namespace, {'mbid': mbid, 'inc': inc},
             'GET', config.MUSICBRAINZ_API_ROOT + f'{entity}/{mbid}',
             params={'fmt': 'json', 'inc': inc},
         )
@@ -508,6 +511,22 @@ class WikidataClient(_HttpClient):
 
     rate = config.WIKIDATA_REQUESTS_PER_SECOND
     BATCH = 50
+    # MediaWiki reports its own failures inside an HTTP 200 body. Caching
+    # one as "these entities do not exist" would blank the critic scores
+    # and producer credits of every album in the batch for four months.
+    TRANSIENT_PREFIXES = ('internal_api_error', 'readonly')
+    TRANSIENT_CODES = frozenset({'maxlag', 'ratelimited', 'timeout', 'busy'})
+
+    def _body_problem(self, body):
+        if not isinstance(body, dict):
+            return None
+        error = body.get('error')
+        if not isinstance(error, dict):
+            return None
+        code = str(error.get('code') or '')
+        if code in self.TRANSIENT_CODES or code.startswith(self.TRANSIENT_PREFIXES):
+            return 'retry'
+        raise ApiError(f"Wikidata rejected the request ({code}): {error.get('info')}")
 
     def _entities(self, namespace, qids, props):
         collected = {}
@@ -555,10 +574,15 @@ class DeezerClient(_HttpClient):
     rate = config.DEEZER_REQUESTS_PER_SECOND
     SEARCH_LIMIT = 10
 
+    # 4 is the quota and 700 is "service busy": both mean try again. Every
+    # other code describes the request (800 no data, 500/501/600 bad
+    # parameters), so the empty answer is the answer and is worth caching.
+    TRANSIENT_CODES = frozenset({'4', '700'})
+
     def _body_problem(self, body):
         if not isinstance(body, dict) or not isinstance(body.get('error'), dict):
             return None
-        return 'retry' if str(body['error'].get('code')) == '4' else 'empty'
+        return 'retry' if str(body['error'].get('code')) in self.TRANSIENT_CODES else 'empty'
 
     def _search(self, query):
         body = self._cached(
@@ -644,7 +668,10 @@ class DiscogsClient(_HttpClient):
 
 # Last.fm error codes that mean the key, not the request, is the problem.
 _LASTFM_BAD_KEY = (4, 9, 10, 26)
-_LASTFM_RATE_LIMITED = 29
+# Codes that mean "try again", not "there is no such record": 8 operation
+# failed, 11 service offline, 16 temporary error, 29 rate limit. Cached as a
+# miss, any of them would hide an album's tags for the TTL's whole 90 days.
+_LASTFM_TRANSIENT = frozenset({8, 11, 16, 29})
 
 
 class LastFmClient(_HttpClient):
@@ -690,7 +717,7 @@ class LastFmClient(_HttpClient):
                 f"Last.fm rejected the API key (error {code}: "
                 f"{body.get('message')}). Fix or remove LASTFM_API_KEY."
             )
-        if code == _LASTFM_RATE_LIMITED:
+        if code in _LASTFM_TRANSIENT:
             return 'retry'
         return 'empty'
 
@@ -713,12 +740,10 @@ class LastFmClient(_HttpClient):
         if not isinstance(body, dict):
             return {}
         if 'error' in body:
-            # Bodies cached by earlier versions may still carry an error.
-            if body.get('error') in _LASTFM_BAD_KEY:
-                raise KeyRejected(
-                    f"Last.fm rejected the API key (error {body['error']}: "
-                    f"{body.get('message')}). Fix or remove LASTFM_API_KEY."
-                )
+            # A stale error body cached by an earlier version. It says
+            # nothing about the key in use now — a rejected key today is
+            # raised by _body_problem on the live response — so it is
+            # treated as a miss rather than allowed to disable Last.fm.
             return {}
         return body
 

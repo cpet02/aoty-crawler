@@ -5,6 +5,25 @@ in a live response, not read from documentation. Send
 `User-Agent: radius-album-similarity/0.3 ( <contact> )` and
 `Accept: application/json` on every request.
 
+## Transient vs permanent, and why it matters
+
+Every response is cached for weeks or months, so classifying a failure as
+"there is no such record" writes it into the cache as a fact. Three of these
+services report their own failures inside an HTTP 200 body, where nothing
+about the status line gives the game away, so each client's `_body_problem`
+has to name the transient codes explicitly:
+
+| Service | Retry (transient) | Cache the empty answer |
+|---|---|---|
+| Deezer | 4 quota, 700 service busy | 800 no data, 500/501/600 bad request |
+| Last.fm | 8 operation failed, 11 service offline, 16 temporary, 29 rate limit | 6 not found, 7 invalid resource |
+| Wikidata | `maxlag`, `ratelimited`, `timeout`, `busy`, any `internal_api_error*` | nothing: other codes raise |
+
+MusicBrainz and ListenBrainz report failures by status, which the shared
+retry path already handles (503 is how MusicBrainz says "too fast").
+MusicBrainz lookups are keyed on the mbid **and** the `inc` list, so
+widening a lookup later cannot be served a thinner cached body for a year.
+
 ## MusicBrainz — https://musicbrainz.org/ws/2/ (fmt=json)
 
 Rate: 1 request/second per IP, hard. Exceeding it returns 503 "exceeding the

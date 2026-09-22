@@ -350,7 +350,7 @@ Positional `seeds` (nargs='+'), plus the flags in DESIGN.md. Prints the seed
 card, then each match with similarity, reasons and the stat line; `--explain`
 prints every axis and every statistic per match.
 
-## workers.py
+## workers.py (as built)
 
 One helper for running per-service work on threads while progress stays on
 the caller's thread (Streamlit widgets may only be touched from the script
@@ -371,8 +371,11 @@ def run_workers(jobs, progress=None, stage='') -> dict
     # its result (not re-raised); other jobs keep running. {} for no jobs.
     # Every job sends one sentinel when it finishes (even if it died), which
     # is what ends the drain loop deterministically without polling futures.
-    # If `progress` itself raises, the exception propagates after the pool
-    # has been shut down (running jobs are allowed to finish).
+    # If `progress` itself raises — which is how Streamlit signals a rerun or
+    # a stop from a widget call, and it raises a BaseException — the workers
+    # are CANCELLED (each unwinds at its next report, so the wait is bounded
+    # by one in-flight request rather than a whole stage) and the exception is
+    # re-raised once they are down. A cancelled job's result is None.
 ```
 
 Intended use in `engine.py` S4/S5:

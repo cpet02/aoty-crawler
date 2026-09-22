@@ -584,6 +584,107 @@ def test_studio_only_filter_uses_secondary_types_and_titles():
     assert 'Live at Lounge Ax' in titles(run(studio_only=False, top_n=20))
 
 
+def test_a_compilation_revealed_by_the_deep_lookups_is_dropped():
+    """ListenBrainz does not serve secondary types, so a compilation with an
+    innocent title only shows itself when MusicBrainz is asked in S4. It must
+    not survive into the results on the strength of its bulk data."""
+    services = stub_services()
+    real_release_group = services.musicbrainz.release_group
+
+    def release_group(mbid):
+        payload = real_release_group(mbid)
+        if mbid == 'rg-tortoise':
+            payload['secondary-types'] = ['Compilation']
+        return payload
+
+    services.musicbrainz.release_group = release_group
+    assert 'TNT' in titles(run())                      # passes the bulk filters
+    assert 'TNT' not in titles(run(services))          # dropped once S4 reveals it
+    assert 'TNT' in titles(run(stub_services(), deep=False))
+
+
+def test_the_seed_artist_is_excluded_on_every_scoring_pass():
+    """The same-artist filter is re-applied after each enrichment stage, not
+    only before fingerprinting."""
+    for kwargs in ({}, {'deep': False}, {'mode': 'sideways'}, {'mode': 'deep_cuts'}):
+        result = run(**kwargs)
+        assert result.matches
+        for match in result.matches:
+            assert match.features.artist_mbid != 'a-slint'
+            assert match.features.artist != 'Slint'
+    # The seed record itself is dropped by key even when its artist is allowed.
+    allowed = run(exclude_same_artist=False, studio_only=False, top_n=20)
+    assert allowed.matches
+    assert 'Spiderland' not in titles(allowed)
+
+
+def test_an_unknown_seed_audience_drops_the_obscurity_filter():
+    """A seed ListenBrainz has no listener count for gives no threshold to
+    compare against; deep cuts must degrade to a plain run rather than
+    reject everything."""
+    services = stub_services()
+    real_popularity = services.listenbrainz.popularity
+
+    def popularity(mbids):
+        counts = real_popularity(mbids)
+        counts.pop('rg-seed', None)          # the seed has no entry at all
+        return counts
+
+    services.listenbrainz.popularity = popularity
+    result = run(services, mode='deep_cuts')
+    assert result.seed.listeners == 0
+    assert result.matches, 'deep cuts must not empty out on an unknown seed audience'
+
+
+def test_a_seed_with_no_known_root_genre_still_works_sideways():
+    """Sideways keeps to the seed's broad genre, but a seed tagged only with
+    moods has no root to keep to, so the gate is dropped rather than
+    rejecting every candidate."""
+    services = stub_services()
+    real_metadata = services.listenbrainz.metadata
+
+    def metadata(mbids, inc=None):
+        out = real_metadata(mbids, inc)
+        entry = out.get('rg-seed')
+        if entry:
+            entry['tag']['release_group'] = [{'tag': 'hypnagogic', 'count': 9},
+                                             {'tag': 'wintry', 'count': 4}]
+            entry['tag']['artist'] = [{'tag': 'wintry', 'count': 5}]
+        return out
+
+    services.listenbrainz.metadata = metadata
+    result = run(services, mode='sideways')
+    assert not result.seed.root_genres
+    assert result.matches, 'sideways must not empty out on a seed with no root genre'
+
+
+def test_a_popularity_failure_becomes_a_note_not_a_crash():
+    """The two popularity calls only fill in statistics. Losing them costs a
+    number, never the run."""
+    services = stub_services()
+
+    def boom(mbids):
+        raise ApiError('ListenBrainz is having a moment')
+
+    services.listenbrainz.popularity = boom
+    services.listenbrainz.artist_popularity = boom
+    result = run(services)
+    assert result.matches
+    assert any('popularity' in note for note in result.notes)
+    assert all(m.features.listeners == 0 for m in result.matches)
+
+
+def test_the_engine_runs_without_a_musicbrainz_client():
+    """Services documents that a client may be absent and the engine skips
+    what it lacks; the candidate sources have to honour that too."""
+    services = stub_services()
+    services.musicbrainz = None
+    result = find_similar(seeds=[{'mbid': 'rg-seed'}], services=services, top_n=8,
+                          max_per_artist=2)
+    assert result.matches, 'ListenBrainz and Last.fm alone should still find neighbours'
+    assert 'tag' not in result.sources and 'tags' not in result.sources
+
+
 def test_radius_caps_the_result_set():
     result = run(radius=0.001)
     assert not result.matches

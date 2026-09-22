@@ -62,11 +62,14 @@ def build_parser():
 
 
 def parse_weights(args):
+    known = SimilarityWeights.axis_names()
+    for axis in args.only or ():
+        if axis not in known:
+            raise SystemExit(f'Unknown axis "{axis}". Try --list-axes.')
     if args.only:
         weights = SimilarityWeights.only(*args.only)
     else:
         weights = SimilarityWeights()
-    known = SimilarityWeights.axis_names()
     for override in args.weight:
         axis, _, value = override.partition('=')
         axis = axis.strip()

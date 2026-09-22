@@ -238,13 +238,13 @@ def artist_albums(services, artist_mbid, artist_name='', cache=None, limit=25):
         return cache[artist_mbid]
     listenbrainz = services.listenbrainz
     entries = []
-    if listenbrainz is not None:
+    if listenbrainz is not None and artist_mbid:
         try:
             entries = [e for e in (listenbrainz.top_release_groups(artist_mbid) or [])
                        if isinstance(e, dict)]
         except ApiError:
             entries = []
-    if not entries and services.musicbrainz is not None:
+    if not entries and services.musicbrainz is not None and artist_mbid:
         try:
             groups = services.musicbrainz.release_groups_by_artist(artist_mbid) or []
         except ApiError:
@@ -591,7 +591,15 @@ def gather(seed, services, tags_to_expand=3, conjunction_tags=4, albums_per_tag=
             done += 1
         report(done, total, 'done')
 
-    jobs = {'musicbrainz': musicbrainz_job, 'listenbrainz': listenbrainz_job}
+    jobs = {}
+    if services.musicbrainz is not None:
+        jobs['musicbrainz'] = musicbrainz_job
+    else:
+        # Nothing will publish the members' bands, so release the
+        # ListenBrainz worker rather than let it wait out the timeout.
+        hop_done.set()
+    if listenbrainz is not None:
+        jobs['listenbrainz'] = listenbrainz_job
     lastfm = getattr(services, 'lastfm', None)
     if lastfm is not None and getattr(lastfm, 'configured', False):
         jobs['lastfm'] = lastfm_job

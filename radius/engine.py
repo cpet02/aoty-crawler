@@ -294,7 +294,7 @@ def search_albums(services, artist=None, album=None, query=None, limit=10):
     return found
 
 
-def fingerprint_many(services, mbids, with_popularity=True, genre_names=None):
+def fingerprint_many(services, mbids, with_popularity=True, genre_names=None, notes=None):
     """{mbid: AlbumFeatures} for many release groups, in bulk.
 
     This is the whole reason the project runs on ListenBrainz: metadata and
@@ -306,8 +306,17 @@ def fingerprint_many(services, mbids, with_popularity=True, genre_names=None):
     if genre_names is None:
         genre_names = services.genre_names()
 
+    # Metadata is the fingerprint and has to succeed; the two popularity
+    # calls only fill in statistics, so a failure there costs a number,
+    # never the run.
     metadata = services.listenbrainz.metadata(mbids)
-    popularity = services.listenbrainz.popularity(mbids) if with_popularity else {}
+    popularity = {}
+    if with_popularity:
+        try:
+            popularity = services.listenbrainz.popularity(mbids)
+        except ApiError:
+            if notes is not None:
+                notes.fail('ListenBrainz popularity')
 
     built = {}
     for mbid in mbids:
@@ -320,7 +329,12 @@ def fingerprint_many(services, mbids, with_popularity=True, genre_names=None):
     if with_popularity and built:
         artist_mbids = {f.artist_mbid for f in built.values() if f.artist_mbid}
         if artist_mbids:
-            artist_counts = services.listenbrainz.artist_popularity(sorted(artist_mbids))
+            try:
+                artist_counts = services.listenbrainz.artist_popularity(sorted(artist_mbids))
+            except ApiError:
+                artist_counts = {}
+                if notes is not None:
+                    notes.fail('ListenBrainz artist popularity')
             for features in built.values():
                 entry = artist_counts.get(features.artist_mbid) or {}
                 features.artist_listeners = entry.get('total_user_count') or 0
@@ -850,7 +864,8 @@ def find_similar(seeds=None, *, artist=None, album=None, query=None, mbid=None,
 
     genre_names = services.genre_names()
     report('fingerprint', 0, len(shortlist), f'{len(shortlist)} albums, in batches')
-    built = fingerprint_many(services, [c.mbid for c in shortlist], genre_names=genre_names)
+    built = fingerprint_many(services, [c.mbid for c in shortlist],
+                             genre_names=genre_names, notes=notes)
     report('fingerprint', len(shortlist), len(shortlist), f'{len(built)} fingerprinted')
 
     def kinship_job(report_):
@@ -932,11 +947,25 @@ def find_similar(seeds=None, *, artist=None, album=None, query=None, mbid=None,
     def score(entries):
         scored = []
         for candidate, features in entries:
-            if obscurity == 'more_obscure' and features.listeners >= seed.listeners:
+            # Re-checked on every pass, not only before fingerprinting: the
+            # deep lookups are where a record's real secondary types show up
+            # (ListenBrainz does not serve them), so a compilation or live
+            # set can only be recognised here, and an artist mbid that was
+            # missing in the bulk data can turn out to be the seed's own.
+            if studio_only and not features.is_studio:
                 continue
-            if obscurity == 'better_known' and features.listeners <= seed.listeners:
+            if exclude_same_artist and is_seed_artist(features.artist_mbid, features.artist):
                 continue
-            if lateral and not (set(features.root_genres) & seed_roots):
+            # A seed with no listener count gives no threshold to compare
+            # against, and an empty root-genre set would reject everything;
+            # in both cases the filter is dropped rather than applied.
+            if obscurity == 'more_obscure' and seed.listeners \
+                    and features.listeners >= seed.listeners:
+                continue
+            if obscurity == 'better_known' and seed.listeners \
+                    and features.listeners <= seed.listeners:
+                continue
+            if lateral and seed_roots and not (set(features.root_genres) & seed_roots):
                 continue
             match = compare(
                 seed, features, seed_vectors, vectors[candidate.mbid], weights,
@@ -947,6 +976,15 @@ def find_similar(seeds=None, *, artist=None, album=None, query=None, mbid=None,
                 scored.append((candidate, match))
         scored.sort(key=lambda pair: (pair[1].distance, -pair[1].features.listeners))
         return _cap_per_artist(scored, max_per_artist)
+
+    # A filter that cannot be applied is said out loud, so an unexpected
+    # result set is never silently the wrong mode.
+    if obscurity in ('more_obscure', 'better_known') and not seed.listeners:
+        notes.add('The seed has no ListenBrainz listener count, so the obscurity '
+                  'filter was skipped.')
+    if lateral and not seed_roots:
+        notes.add('The seed carries no recognised root genre, so the sideways '
+                  'filter was skipped.')
 
     report('score', 0, 1, f'scoring {len(unique)} albums')
     scored = score(unique)
