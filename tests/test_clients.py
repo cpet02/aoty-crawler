@@ -155,7 +155,9 @@ def test_503_honours_retry_after_then_gives_up(cache, sleeps):
     with pytest.raises(RateLimited):
         mb.release_group('rg-1')
     assert len(session.calls) == config.MAX_RETRIES
-    assert sleeps.count(2.0) == config.MAX_RETRIES
+    # Between attempts only: sleeping after the last one would just delay
+    # the exception the caller is already getting.
+    assert sleeps.count(2.0) == config.MAX_RETRIES - 1
 
 
 def test_extra_headers_reach_every_request(cache, sleeps):
@@ -323,7 +325,7 @@ def test_deezer_quota_is_retried_then_raises(cache, sleeps):
         dz.track(9)
     assert len(session.calls) == config.MAX_RETRIES
     assert [s for s in sleeps if s >= 2]
-    assert cache.get(Cache.make_key('deezer.track', {'id': '9'}), None) is None
+    assert cache.get(Cache.make_key('deezer.track', {'id': '9'}), None) is Cache.MISS
 
 
 def test_deezer_search_tries_fielded_then_plain(cache, sleeps):
@@ -454,3 +456,58 @@ def test_lastfm_without_a_key_does_nothing(cache, sleeps):
     assert lfm.album_info('Slint', 'Spiderland') == {}
     assert lfm.album_tags('Slint', 'Spiderland') == []
     assert session.calls == []
+
+
+def test_a_service_that_keeps_failing_is_given_up_on(cache, sleeps):
+    """The engine calls these clients once per album. Without a circuit
+    breaker a service-wide outage costs every album the full retry ladder,
+    which is minutes of sleeping for an answer that is not coming."""
+    session = FakeSession([FakeResponse(status=503, text='down')])
+    client = make(MusicBrainzClient, cache, session)
+    for _ in range(client.OUTAGE_THRESHOLD):
+        with pytest.raises(RateLimited):
+            client.release_group('rg-%d' % len(session.calls))
+    assert client.unavailable
+    calls_before = len(session.calls)
+    sleeps_before = len(sleeps)
+    # Now it fails immediately: no request, no sleeping.
+    with pytest.raises(RateLimited):
+        client.release_group('rg-later')
+    assert len(session.calls) == calls_before
+    assert len(sleeps) == sleeps_before
+
+
+def test_one_success_clears_the_failure_run(cache, sleeps):
+    session = FakeSession([
+        FakeResponse(status=503, text='down'),
+        FakeResponse(status=503, text='down'),
+        FakeResponse(status=503, text='down'),
+        FakeResponse({'id': 'rg-ok'}),
+    ])
+    client = make(MusicBrainzClient, cache, session)
+    with pytest.raises(RateLimited):
+        client.release_group('rg-1')          # burns MAX_RETRIES attempts
+    assert client._consecutive_failures == 1
+    assert client.release_group('rg-2') == {'id': 'rg-ok'}
+    assert client._consecutive_failures == 0 and not client.unavailable
+
+
+def test_a_cached_json_null_is_a_hit_not_a_miss(cache, sleeps):
+    """A stored null read back as a miss would re-issue its request on every
+    single call, forever."""
+    class NullResponse(FakeResponse):
+        """A 200 whose JSON body really is null (the base fake treats a None
+        body as 'not JSON at all', which is a different thing)."""
+
+        def json(self):
+            return None
+
+    session = FakeSession([NullResponse(status=200, text='null')])
+    client = make(MusicBrainzClient, cache, session)
+    assert client.release_group('rg-null') == {}      # _lookup coerces to {}
+    assert len(session.calls) == 1
+    inc = session.calls[0]['params']['inc']
+    key = Cache.make_key('mb.rg.full', {'mbid': 'rg-null', 'inc': inc})
+    assert cache.get(key, None) is None                # the null really is stored
+    client.release_group('rg-null')
+    assert len(session.calls) == 1, 'the null must be served from the cache'

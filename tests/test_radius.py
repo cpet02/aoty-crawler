@@ -670,7 +670,10 @@ def test_a_popularity_failure_becomes_a_note_not_a_crash():
     services.listenbrainz.artist_popularity = boom
     result = run(services)
     assert result.matches
-    assert any('popularity' in note for note in result.notes)
+    assert any('listener counts' in note for note in result.notes)
+    # One bulk call covers the batch, so it must not be reported as a
+    # per-album failure ('failed for 1 album') when 150 albums lost a number.
+    assert not any('failed for' in note for note in result.notes)
     assert all(m.features.listeners == 0 for m in result.matches)
 
 

@@ -13,6 +13,10 @@ import time
 
 from . import config
 
+# Returned when there is no usable entry, so that a cached JSON null is
+# still a hit. `None` cannot do that job: it is a legitimate stored value.
+MISS = object()
+
 _SCHEMA = """
 CREATE TABLE IF NOT EXISTS responses (
     key        TEXT PRIMARY KEY,
@@ -23,6 +27,8 @@ CREATE TABLE IF NOT EXISTS responses (
 
 
 class Cache:
+    MISS = MISS
+
     def __init__(self, path=None):
         self.path = path or config.CACHE_PATH
         os.makedirs(os.path.dirname(self.path), exist_ok=True)
@@ -41,20 +47,24 @@ class Cache:
         canonical = json.dumps(params, sort_keys=True, separators=(',', ':'))
         return f'{namespace}|{canonical}'
 
-    def get(self, key, ttl_days):
+    def get(self, key, ttl_days, default=MISS):
+        """The cached body, or `default` (MISS by default) when there is no
+        usable entry. The sentinel matters because a stored body can itself
+        be JSON null: returning None for both would make that entry read as
+        a miss forever and re-issue its request on every call."""
         with self._lock, self._connect() as conn:
             row = conn.execute(
                 'SELECT payload, fetched_at FROM responses WHERE key = ?', (key,)
             ).fetchone()
         if row is None:
-            return None
+            return default
         payload, fetched_at = row
         if ttl_days is not None and time.time() - fetched_at > ttl_days * 86400:
-            return None
+            return default
         try:
             return json.loads(payload)
         except json.JSONDecodeError:
-            return None
+            return default
 
     def put(self, key, value):
         blob = json.dumps(value, separators=(',', ':'))

@@ -221,6 +221,17 @@ def _top_rg_fields(entry, artist_name='', artist_mbid=''):
 
 _STUDIO_PRIMARY_TYPES = frozenset({'album', 'ep'})
 
+# One lock per artist, so two workers asking for the same catalogue at the
+# same moment do not both pay for it. The ListenBrainz and Last.fm sources
+# overlap heavily, which is exactly when that happens.
+_CATALOGUE_LOCKS = {}
+_CATALOGUE_LOCKS_GUARD = threading.Lock()
+
+
+def _catalogue_lock(artist_mbid):
+    with _CATALOGUE_LOCKS_GUARD:
+        return _CATALOGUE_LOCKS.setdefault(artist_mbid, threading.Lock())
+
 
 def artist_albums(services, artist_mbid, artist_name='', cache=None, limit=25):
     """An artist's albums, most-listened first, in the ListenBrainz
@@ -236,6 +247,16 @@ def artist_albums(services, artist_mbid, artist_name='', cache=None, limit=25):
     """
     if cache is not None and artist_mbid in cache:
         return cache[artist_mbid]
+    if cache is not None and artist_mbid:
+        with _catalogue_lock(artist_mbid):
+            # Whoever held the lock may have just filled it in.
+            if artist_mbid in cache:
+                return cache[artist_mbid]
+            return _fetch_artist_albums(services, artist_mbid, artist_name, cache, limit)
+    return _fetch_artist_albums(services, artist_mbid, artist_name, cache, limit)
+
+
+def _fetch_artist_albums(services, artist_mbid, artist_name, cache, limit):
     listenbrainz = services.listenbrainz
     entries = []
     if listenbrainz is not None and artist_mbid:

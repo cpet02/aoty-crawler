@@ -315,8 +315,11 @@ def fingerprint_many(services, mbids, with_popularity=True, genre_names=None, no
         try:
             popularity = services.listenbrainz.popularity(mbids)
         except ApiError:
+            # One bulk call covers the whole batch, so this is not a
+            # per-album failure and must not be counted as one.
             if notes is not None:
-                notes.fail('ListenBrainz popularity')
+                notes.add('ListenBrainz served no listener counts for these '
+                          'albums, so audience statistics are missing.')
 
     built = {}
     for mbid in mbids:
@@ -334,7 +337,8 @@ def fingerprint_many(services, mbids, with_popularity=True, genre_names=None, no
             except ApiError:
                 artist_counts = {}
                 if notes is not None:
-                    notes.fail('ListenBrainz artist popularity')
+                    notes.add('ListenBrainz served no artist audience counts '
+                              'for these albums.')
             for features in built.values():
                 entry = artist_counts.get(features.artist_mbid) or {}
                 features.artist_listeners = entry.get('total_user_count') or 0
@@ -953,6 +957,8 @@ def find_similar(seeds=None, *, artist=None, album=None, query=None, mbid=None,
             # set can only be recognised here, and an artist mbid that was
             # missing in the bulk data can turn out to be the seed's own.
             if studio_only and not features.is_studio:
+                continue
+            if (features.release_type or '').lower() == 'single':
                 continue
             if exclude_same_artist and is_seed_artist(features.artist_mbid, features.artist):
                 continue

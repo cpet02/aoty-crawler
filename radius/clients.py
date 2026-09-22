@@ -103,6 +103,7 @@ class _HttpClient:
     rate = 1.0
     extra_headers = {}
     json_error_statuses = ()
+    OUTAGE_THRESHOLD = 3
 
     def __init__(self, cache=None, session=None, rate=None, extra_headers=None):
         self.cache = cache or Cache()
@@ -111,6 +112,9 @@ class _HttpClient:
         self.extra_headers = dict(self.extra_headers, **(extra_headers or {}))
         self.calls_made = 0
         self.cache_hits = 0
+        self.unavailable = False
+        self._consecutive_failures = 0
+        self._outage_lock = threading.Lock()
 
     def _body_problem(self, body):
         """Classify a parsed body: None when it is a real answer, 'retry' when
@@ -129,10 +133,31 @@ class _HttpClient:
             reset_in = 1.0
         time.sleep(max(0.0, min(reset_in, _RATE_HEADER_SLEEP_CAP)))
 
+    def _backoff(self, attempt, seconds):
+        """Wait between attempts — but never after the last one, which only
+        delays the exception the caller is already going to get."""
+        if attempt < config.MAX_RETRIES - 1:
+            time.sleep(max(0.0, min(seconds, 30)))
+
+    def _note_outcome(self, ok):
+        """Count consecutive exhausted retries. A service that has failed
+        this way `OUTAGE_THRESHOLD` times running is treated as down for the
+        rest of the run: the engine calls these clients once per album, so
+        without this a service-wide outage costs every album the full retry
+        ladder — minutes of sleeping for an answer that is not coming."""
+        with self._outage_lock:
+            self._consecutive_failures = 0 if ok else self._consecutive_failures + 1
+            self.unavailable = self._consecutive_failures >= self.OUTAGE_THRESHOLD
+
     def _request(self, method, url, params=None, json_body=None, expect_json=True):
         """One logical request with retries. Returns the parsed JSON body, or
         the raw text when expect_json is False. `params` may be a dict or a
         list of (key, value) tuples when a key has to repeat."""
+        if self.unavailable:
+            raise RateLimited(
+                f'{type(self).__name__} gave up after {self.OUTAGE_THRESHOLD} '
+                f'failures in a row; skipping the rest of this run.'
+            )
         headers = {'User-Agent': config.USER_AGENT,
                    'Accept': 'application/json' if expect_json else 'text/plain'}
         headers.update(self.extra_headers)
@@ -146,7 +171,7 @@ class _HttpClient:
                 )
             except requests.RequestException as exc:
                 last_error = exc
-                time.sleep(2 ** attempt)
+                self._backoff(attempt, 2 ** attempt)
                 continue
 
             self._honour_rate_headers(response)
@@ -154,6 +179,7 @@ class _HttpClient:
 
             if status == 200 or status in self.json_error_statuses:
                 if not expect_json and status == 200:
+                    self._note_outcome(True)
                     return response.text
                 try:
                     body = response.json()
@@ -164,11 +190,13 @@ class _HttpClient:
                 problem = self._body_problem(body)
                 if problem == 'retry':
                     last_error = RateLimited(f'{url} asked us to back off: {body}')
-                    time.sleep(min(2 ** (attempt + 1), 30))
+                    self._backoff(attempt, 2 ** (attempt + 1))
                     continue
                 if problem == 'empty':
+                    self._note_outcome(True)
                     return {}
                 if status == 200:
+                    self._note_outcome(True)
                     return body
                 raise ApiError(f'HTTP {status} from {url}: {response.text[:200]}')
 
@@ -182,10 +210,11 @@ class _HttpClient:
                 except ValueError:
                     delay = 2 ** (attempt + 1)
                 last_error = RateLimited(f'HTTP {status} from {url}')
-                time.sleep(min(delay, 30))
+                self._backoff(attempt, delay)
                 continue
 
             raise ApiError(f'HTTP {status} from {url}: {response.text[:200]}')
+        self._note_outcome(False)
         raise (last_error if isinstance(last_error, ApiError)
                else ApiError(f'giving up on {url}: {last_error}'))
 
@@ -199,7 +228,7 @@ class _HttpClient:
         key = Cache.make_key(namespace, key_params)
         ttl = config.TTL_DAYS.get(namespace, config.DEFAULT_TTL_DAYS)
         cached = self.cache.get(key, ttl)
-        if cached is not None:
+        if cached is not Cache.MISS:
             self.cache_hits += 1
             return cached
         body = self._request(method, url, params=params, json_body=json_body,
@@ -530,7 +559,9 @@ class WikidataClient(_HttpClient):
 
     def _entities(self, namespace, qids, props):
         collected = {}
+        batches = failures = 0
         for batch in _chunked(_distinct(qids), self.BATCH):
+            batches += 1
             try:
                 body = self._cached(
                     namespace, {'ids': sorted(batch), 'props': props},
@@ -540,10 +571,15 @@ class WikidataClient(_HttpClient):
                             'sitefilter': 'enwiki', 'format': 'json'},
                 )
             except ApiError:
+                failures += 1
                 continue
             for qid, entity in ((body or {}).get('entities') or {}).items():
                 if isinstance(entity, dict) and 'missing' not in entity:
                     collected[qid] = entity
+        if failures and failures == batches:
+            # Swallowing this would blank every album's critic scores and
+            # producer credits with nothing said; the caller notes it.
+            raise ApiError(f'Wikidata failed for all {batches} batch(es).')
         return collected
 
     def entities(self, qids, props='claims|labels|sitelinks'):
