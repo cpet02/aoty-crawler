@@ -120,7 +120,7 @@ python -m radius SEED [SEED ...]
   --mode closest|sideways|deep_cuts   sideways: same broad genre, corners the seed
                                       is not in; deep_cuts: less heard than the seed
   -n, --top N          results (25)          --pool N       candidates fingerprinted (150)
-  --shortlist N        deep-checked (1.5x N) --per-artist N albums per artist (2)
+  --shortlist N        deep-checked (1.5x N) --per-artist N albums per artist (1)
   --weight AXIS=V      override a weight     --only AXIS..  score on these alone
   --include-same-artist  --include-non-studio  --no-crowd-tags  --discogs  --no-deep
   --radius X           optional distance cap --explain      every axis and statistic

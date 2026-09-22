@@ -35,3 +35,6 @@ Thumbs.db
 htmlcov/
 *.bak
 *.stackdump
+
+# Claude Code tooling
+.claude/
