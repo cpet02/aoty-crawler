@@ -8,8 +8,8 @@
       "found": [
         "Shellac",
         "Rodan",
-        "Unwound",
         "Fugazi",
+        "Unwound",
         "Tortoise",
         "Mogwai"
       ],
@@ -35,7 +35,7 @@
       ],
       "mrr": 1.0,
       "seed": "Slint - Spiderland",
-      "requests": 0
+      "requests": 1
     },
     {
       "hits": 10,
@@ -45,13 +45,13 @@
         "Fleet Foxes",
         "Iron & Wine",
         "Sufjan Stevens",
-        "The Shins",
         "José González",
+        "The Shins",
         "Band of Horses",
         "DeYarmond Edison",
         "Grizzly Bear",
-        "Volcano Choir",
-        "Elliott Smith"
+        "Elliott Smith",
+        "Volcano Choir"
       ],
       "missing": [
         "The Tallest Man on Earth",
@@ -69,7 +69,7 @@
       ],
       "mrr": 1.0,
       "seed": "Bon Iver - For Emma, Forever Ago",
-      "requests": 2
+      "requests": 5
     },
     {
       "hits": 10,
@@ -77,12 +77,12 @@
       "hit_rate": 0.5,
       "found": [
         "Massive Attack",
+        "Tricky",
         "Morcheeba",
         "Sneaker Pimps",
-        "Tricky",
         "Lamb",
-        "Air",
         "Zero 7",
+        "Air",
         "Hooverphonic",
         "Goldfrapp",
         "Björk"
@@ -101,7 +101,7 @@
       ],
       "mrr": 1.0,
       "seed": "Portishead - Dummy",
-      "requests": 18
+      "requests": 1
     },
     {
       "hits": 6,
@@ -111,8 +111,8 @@
         "Thom Yorke",
         "Massive Attack",
         "Portishead",
-        "Atoms for Peace",
         "The Smile",
+        "Atoms for Peace",
         "Boards of Canada"
       ],
       "missing": [
@@ -133,9 +133,9 @@
         "Grizzly Bear",
         "Beck"
       ],
-      "mrr": 0.5,
+      "mrr": 1.0,
       "seed": "Radiohead - Kid A",
-      "requests": 2
+      "requests": 1
     },
     {
       "hits": 5,
@@ -171,7 +171,7 @@
       ],
       "mrr": 1.0,
       "seed": "Talk Talk - Laughing Stock",
-      "requests": 3
+      "requests": 0
     },
     {
       "hits": 8,
@@ -208,7 +208,7 @@
       ],
       "mrr": 1.0,
       "seed": "My Bloody Valentine - Loveless",
-      "requests": 32
+      "requests": 2
     },
     {
       "hits": 11,
@@ -216,8 +216,8 @@
       "hit_rate": 0.4074074074074074,
       "found": [
         "Isaiah Rashad",
-        "J. Cole",
         "Thundercat",
+        "J. Cole",
         "Vince Staples",
         "Frank Ocean",
         "ScHoolboy Q",
@@ -247,27 +247,27 @@
       ],
       "mrr": 0.5,
       "seed": "Kendrick Lamar - To Pimp a Butterfly",
-      "requests": 53
+      "requests": 6
     },
     {
-      "hits": 11,
+      "hits": 10,
       "expected": 28,
-      "hit_rate": 0.39285714285714285,
+      "hit_rate": 0.35714285714285715,
       "found": [
         "James Taylor",
         "Carole King",
         "Nick Drake",
-        "Neil Young",
-        "Joan Baez",
-        "Bob Dylan",
         "Leonard Cohen",
+        "Neil Young",
+        "Bob Dylan",
+        "Joan Baez",
         "Van Morrison",
-        "Laura Nyro",
         "Judy Collins",
-        "Judee Sill"
+        "Laura Nyro"
       ],
       "missing": [
         "Crosby, Stills, Nash & Young",
+        "Judee Sill",
         "Cat Stevens",
         "Carly Simon",
         "Jackson Browne",
@@ -287,30 +287,27 @@
       ],
       "mrr": 1.0,
       "seed": "Joni Mitchell - Blue",
-      "requests": 35
+      "requests": 46
     },
     {
-      "hits": 11,
+      "hits": 9,
       "expected": 30,
-      "hit_rate": 0.36666666666666664,
+      "hit_rate": 0.3,
       "found": [
-        "Boards of Canada",
-        "Aphex Twin",
         "Mount Kimbie",
+        "Aphex Twin",
+        "Boards of Canada",
         "Zomby",
         "Four Tet",
         "James Blake",
         "Kode9",
         "The Caretaker",
-        "Jamie xx",
-        "The xx",
-        "Benga"
+        "Massive Attack"
       ],
       "missing": [
         "Actress",
         "Joy Orbison",
         "Andy Stott",
-        "Massive Attack",
         "Portishead",
         "Autechre",
         "Flying Lotus",
@@ -320,8 +317,11 @@
         "Pinch",
         "Shackleton",
         "Skream",
+        "Benga",
         "Digital Mystikz",
         "Darkstar",
+        "Jamie xx",
+        "The xx",
         "Fever Ray",
         "Oneohtrix Point Never",
         "Vessel",
@@ -329,31 +329,31 @@
       ],
       "mrr": 1.0,
       "seed": "Burial - Untrue",
-      "requests": 9
+      "requests": 0
     },
     {
-      "hits": 16,
+      "hits": 15,
       "expected": 24,
-      "hit_rate": 0.6666666666666666,
+      "hit_rate": 0.625,
       "found": [
         "John Coltrane",
-        "Herbie Hancock",
         "Dave Brubeck",
+        "Herbie Hancock",
         "Sonny Rollins",
         "Chet Baker",
         "Wayne Shorter",
+        "Cannonball Adderley",
         "Charles Mingus",
         "Bill Evans",
-        "Cannonball Adderley",
         "Duke Ellington",
-        "Grant Green",
         "Thelonious Monk",
+        "Grant Green",
         "Charlie Parker",
-        "Dizzy Gillespie",
         "Lee Morgan",
         "Art Blakey"
       ],
       "missing": [
+        "Dizzy Gillespie",
         "Horace Silver",
         "Wynton Kelly",
         "Stan Getz",
@@ -365,12 +365,12 @@
       ],
       "mrr": 1.0,
       "seed": "Miles Davis - Kind of Blue",
-      "requests": 40
+      "requests": 1
     },
     {
-      "hits": 7,
+      "hits": 8,
       "expected": 28,
-      "hit_rate": 0.25,
+      "hit_rate": 0.2857142857142857,
       "found": [
         "Angel Olsen",
         "Mitski",
@@ -378,7 +378,8 @@
         "Sharon Van Etten",
         "Lana Del Rey",
         "Perfume Genius",
-        "Ariel Pink"
+        "Ariel Pink",
+        "Beach House"
       ],
       "missing": [
         "Father John Misty",
@@ -399,13 +400,12 @@
         "Molly Burch",
         "The Weather Station",
         "Fleetwood Mac",
-        "Beach House",
         "Cass McCombs",
         "Andy Shauf"
       ],
       "mrr": 0.5,
       "seed": "Weyes Blood - Titanic Rising",
-      "requests": 30
+      "requests": 0
     },
     {
       "hits": 13,
@@ -415,14 +415,14 @@
         "Carissa's Wierd",
         "Have a Nice Life",
         "Helvetia",
-        "The Microphones",
         "Alex G",
+        "The Microphones",
         "Galaxie 500",
         "Low",
         "Slint",
         "Codeine",
-        "Grandaddy",
         "Unwound",
+        "Grandaddy",
         "Neutral Milk Hotel",
         "Flying Saucer Attack"
       ],
@@ -449,10 +449,10 @@
       ],
       "mrr": 1.0,
       "seed": "Duster - Stratosphere",
-      "requests": 220
+      "requests": 1
     }
   ],
-  "hits_at_n": 0.3746211620169953,
-  "mrr": 0.875,
-  "requests": 444
+  "hits_at_n": 0.36559338423921756,
+  "mrr": 0.9166666666666666,
+  "requests": 64
 }
