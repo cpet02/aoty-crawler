@@ -1,0 +1,171 @@
+{
+  "album": {
+    "artist": "Slint",
+    "mbid": "104f994c-7c01-4fa9-b880-49bd2f29b115",
+    "tags": {
+      "tag": [
+        {
+          "url": "https://www.last.fm/tag/post-rock",
+          "name": "post-rock"
+        },
+        {
+          "url": "https://www.last.fm/tag/math+rock",
+          "name": "math rock"
+        },
+        {
+          "url": "https://www.last.fm/tag/i+miss+you",
+          "name": "i miss you"
+        },
+        {
+          "url": "https://www.last.fm/tag/rock",
+          "name": "rock"
+        },
+        {
+          "url": "https://www.last.fm/tag/post-hardcore",
+          "name": "post-hardcore"
+        }
+      ]
+    },
+    "playcount": "13827649",
+    "image": [
+      {
+        "size": "small",
+        "#text": "https://lastfm-img.freetls.fastly.net/i/u/34s/9209ec34e3db43fba2f364b32b7b9853.png"
+      },
+      {
+        "size": "medium",
+        "#text": "https://lastfm-img.freetls.fastly.net/i/u/64s/9209ec34e3db43fba2f364b32b7b9853.png"
+      },
+      {
+        "size": "large",
+        "#text": "https://lastfm-img.freetls.fastly.net/i/u/174s/9209ec34e3db43fba2f364b32b7b9853.png"
+      },
+      {
+        "size": "extralarge",
+        "#text": "https://lastfm-img.freetls.fastly.net/i/u/300x300/9209ec34e3db43fba2f364b32b7b9853.png"
+      },
+      {
+        "size": "mega",
+        "#text": "https://lastfm-img.freetls.fastly.net/i/u/300x300/9209ec34e3db43fba2f364b32b7b9853.png"
+      },
+      {
+        "size": "",
+        "#text": "https://lastfm-img.freetls.fastly.net/i/u/300x300/9209ec34e3db43fba2f364b32b7b9853.png"
+      }
+    ],
+    "tracks": {
+      "track": [
+        {
+          "streamable": {
+            "fulltrack": "0",
+            "#text": "0"
+          },
+          "duration": 463,
+          "url": "https://www.last.fm/music/Slint/Spiderland/Breadcrumb+Trail",
+          "name": "Breadcrumb Trail",
+          "@attr": {
+            "rank": 1
+          },
+          "artist": {
+            "url": "https://www.last.fm/music/Slint",
+            "name": "Slint",
+            "mbid": "2869c510-2679-4a3f-bf15-e5e8b49f2f28"
+          }
+        },
+        {
+          "streamable": {
+            "fulltrack": "0",
+            "#text": "0"
+          },
+          "duration": 421,
+          "url": "https://www.last.fm/music/Slint/Spiderland/Nosferatu+Man",
+          "name": "Nosferatu Man",
+          "@attr": {
+            "rank": 2
+          },
+          "artist": {
+            "url": "https://www.last.fm/music/Slint",
+            "name": "Slint",
+            "mbid": "2869c510-2679-4a3f-bf15-e5e8b49f2f28"
+          }
+        },
+        {
+          "streamable": {
+            "fulltrack": "0",
+            "#text": "0"
+          },
+          "duration": 485,
+          "url": "https://www.last.fm/music/Slint/Spiderland/Don,+Aman",
+          "name": "Don, Aman",
+          "@attr": {
+            "rank": 3
+          },
+          "artist": {
+            "url": "https://www.last.fm/music/Slint",
+            "name": "Slint",
+            "mbid": "2869c510-2679-4a3f-bf15-e5e8b49f2f28"
+          }
+        },
+        {
+          "streamable": {
+            "fulltrack": "0",
+            "#text": "0"
+          },
+          "duration": 626,
+          "url": "https://www.last.fm/music/Slint/Spiderland/Washer",
+          "name": "Washer",
+          "@attr": {
+            "rank": 4
+          },
+          "artist": {
+            "url": "https://www.last.fm/music/Slint",
+            "name": "Slint",
+            "mbid": "2869c510-2679-4a3f-bf15-e5e8b49f2f28"
+          }
+        },
+        {
+          "streamable": {
+            "fulltrack": "0",
+            "#text": "0"
+          },
+          "duration": null,
+          "url": "https://www.last.fm/music/Slint/Spiderland/For+Dinner...",
+          "name": "For Dinner...",
+          "@attr": {
+            "rank": 5
+          },
+          "artist": {
+            "url": "https://www.last.fm/music/Slint",
+            "name": "Slint",
+            "mbid": "2869c510-2679-4a3f-bf15-e5e8b49f2f28"
+          }
+        },
+        {
+          "streamable": {
+            "fulltrack": "0",
+            "#text": "0"
+          },
+          "duration": 541,
+          "url": "https://www.last.fm/music/Slint/Spiderland/Good+Morning,+Captain",
+          "name": "Good Morning, Captain",
+          "@attr": {
+            "rank": 6
+          },
+          "artist": {
+            "url": "https://www.last.fm/music/Slint",
+            "name": "Slint",
+            "mbid": "2869c510-2679-4a3f-bf15-e5e8b49f2f28"
+          }
+        }
+      ]
+    },
+    "url": "https://www.last.fm/music/Slint/Spiderland",
+    "name": "Spiderland",
+    "listeners": "593662",
+    "wiki": {
+      "published": "10 Oct 2022, 02:22",
+      "summary": "Spiderland is the second and final studio album by the American rock band Slint. It contains six songs played over 40 minutes, and was released by Touch and Go Records on March 27, 1991. Slint's lineup at the time of recording comprised Brian McMahan on vocals and guitar, David Pajo on guitar, Todd Brashear on bass guitar and Britt Walford on drums. Spiderland was engineered by Brian Paulson and recorded over four days in August 1990. The music and vocal melodies were composed throughout the summer of 1990, while lyrics were written in-studio. Forming in 1986 in Louisville, Kentucky, Slint <a href=\"https://www.last.fm/music/Slint/Spiderland\">Read more on Last.fm</a>.",
+      "content": "Spiderland is the second and final studio album by the American rock band Slint. It contains six songs played over 40 minutes, and was released by Touch and Go Records on March 27, 1991. Slint's lineup at the time of recording comprised Brian McMahan on vocals and guitar, David Pajo on guitar, Todd Brashear on bass guitar and Britt Walford on drums. Spiderland was engineered by Brian Paulson and recorded over four days in August 1990. The music and vocal melodies were composed throughout the summer of 1990, while lyrics were written in-studio.\n\nForming in 1986 in Louisville, Kentucky, Slint had met as teenagers playing in the Midwestern punk scene but soon diverged sonically from their hardcore roots. By the time they recorded Spiderland in late 1990, the band had developed a complex, idiosyncratic sound characterized by atypical rhythmic meters, harmonic dissonance and irregular song structures. McMahan's vocal delivery on the record alternates between spoken word, singing and shouting. The lyrics are presented in a narrative style and cover themes such as unease, social anxiety, loneliness, and despair.\n\nSlint broke up shortly before the album's release due to McMahan's depression. In the US, Spiderland initially attracted little critical attention and sold poorly. However, a warm reception from UK music papers and gradually increasing sales in subsequent years helped it develop a significant cult following. Spiderland is widely regarded as foundational to the 1990s post-rock and math rock movements, and is cited by critics as a milestone of indie and experimental rock, inspiring a myriad of subsequent artists. Slint reunited in 2005 to perform the album in its entirety across three international tours.\n\nSlint formed in 1986 in Louisville, Kentucky, after the dissolution of two local bands: Squirrel Bait and Maurice. The founding members included David Pajo (guitar), Britt Walford (drums) and Ethan Buckler (bass guitar), with Brian McMahan (guitar, vocals) joining soon after their first performance. Their debut album Tweez was recorded by Steve Albini and released in 1989 on the group's self-owned record label Jennifer Hartman Records and Tapes. Buckler left the band out of dissatisfaction with Tweez, and was replaced with Todd Brashear. Their second recording was an untitled extended play (EP) commonly referred to as Slint. Its instrumental rock sound featured on the EP, which would not be released until 1994, reflected both their new direction and increased musical sophistication since writing and recording their debut album.\n\nThe 1989 studio recordings drew the attention of Corey Rusk, co-founder of Touch and Go Records. He said that the album \"was just so radically different than Tweez. ... I remember getting a tape of that and just listening to it over and over, really fucking loud.\" By early 1990, Rusk had agreed to pay for studio time and committed to a release their next record with Touch and Go. In July 1989, two weeks after the release of Tweez, Slint supported concerts by Crain and King Kong at which they debuted early versions of the songs: \"Nosferatu Man\", \"Breadcrumb Trail\", \"Good Morning, Captain\" and \"Washer\". That June, they performed nearly finalized instrumental renditions of the Spiderland songs during a concert at the Kentucky Theater.\n\nThroughout the summer of 1990, the band practiced the music for six new songs McMahan and Walford had written for Slint's second album. The songs were recorded in August 1990 with producer Brian Paulson, who was known for his \"live\" recording style and minimal takes. Paulson later said that the recording \"was weird... because I remember sitting there, and I just knew there was something about it. I've never heard anything like this.\" McMahan and Walford wrote the lyrics at the last minute while in studio, although they had worked out the vocal melodies in advance using recordings of practice sessions and a four-track. The album mostly explored themes of coming of age and anxiety about the approach of adulthood, and McMahan did not want the lyrics or vocal style to be heard by others until the actual recordings. He said: \"I did not want to rehearse the vocals...it was a one-shot, cathartic experience.\"\n\nThe recording sessions were intense, fraught, and often difficult. According to AllMusic, they were \"traumatic...and one more piece of evidence supporting the theory that band members had to be periodically institutionalized during the completion of the album.\" Rumors circulated that at least one member of Slint had checked into a psychiatric hospital. Walford later said that there was no truth to such claims, although the band was \"definitely trying to be serious about things, pretty intense, which made recording the album kinda stressful.\" The recording was completed in four days.\n\nThe album's guitar work is noted for its roomy sound, angular rhythms, dramatically alternating dynamic shifts, and irregular time signatures. McMahan's singing style varies among mumbling, spoken word, strained shouting, and a written-narrative style. Influences on the record included Gang of Four, Black Sabbath and Sonic Youth. Will Hermes of Spin summarized the album's sound as \"mid-'70s King Crimson gone emo: screeching guitar chords and gorgeous note-spinning in odd-metered instrumentals speckled with words both spoken and sung\". Melody Maker described the music as \"structurally and in tone\", saying that the band \"recalls Television circa Marquee Moon and Crazy Horse, whose simplicity they echo and whose style they most certainly do not\".\n\nThe lyrics are usually narrative in style, and have been described as \"eerie\" and having \"peculiar syntax\". Both the vocal melodies and words were written by McMahan and Walford after the basic tracks had been recorded during practice sessions, and often were not heard by Pajo and Brashear until their final recording in studio. The vocal additions often pulled the songs in new directions, with examples being \"Good Morning, Captain\" and \"Washer\". McMahan was never comfortable taking the role of vocalist and only did so because nobody else in the band would. He considerably increases his range on \"Spiderland\", incorporating both his earlier whispered and shouting approaches with what Tennent describes as conventional, \"actual singing\".\n\nThe opening track, \"Breadcrumb Trail\", describes a day at a carnival with a fortune-teller. The song is built from complex guitar arrangement with sharp transitions, during which the guitar fluctuates between a clean-sounding riff with harmonics in the verse to heavy and high pitched distortion in the chorus. \"Nosferatu Man\" is the second track and was inspired by the 1922 German Expressionist silent film Nosferatu. Its verse includes a dissonant guitar riff which uses high-pitched notes similar to those in \"Breadcrumb Trail\" and a drumbeat centered on snare and toms. The chorus, featuring \"jagged\" distorted guitar and a beat with \"thrashing cymbals with quick drum fills\", segues into an extended jam before the song ends with 30 seconds of feedback.\n\nWalford sings and plays lead guitar on \"Don, Aman\", a deliberate anagram of Madonna. Delivered in a hushed tone, the song's ambiguous lyrics depict the thoughts of an \"isolated soul\" before, during, and after an evening at a bar. The tempo quickens as the song develops, becoming loud and distorted at its peak, before slowing back to the original speed. \"Washer\" is the album's longest track, and features a low volume intro with guitar and cymbals before the rest of the band joins in the recording. The song builds until the final verse, when the tension is broken by loud distortion, followed by a lengthy outro. Pajo has said he is particularly proud of the song's one-note guitar solo, admitting that \"at that point in my life, if someone asked me to do a solo, I would do the exact opposite of what a solo usually is. Instead of playing a bunch of notes, I would just play one, though I did some decorative stuff around it there. There’re some cool, weird things in that song\". When McMahan's girlfriend accidentally found the song's lyrics on a piece of paper, she mistook them for a suicide note.\n\nThe instrumental \"For Dinner...\" begins with a quiet section of \"brooding chords throb(bing) with the occasional rumble of muted toms and bass drum\", the song cycles through sections of building and releasing tension. Unlike other tracks on the album, the guitars employ standard tuning, and does not use effects pedals. The closing song, \"Good Morning, Captain\", has been described as a tribute to the Samuel Taylor Coleridge poem The Rime of the Ancient Mariner but the band have denied this. The song, which Pajo says is his favorite from the album, is built from a two-chord guitar structure, described as a \"spindly, tight riff\", and a \"jerky\" drumbeat. During the recording of the final chorus, McMahan became physically sick due to the strain of yelling over the guitars. David Peschek of The Guardian compared \"Good Morning, Captain\" to Led Zeppelin for its epic scope, though not its bleak mood, writing: \"the extraordinary (song) is (Slint's) \"Stairway to Heaven\", if it's possible to imagine Stairway to Heaven bleached of all bombast.\"\n\nThe title originates from McMahan's younger brother, who thought the record sounded \"spidery\". Its black-and-white cover photograph, which depicts the members of the band treading water in the lake of an abandoned quarry at lake in Utica, Indiana, was taken by Will Oldham. An article in The Stranger credits the image as responsible for the later mystique surrounding the publicity-shy band, and notes how \"most people only had seen Slint as four heads floating in a Kentucky quarry on Spiderland's cover. Listeners pondered the band's sparsely adorned black-and-white covers as if they were runes bearing secrets.\"\n\nChris Gaerig of the Michigan Daily wrote that the album cover \"captures the joyous fear and violence of the album so precisely it shakes souls. The group—submerged in a lake to their chins with deranged smiles—seems to be stalking you, hovering out of the black-and-white façade.\" Several other promotional images have been taken from the same photo session with Oldham.\n\nThe photograph on the back cover is of a dead wolf spider, taken by Noel Saltzman, who also took the uncredited cover photo for their untitled 1994 EP. Saltzman found the spider in a shed while working his summer job. As it would not remain still enough to be photographed, Saltzman killed, froze, and repositioned it with tweezers to take the shot. The inside sleeve contains the message \"interested female vocalists write 1864 douglas blvd. louisville, ky. 40205\". The words \"this recording is meant to be listened to on vinyl\" is printed on some CD issues, indicating Slint's preference for analog audio devices.\n\nSpiderland is considered a major influence on the post-rock bands Mogwai, Godspeed You! Black Emperor, Isis and Explosions in the Sky. Lou Barlow of Dinosaur Jr. and Sebadoh said the album was \"quiet-to-loud\" while still sounding like nothing before, as if \"a new kind of music\", while PJ Harvey included it in her 1992 \"Ten For Today\" list of records. Bob Nastanovich of Pavement ranked it as among his favorite albums. Its cover was recreated by The Shins in the music video for \"New Slang\". The album is regarded as essential to \"the fabric of math-rock genre\". Peschek described it as \"the ur-text for what became known as post-rock, a fractured, almost geometric reimagining of rock music stripped of its dionysiac impulse.\"Rachel Devine of The List called Spiderland \"arguably the most disproportionately influential (album) in music history\". Pitchfork's Stuart Berman noted how the album \"motivated a cluster of semi-popular bands in the late-90s and early 2000s to adopt its whisper-to-scream schematic. It's the boundless inspiration it perpetually provides for all the bands that have yet to emerge from the basement.\" In 2015, Gigwise named the album in their list of \"The 11 most vicious post-hardcore albums ever.\"\n\nIn the 2010s AllMusic's Mark Deming described it as one of the most singular and important albums of the '90s, and in 2003, Pitchfork named it the twelfth best album of the 1990s. Writing in 2000, Robert Christgau was less enthusiastic, and said that despite their \"sad-sack affect\", Slint are actually \"art-rockers without the courage of their pretensions\", and noted that the lyrics were not to his liking. In The New Rolling Stone Album Guide, journalist Mac Randall felt even though it is more accessible than Tweez, \"The absence of anything resembling a tune continues to nag.\" Touch and Go founder Corey Rusk observed how Spiderland is \"like an icon now. But when it came out, nobody cared! The band had broken up by the time the album came out, and it really didn't sell particularly well or get written about all that much in the year it was released. But it was a revolutionary, groundbreaking record, and it's one of the few instances where people catch up to it later on.\"\n\nIn 2014, Touch and Go reissued Tweez and a version of Spiderland remastered by Bob Weston from the original analog master-tapes. The bonus tracks were selected by the band and include demos, outtakes and a live performance. The transitional songs (written after Tweez, but before the bulk of the Spiderland tracks) \"Pam\" and \"Glenn\" (whose recording is described as containing one the best drum sounds Albini ever achieved) were recorded during the Spiderland sessions but failed to make the album. <a href=\"https://www.last.fm/music/Slint/Spiderland\">Read more on Last.fm</a>. User-contributed text is available under the Creative Commons By-SA License; additional terms may apply."
+    }
+  }
+}

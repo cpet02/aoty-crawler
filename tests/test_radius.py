@@ -1,239 +1,230 @@
-"""Offline tests for the similarity engine.
+"""Offline end-to-end tests for the engine.
 
-Stub clients serve canned ListenBrainz/MusicBrainz payloads, so the whole
-pipeline — seed resolution, candidate gathering, bulk fingerprinting, idf,
-ranking — runs with no network. None of these services need an API key, and
-neither do the tests.
+A small fictional neighbourhood around Spiderland, served by stub clients
+that implement every method the engine and the candidate sources call, so
+the whole pipeline - seed resolution and enrichment, seven candidate
+sources, bulk fingerprinting, kinship, crowd tags, the deep MusicBrainz
+lookups, Deezer / Wikidata / Discogs / Last.fm statistics, rescoring - runs
+with no network and no key.
 """
 
+import json
 import os
 import sys
+import threading
 
 import pytest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from radius import albums, tags, text
-from radius.engine import SeedNotFound, Services, find_similar
-from radius.similarity import SimilarityWeights, axis_distances, compare
-
-
-# ---------------------------------------------------------------------------
-# Tag handling
-# ---------------------------------------------------------------------------
-
-def test_collection_and_shelf_tags_are_dropped():
-    assert not tags.is_descriptive('albums i own')
-    assert not tags.is_descriptive('seen live')
-    assert not tags.is_descriptive('my favourite records')
-    assert not tags.is_descriptive('rock and indie')      # retailer shelf
-    assert not tags.is_descriptive('américain')           # nationality
-    assert tags.is_descriptive('chamber folk')
-    assert tags.is_descriptive('melancholic')
-
-
-def test_era_tags_are_parsed_not_described():
-    assert tags.era_year('1997') == 1997
-    assert tags.era_year('90s') == 1990
-    assert tags.era_year('1980s') == 1980
-    assert tags.era_year('00s') == 2000
-    assert tags.era_year('shoegaze') is None
-    # Era belongs to the era axis, not the descriptive vector.
-    assert not tags.is_descriptive('1997')
-
-
-def test_musicbrainz_vote_counts_rescale_but_keep_their_order():
-    """MB counts are a handful of votes, not Last.fm's 0-100 scale. What has
-    to survive rescaling is the ordering: broad genre above its subgenre."""
-    entries = albums.tag_entries([
-        {'tag': 'folk', 'count': 8},
-        {'tag': 'chamber folk', 'count': 2},
-        {'tag': 'indie', 'count': 4},
-    ])
-    profile = tags.tag_profile(entries)
-    assert list(profile) == ['folk', 'indie', 'chamber folk']
-    assert profile['folk'] == 1.0
-    assert profile['chamber folk'] == pytest.approx(0.25)
-
-
-def test_subgenres_outweigh_root_genres():
-    assert tags.specificity('chamber folk') > tags.specificity('folk')
-
-
-def test_idf_discounts_ubiquitous_tags():
-    pool = [{'rock': 1.0, 'shoegaze': 1.0}, {'rock': 1.0}, {'rock': 1.0}]
-    idf = tags.build_idf(pool)
-    assert idf['shoegaze'] > idf['rock']
-
-
-def test_aliases_collapse_spellings():
-    assert tags.normalize_tag('Post Rock') == tags.normalize_tag('post-rock')
-    assert tags.normalize_tag('Hip Hop') == tags.normalize_tag('hiphop')
-
+from radius.clients import ApiError, KeyRejected
+from radius.engine import (
+    SeedNotFound, Services, find_similar, parse_seed_text, search_albums,
+)
 
 # ---------------------------------------------------------------------------
-# Fingerprint fields
+# The fictional universe
 # ---------------------------------------------------------------------------
 
-def test_edition_noise_is_stripped_from_keys():
-    assert (albums.album_key('Radiohead', 'OK Computer (Deluxe Edition)')
-            == albums.album_key('Radiohead', 'OK Computer'))
-
-
-def test_non_studio_is_caught_by_type_or_title():
-    by_type = albums.AlbumFeatures('A', 'Something', release_type='Live')
-    by_secondary = albums.AlbumFeatures('A', 'Something', release_type='Album',
-                                        secondary_types=('Compilation',))
-    by_title = albums.AlbumFeatures('A', 'Live at Leeds', release_type='Album')
-    studio = albums.AlbumFeatures('A', 'Kid A', release_type='Album')
-    assert not by_type.is_studio
-    assert not by_secondary.is_studio
-    assert not by_title.is_studio
-    assert studio.is_studio
-
-
-def test_definition_measures_tag_consensus():
-    focused = albums.AlbumFeatures('A', 'One', profile={'black metal': 1.0, 'metal': 0.1})
-    scattered = albums.AlbumFeatures('B', 'Two',
-                                     profile={f'tag{i}': 1.0 for i in range(8)})
-    assert focused.definition < scattered.definition
-
-
-def test_canonicity_is_share_of_artist_audience():
-    deep_cut = albums.AlbumFeatures('A', 'One', listeners=1_000, artist_listeners=100_000)
-    calling_card = albums.AlbumFeatures('A', 'Two', listeners=90_000, artist_listeners=100_000)
-    assert deep_cut.canonicity < calling_card.canonicity
-
-
-def test_career_stage_needs_both_years():
-    late = albums.AlbumFeatures('A', 'One', year=2000, artist_debut_year=1980)
-    assert late.career_stage == 20
-    assert albums.AlbumFeatures('A', 'Two', year=2000).career_stage is None
-
-
-def test_metadata_year_is_read_from_a_date_field():
-    features = albums.from_metadata('mbid-1', {
-        'release_group': {'name': 'X', 'date': '2007-07-08', 'type': 'Album'},
-        'artist': {'name': 'Y', 'artists': [{'name': 'Y', 'artist_mbid': 'a1'}]},
-        'tag': {'release_group': [{'tag': 'folk', 'count': 3}]},
-    })
-    assert features.year == 2007
-
-
-def test_prose_profile_drops_wiki_boilerplate():
-    body = ('Recorded in a Wisconsin cabin over one winter. '
-            'User-contributed text is available under the Creative Commons.')
-    profile = text.prose_profile(text.clean_prose(body))
-    assert 'wisconsin' in profile
-    assert 'creative' not in profile
-
-
-# ---------------------------------------------------------------------------
-# Distance
-# ---------------------------------------------------------------------------
-
-def _features(**kwargs):
-    base = dict(artist='X', title='Y', listeners=10_000, listen_count=30_000,
-                profile={'folk': 1.0}, year=2010)
-    base.update(kwargs)
-    return albums.AlbumFeatures(**base)
-
-
-def test_unmeasurable_axes_are_omitted_not_scored_as_perfect():
-    seed = _features(year=None)
-    other = _features(year=None)
-    distances = axis_distances(seed, other, {'genre': {'folk': 1.0}},
-                               {'genre': {'folk': 1.0}})
-    assert 'era' not in distances
-    # No tracklist on either side means no shape axes either.
-    assert 'scale' not in distances
-    assert 'pacing' not in distances
-    # Neither has an area, so provenance can't be judged.
-    assert 'origin' not in distances
-
-
-def test_identical_albums_sit_at_distance_zero():
-    vectors = {'genre': {'folk': 1.0}}
-    match = compare(_features(), _features(), vectors, vectors, SimilarityWeights())
-    assert match.distance == pytest.approx(0.0, abs=1e-9)
-
-
-def test_disabled_axes_do_not_affect_distance():
-    seed = _features(listeners=1_000)
-    other = _features(listeners=5_000_000)
-    vectors = {'genre': {'folk': 1.0}}
-    match = compare(seed, other, vectors, vectors, SimilarityWeights.only('genre'))
-    assert match.distance == pytest.approx(0.0, abs=1e-9)
-    with_reach = SimilarityWeights.only('genre', reach=1.0)
-    assert compare(seed, other, vectors, vectors, with_reach).distance > 0.4
-
-
-def test_origin_axis_reads_area_and_act_type():
-    vectors = {'genre': {'folk': 1.0}}
-    weights = SimilarityWeights.only('origin')
-    same = compare(_features(artist_area='United States', artist_type='Group'),
-                   _features(artist_area='United States', artist_type='Group'),
-                   vectors, vectors, weights)
-    different = compare(_features(artist_area='United States', artist_type='Group'),
-                        _features(artist_area='Japan', artist_type='Person'),
-                        vectors, vectors, weights)
-    assert same.distance == pytest.approx(0.0)
-    assert different.distance == pytest.approx(1.0)
-
-
-def test_compare_returns_none_when_nothing_enabled_is_measurable():
-    seed = _features(year=None)
-    assert compare(seed, _features(year=None), {}, {},
-                   SimilarityWeights.only('era')) is None
-
-
-# ---------------------------------------------------------------------------
-# End to end, against stub services
-# ---------------------------------------------------------------------------
-
-SEED_MBID = 'rg-seed'
+# mbid -> (artist, artist mbid, title, year, primary type, secondary types,
+#          [(tag, count, is_genre)], listeners, listens, engineer, label)
 ALBUMS = {
-    'rg-seed': ('Bon Iver', 'For Emma, Forever Ago', 'a-bon', 2007, 'Album',
-                [('indie folk', 8), ('folk', 6), ('chamber folk', 2)]),
-    'rg-fleet': ('Fleet Foxes', 'Fleet Foxes', 'a-fleet', 2008, 'Album',
-                 [('indie folk', 7), ('folk', 5), ('chamber folk', 3)]),
-    'rg-iron': ('Iron & Wine', 'Our Endless Numbered Days', 'a-iron', 2004, 'Album',
-                [('indie folk', 5), ('singer-songwriter', 4)]),
-    'rg-live': ('Fleet Foxes', 'Live at the Bowl', 'a-fleet', 2010, 'Live',
-                [('indie folk', 4)]),
-    'rg-untagged': ('Nobody', 'Untagged Record', 'a-nobody', 2011, 'Album', []),
+    'rg-seed': ('Slint', 'a-slint', 'Spiderland', 1991, 'Album', [],
+                [('post-rock', 9, True), ('math rock', 6, True), ('slowcore', 4, False), ('rock', 3, True)],
+                5000, 150000, 'Brian Paulson', 'Touch and Go'),
+    'rg-rodan': ('Rodan', 'a-rodan', 'Rusty', 1994, 'Album', [],
+                 [('post-rock', 5, True), ('math rock', 4, True), ('post-hardcore', 3, True)],
+                 3000, 60000, 'Brian Paulson', 'Quarterstick'),
+    'rg-tortoise': ('Tortoise', 'a-tortoise', 'TNT', 1998, 'Album', [],
+                    [('post-rock', 8, True), ('jazz', 2, True)],
+                    8000, 120000, 'John McEntire', 'Thrill Jockey'),
+    'rg-tortoise2': ('Tortoise', 'a-tortoise', 'Millions Now Living Will Never Die', 1996, 'Album', [],
+                     [('post-rock', 7, True)], 6000, 90000, 'John McEntire', 'Thrill Jockey'),
+    'rg-codeine': ('Codeine', 'a-codeine', 'Frigid Stars', 1990, 'Album', [],
+                   [('slowcore', 6, False), ('indie rock', 3, True)],
+                   2500, 70000, 'Mike McMackin', 'Sub Pop'),
+    'rg-rodan-live': ('Rodan', 'a-rodan', 'Live at Lounge Ax', 1995, 'Album', ['Live'],
+                      [('post-rock', 2, True)], 400, 4000, '', 'Quarterstick'),
+    'rg-single': ('Codeine', 'a-codeine', 'Realize', 1992, 'Single', [],
+                  [('slowcore', 1, False)], 300, 900, '', 'Sub Pop'),
+    'rg-untagged': ('Nobody', 'a-nobody', 'Blank', 2001, 'Album', [], [], 10, 20, '', ''),
+    'rg-pop': ('Big Pop Act', 'a-pop', 'Stadium', 2015, 'Album', [],
+               [('pop', 9, True), ('rock', 5, True)], 900000, 30000000, 'Max Martin', 'Major'),
+    'rg-talk': ('Talk Talk', 'a-talk', 'Laughing Stock', 1991, 'Album', [],
+                [('post-rock', 6, True), ('art rock', 5, True)],
+                20000, 500000, 'Phill Brown', 'Verve'),
 }
+
+# artist mbid -> (name, type, area, begin year, member person mbids | bands)
+ARTISTS = {
+    'a-slint': ('Slint', 'Group', 'United States', 1986, ['p-pajo', 'p-mcmahan']),
+    'a-rodan': ('Rodan', 'Group', 'United States', 1992, ['p-noble']),
+    'a-tortoise': ('Tortoise', 'Group', 'United States', 1990, ['p-pajo', 'p-mcentire']),
+    'a-codeine': ('Codeine', 'Group', 'United States', 1989, ['p-engle']),
+    'a-nobody': ('Nobody', 'Group', 'United States', 2000, []),
+    'a-pop': ('Big Pop Act', 'Person', 'United States', 2010, []),
+    'a-talk': ('Talk Talk', 'Group', 'United Kingdom', 1981, ['p-hollis']),
+    'p-pajo': ('David Pajo', 'Person', 'United States', 1986, ['a-slint', 'a-tortoise']),
+    'p-mcmahan': ('Brian McMahan', 'Person', 'United States', 1986, ['a-slint']),
+    'p-noble': ('Jason Noble', 'Person', 'United States', 1992, ['a-rodan']),
+    'p-mcentire': ('John McEntire', 'Person', 'United States', 1990, ['a-tortoise']),
+    'p-engle': ('Stephen Immerwahr', 'Person', 'United States', 1989, ['a-codeine']),
+    'p-hollis': ('Mark Hollis', 'Person', 'United Kingdom', 1981, ['a-talk']),
+}
+
+SIMILAR_ARTISTS = {
+    'a-slint': [('a-rodan', 900), ('a-codeine', 800), ('a-tortoise', 700), ('a-pop', 100)],
+    'a-rodan': [('a-slint', 900), ('a-codeine', 500), ('a-tortoise', 400)],
+    'a-tortoise': [('a-slint', 700), ('a-rodan', 400)],
+    'a-codeine': [('a-slint', 800), ('a-rodan', 500)],
+    'a-talk': [('a-slint', 300), ('a-codeine', 200)],
+    'a-pop': [('a-nobody', 10)],
+}
+
+# Recordings people play alongside the seed's own: two Codeine tracks and
+# one by Rodan.
+SIMILAR_RECORDINGS = [('rec-rg-codeine-0', 50), ('rec-rg-codeine-1', 40), ('rec-rg-rodan-1', 30)]
+
+WIKIDATA = {'rg-seed': 'Q545227', 'rg-rodan': 'Q900001'}
+DISCOGS = {'rg-seed': '38099'}
+
+
+def _album(mbid):
+    return ALBUMS[mbid]
+
+
+def _artist_name(mbid):
+    return ARTISTS[mbid][0]
+
+
+def _search_hit(mbid):
+    artist, artist_mbid, title, year, ptype, secondary, tags, *_ = _album(mbid)
+    hit = {
+        'id': mbid, 'title': title, 'primary-type': ptype, 'score': 100,
+        'first-release-date': f'{year}-01-01',
+        'artist-credit': [{'name': artist, 'artist': {'id': artist_mbid, 'name': artist}}],
+        'tags': [{'name': t, 'count': c} for t, c, _ in tags],
+    }
+    if secondary:
+        hit['secondary-types'] = list(secondary)
+    return hit
+
+
+def _recording_relations(mbid):
+    artist, artist_mbid, title, year, ptype, secondary, tags, listeners, listens, engineer, label = _album(mbid)
+    relations = []
+    if engineer:
+        relations.append({
+            'type': 'engineer', 'target-type': 'artist', 'direction': 'backward',
+            'artist': {'id': f'eng-{engineer.lower()}', 'name': engineer, 'type': 'Person'},
+            'attributes': [],
+        })
+    relations.append({
+        'type': 'recorded at', 'target-type': 'place', 'direction': 'backward',
+        'place': {'id': f'place-{label}', 'name': f'{label} Studio'},
+    })
+    return relations
 
 
 class StubMusicBrainz:
     calls_made = 0
     cache_hits = 0
 
+    def __init__(self):
+        self.lookups = {'release_group': 0, 'release': 0, 'artist': 0}
+        self.fail_release_group_for = set()
+
     def find_album(self, artist=None, album=None, query=None, limit=10):
-        return [{
-            'id': SEED_MBID, 'title': 'For Emma, Forever Ago',
-            'primary-type': 'Album', 'first-release-date': '2007-07-08',
-            'artist-credit': [{'artist': {'name': 'Bon Iver', 'id': 'a-bon'}}],
-        }]
+        hits = []
+        for mbid, data in ALBUMS.items():
+            if artist and album:
+                if data[0].casefold() == artist.casefold() and data[2].casefold() == album.casefold():
+                    hits.append(_search_hit(mbid))
+            elif query and query.casefold() in f'{data[0]} {data[2]}'.casefold():
+                hits.append(_search_hit(mbid))
+        return hits[:limit]
 
-    def release_groups_by_tag(self, tag, limit=100):
-        return [
-            {'id': mbid, 'title': data[1], 'primary-type': data[4],
-             'artist-credit': [{'artist': {'name': data[0], 'id': data[2]}}]}
-            for mbid, data in ALBUMS.items() if mbid != SEED_MBID
-        ]
+    def release_groups_by_tags(self, tags, limit=100, primary_type='album'):
+        wanted = set(tags)
+        hits = []
+        for mbid, data in ALBUMS.items():
+            names = {t for t, _, _ in data[6]}
+            if wanted <= names and (not primary_type or data[4].lower() == primary_type):
+                hits.append(_search_hit(mbid))
+        return hits[:limit]
 
-    def tracklist(self, mbid):
-        return ['One Two Three', 'Four'], [240000, 200000]
+    def release_group(self, mbid):
+        self.lookups['release_group'] += 1
+        if mbid in self.fail_release_group_for:
+            raise ApiError('boom')
+        artist, artist_mbid, title, year, ptype, secondary, tags, *_ = _album(mbid)
+        relations = []
+        if mbid in WIKIDATA:
+            relations.append({'type': 'wikidata', 'target-type': 'url',
+                              'url': {'resource': f'https://www.wikidata.org/wiki/{WIKIDATA[mbid]}'}})
+        if mbid in DISCOGS:
+            relations.append({'type': 'discogs', 'target-type': 'url',
+                              'url': {'resource': f'https://www.discogs.com/master/{DISCOGS[mbid]}'}})
+        track_count = 6 if mbid == 'rg-seed' else 10
+        return {
+            'id': mbid, 'title': title, 'first-release-date': f'{year}-03-15',
+            'primary-type': ptype, 'secondary-types': list(secondary),
+            'artist-credit': [{'artist': {'id': artist_mbid, 'name': artist}}],
+            'releases': [
+                {'id': f'rel-{mbid}-vinyl', 'status': 'Official', 'date': f'{year}-03-15',
+                 'country': 'US', 'media': [{'format': '12" Vinyl', 'track-count': track_count}]},
+                {'id': f'rel-{mbid}', 'status': 'Official', 'date': f'{year}-03-15',
+                 'country': 'US', 'media': [{'format': 'CD', 'track-count': track_count}]},
+            ],
+            'genres': [{'name': t, 'count': c} for t, c, g in tags if g],
+            'tags': [{'name': t, 'count': c} for t, c, _ in tags],
+            'rating': {'value': 4.2, 'votes-count': 12},
+            'relations': relations,
+        }
 
-    def article_ref(self, mbid):
-        # Half direct Wikipedia links, half Wikidata ids — which is what
-        # MusicBrainz actually looks like these days.
-        if mbid not in ALBUMS:
-            return None
-        if mbid == 'rg-fleet':
-            return 'wikidata', 'Q-fleet'
-        return 'wikipedia', ALBUMS[mbid][1]
+    def release(self, release_mbid):
+        self.lookups['release'] += 1
+        mbid = release_mbid.replace('rel-', '').replace('-vinyl', '')
+        artist, artist_mbid, title, year, ptype, secondary, tags, listeners, listens, engineer, label = _album(mbid)
+        track_count = 6 if mbid == 'rg-seed' else 10
+        tracks = []
+        for index in range(track_count):
+            tracks.append({
+                'title': f'{title} track {index + 1}', 'length': 240000 + index * 30000,
+                'number': str(index + 1), 'position': index + 1,
+                'recording': {'id': f'rec-{mbid}-{index}', 'length': 240000 + index * 30000,
+                              'relations': _recording_relations(mbid)},
+            })
+        return {
+            'id': release_mbid, 'status': 'Official', 'date': f'{year}-03-15', 'country': 'US',
+            'barcode': '0000', 'title': title,
+            'label-info': [{'label': {'id': f'lab-{label}', 'name': label}, 'catalog-number': 'CAT-1'}],
+            'artist-credit': [{'artist': {'id': artist_mbid, 'name': artist,
+                                          'type': ARTISTS[artist_mbid][1]}}],
+            'media': [{'format': 'CD', 'track-count': track_count, 'tracks': tracks}],
+            'relations': [],
+        }
+
+    def artist(self, mbid):
+        self.lookups['artist'] += 1
+        name, atype, area, begin, related = ARTISTS[mbid]
+        relations = []
+        for other in related:
+            other_name, other_type = ARTISTS[other][0], ARTISTS[other][1]
+            relations.append({
+                'type': 'member of band', 'target-type': 'artist',
+                'direction': 'forward' if atype == 'Person' else 'backward',
+                'artist': {'id': other, 'name': other_name, 'type': other_type},
+            })
+        return {
+            'id': mbid, 'name': name, 'type': atype, 'gender': '',
+            'area': {'name': area}, 'life-span': {'begin': str(begin)},
+            'relations': relations, 'genres': [], 'tags': [],
+        }
+
+    def genre_names(self):
+        return frozenset({'post-rock', 'math rock', 'rock', 'post-hardcore', 'jazz',
+                          'indie rock', 'pop', 'art rock'})
 
 
 class StubListenBrainz:
@@ -245,153 +236,505 @@ class StubListenBrainz:
         for mbid in mbids:
             if mbid not in ALBUMS:
                 continue
-            artist, title, artist_mbid, year, rtype, tag_list = ALBUMS[mbid]
+            artist, artist_mbid, title, year, ptype, secondary, tags, *_ = _album(mbid)
+            name, atype, area, begin, _ = ARTISTS[artist_mbid]
             out[mbid] = {
-                'release_group': {'name': title, 'date': f'{year}-01-01', 'type': rtype},
+                'release_group': {'name': title, 'date': f'{year}-01-01', 'type': ptype,
+                                  'caa_id': 1, 'caa_release_mbid': f'rel-{mbid}', 'rels': []},
                 'artist': {'name': artist, 'artists': [{
-                    'name': artist, 'artist_mbid': artist_mbid,
-                    'area': 'United States', 'type': 'Group', 'begin_year': year - 3,
+                    'name': artist, 'artist_mbid': artist_mbid, 'area': area, 'type': atype,
+                    'begin_year': begin, 'rels': {'wikidata': 'https://www.wikidata.org/wiki/Q1'},
                 }]},
                 'tag': {
-                    'release_group': [{'tag': t, 'count': c} for t, c in tag_list],
-                    'artist': [{'tag': 'indie folk', 'count': 5}],
+                    'release_group': [
+                        dict({'tag': t, 'count': c}, **({'genre_mbid': f'g-{t}'} if g else {}))
+                        for t, c, g in tags
+                    ],
+                    'artist': [{'tag': 'post-rock', 'count': 5, 'genre_mbid': 'g-post-rock'}]
+                    if artist_mbid != 'a-pop' else [{'tag': 'pop', 'count': 5, 'genre_mbid': 'g-pop'}],
                 },
             }
         return out
 
     def popularity(self, mbids):
-        return {
-            mbid: {'total_user_count': 5000, 'total_listen_count': 150000}
-            for mbid in mbids if mbid in ALBUMS
-        }
+        return {mbid: {'total_user_count': _album(mbid)[7], 'total_listen_count': _album(mbid)[8]}
+                for mbid in mbids if mbid in ALBUMS}
 
     def artist_popularity(self, artist_mbids):
         return {mbid: {'total_user_count': 40000} for mbid in artist_mbids}
 
-    def similar_artists(self, artist_mbid, algorithm=None):
-        return [{'artist_mbid': 'a-fleet', 'name': 'Fleet Foxes', 'score': 900},
-                {'artist_mbid': 'a-iron', 'name': 'Iron & Wine', 'score': 700}]
-
     def top_release_groups(self, artist_mbid):
         return [
-            {'release_group_mbid': mbid, 'release_group': {'name': data[1]},
-             'artist': {'name': data[0]}}
-            for mbid, data in ALBUMS.items() if data[2] == artist_mbid
+            {'release_group_mbid': mbid, 'release_group': {'name': data[2], 'type': data[4]},
+             'artist': {'name': data[0], 'artist_mbid': data[1]},
+             'total_user_count': data[7], 'total_listen_count': data[8]}
+            for mbid, data in ALBUMS.items() if data[1] == artist_mbid
         ]
 
+    def similar_artists(self, artist_mbid, algorithm=None):
+        return [{'artist_mbid': other, 'name': _artist_name(other), 'score': score,
+                 'reference_mbid': artist_mbid}
+                for other, score in SIMILAR_ARTISTS.get(artist_mbid, [])]
 
-class StubWikipedia:
+    def similar_recordings(self, recording_mbids, algorithm=None):
+        if not any(str(mbid).startswith('rec-rg-seed') for mbid in recording_mbids):
+            return []
+        return [{'recording_mbid': mbid, 'score': score, 'reference_mbid': 'rec-rg-seed-0'}
+                for mbid, score in SIMILAR_RECORDINGS]
+
+    def recording_metadata(self, recording_mbids, inc=None):
+        out = {}
+        for rec in recording_mbids:
+            rg = rec.rsplit('-', 1)[0].replace('rec-', '')
+            if rg in ALBUMS:
+                data = _album(rg)
+                out[rec] = {
+                    'recording': {'name': f'{data[2]} track'},
+                    'artist': {'name': data[0], 'artists': [{'artist_mbid': data[1], 'name': data[0]}]},
+                    'release': {'release_group_mbid': rg, 'name': data[2]},
+                }
+        return out
+
+
+class StubWikidata:
     calls_made = 0
     cache_hits = 0
 
-    def titles_for_wikidata(self, ids):
-        return {'Q-fleet': 'Fleet Foxes (album)'}
+    def entities(self, qids, props=None):
+        out = {}
+        for qid in qids:
+            if qid not in WIKIDATA.values():
+                continue
+            claims = {
+                'P444': [{'mainsnak': {'snaktype': 'value', 'datavalue': {'value': '4'}}, 'rank': 'normal',
+                          'qualifiers': {'P447': [{'snaktype': 'value', 'datavalue': {'value': {'id': 'Q31181'}}}]}}],
+                'P2205': [{'mainsnak': {'snaktype': 'value', 'datavalue': {'value': 'spot1'}}, 'rank': 'normal'}],
+            }
+            if qid == 'Q545227':
+                # Only the seed's entry names a producer and a label, so the
+                # Rodan overlap stays the MusicBrainz engineer credit alone.
+                claims['P162'] = [{'mainsnak': {'snaktype': 'value', 'datavalue': {'value': {'id': 'Q-paulson'}}}, 'rank': 'normal'}]
+                claims['P264'] = [{'mainsnak': {'snaktype': 'value', 'datavalue': {'value': {'id': 'Q-tg'}}}, 'rank': 'normal'}]
+            out[qid] = {'id': qid, 'labels': {'en': {'value': 'x'}}, 'claims': claims,
+                        'sitelinks': {'enwiki': {'title': 'Spiderland'}}}
+        return out
 
-    def extracts(self, titles):
-        return {title: f'{title} was recorded in a cabin one winter.'
-                for title in titles}
+    def labels(self, qids):
+        names = {'Q-paulson': 'Brian Paulson', 'Q-tg': 'Touch and Go', 'Q31181': 'AllMusic'}
+        return {qid: names[qid] for qid in qids if qid in names}
 
 
-def stub_services():
-    return Services(musicbrainz=StubMusicBrainz(),
-                    listenbrainz=StubListenBrainz(),
-                    wikipedia=StubWikipedia())
+class StubDeezer:
+    calls_made = 0
+    cache_hits = 0
+
+    def search_album(self, artist, title):
+        for mbid, data in ALBUMS.items():
+            if data[0] == artist and data[2] == title:
+                return [{'id': hash(mbid) & 0xffff, 'title': title, 'artist': {'name': artist},
+                         'nb_tracks': 6 if mbid == 'rg-seed' else 10, 'record_type': 'album'}]
+        return []
+
+    def album(self, deezer_id):
+        return {'id': deezer_id, 'fans': 1234, 'label': 'Touch And Go', 'nb_tracks': 6,
+                'release_date': '1991-03-27', 'explicit_lyrics': False,
+                'genres': {'data': [{'name': 'Rock'}]},
+                'tracks': {'data': [{'id': deezer_id * 10 + i} for i in range(6)]}}
+
+    def track(self, track_id):
+        return {'id': track_id, 'bpm': 120.0 + (track_id % 3), 'gain': -10.5}
 
 
-def test_end_to_end_ranks_neighbours_without_network_or_key():
-    result = find_similar(artist='Bon Iver', album='For Emma, Forever Ago',
-                          services=stub_services(), radius=0.9, top_n=10)
-    assert result.seed.artist == 'Bon Iver'
-    assert result.seed.year == 2007
-    assert result.matches, 'expected at least one match'
-    names = [m.features.title for m in result.matches]
-    # Same artist excluded by default; live records and untagged ones dropped.
-    assert 'For Emma, Forever Ago' not in names
-    assert 'Live at the Bowl' not in names
-    # The closer tag profile should outrank the looser one.
-    assert names.index('Fleet Foxes') < names.index('Our Endless Numbered Days')
+class StubDiscogs:
+    calls_made = 0
+    cache_hits = 0
+
+    def __init__(self, token=''):
+        self.token = token
+        self.configured = True
+
+    def master(self, master_id):
+        return {'id': int(master_id), 'styles': ['Math Rock', 'Post Rock'], 'genres': ['Rock'],
+                'year': 1991, 'main_release': 1, 'uri': 'https://www.discogs.com/master/1'}
+
+    def release(self, release_id):
+        return {'id': release_id, 'community': {'have': 100, 'want': 200,
+                                                'rating': {'average': 4.5, 'count': 10}},
+                'labels': [{'name': 'Touch And Go'}],
+                'extraartists': [{'name': 'Brian Paulson', 'role': 'Recorded By'}]}
+
+
+class StubLastFm:
+    calls_made = 0
+    cache_hits = 0
+
+    def __init__(self, configured=True, reject_key=False):
+        self.configured = configured
+        self.reject_key = reject_key
+
+    def _check(self):
+        if self.reject_key:
+            raise KeyRejected('Last.fm rejected the API key (error 10)')
+
+    def album_tags(self, artist, album):
+        self._check()
+        return [{'name': 'melancholic', 'count': 80}, {'name': 'atmospheric', 'count': 40}]
+
+    def artist_tags(self, artist):
+        self._check()
+        return [{'name': 'post-rock', 'count': 100}]
+
+    def similar_artists(self, artist, limit=30):
+        self._check()
+        if artist == 'Slint':
+            return [{'name': 'Rodan', 'mbid': 'a-rodan', 'match': 1.0},
+                    {'name': 'Unknown', 'mbid': '', 'match': 0.5}]
+        return []
+
+    def tag_top_albums(self, tag, limit=50):
+        self._check()
+        if tag == 'slowcore':
+            return [{'name': 'Frigid Stars', 'mbid': '', 'artist': 'Codeine',
+                     'artist_mbid': 'a-codeine', 'rank': 1}]
+        return []
+
+    def album_info(self, artist, album):
+        self._check()
+        return {'name': album, 'artist': artist, 'listeners': '123456', 'playcount': '7890000',
+                'url': 'https://www.last.fm/music/x'}
+
+
+def stub_services(lastfm=None, discogs_token=''):
+    return Services(
+        musicbrainz=StubMusicBrainz(), listenbrainz=StubListenBrainz(),
+        wikidata=StubWikidata(), deezer=StubDeezer(),
+        lastfm=lastfm if lastfm is not None else StubLastFm(),
+        discogs=StubDiscogs(token=discogs_token),
+    )
+
+
+def run(services=None, **kwargs):
+    kwargs.setdefault('seeds', ['Slint - Spiderland'])
+    kwargs.setdefault('top_n', 10)
+    # The fixture universe has two Tortoise records on purpose; keep both
+    # visible unless a test is about the per-artist cap itself.
+    kwargs.setdefault('max_per_artist', 2)
+    return find_similar(services=services or stub_services(), **kwargs)
+
+
+def titles(result):
+    return [m.features.title for m in result.matches]
+
+
+def by_title(result, title):
+    return next(m for m in result.matches if m.features.title == title)
+
+
+# ---------------------------------------------------------------------------
+# Seed resolution and enrichment
+# ---------------------------------------------------------------------------
+
+def test_parse_seed_text_forms():
+    assert parse_seed_text('Slint - Spiderland') == {'artist': 'Slint', 'album': 'Spiderland'}
+    assert parse_seed_text('mbid:rg-seed') == {'mbid': 'rg-seed'}
+    assert parse_seed_text('spiderland') == {'query': 'spiderland'}
+    assert parse_seed_text({'mbid': 'x'}) == {'mbid': 'x'}
+
+
+def test_search_albums_shape():
+    hits = search_albums(stub_services(), query='rusty')
+    assert hits and hits[0]['artist'] == 'Rodan'
+    assert hits[0]['artist_mbid'] == 'a-rodan'
+    assert hits[0]['mbid'] == 'rg-rodan'
+    assert 'secondary_types' in hits[0] and 'disambiguation' in hits[0]
+
+
+def test_seed_is_fully_enriched():
+    result = run()
+    seed = result.seed
+    assert seed.artist == 'Slint' and seed.year == 1991
+    # personnel from the artist lookup
+    assert 'p-pajo' in seed.personnel and seed.personnel['p-pajo'] == 'David Pajo'
+    assert seed.personnel_relations['a-slint'] == 'artist'
+    # tracklist and circle from the canonical (CD, not vinyl) release
+    assert seed.has_tracklist and seed.track_count == 6
+    assert seed.canonical_release_mbid == 'rel-rg-seed'
+    assert 'brian paulson' in seed.engineers
+    assert 'touch and go' in seed.labels
+    assert seed.studio_names
+    # editions, rating, ids from the release group
+    assert seed.editions == 2 and seed.mb_rating == pytest.approx(4.2)
+    assert seed.wikidata_id == 'Q545227' and seed.discogs_master_id == '38099'
+    # kinship and canonicity from ListenBrainz
+    assert 'rodan' in seed.artist_neighbours
+    assert seed.artist_rg_listeners > 0
+    # crowd tags and listeners from Last.fm
+    assert 'melancholic' in seed.moods
+    assert seed.lastfm_listeners == 123456
+    # Deezer and Wikidata statistics
+    assert seed.fans == 1234 and seed.bpm_mean and seed.gain_mean == pytest.approx(-10.5)
+    assert seed.critic_scores.get('AllMusic') == pytest.approx(0.8)
+    assert seed.spotify_id == 'spot1'
+    # Wikidata's producer joins the circle under the same name key
+    assert 'brian paulson' in seed.producers
+    assert {'rg', 'release', 'artist', 'deezer', 'wikidata', 'lastfm_info', 'canonicity'} <= seed.enriched
+
+
+def test_discogs_is_off_without_a_token_and_on_with_one():
+    assert run().seed.have == 0
+    assert run(stub_services(discogs_token='tok')).seed.have == 100
+    assert run(with_discogs=True).seed.want == 200
+
+
+def test_missing_seed_raises_with_a_usable_message():
+    with pytest.raises(SeedNotFound):
+        run(seeds=['nonsense that matches nothing'])
+
+
+# ---------------------------------------------------------------------------
+# The ranking
+# ---------------------------------------------------------------------------
+
+def test_end_to_end_ranks_connected_neighbours_first():
+    result = run()
+    names = titles(result)
+    assert names, 'expected matches'
+    # the seed, its artist, live records, singles and untagged albums are out
+    assert 'Spiderland' not in names
+    assert 'Live at Lounge Ax' not in names
+    assert 'Realize' not in names
+    assert 'Blank' not in names
+    # the deeply connected records outrank the merely tagged and the far
+    assert names.index('TNT') < names.index('Stadium')
+    assert names.index('Rusty') < names.index('Stadium')
+    assert names.index('Frigid Stars') < names.index('Stadium')
     for match in result.matches:
-        assert 0.0 <= match.distance <= 0.9
-        assert match.axes
+        assert 0.0 <= match.distance <= 1.0
+        assert match.axes and match.reasons
+    assert result.considered > 0 and result.fingerprinted > 0 and result.shortlisted > 0
+    assert set(result.sources) >= {'tag', 'artist', 'people', 'tracks'}
+    assert result.timings.get('connections') is not None
 
 
-def test_album_with_no_tags_falls_back_to_its_artist_but_ranks_lower():
-    """An untagged record is still placeable through its artist's tags, at
-    reduced weight — but it must not outrank a properly tagged neighbour."""
-    result = find_similar(artist='Bon Iver', album='For Emma, Forever Ago',
-                          services=stub_services(), radius=0.95, top_n=10)
-    names = [m.features.title for m in result.matches]
-    if 'Untagged Record' in names:
-        assert names.index('Fleet Foxes') < names.index('Untagged Record')
+def test_evidence_axes_fire_on_real_connections():
+    result = run()
+    tortoise = by_title(result, 'TNT')
+    assert tortoise.strengths.get('personnel') == pytest.approx(0.5)
+    assert 'David Pajo' in tortoise.shared_personnel
+    assert any('David Pajo' in reason for reason in tortoise.reasons)
+    assert tortoise.connected
+
+    rodan = by_title(result, 'Rusty')
+    assert rodan.strengths.get('circle') == pytest.approx(1.0)
+    assert rodan.shared_circle.get('engineers') == ['Brian Paulson']
+    assert any('Brian Paulson' in reason for reason in rodan.reasons)
+
+    codeine = by_title(result, 'Frigid Stars')
+    assert codeine.strengths.get('co_listening', 0) > 0.5
+    assert codeine.co_listening[0] > 1.0
+    assert any('played alongside' in reason for reason in codeine.reasons)
+
+    stadium = by_title(result, 'Stadium')
+    assert not stadium.strengths
+    assert not stadium.connected
 
 
-def test_album_with_neither_album_nor_artist_tags_is_dropped():
-    assert albums.from_metadata('mbid-x', {
-        'release_group': {'name': 'X', 'date': '2011-01-01'},
-        'artist': {'name': 'Y', 'artists': [{'name': 'Y'}]},
-        'tag': {},
-    }) is None
+def test_finalists_carry_the_full_statistics():
+    result = run()
+    rodan = by_title(result, 'Rusty').features
+    assert rodan.has_tracklist and rodan.track_count == 10
+    assert rodan.fans == 1234 and rodan.bpm_mean
+    assert rodan.critic_scores.get('AllMusic') == pytest.approx(0.8)
+    assert rodan.lastfm_listeners == 123456
+    assert rodan.artist_rg_listeners > 0
+    assert 'p-noble' in rodan.personnel
+    row = by_title(result, 'Rusty').as_row()
+    json.dumps(row)
+    assert row['shared_engineers'] == 'Brian Paulson'
+    assert row['reasons']
 
 
-def test_finalists_get_tracklists_so_shape_axes_engage():
-    result = find_similar(artist='Bon Iver', album='For Emma, Forever Ago',
-                          services=stub_services(), radius=0.9, top_n=5)
-    top = result.matches[0]
-    assert top.features.has_tracklist
-    assert 'scale' in top.axes and 'pacing' in top.axes
+def test_multi_seed_blend_excludes_every_seed_artist():
+    result = run(seeds=['Slint - Spiderland', 'Talk Talk - Laughing Stock'])
+    assert len(result.seeds) == 2
+    assert ' + ' in result.seed.artist
+    assert set(result.seed.seed_artist_mbids) == {'a-slint', 'a-talk'}
+    artists = {m.features.artist for m in result.matches}
+    assert 'Slint' not in artists and 'Talk Talk' not in artists
+    assert result.matches
 
 
-def test_prose_axis_engages_through_both_article_routes():
-    """MusicBrainz points at Wikipedia directly for some albums and at
-    Wikidata for others; prose has to survive both.
-
-    Prose ships switched off (see SimilarityWeights), so this asks for it
-    explicitly — the plumbing still has to work for anyone who turns it up.
-    """
-    weights = SimilarityWeights(prose=1.0)
-    result = find_similar(artist='Bon Iver', album='For Emma, Forever Ago',
-                          services=stub_services(), radius=0.9, top_n=5,
-                          weights=weights)
-    assert result.seed.prose, 'seed should have prose'
-    assert any('prose' in m.axes for m in result.matches)
-    via_wikidata = [m for m in result.matches if m.features.title == 'Fleet Foxes']
-    assert via_wikidata and via_wikidata[0].features.prose
-
-
-def test_radius_bounds_the_result_set():
-    wide = find_similar(artist='Bon Iver', album='For Emma, Forever Ago',
-                        services=stub_services(), radius=0.9)
-    tight = find_similar(artist='Bon Iver', album='For Emma, Forever Ago',
-                         services=stub_services(), radius=0.05)
-    assert len(tight.matches) <= len(wide.matches)
-
-
-def test_more_obscure_filter_excludes_better_known_albums():
-    services = stub_services()
-    services.listenbrainz.popularity = lambda mbids: {
-        mbid: {'total_user_count': 900 if mbid != SEED_MBID else 5000,
-               'total_listen_count': 9000}
-        for mbid in mbids if mbid in ALBUMS
-    }
-    result = find_similar(artist='Bon Iver', album='For Emma, Forever Ago',
-                          services=services, radius=0.9, obscurity='more_obscure')
+def test_obscurity_filter_keeps_only_less_heard_records():
+    result = run(mode='deep_cuts')
     assert result.matches
     for match in result.matches:
         assert match.features.listeners < result.seed.listeners
 
 
-def test_missing_seed_raises_with_a_usable_message():
-    services = stub_services()
-    services.musicbrainz.find_album = lambda **kwargs: []
-    with pytest.raises(SeedNotFound):
-        find_similar(query='nonsense that matches nothing', services=services)
-
-
 def test_one_artist_cannot_fill_the_whole_result_list():
-    """A close neighbour returning its entire discography is technically
-    correct and useless as a recommendation."""
-    result = find_similar(artist='Bon Iver', album='For Emma, Forever Ago',
-                          services=stub_services(), radius=0.95, top_n=10,
-                          max_per_artist=1)
+    result = run(max_per_artist=1)
     artists = [m.features.artist for m in result.matches]
     assert len(artists) == len(set(artists))
+    result = run(max_per_artist=0, studio_only=False)
+    assert [m.features.artist for m in result.matches].count('Tortoise') == 2
+
+
+def test_studio_only_filter_uses_secondary_types_and_titles():
+    assert 'Live at Lounge Ax' not in titles(run())
+    assert 'Live at Lounge Ax' in titles(run(studio_only=False, top_n=20))
+
+
+def test_a_compilation_revealed_by_the_deep_lookups_is_dropped():
+    """ListenBrainz does not serve secondary types, so a compilation with an
+    innocent title only shows itself when MusicBrainz is asked in S4. It must
+    not survive into the results on the strength of its bulk data."""
+    services = stub_services()
+    real_release_group = services.musicbrainz.release_group
+
+    def release_group(mbid):
+        payload = real_release_group(mbid)
+        if mbid == 'rg-tortoise':
+            payload['secondary-types'] = ['Compilation']
+        return payload
+
+    services.musicbrainz.release_group = release_group
+    assert 'TNT' in titles(run())                      # passes the bulk filters
+    assert 'TNT' not in titles(run(services))          # dropped once S4 reveals it
+    assert 'TNT' in titles(run(stub_services(), deep=False))
+
+
+def test_the_seed_artist_is_excluded_on_every_scoring_pass():
+    """The same-artist filter is re-applied after each enrichment stage, not
+    only before fingerprinting."""
+    for kwargs in ({}, {'deep': False}, {'mode': 'sideways'}, {'mode': 'deep_cuts'}):
+        result = run(**kwargs)
+        assert result.matches
+        for match in result.matches:
+            assert match.features.artist_mbid != 'a-slint'
+            assert match.features.artist != 'Slint'
+    # The seed record itself is dropped by key even when its artist is allowed.
+    allowed = run(exclude_same_artist=False, studio_only=False, top_n=20)
+    assert allowed.matches
+    assert 'Spiderland' not in titles(allowed)
+
+
+def test_an_unknown_seed_audience_drops_the_obscurity_filter():
+    """A seed ListenBrainz has no listener count for gives no threshold to
+    compare against; deep cuts must degrade to a plain run rather than
+    reject everything."""
+    services = stub_services()
+    real_popularity = services.listenbrainz.popularity
+
+    def popularity(mbids):
+        counts = real_popularity(mbids)
+        counts.pop('rg-seed', None)          # the seed has no entry at all
+        return counts
+
+    services.listenbrainz.popularity = popularity
+    result = run(services, mode='deep_cuts')
+    assert result.seed.listeners == 0
+    assert result.matches, 'deep cuts must not empty out on an unknown seed audience'
+
+
+def test_a_seed_with_no_known_root_genre_still_works_sideways():
+    """Sideways keeps to the seed's broad genre, but a seed tagged only with
+    moods has no root to keep to, so the gate is dropped rather than
+    rejecting every candidate."""
+    services = stub_services()
+    real_metadata = services.listenbrainz.metadata
+
+    def metadata(mbids, inc=None):
+        out = real_metadata(mbids, inc)
+        entry = out.get('rg-seed')
+        if entry:
+            entry['tag']['release_group'] = [{'tag': 'hypnagogic', 'count': 9},
+                                             {'tag': 'wintry', 'count': 4}]
+            entry['tag']['artist'] = [{'tag': 'wintry', 'count': 5}]
+        return out
+
+    services.listenbrainz.metadata = metadata
+    result = run(services, mode='sideways')
+    assert not result.seed.root_genres
+    assert result.matches, 'sideways must not empty out on a seed with no root genre'
+
+
+def test_a_popularity_failure_becomes_a_note_not_a_crash():
+    """The two popularity calls only fill in statistics. Losing them costs a
+    number, never the run."""
+    services = stub_services()
+
+    def boom(mbids):
+        raise ApiError('ListenBrainz is having a moment')
+
+    services.listenbrainz.popularity = boom
+    services.listenbrainz.artist_popularity = boom
+    result = run(services)
+    assert result.matches
+    assert any('listener counts' in note for note in result.notes)
+    # One bulk call covers the batch, so it must not be reported as a
+    # per-album failure ('failed for 1 album') when 150 albums lost a number.
+    assert not any('failed for' in note for note in result.notes)
+    assert all(m.features.listeners == 0 for m in result.matches)
+
+
+def test_the_engine_runs_without_a_musicbrainz_client():
+    """Services documents that a client may be absent and the engine skips
+    what it lacks; the candidate sources have to honour that too."""
+    services = stub_services()
+    services.musicbrainz = None
+    result = find_similar(seeds=[{'mbid': 'rg-seed'}], services=services, top_n=8,
+                          max_per_artist=2)
+    assert result.matches, 'ListenBrainz and Last.fm alone should still find neighbours'
+    assert 'tag' not in result.sources and 'tags' not in result.sources
+
+
+def test_radius_caps_the_result_set():
+    result = run(radius=0.001)
+    assert not result.matches
+    assert any('none qualified' in note for note in result.notes)
+
+
+def test_deep_false_skips_the_expensive_lookups():
+    services = stub_services()
+    result = run(services, deep=False)
+    assert result.matches
+    # only the seed got a release-group and release lookup
+    assert services.musicbrainz.lookups['release_group'] == 1
+    assert services.musicbrainz.lookups['release'] == 1
+    assert 'connections' not in result.timings
+    assert not by_title(result, 'Rusty').features.has_tracklist
+
+
+def test_progress_is_only_ever_called_on_the_calling_thread():
+    threads = set()
+    stages = []
+
+    def progress(stage, done, total, label):
+        threads.add(threading.get_ident())
+        stages.append(stage)
+
+    run(progress=progress)
+    assert threads == {threading.get_ident()}
+    assert {'seed', 'candidates', 'fingerprint', 'enrich', 'score', 'connections', 'stats'} <= set(stages)
+
+
+def test_failures_become_notes_not_exceptions():
+    services = stub_services()
+    services.musicbrainz.fail_release_group_for = {'rg-rodan', 'rg-tortoise'}
+    result = run(services)
+    assert result.matches
+    assert any('MusicBrainz release-group lookup failed for 2 albums' in note for note in result.notes)
+
+
+def test_rejected_lastfm_key_is_noted_and_the_run_continues():
+    result = run(stub_services(lastfm=StubLastFm(reject_key=True)))
+    assert result.matches
+    assert any('rejected' in note for note in result.notes)
+    assert 'melancholic' not in result.seed.moods
+
+
+def test_without_a_lastfm_key_nothing_lastfm_happens():
+    result = run(stub_services(lastfm=StubLastFm(configured=False)))
+    assert result.matches
+    assert result.seed.lastfm_listeners == 0
+    assert 'lastfm' not in result.sources and 'lastfm_tag' not in result.sources

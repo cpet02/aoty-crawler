@@ -1,0 +1,1261 @@
+{
+  "country": "US",
+  "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+  "packaging": null,
+  "barcode": "",
+  "text-representation": {
+    "script": "Latn",
+    "language": "eng"
+  },
+  "disambiguation": "",
+  "asin": "B0000019HU",
+  "date": "1991-03-15",
+  "release-events": [
+    {
+      "date": "1991-03-15",
+      "area": {
+        "type": null,
+        "name": "United States",
+        "type-id": null,
+        "sort-name": "United States",
+        "id": "489ce91b-6658-3307-9877-795b68554c98",
+        "disambiguation": "",
+        "iso-3166-1-codes": [
+          "US"
+        ]
+      }
+    }
+  ],
+  "title": "Spiderland",
+  "release-group": {
+    "secondary-types": [],
+    "title": "Spiderland",
+    "secondary-type-ids": [],
+    "id": "e9f4b96a-94df-36be-9659-c9a811caead6",
+    "disambiguation": "",
+    "artist-credit": [
+      {
+        "artist": {
+          "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28",
+          "disambiguation": "",
+          "sort-name": "Slint",
+          "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+          "country": "US",
+          "name": "Slint",
+          "type": "Group"
+        },
+        "name": "Slint",
+        "joinphrase": ""
+      }
+    ],
+    "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+    "first-release-date": "1991-03-15",
+    "primary-type": "Album"
+  },
+  "packaging-id": null,
+  "relations": [
+    {
+      "end": null,
+      "attribute-values": {},
+      "attribute-ids": {},
+      "attributes": [],
+      "ended": false,
+      "begin": null,
+      "direction": "backward",
+      "source-credit": "",
+      "artist": {
+        "id": "65f13d3b-ddd6-4b33-8ab7-366ee7fb63c4",
+        "disambiguation": "",
+        "type": "Person",
+        "name": "Brian Paulson",
+        "sort-name": "Paulson, Brian",
+        "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+        "country": "US"
+      },
+      "target-credit": "",
+      "type": "engineer",
+      "target-type": "artist",
+      "type-id": "87e922ba-872e-418a-9f41-0a63aa3c30cc"
+    },
+    {
+      "target-credit": "",
+      "type": "photography",
+      "target-type": "artist",
+      "type-id": "0b58dc9b-9c49-4b19-bb58-9c06d41c8fbf",
+      "end": null,
+      "attribute-ids": {},
+      "attribute-values": {},
+      "begin": null,
+      "attributes": [],
+      "ended": false,
+      "direction": "backward",
+      "source-credit": "",
+      "artist": {
+        "name": "Will Oldham",
+        "country": "US",
+        "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+        "sort-name": "Oldham, Will",
+        "type": "Person",
+        "id": "eb51090c-662a-47a1-967c-c63292d9831a",
+        "disambiguation": ""
+      }
+    },
+    {
+      "target-type": "artist",
+      "target-credit": "",
+      "type": "photography",
+      "type-id": "0b58dc9b-9c49-4b19-bb58-9c06d41c8fbf",
+      "begin": null,
+      "attributes": [],
+      "ended": false,
+      "end": null,
+      "attribute-ids": {},
+      "attribute-values": {},
+      "artist": {
+        "sort-name": "Saltzman, Noel",
+        "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+        "country": null,
+        "name": "Noel Saltzman",
+        "type": "Person",
+        "id": "75c3bde3-48e1-4c6d-9a35-52fc13cae0f5",
+        "disambiguation": ""
+      },
+      "direction": "backward",
+      "source-credit": ""
+    }
+  ],
+  "label-info": [
+    {
+      "catalog-number": "TG64CD",
+      "label": {
+        "name": "Touch and Go Records",
+        "type-id": "7aaa37fe-2def-3476-b359-80245850062d",
+        "sort-name": "Touch and Go Records",
+        "type": "Original Production",
+        "id": "9a2cad26-48de-4e7c-97a5-354f52c6e027",
+        "label-code": null,
+        "disambiguation": ""
+      }
+    }
+  ],
+  "cover-art-archive": {
+    "count": 3,
+    "darkened": false,
+    "back": true,
+    "artwork": true,
+    "front": true
+  },
+  "status": "Official",
+  "quality": "normal",
+  "artist-credit": [
+    {
+      "name": "Slint",
+      "joinphrase": "",
+      "artist": {
+        "disambiguation": "",
+        "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28",
+        "name": "Slint",
+        "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+        "country": "US",
+        "sort-name": "Slint",
+        "type": "Group"
+      }
+    }
+  ],
+  "id": "2c8cba8b-a80a-4d7f-9a7f-22c922f1a42e",
+  "media": [
+    {
+      "tracks": [
+        {
+          "recording": {
+            "title": "Breadcrumb Trail",
+            "length": 355533,
+            "video": false,
+            "first-release-date": "1991-03-15",
+            "id": "8971961f-143b-4aba-8721-550eeb56073d",
+            "artist-credit": [
+              {
+                "artist": {
+                  "disambiguation": "",
+                  "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28",
+                  "name": "Slint",
+                  "sort-name": "Slint",
+                  "country": "US",
+                  "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                  "type": "Group"
+                },
+                "name": "Slint",
+                "joinphrase": ""
+              }
+            ],
+            "disambiguation": "",
+            "relations": [
+              {
+                "attributes": [
+                  "electric bass guitar"
+                ],
+                "ended": false,
+                "begin": null,
+                "attribute-ids": {
+                  "electric bass guitar": "0b9d87fa-93fa-4956-8b6a-a419566cc915"
+                },
+                "attribute-values": {},
+                "end": null,
+                "attribute-credits": {},
+                "artist": {
+                  "disambiguation": "",
+                  "id": "9fecf563-bce8-4960-89e9-7075bbffe84f",
+                  "type": "Person",
+                  "name": "Todd Brashear",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "Brashear, Todd"
+                },
+                "source-credit": "",
+                "direction": "backward",
+                "target-type": "artist",
+                "type": "instrument",
+                "target-credit": "",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461"
+              },
+              {
+                "attribute-values": {},
+                "attribute-ids": {
+                  "electric guitar": "7ee8ebf5-3aed-4fc8-8004-49f4a8c45a87"
+                },
+                "end": null,
+                "attribute-credits": {},
+                "ended": false,
+                "attributes": [
+                  "electric guitar"
+                ],
+                "begin": null,
+                "source-credit": "",
+                "direction": "backward",
+                "artist": {
+                  "name": "Brian McMahan",
+                  "sort-name": "McMahan, Brian",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "type": "Person",
+                  "disambiguation": "",
+                  "id": "bebfec95-35a3-4cc8-b85e-8b178d09526d"
+                },
+                "type": "instrument",
+                "target-credit": "",
+                "target-type": "artist",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461"
+              },
+              {
+                "attribute-ids": {
+                  "electric guitar": "7ee8ebf5-3aed-4fc8-8004-49f4a8c45a87"
+                },
+                "attribute-values": {},
+                "end": null,
+                "attribute-credits": {},
+                "begin": null,
+                "attributes": [
+                  "electric guitar"
+                ],
+                "ended": false,
+                "source-credit": "",
+                "direction": "backward",
+                "artist": {
+                  "type": "Person",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "Pajo, David",
+                  "name": "David Pajo",
+                  "id": "85188c46-d3ed-4517-ba78-5d06ec764f1c",
+                  "disambiguation": ""
+                },
+                "type": "instrument",
+                "target-credit": "",
+                "target-type": "artist",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461"
+              },
+              {
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "target-type": "artist",
+                "type": "instrument",
+                "target-credit": "",
+                "artist": {
+                  "id": "7fde6efa-750a-49c1-abee-7767230407ff",
+                  "disambiguation": "",
+                  "type": "Person",
+                  "name": "Britt Walford",
+                  "sort-name": "Walford, Britt",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US"
+                },
+                "source-credit": "",
+                "direction": "backward",
+                "attributes": [
+                  "drums (drum set)"
+                ],
+                "ended": false,
+                "begin": null,
+                "attribute-ids": {
+                  "drums (drum set)": "12092505-6ee1-46af-a15a-b5b468b6b155"
+                },
+                "attribute-values": {},
+                "end": null,
+                "attribute-credits": {}
+              },
+              {
+                "attribute-values": {},
+                "attribute-ids": {},
+                "end": null,
+                "attributes": [],
+                "ended": false,
+                "begin": null,
+                "source-credit": "",
+                "direction": "backward",
+                "artist": {
+                  "id": "bebfec95-35a3-4cc8-b85e-8b178d09526d",
+                  "disambiguation": "",
+                  "name": "Brian McMahan",
+                  "sort-name": "McMahan, Brian",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "type": "Person"
+                },
+                "type": "vocal",
+                "target-credit": "",
+                "target-type": "artist",
+                "type-id": "0fdbe3c6-7700-4a31-ae54-b53f06ae1cfa"
+              }
+            ]
+          },
+          "title": "Breadcrumb Trail",
+          "length": 355533,
+          "position": 1,
+          "id": "91d8c8bc-2daf-31ec-b511-23bb37eb6b1a",
+          "artist-credit": [
+            {
+              "joinphrase": "",
+              "name": "Slint",
+              "artist": {
+                "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28",
+                "disambiguation": "",
+                "name": "Slint",
+                "country": "US",
+                "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                "sort-name": "Slint",
+                "type": "Group"
+              }
+            }
+          ],
+          "number": "1"
+        },
+        {
+          "title": "Nosferatu Man",
+          "recording": {
+            "relations": [
+              {
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "target-type": "artist",
+                "target-credit": "",
+                "type": "instrument",
+                "artist": {
+                  "id": "9fecf563-bce8-4960-89e9-7075bbffe84f",
+                  "disambiguation": "",
+                  "type": "Person",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "sort-name": "Brashear, Todd",
+                  "name": "Todd Brashear"
+                },
+                "direction": "backward",
+                "source-credit": "",
+                "attributes": [
+                  "electric bass guitar"
+                ],
+                "begin": null,
+                "ended": false,
+                "end": null,
+                "attribute-credits": {},
+                "attribute-values": {},
+                "attribute-ids": {
+                  "electric bass guitar": "0b9d87fa-93fa-4956-8b6a-a419566cc915"
+                }
+              },
+              {
+                "target-type": "artist",
+                "target-credit": "",
+                "type": "instrument",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "attributes": [
+                  "electric guitar"
+                ],
+                "begin": null,
+                "ended": false,
+                "attribute-credits": {},
+                "end": null,
+                "attribute-values": {},
+                "attribute-ids": {
+                  "electric guitar": "7ee8ebf5-3aed-4fc8-8004-49f4a8c45a87"
+                },
+                "artist": {
+                  "id": "bebfec95-35a3-4cc8-b85e-8b178d09526d",
+                  "disambiguation": "",
+                  "name": "Brian McMahan",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "McMahan, Brian",
+                  "type": "Person"
+                },
+                "direction": "backward",
+                "source-credit": ""
+              },
+              {
+                "artist": {
+                  "disambiguation": "",
+                  "id": "85188c46-d3ed-4517-ba78-5d06ec764f1c",
+                  "type": "Person",
+                  "sort-name": "Pajo, David",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "name": "David Pajo"
+                },
+                "source-credit": "",
+                "direction": "backward",
+                "ended": false,
+                "attributes": [
+                  "electric guitar"
+                ],
+                "begin": null,
+                "attribute-ids": {
+                  "electric guitar": "7ee8ebf5-3aed-4fc8-8004-49f4a8c45a87"
+                },
+                "attribute-values": {},
+                "end": null,
+                "attribute-credits": {},
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "target-type": "artist",
+                "type": "instrument",
+                "target-credit": ""
+              },
+              {
+                "target-type": "artist",
+                "type": "instrument",
+                "target-credit": "",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "ended": false,
+                "attributes": [
+                  "drums (drum set)"
+                ],
+                "begin": null,
+                "attribute-ids": {
+                  "drums (drum set)": "12092505-6ee1-46af-a15a-b5b468b6b155"
+                },
+                "attribute-values": {},
+                "attribute-credits": {},
+                "end": null,
+                "artist": {
+                  "type": "Person",
+                  "name": "Britt Walford",
+                  "sort-name": "Walford, Britt",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "disambiguation": "",
+                  "id": "7fde6efa-750a-49c1-abee-7767230407ff"
+                },
+                "source-credit": "",
+                "direction": "backward"
+              },
+              {
+                "source-credit": "",
+                "direction": "backward",
+                "artist": {
+                  "name": "Brian McMahan",
+                  "sort-name": "McMahan, Brian",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "type": "Person",
+                  "id": "bebfec95-35a3-4cc8-b85e-8b178d09526d",
+                  "disambiguation": ""
+                },
+                "attribute-ids": {},
+                "attribute-values": {},
+                "end": null,
+                "attributes": [],
+                "ended": false,
+                "begin": null,
+                "type-id": "0fdbe3c6-7700-4a31-ae54-b53f06ae1cfa",
+                "type": "vocal",
+                "target-credit": "",
+                "target-type": "artist"
+              },
+              {
+                "type-id": "0fdbe3c6-7700-4a31-ae54-b53f06ae1cfa",
+                "target-type": "artist",
+                "target-credit": "",
+                "type": "vocal",
+                "artist": {
+                  "id": "7fde6efa-750a-49c1-abee-7767230407ff",
+                  "disambiguation": "",
+                  "type": "Person",
+                  "sort-name": "Walford, Britt",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "name": "Britt Walford"
+                },
+                "direction": "backward",
+                "source-credit": "",
+                "attributes": [],
+                "begin": null,
+                "ended": false,
+                "end": null,
+                "attribute-values": {},
+                "attribute-ids": {}
+              }
+            ],
+            "id": "21ea43ba-56dd-4a39-82b5-92ad2e6bc5cd",
+            "artist-credit": [
+              {
+                "artist": {
+                  "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28",
+                  "disambiguation": "",
+                  "country": "US",
+                  "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                  "sort-name": "Slint",
+                  "name": "Slint",
+                  "type": "Group"
+                },
+                "joinphrase": "",
+                "name": "Slint"
+              }
+            ],
+            "disambiguation": "",
+            "first-release-date": "1991-03-15",
+            "video": false,
+            "length": 334960,
+            "title": "Nosferatu Man"
+          },
+          "length": 334973,
+          "position": 2,
+          "id": "fb1f3f80-b81f-3bf7-9b08-70e615da8aa8",
+          "artist-credit": [
+            {
+              "artist": {
+                "type": "Group",
+                "country": "US",
+                "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                "sort-name": "Slint",
+                "name": "Slint",
+                "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28",
+                "disambiguation": ""
+              },
+              "name": "Slint",
+              "joinphrase": ""
+            }
+          ],
+          "number": "2"
+        },
+        {
+          "number": "3",
+          "artist-credit": [
+            {
+              "name": "Slint",
+              "joinphrase": "",
+              "artist": {
+                "sort-name": "Slint",
+                "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                "country": "US",
+                "name": "Slint",
+                "type": "Group",
+                "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28",
+                "disambiguation": ""
+              }
+            }
+          ],
+          "id": "46562c3b-7be8-364f-9868-4fb7c75112b9",
+          "position": 3,
+          "length": 388400,
+          "recording": {
+            "id": "90620874-f03c-45d1-ad51-e137df4a2039",
+            "disambiguation": "",
+            "artist-credit": [
+              {
+                "joinphrase": "",
+                "name": "Slint",
+                "artist": {
+                  "disambiguation": "",
+                  "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28",
+                  "type": "Group",
+                  "country": "US",
+                  "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                  "sort-name": "Slint",
+                  "name": "Slint"
+                }
+              }
+            ],
+            "video": false,
+            "first-release-date": "1991-03-15",
+            "relations": [
+              {
+                "artist": {
+                  "disambiguation": "",
+                  "id": "85188c46-d3ed-4517-ba78-5d06ec764f1c",
+                  "type": "Person",
+                  "name": "David Pajo",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "Pajo, David"
+                },
+                "direction": "backward",
+                "source-credit": "",
+                "attributes": [
+                  "electric guitar"
+                ],
+                "begin": null,
+                "ended": false,
+                "end": null,
+                "attribute-credits": {},
+                "attribute-values": {},
+                "attribute-ids": {
+                  "electric guitar": "7ee8ebf5-3aed-4fc8-8004-49f4a8c45a87"
+                },
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "target-type": "artist",
+                "target-credit": "",
+                "type": "instrument"
+              },
+              {
+                "direction": "backward",
+                "source-credit": "",
+                "artist": {
+                  "id": "7fde6efa-750a-49c1-abee-7767230407ff",
+                  "disambiguation": "",
+                  "type": "Person",
+                  "sort-name": "Walford, Britt",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "name": "Britt Walford"
+                },
+                "end": null,
+                "attribute-credits": {},
+                "attribute-values": {},
+                "attribute-ids": {
+                  "electric guitar": "7ee8ebf5-3aed-4fc8-8004-49f4a8c45a87"
+                },
+                "ended": false,
+                "attributes": [
+                  "electric guitar"
+                ],
+                "begin": null,
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "target-credit": "",
+                "type": "instrument",
+                "target-type": "artist"
+              },
+              {
+                "target-type": "artist",
+                "type": "vocal",
+                "target-credit": "",
+                "type-id": "0fdbe3c6-7700-4a31-ae54-b53f06ae1cfa",
+                "attributes": [],
+                "begin": null,
+                "ended": false,
+                "attribute-values": {},
+                "attribute-ids": {},
+                "end": null,
+                "artist": {
+                  "id": "bebfec95-35a3-4cc8-b85e-8b178d09526d",
+                  "disambiguation": "",
+                  "type": "Person",
+                  "name": "Brian McMahan",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "sort-name": "McMahan, Brian"
+                },
+                "source-credit": "",
+                "direction": "backward"
+              },
+              {
+                "type-id": "0fdbe3c6-7700-4a31-ae54-b53f06ae1cfa",
+                "target-type": "artist",
+                "type": "vocal",
+                "target-credit": "",
+                "artist": {
+                  "type": "Person",
+                  "name": "Britt Walford",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "sort-name": "Walford, Britt",
+                  "disambiguation": "",
+                  "id": "7fde6efa-750a-49c1-abee-7767230407ff"
+                },
+                "source-credit": "",
+                "direction": "backward",
+                "begin": null,
+                "attributes": [],
+                "ended": false,
+                "attribute-ids": {},
+                "attribute-values": {},
+                "end": null
+              }
+            ],
+            "title": "Don, Aman",
+            "length": 388400
+          },
+          "title": "Don, Aman"
+        },
+        {
+          "number": "4",
+          "id": "6205bdc6-1c4b-3ee1-beb7-6f3f2dc0abbb",
+          "artist-credit": [
+            {
+              "joinphrase": "",
+              "name": "Slint",
+              "artist": {
+                "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28",
+                "disambiguation": "",
+                "type": "Group",
+                "sort-name": "Slint",
+                "country": "US",
+                "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                "name": "Slint"
+              }
+            }
+          ],
+          "position": 4,
+          "length": 530026,
+          "title": "Washer",
+          "recording": {
+            "title": "Washer",
+            "length": 530027,
+            "first-release-date": "1991-03-15",
+            "video": false,
+            "id": "2f2fa195-5f82-45bc-ab87-9aef9d88b084",
+            "artist-credit": [
+              {
+                "artist": {
+                  "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28",
+                  "disambiguation": "",
+                  "type": "Group",
+                  "name": "Slint",
+                  "sort-name": "Slint",
+                  "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                  "country": "US"
+                },
+                "name": "Slint",
+                "joinphrase": ""
+              }
+            ],
+            "disambiguation": "",
+            "relations": [
+              {
+                "target-type": "artist",
+                "type": "instrument",
+                "target-credit": "",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "attributes": [
+                  "electric bass guitar"
+                ],
+                "begin": null,
+                "ended": false,
+                "attribute-ids": {
+                  "electric bass guitar": "0b9d87fa-93fa-4956-8b6a-a419566cc915"
+                },
+                "attribute-values": {},
+                "attribute-credits": {},
+                "end": null,
+                "artist": {
+                  "name": "Todd Brashear",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "Brashear, Todd",
+                  "type": "Person",
+                  "id": "9fecf563-bce8-4960-89e9-7075bbffe84f",
+                  "disambiguation": ""
+                },
+                "source-credit": "",
+                "direction": "backward"
+              },
+              {
+                "attribute-credits": {},
+                "end": null,
+                "attribute-ids": {
+                  "electric guitar": "7ee8ebf5-3aed-4fc8-8004-49f4a8c45a87"
+                },
+                "attribute-values": {},
+                "ended": false,
+                "attributes": [
+                  "electric guitar"
+                ],
+                "begin": null,
+                "direction": "backward",
+                "source-credit": "",
+                "artist": {
+                  "id": "bebfec95-35a3-4cc8-b85e-8b178d09526d",
+                  "disambiguation": "",
+                  "type": "Person",
+                  "name": "Brian McMahan",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "sort-name": "McMahan, Brian"
+                },
+                "target-credit": "",
+                "type": "instrument",
+                "target-type": "artist",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461"
+              },
+              {
+                "end": null,
+                "attribute-credits": {},
+                "attribute-values": {},
+                "attribute-ids": {
+                  "electric guitar": "7ee8ebf5-3aed-4fc8-8004-49f4a8c45a87"
+                },
+                "attributes": [
+                  "electric guitar"
+                ],
+                "begin": null,
+                "ended": false,
+                "direction": "backward",
+                "source-credit": "",
+                "artist": {
+                  "id": "85188c46-d3ed-4517-ba78-5d06ec764f1c",
+                  "disambiguation": "",
+                  "type": "Person",
+                  "name": "David Pajo",
+                  "sort-name": "Pajo, David",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df"
+                },
+                "target-credit": "",
+                "type": "instrument",
+                "target-type": "artist",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461"
+              },
+              {
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "target-type": "artist",
+                "target-credit": "",
+                "type": "instrument",
+                "artist": {
+                  "disambiguation": "",
+                  "id": "7fde6efa-750a-49c1-abee-7767230407ff",
+                  "type": "Person",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "sort-name": "Walford, Britt",
+                  "name": "Britt Walford"
+                },
+                "direction": "backward",
+                "source-credit": "",
+                "ended": false,
+                "attributes": [
+                  "drums (drum set)"
+                ],
+                "begin": null,
+                "attribute-credits": {},
+                "end": null,
+                "attribute-values": {},
+                "attribute-ids": {
+                  "drums (drum set)": "12092505-6ee1-46af-a15a-b5b468b6b155"
+                }
+              },
+              {
+                "attributes": [],
+                "ended": false,
+                "begin": null,
+                "end": null,
+                "attribute-values": {},
+                "attribute-ids": {},
+                "artist": {
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "McMahan, Brian",
+                  "name": "Brian McMahan",
+                  "type": "Person",
+                  "id": "bebfec95-35a3-4cc8-b85e-8b178d09526d",
+                  "disambiguation": ""
+                },
+                "direction": "backward",
+                "source-credit": "",
+                "target-type": "artist",
+                "target-credit": "",
+                "type": "vocal",
+                "type-id": "0fdbe3c6-7700-4a31-ae54-b53f06ae1cfa"
+              }
+            ]
+          }
+        },
+        {
+          "title": "For Dinner…",
+          "recording": {
+            "relations": [
+              {
+                "direction": "backward",
+                "source-credit": "",
+                "artist": {
+                  "name": "Todd Brashear",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "Brashear, Todd",
+                  "type": "Person",
+                  "disambiguation": "",
+                  "id": "9fecf563-bce8-4960-89e9-7075bbffe84f"
+                },
+                "end": null,
+                "attribute-credits": {},
+                "attribute-ids": {
+                  "electric bass guitar": "0b9d87fa-93fa-4956-8b6a-a419566cc915"
+                },
+                "attribute-values": {},
+                "ended": false,
+                "attributes": [
+                  "electric bass guitar"
+                ],
+                "begin": null,
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "target-credit": "",
+                "type": "instrument",
+                "target-type": "artist"
+              },
+              {
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "target-type": "artist",
+                "type": "instrument",
+                "target-credit": "",
+                "artist": {
+                  "id": "bebfec95-35a3-4cc8-b85e-8b178d09526d",
+                  "disambiguation": "",
+                  "name": "Brian McMahan",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "sort-name": "McMahan, Brian",
+                  "type": "Person"
+                },
+                "source-credit": "",
+                "direction": "backward",
+                "attributes": [
+                  "electric guitar"
+                ],
+                "ended": false,
+                "begin": null,
+                "attribute-values": {},
+                "attribute-ids": {
+                  "electric guitar": "7ee8ebf5-3aed-4fc8-8004-49f4a8c45a87"
+                },
+                "end": null,
+                "attribute-credits": {}
+              },
+              {
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "target-credit": "",
+                "type": "instrument",
+                "target-type": "artist",
+                "direction": "backward",
+                "source-credit": "",
+                "artist": {
+                  "name": "David Pajo",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "Pajo, David",
+                  "type": "Person",
+                  "disambiguation": "",
+                  "id": "85188c46-d3ed-4517-ba78-5d06ec764f1c"
+                },
+                "attribute-credits": {},
+                "end": null,
+                "attribute-values": {},
+                "attribute-ids": {
+                  "electric guitar": "7ee8ebf5-3aed-4fc8-8004-49f4a8c45a87"
+                },
+                "begin": null,
+                "attributes": [
+                  "electric guitar"
+                ],
+                "ended": false
+              },
+              {
+                "artist": {
+                  "id": "7fde6efa-750a-49c1-abee-7767230407ff",
+                  "disambiguation": "",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "Walford, Britt",
+                  "name": "Britt Walford",
+                  "type": "Person"
+                },
+                "direction": "backward",
+                "source-credit": "",
+                "ended": false,
+                "attributes": [
+                  "drums (drum set)"
+                ],
+                "begin": null,
+                "end": null,
+                "attribute-credits": {},
+                "attribute-values": {},
+                "attribute-ids": {
+                  "drums (drum set)": "12092505-6ee1-46af-a15a-b5b468b6b155"
+                },
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "target-type": "artist",
+                "target-credit": "",
+                "type": "instrument"
+              }
+            ],
+            "video": false,
+            "first-release-date": "1991-03-15",
+            "id": "cba2d895-791b-4321-9468-629453b6b572",
+            "disambiguation": "",
+            "artist-credit": [
+              {
+                "name": "Slint",
+                "joinphrase": "",
+                "artist": {
+                  "name": "Slint",
+                  "sort-name": "Slint",
+                  "country": "US",
+                  "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                  "type": "Group",
+                  "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28",
+                  "disambiguation": ""
+                }
+              }
+            ],
+            "length": 305666,
+            "title": "For Dinner…"
+          },
+          "length": 305666,
+          "position": 5,
+          "id": "22076c96-d584-38b1-9880-81c9d852b489",
+          "artist-credit": [
+            {
+              "artist": {
+                "type": "Group",
+                "name": "Slint",
+                "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                "country": "US",
+                "sort-name": "Slint",
+                "disambiguation": "",
+                "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28"
+              },
+              "joinphrase": "",
+              "name": "Slint"
+            }
+          ],
+          "number": "5"
+        },
+        {
+          "title": "Good Morning, Captain",
+          "recording": {
+            "length": 459333,
+            "title": "Good Morning, Captain",
+            "relations": [
+              {
+                "artist": {
+                  "type": "Person",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "sort-name": "Brashear, Todd",
+                  "name": "Todd Brashear",
+                  "id": "9fecf563-bce8-4960-89e9-7075bbffe84f",
+                  "disambiguation": ""
+                },
+                "direction": "backward",
+                "source-credit": "",
+                "ended": false,
+                "attributes": [
+                  "electric bass guitar"
+                ],
+                "begin": null,
+                "end": null,
+                "attribute-credits": {},
+                "attribute-values": {},
+                "attribute-ids": {
+                  "electric bass guitar": "0b9d87fa-93fa-4956-8b6a-a419566cc915"
+                },
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "target-type": "artist",
+                "target-credit": "",
+                "type": "instrument"
+              },
+              {
+                "end": null,
+                "attribute-credits": {},
+                "attribute-values": {},
+                "attribute-ids": {
+                  "electric guitar": "7ee8ebf5-3aed-4fc8-8004-49f4a8c45a87"
+                },
+                "ended": false,
+                "attributes": [
+                  "electric guitar"
+                ],
+                "begin": null,
+                "direction": "backward",
+                "source-credit": "",
+                "artist": {
+                  "disambiguation": "",
+                  "id": "bebfec95-35a3-4cc8-b85e-8b178d09526d",
+                  "sort-name": "McMahan, Brian",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "name": "Brian McMahan",
+                  "type": "Person"
+                },
+                "target-credit": "",
+                "type": "instrument",
+                "target-type": "artist",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461"
+              },
+              {
+                "attribute-ids": {
+                  "electric guitar": "7ee8ebf5-3aed-4fc8-8004-49f4a8c45a87"
+                },
+                "attribute-values": {},
+                "end": null,
+                "attribute-credits": {},
+                "attributes": [
+                  "electric guitar"
+                ],
+                "ended": false,
+                "begin": null,
+                "source-credit": "",
+                "direction": "backward",
+                "artist": {
+                  "disambiguation": "",
+                  "id": "85188c46-d3ed-4517-ba78-5d06ec764f1c",
+                  "type": "Person",
+                  "name": "David Pajo",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "sort-name": "Pajo, David"
+                },
+                "type": "instrument",
+                "target-credit": "",
+                "target-type": "artist",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461"
+              },
+              {
+                "target-credit": "",
+                "type": "instrument",
+                "target-type": "artist",
+                "type-id": "59054b12-01ac-43ee-a618-285fd397e461",
+                "attribute-credits": {},
+                "end": null,
+                "attribute-ids": {
+                  "drums (drum set)": "12092505-6ee1-46af-a15a-b5b468b6b155"
+                },
+                "attribute-values": {},
+                "attributes": [
+                  "drums (drum set)"
+                ],
+                "ended": false,
+                "begin": null,
+                "direction": "backward",
+                "source-credit": "",
+                "artist": {
+                  "type": "Person",
+                  "name": "Britt Walford",
+                  "sort-name": "Walford, Britt",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "disambiguation": "",
+                  "id": "7fde6efa-750a-49c1-abee-7767230407ff"
+                }
+              },
+              {
+                "artist": {
+                  "disambiguation": "",
+                  "id": "bebfec95-35a3-4cc8-b85e-8b178d09526d",
+                  "type": "Person",
+                  "country": "US",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "sort-name": "McMahan, Brian",
+                  "name": "Brian McMahan"
+                },
+                "direction": "backward",
+                "source-credit": "",
+                "ended": false,
+                "attributes": [],
+                "begin": null,
+                "end": null,
+                "attribute-ids": {},
+                "attribute-values": {},
+                "type-id": "0fdbe3c6-7700-4a31-ae54-b53f06ae1cfa",
+                "target-type": "artist",
+                "target-credit": "",
+                "type": "vocal"
+              },
+              {
+                "target-type": "artist",
+                "target-credit": "",
+                "type": "vocal",
+                "type-id": "0fdbe3c6-7700-4a31-ae54-b53f06ae1cfa",
+                "ended": false,
+                "attributes": [],
+                "begin": null,
+                "end": null,
+                "attribute-values": {},
+                "attribute-ids": {},
+                "artist": {
+                  "sort-name": "Walford, Britt",
+                  "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                  "country": "US",
+                  "name": "Britt Walford",
+                  "type": "Person",
+                  "id": "7fde6efa-750a-49c1-abee-7767230407ff",
+                  "disambiguation": ""
+                },
+                "direction": "backward",
+                "source-credit": ""
+              }
+            ],
+            "first-release-date": "1991-03-15",
+            "video": false,
+            "artist-credit": [
+              {
+                "artist": {
+                  "disambiguation": "",
+                  "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28",
+                  "type": "Group",
+                  "country": "US",
+                  "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                  "sort-name": "Slint",
+                  "name": "Slint"
+                },
+                "name": "Slint",
+                "joinphrase": ""
+              }
+            ],
+            "id": "d6cba4d0-501d-42eb-81ce-4d5a08d6e1fd",
+            "disambiguation": ""
+          },
+          "length": 459333,
+          "position": 6,
+          "artist-credit": [
+            {
+              "joinphrase": "",
+              "name": "Slint",
+              "artist": {
+                "name": "Slint",
+                "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+                "country": "US",
+                "sort-name": "Slint",
+                "type": "Group",
+                "id": "2869c510-2679-4a3f-bf15-e5e8b49f2f28",
+                "disambiguation": ""
+              }
+            }
+          ],
+          "id": "154c61c6-ff65-3cce-b0c2-c574af0568c6",
+          "number": "6"
+        }
+      ],
+      "format-id": "9712d52a-4509-3d4b-a1a2-67c88c643e31",
+      "title": "",
+      "track-offset": 0,
+      "track-count": 6,
+      "id": "d8f3a5de-d6f1-3330-84c0-128843097839",
+      "format": "CD",
+      "position": 1
+    }
+  ]
+}

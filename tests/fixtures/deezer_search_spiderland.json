@@ -1,0 +1,63 @@
+{
+  "data": [
+    {
+      "id": 13254973,
+      "title": "Spiderland",
+      "link": "https://www.deezer.com/album/13254973",
+      "cover": "https://api.deezer.com/album/13254973/image",
+      "cover_small": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/56x56-000000-80-0-0.jpg",
+      "cover_medium": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/250x250-000000-80-0-0.jpg",
+      "cover_big": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/500x500-000000-80-0-0.jpg",
+      "cover_xl": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/1000x1000-000000-80-0-0.jpg",
+      "md5_image": "eda1db8a1e9ddd35691c9fa22f7c6a2e",
+      "genre_id": 85,
+      "nb_tracks": 6,
+      "record_type": "album",
+      "tracklist": "https://api.deezer.com/album/13254973/tracks",
+      "explicit_lyrics": false,
+      "artist": {
+        "id": 4760,
+        "name": "Slint",
+        "link": "https://www.deezer.com/artist/4760",
+        "picture": "https://api.deezer.com/artist/4760/image",
+        "picture_small": "https://cdn-images.dzcdn.net/images/artist/00047b022eedf88e46ccee82696d7fc1/56x56-000000-80-0-0.jpg",
+        "picture_medium": "https://cdn-images.dzcdn.net/images/artist/00047b022eedf88e46ccee82696d7fc1/250x250-000000-80-0-0.jpg",
+        "picture_big": "https://cdn-images.dzcdn.net/images/artist/00047b022eedf88e46ccee82696d7fc1/500x500-000000-80-0-0.jpg",
+        "picture_xl": "https://cdn-images.dzcdn.net/images/artist/00047b022eedf88e46ccee82696d7fc1/1000x1000-000000-80-0-0.jpg",
+        "tracklist": "https://api.deezer.com/artist/4760/top?limit=50",
+        "type": "artist"
+      },
+      "type": "album"
+    },
+    {
+      "id": 13258113,
+      "title": "Spiderland (remastered)",
+      "link": "https://www.deezer.com/album/13258113",
+      "cover": "https://api.deezer.com/album/13258113/image",
+      "cover_small": "https://cdn-images.dzcdn.net/images/cover/17df21504ec362fa501575734638c0c4/56x56-000000-80-0-0.jpg",
+      "cover_medium": "https://cdn-images.dzcdn.net/images/cover/17df21504ec362fa501575734638c0c4/250x250-000000-80-0-0.jpg",
+      "cover_big": "https://cdn-images.dzcdn.net/images/cover/17df21504ec362fa501575734638c0c4/500x500-000000-80-0-0.jpg",
+      "cover_xl": "https://cdn-images.dzcdn.net/images/cover/17df21504ec362fa501575734638c0c4/1000x1000-000000-80-0-0.jpg",
+      "md5_image": "17df21504ec362fa501575734638c0c4",
+      "genre_id": 85,
+      "nb_tracks": 20,
+      "record_type": "album",
+      "tracklist": "https://api.deezer.com/album/13258113/tracks",
+      "explicit_lyrics": false,
+      "artist": {
+        "id": 4760,
+        "name": "Slint",
+        "link": "https://www.deezer.com/artist/4760",
+        "picture": "https://api.deezer.com/artist/4760/image",
+        "picture_small": "https://cdn-images.dzcdn.net/images/artist/00047b022eedf88e46ccee82696d7fc1/56x56-000000-80-0-0.jpg",
+        "picture_medium": "https://cdn-images.dzcdn.net/images/artist/00047b022eedf88e46ccee82696d7fc1/250x250-000000-80-0-0.jpg",
+        "picture_big": "https://cdn-images.dzcdn.net/images/artist/00047b022eedf88e46ccee82696d7fc1/500x500-000000-80-0-0.jpg",
+        "picture_xl": "https://cdn-images.dzcdn.net/images/artist/00047b022eedf88e46ccee82696d7fc1/1000x1000-000000-80-0-0.jpg",
+        "tracklist": "https://api.deezer.com/artist/4760/top?limit=50",
+        "type": "artist"
+      },
+      "type": "album"
+    }
+  ],
+  "total": 2
+}

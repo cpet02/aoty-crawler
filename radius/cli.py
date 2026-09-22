@@ -1,4 +1,4 @@
-"""Command line entry point: `python -m radius "Bon Iver - For Emma, Forever Ago"`."""
+"""Command line entry point: `python -m radius "Slint - Spiderland"`."""
 
 import argparse
 import csv
@@ -6,29 +6,32 @@ import json
 import sys
 
 from .clients import ApiError
-from .engine import SeedNotFound, Services, find_similar
+from .engine import MODES, SeedNotFound, Services, find_similar
 from .similarity import AXIS_GROUPS, AXIS_LABELS, SimilarityWeights, describe_axes
 
 
 def build_parser():
     parser = argparse.ArgumentParser(
         prog='radius',
-        description='Find albums whose fingerprint sits near one you already like.',
+        description='Find the albums most deeply connected to one you already like.',
     )
     parser.add_argument(
-        'seed', nargs='?',
-        help='Seed album as "Artist - Album", or any search text with --search.',
+        'seeds', nargs='*',
+        help='Seed album(s) as "Artist - Album", "mbid:<release-group id>" or free text. '
+             'Several seeds are blended into one fingerprint.',
     )
-    parser.add_argument('--artist', help='Seed artist (instead of the "A - B" form).')
-    parser.add_argument('--album', help='Seed album (instead of the "A - B" form).')
-    parser.add_argument('--search', action='store_true',
-                        help='Treat the seed as free text and let MusicBrainz resolve it.')
-
-    parser.add_argument('--radius', type=float, default=0.55,
-                        help='Max fingerprint distance, 0..1. 0.3 tight, 0.7 loose.')
+    parser.add_argument('--mode', choices=sorted(MODES), default='closest',
+                        help='closest: nearest fingerprints. sideways: same broad genre, '
+                             'corners the seed is not in. deep_cuts: less heard than the seed.')
     parser.add_argument('-n', '--top', type=int, default=25, help='How many results.')
-    parser.add_argument('--pool', type=int, default=120,
-                        help='Candidates to fully fingerprint. Higher is better and slower.')
+    parser.add_argument('--pool', type=int, default=150,
+                        help='Candidates to bulk-fingerprint. Higher is better and slower.')
+    parser.add_argument('--shortlist', type=int, default=None,
+                        help='How many get the deep MusicBrainz lookups (default 1.5x --top, min 30).')
+    parser.add_argument('--per-artist', type=int, default=1, metavar='N',
+                        help='Max albums per artist in the results (0 = no cap).')
+    parser.add_argument('--radius', type=float, default=None,
+                        help='Optional cap on fingerprint distance, 0..1.')
 
     parser.add_argument('--weight', action='append', default=[], metavar='AXIS=VALUE',
                         help='Override one axis weight, e.g. --weight mood=1.5. Repeatable.')
@@ -37,23 +40,19 @@ def build_parser():
     parser.add_argument('--list-axes', action='store_true',
                         help='Print the fingerprint axes and their default weights.')
 
-    parser.add_argument('--obscurity', choices=('any', 'more_obscure', 'better_known'),
-                        default='any', help='Restrict by audience size relative to the seed.')
-    parser.add_argument('--lateral', action='store_true',
-                        help='Prefer the same broad genre but subgenres the seed lacks.')
     parser.add_argument('--include-same-artist', action='store_true',
                         help='Allow other albums by the seed artist.')
-    parser.add_argument('--per-artist', type=int, default=2, metavar='N',
-                        help='Max albums per artist in the results (0 = no cap).')
     parser.add_argument('--include-non-studio', action='store_true',
                         help='Allow live albums, compilations, remix sets.')
-    parser.add_argument('--no-enrich', action='store_true',
-                        help='Skip tracklist lookups, dropping the shape axes (faster).')
-    parser.add_argument('--no-prose', action='store_true',
-                        help='Skip Wikipedia lookups, dropping the prose axis (faster).')
     parser.add_argument('--no-crowd-tags', action='store_true',
-                        help='Skip Last.fm tag enrichment even if a key is set.')
+                        help='Skip Last.fm even if a key is set.')
+    parser.add_argument('--discogs', action='store_true',
+                        help='Fetch Discogs stats even without a token (25 requests/minute, slow).')
+    parser.add_argument('--no-deep', action='store_true',
+                        help='Skip the deep lookups: a fast, shallow run on bulk data only.')
 
+    parser.add_argument('--explain', action='store_true',
+                        help='Print every axis and every statistic per result.')
     parser.add_argument('--json', dest='json_out', metavar='PATH',
                         help='Write full results to a JSON file.')
     parser.add_argument('--csv', dest='csv_out', metavar='PATH',
@@ -63,11 +62,14 @@ def build_parser():
 
 
 def parse_weights(args):
+    known = SimilarityWeights.axis_names()
+    for axis in args.only or ():
+        if axis not in known:
+            raise SystemExit(f'Unknown axis "{axis}". Try --list-axes.')
     if args.only:
         weights = SimilarityWeights.only(*args.only)
     else:
         weights = SimilarityWeights()
-    known = SimilarityWeights.axis_names()
     for override in args.weight:
         axis, _, value = override.partition('=')
         axis = axis.strip()
@@ -87,31 +89,120 @@ def print_axes():
         for axis in axes:
             weight = getattr(defaults, axis)
             state = f'{weight:.2f}' if weight else 'off'
-            print(f'  {axis:<12} {state:>5}  {AXIS_LABELS[axis]}')
+            print(f'  {axis:<13} {state:>5}  {AXIS_LABELS[axis]}')
     print('\nOverride with --weight axis=value, or isolate with --only axis [axis ...].')
 
 
 def _progress(stage, done, total, label):
     bar = f'[{stage}] {done}/{total}'
-    sys.stderr.write(f'\r{bar:<24} {label[:52]:<52}')
+    sys.stderr.write(f'\r{bar:<26} {label[:60]:<60}')
     sys.stderr.flush()
     if total and done >= total:
         sys.stderr.write('\n')
 
 
 def _use_utf8_output():
-    """Stop a Windows console from killing a finished run.
-
-    The default console encoding here is cp1252, which cannot represent a
-    good share of the album titles this tool prints — one '♯' in a track
-    title and the whole result set dies with a UnicodeEncodeError after every
-    request has already been paid for.
-    """
+    """Stop a Windows console from killing a finished run: the default
+    encoding there cannot represent a good share of album titles."""
     for stream in (sys.stdout, sys.stderr):
         try:
             stream.reconfigure(encoding='utf-8', errors='replace')
         except (AttributeError, ValueError):
             pass
+
+
+def _fmt_int(value):
+    return f'{int(value):,}' if value else '-'
+
+
+def _seed_card(seed):
+    year = f' ({seed.year})' if seed.year else ''
+    lines = [f'\nSeed: {seed.artist} - {seed.title}{year}']
+    lines.append(f'  tags       {", ".join(seed.top_tags[:8])}')
+    if seed.listeners:
+        lines.append(f'  listeners  {seed.listeners:,} on ListenBrainz, {seed.devotion:.1f} listens each'
+                     + (f'; {seed.fans:,} Deezer fans' if seed.fans else '')
+                     + (f'; {seed.lastfm_listeners:,} on Last.fm' if seed.lastfm_listeners else ''))
+    origin = []
+    if seed.artist_area:
+        origin.append(seed.artist_area)
+    if seed.artist_type:
+        origin.append(seed.artist_type.lower())
+    if seed.career_stage is not None:
+        origin.append(f'{seed.career_stage} yrs into career')
+    if origin:
+        lines.append(f'  from       {" / ".join(origin)}')
+    if seed.has_tracklist:
+        lines.append(f'  shape      {seed.track_count} tracks, {seed.runtime_seconds // 60} min'
+                     + (f', {seed.bpm_mean:.0f} bpm' if seed.bpm_mean else '')
+                     + (f', {seed.gain_mean:.1f} dB gain' if seed.gain_mean is not None else ''))
+    if seed.label or seed.producer_names or seed.studio_names:
+        parts = []
+        if seed.label:
+            parts.append(f'on {seed.label}')
+        if seed.producer_names:
+            parts.append('produced by ' + ', '.join(seed.producer_names[:3]))
+        if seed.studio_names:
+            parts.append('recorded at ' + ', '.join(seed.studio_names[:2]))
+        lines.append(f'  circle     {"; ".join(parts)}')
+    if seed.personnel:
+        others = [name for mbid, name in seed.personnel.items() if mbid != seed.artist_mbid]
+        lines.append(f'  people     {len(others)} connected: {", ".join(others[:6])}'
+                     + (' ...' if len(others) > 6 else ''))
+    if seed.critic_scores:
+        lines.append('  critics    ' + ', '.join(f'{k} {v:.2f}' for k, v in seed.critic_scores.items()))
+    if seed.have or seed.want:
+        lines.append(f'  discogs    {seed.have:,} have / {seed.want:,} want'
+                     + (f', rated {seed.discogs_rating:.2f}' if seed.discogs_rating else ''))
+    return '\n'.join(lines)
+
+
+def _stat_line(features):
+    parts = [f'{_fmt_int(features.listeners)} listeners']
+    if features.listeners:
+        parts.append(f'{features.devotion:.1f} each')
+    if features.runtime_seconds:
+        parts.append(f'{features.runtime_seconds // 60} min')
+    if features.track_count:
+        parts.append(f'{features.track_count} tracks')
+    if features.bpm_mean:
+        parts.append(f'{features.bpm_mean:.0f} bpm')
+    if features.label:
+        parts.append(features.label)
+    if features.artist_area:
+        parts.append(features.artist_area)
+    return ' | '.join(parts)
+
+
+def _print_match(rank, match, explain):
+    features = match.features
+    year = features.year or '????'
+    tag = ' [connected]' if match.connected else ''
+    print(f'{rank:>3}. {features.artist} - {features.title} ({year})'
+          f'   sim {match.similarity:.3f}{tag}')
+    for reason in match.reasons[:3]:
+        print(f'     - {reason}')
+    print(f'     {_stat_line(features)}')
+    if not explain:
+        return
+    for reason in match.reasons[3:]:
+        print(f'     - {reason}')
+    print('     axes:')
+    for axis, distance in sorted(match.axes.items(), key=lambda kv: kv[1]):
+        strength = match.strengths.get(axis)
+        if strength is not None:
+            print(f'       {axis:<13} shared  strength {strength:.2f}')
+        else:
+            print(f'       {axis:<13} {distance:.3f}')
+    print('     stats:')
+    row = features.as_row()
+    for key, value in row.items():
+        if value in (None, '', 0, False) or key in ('image_url', 'recording_mbids'):
+            continue
+        text = str(value)
+        if len(text) > 140:
+            text = text[:137] + '...'
+        print(f'       {key:<22} {text}')
 
 
 def main(argv=None):
@@ -121,31 +212,21 @@ def main(argv=None):
     if args.list_axes:
         print_axes()
         return 0
-
-    artist, album, query = args.artist, args.album, None
-    if args.seed:
-        if args.search or ' - ' not in args.seed:
-            query = args.seed
-        else:
-            artist, _, album = (part.strip() for part in args.seed.partition(' - '))
-    if not (query or (artist and album)):
-        raise SystemExit(
-            'Give a seed: radius "Artist - Album", or --artist X --album Y, '
-            'or --search "some text".'
-        )
+    if not args.seeds:
+        raise SystemExit('Give a seed: radius "Artist - Album" [another seed ...]')
 
     services = Services.create()
     try:
         result = find_similar(
-            artist=artist, album=album, query=query,
+            seeds=args.seeds,
             weights=parse_weights(args),
-            radius=args.radius, top_n=args.top, pool_size=args.pool,
+            mode=args.mode, radius=args.radius, top_n=args.top, pool_size=args.pool,
+            shortlist_size=args.shortlist,
             exclude_same_artist=not args.include_same_artist,
             studio_only=not args.include_non_studio,
             max_per_artist=args.per_artist,
-            obscurity=args.obscurity, lateral=args.lateral,
-            enrich_results=not args.no_enrich,
-            with_prose=not args.no_prose,
+            deep=not args.no_deep,
+            with_discogs=True if args.discogs else None,
             enrich_tags_with_lastfm=not args.no_crowd_tags,
             services=services,
             progress=None if args.quiet else _progress,
@@ -167,40 +248,46 @@ def main(argv=None):
         source = 'MusicBrainz only (no LASTFM_API_KEY set)'
     print(f'\nTags: {source}', file=sys.stderr)
 
-    seed = result.seed
-    year = f' ({seed.year})' if seed.year else ''
-    print(f'\nSeed: {seed.artist} - {seed.title}{year}')
-    print(f'  tags      {", ".join(seed.top_tags[:8])}')
-    print(f'  listeners {seed.listeners:,} · {seed.devotion:.1f} listens each')
-    if seed.artist_area:
-        print(f'  from      {seed.artist_area}'
-              + (f' · {seed.career_stage} yrs into career' if seed.career_stage is not None else ''))
-    print(f'\n{result.fingerprinted} of {result.considered} candidates fingerprinted '
-          f'· {result.requests_made} requests · {result.cache_hits} cache hits')
+    for seed in (result.seeds if len(result.seeds) > 1 else [result.seed]):
+        print(_seed_card(seed))
+    if len(result.seeds) > 1:
+        print(f'\nBlend: {result.seed.artist}')
+
+    sources = ', '.join(f'{kind} {count}' for kind, count in result.sources.items())
+    print(f'\n{result.fingerprinted} of {result.considered} candidates fingerprinted, '
+          f'{result.shortlisted} deep-checked; {result.requests_made} requests, '
+          f'{result.cache_hits} cache hits')
+    if sources:
+        print(f'  candidate sources: {sources}')
+    timings = ', '.join(f'{stage} {seconds}s' for stage, seconds in result.timings.items())
+    if timings:
+        print(f'  timings: {timings}')
 
     for note in result.notes:
         print(f'\n! {note}')
 
     if result.matches:
-        print(f'\nInside radius {args.radius:.2f}:\n')
+        print(f'\nMost connected ({args.mode}):\n')
         for rank, match in enumerate(result.matches, 1):
-            features = match.features
-            year = features.year or '????'
-            print(f'{rank:>3}. {features.artist} - {features.title} ({year})'
-                  f'   sim {match.similarity:.3f}')
-            print(f'     {describe_axes(match)}')
-            if match.shared_tags:
-                print(f'     shared: {", ".join(match.shared_tags)}')
-            if match.distinct_tags:
-                print(f'     new:    {", ".join(match.distinct_tags)}')
+            _print_match(rank, match, args.explain)
+            if args.explain:
+                print()
 
     rows = result.rows()
     if args.json_out:
         with open(args.json_out, 'w', encoding='utf-8') as handle:
-            json.dump({'seed': seed.as_row(), 'results': rows}, handle, indent=2)
+            json.dump({'seed': result.seed.as_row(),
+                       'seeds': [s.as_row() for s in result.seeds],
+                       'results': rows, 'notes': result.notes,
+                       'timings': result.timings, 'sources': result.sources},
+                      handle, indent=2)
         print(f'\nWrote {args.json_out}')
     if args.csv_out and rows:
-        columns = sorted({key for row in rows for key in row})
+        columns = list(rows[0].keys())
+        for row in rows[1:]:
+            for key in row:
+                if key not in columns:
+                    columns.append(key)
         with open(args.csv_out, 'w', encoding='utf-8', newline='') as handle:
             writer = csv.DictWriter(handle, fieldnames=columns)
             writer.writeheader()

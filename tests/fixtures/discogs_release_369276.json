@@ -1,0 +1,486 @@
+{
+  "id": 369276,
+  "status": "Accepted",
+  "year": 1991,
+  "resource_url": "https://api.discogs.com/releases/369276",
+  "uri": "https://www.discogs.com/release/369276-Slint-Spiderland",
+  "artists": [
+    {
+      "name": "Slint",
+      "anv": "",
+      "join": "",
+      "role": "",
+      "tracks": "",
+      "id": 56206,
+      "resource_url": "https://api.discogs.com/artists/56206",
+      "thumbnail_url": "https://i.discogs.com/2OZ3_slwpfzzF6PrzcJwOUs7KOJYEFE7y4nvHbVZcN0/rs:fit/g:sm/q:90/h:299/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTU2MjA2/LTE2NjUzNjQ0Nzkt/OTk2NC5qcGVn.jpeg"
+    }
+  ],
+  "artists_sort": "Slint",
+  "labels": [
+    {
+      "name": "Touch And Go",
+      "catno": "T&G LP#64",
+      "entity_type": "1",
+      "entity_type_name": "Label",
+      "id": 819,
+      "resource_url": "https://api.discogs.com/labels/819",
+      "thumbnail_url": "https://i.discogs.com/SD_UM3JAXUCHQ-x0mXv2mK2BgqpCRDovqeNDYzRYltA/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTgxOS0x/NDk3NTI3NjE5LTMw/NDAucG5n.jpeg"
+    },
+    {
+      "name": "Touch And Go",
+      "catno": "T&GLP64",
+      "entity_type": "1",
+      "entity_type_name": "Label",
+      "id": 819,
+      "resource_url": "https://api.discogs.com/labels/819",
+      "thumbnail_url": "https://i.discogs.com/SD_UM3JAXUCHQ-x0mXv2mK2BgqpCRDovqeNDYzRYltA/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTgxOS0x/NDk3NTI3NjE5LTMw/NDAucG5n.jpeg"
+    }
+  ],
+  "series": [],
+  "companies": [
+    {
+      "name": "Touch And Go Records (2)",
+      "catno": "",
+      "entity_type": "13",
+      "entity_type_name": "Phonographic Copyright (p)",
+      "id": 33924,
+      "resource_url": "https://api.discogs.com/labels/33924"
+    },
+    {
+      "name": "Slint",
+      "catno": "",
+      "entity_type": "14",
+      "entity_type_name": "Copyright (c)",
+      "id": 375004,
+      "resource_url": "https://api.discogs.com/labels/375004"
+    },
+    {
+      "name": "Greg Lee Processing",
+      "catno": "L-36954",
+      "entity_type": "44",
+      "entity_type_name": "Plated At",
+      "id": 297011,
+      "resource_url": "https://api.discogs.com/labels/297011",
+      "thumbnail_url": "https://i.discogs.com/2CN-fsgYbxGRbH3AOri5quXs9dSPe7eFIE3UdOeTACk/rs:fit/g:sm/q:90/h:456/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTI5NzAx/MS0xNjAyNDAxODE4/LTQ1NDEuanBlZw.jpeg"
+    }
+  ],
+  "formats": [
+    {
+      "name": "Vinyl",
+      "qty": "1",
+      "descriptions": [
+        "LP",
+        "Album"
+      ]
+    }
+  ],
+  "data_quality": "Needs Vote",
+  "community": {
+    "have": 3409,
+    "want": 3581,
+    "rating": {
+      "count": 482,
+      "average": 4.57
+    },
+    "submitter": {
+      "username": "wlwlwl",
+      "resource_url": "https://api.discogs.com/users/wlwlwl"
+    },
+    "contributors": [
+      {
+        "username": "wlwlwl",
+        "resource_url": "https://api.discogs.com/users/wlwlwl"
+      },
+      {
+        "username": "ec",
+        "resource_url": "https://api.discogs.com/users/ec"
+      },
+      {
+        "username": "Gecks",
+        "resource_url": "https://api.discogs.com/users/Gecks"
+      },
+      {
+        "username": "rev.robert",
+        "resource_url": "https://api.discogs.com/users/rev.robert"
+      },
+      {
+        "username": "digitalenemy",
+        "resource_url": "https://api.discogs.com/users/digitalenemy"
+      },
+      {
+        "username": "leftofthedial",
+        "resource_url": "https://api.discogs.com/users/leftofthedial"
+      },
+      {
+        "username": "fate23",
+        "resource_url": "https://api.discogs.com/users/fate23"
+      },
+      {
+        "username": "angrymice",
+        "resource_url": "https://api.discogs.com/users/angrymice"
+      },
+      {
+        "username": "ChampionJames",
+        "resource_url": "https://api.discogs.com/users/ChampionJames"
+      },
+      {
+        "username": "mr.dna",
+        "resource_url": "https://api.discogs.com/users/mr.dna"
+      },
+      {
+        "username": "infamous31",
+        "resource_url": "https://api.discogs.com/users/infamous31"
+      },
+      {
+        "username": "adrian-79",
+        "resource_url": "https://api.discogs.com/users/adrian-79"
+      },
+      {
+        "username": "cryptonymus",
+        "resource_url": "https://api.discogs.com/users/cryptonymus"
+      },
+      {
+        "username": "Ioveless",
+        "resource_url": "https://api.discogs.com/users/Ioveless"
+      },
+      {
+        "username": "rockandrollgraveyard",
+        "resource_url": "https://api.discogs.com/users/rockandrollgraveyard"
+      },
+      {
+        "username": "eleelandc",
+        "resource_url": "https://api.discogs.com/users/eleelandc"
+      },
+      {
+        "username": "sejo",
+        "resource_url": "https://api.discogs.com/users/sejo"
+      }
+    ],
+    "data_quality": "Needs Vote",
+    "status": "Accepted"
+  },
+  "format_quantity": 1,
+  "date_added": "2005-01-14T18:42:11-08:00",
+  "date_changed": "2025-09-13T11:53:33-07:00",
+  "num_for_sale": 6,
+  "lowest_price": 127.55,
+  "master_id": 38099,
+  "master_url": "https://api.discogs.com/masters/38099",
+  "title": "Spiderland",
+  "country": "US",
+  "released": "1991-03-27",
+  "notes": "First pressing with green vinyl labels. \"Jacket Made in Canada\" printed at right of Touch & Go logo on back cover.\n\nCatalog number on spine: T&G lp#64\nCatalog number on label: T&GLP64\n\n©1991 Slint\n℗1991 Touch And Go Records\n\nTrack times are not listed on this release.",
+  "released_formatted": "27 Mar 1991",
+  "identifiers": [
+    {
+      "type": "Matrix / Runout",
+      "value": "(T) T+G LP 64 A₁ L-36954",
+      "description": "Side A runout, etched"
+    },
+    {
+      "type": "Matrix / Runout",
+      "value": "(T) T+G LP 64•B₁ L-36954X",
+      "description": "Side B runout, etched"
+    }
+  ],
+  "videos": [
+    {
+      "uri": "https://www.youtube.com/watch?v=7jst4--Wsv8",
+      "title": "Breadcrumb Trail (Remastered)",
+      "description": "Provided to YouTube by BWSCD, Inc.\n\nBreadcrumb Trail (Remastered) · Slint\n\nSpiderland (remastered)\n\n℗ 2014 Touch and Go Records\n\nReleased on: 2014-06-24\n\nMusic Publisher: 1991-2014 Slint Music (BMI)\n\nAuto-generated by YouTube.",
+      "duration": 355,
+      "embed": true
+    },
+    {
+      "uri": "https://www.youtube.com/watch?v=GR6vUQdoPKM",
+      "title": "Nosferatu Man (Remastered)",
+      "description": "Provided to YouTube by BWSCD, Inc.\n\nNosferatu Man (Remastered) · Slint\n\nSpiderland (remastered)\n\n℗ 2014 Touch and Go Records\n\nReleased on: 2014-06-24\n\nMusic Publisher: 1991-2014 Slint Music (BMI)\n\nAuto-generated by YouTube.",
+      "duration": 335,
+      "embed": true
+    },
+    {
+      "uri": "https://www.youtube.com/watch?v=Vsf6cnfC6cg",
+      "title": "Don, Aman (Remastered)",
+      "description": "Provided to YouTube by BWSCD, Inc.\n\nDon, Aman (Remastered) · Slint\n\nSpiderland (remastered)\n\n℗ 2014 Touch and Go Records\n\nReleased on: 2014-06-24\n\nMusic Publisher: 1991-2014 Slint Music (BMI)\n\nAuto-generated by YouTube.",
+      "duration": 388,
+      "embed": true
+    },
+    {
+      "uri": "https://www.youtube.com/watch?v=nmL7rXt1fvI",
+      "title": "Washer",
+      "description": "Provided to YouTube by BWSCD, Inc.\n\nWasher · Slint\n\nSpiderland\n\n℗ 1991 Touch and Go Records\n\nReleased on: 1991-03-15\n\nMusic Publisher: Neatly Folded Music (BMI)\n\nAuto-generated by YouTube.",
+      "duration": 531,
+      "embed": true
+    },
+    {
+      "uri": "https://www.youtube.com/watch?v=ktGvfd2v0mc",
+      "title": "For Dinner… (Remastered)",
+      "description": "Provided to YouTube by BWSCD, Inc.\n\nFor Dinner… (Remastered) · Slint\n\nSpiderland (remastered)\n\n℗ 2014 Touch and Go Records\n\nReleased on: 2014-06-24\n\nMusic Publisher: 1991-2014 Slint Music (BMI)\n\nAuto-generated by YouTube.",
+      "duration": 306,
+      "embed": true
+    },
+    {
+      "uri": "https://www.youtube.com/watch?v=-TAt3Sjqywg",
+      "title": "Good Morning, Captain (Remastered)",
+      "description": "Provided to YouTube by BWSCD, Inc.\n\nGood Morning, Captain (Remastered) · Slint\n\nSpiderland (remastered)\n\n℗ 2014 Touch and Go Records\n\nReleased on: 2014-06-24\n\nMusic Publisher: 1991-2014 Slint Music (BMI)\n\nAuto-generated by YouTube.",
+      "duration": 462,
+      "embed": true
+    },
+    {
+      "uri": "https://www.youtube.com/watch?v=YB5Z4JuWHAI",
+      "title": "Nosferatu Man (Basement Practice)",
+      "description": "Provided to YouTube by BWSCD, Inc.\n\nNosferatu Man (Basement Practice) · Slint\n\nSpiderland (remastered)\n\n℗ 2014 Touch and Go Records\n\nReleased on: 2014-06-24\n\nMusic Publisher: 1991-2014 Slint Music (BMI)\n\nAuto-generated by YouTube.",
+      "duration": 426,
+      "embed": true
+    },
+    {
+      "uri": "https://www.youtube.com/watch?v=0ahPUZCACB0",
+      "title": "Washer (Basement Practice)",
+      "description": "Provided to YouTube by BWSCD, Inc.\n\nWasher (Basement Practice) · Slint\n\nSpiderland (remastered)\n\n℗ 2014 Touch and Go Records\n\nReleased on: 2014-06-24\n\nMusic Publisher: 1991-2014 Slint Music (BMI)\n\nAuto-generated by YouTube.",
+      "duration": 289,
+      "embed": true
+    },
+    {
+      "uri": "https://www.youtube.com/watch?v=Z6woQHlAo_A",
+      "title": "Good Morning, Captain (Demo)",
+      "description": "Provided to YouTube by BWSCD, Inc.\n\nGood Morning, Captain (Demo) · Slint\n\nSpiderland (remastered)\n\n℗ 2014 Touch and Go Records\n\nReleased on: 2014-06-24\n\nMusic Publisher: 1991-2014 Slint Music (BMI)\n\nAuto-generated by YouTube.",
+      "duration": 455,
+      "embed": true
+    },
+    {
+      "uri": "https://www.youtube.com/watch?v=o7Iyv5pFpxQ",
+      "title": "Pam (Rough Mix, Spiderland Outtake)",
+      "description": "Provided to YouTube by BWSCD, Inc.\n\nPam (Rough Mix, Spiderland Outtake) · Slint\n\nSpiderland (remastered)\n\n℗ 2014 Touch and Go Records\n\nReleased on: 2014-06-24\n\nMusic Publisher: 1991-2014 Slint Music (BMI)\n\nAuto-generated by YouTube.",
+      "duration": 285,
+      "embed": true
+    },
+    {
+      "uri": "https://www.youtube.com/watch?v=zNI6Xw59st8",
+      "title": "Glenn (Spiderland Outtake)",
+      "description": "Provided to YouTube by BWSCD, Inc.\n\nGlenn (Spiderland Outtake) · Slint\n\nSpiderland (remastered)\n\n℗ 2014 Touch and Go Records\n\nReleased on: 2014-06-24\n\nMusic Publisher: 1991-2014 Slint Music (BMI)\n\nAuto-generated by YouTube.",
+      "duration": 480,
+      "embed": true
+    },
+    {
+      "uri": "https://www.youtube.com/watch?v=0d8BT0K0BwE",
+      "title": "Todd's Song",
+      "description": "Provided to YouTube by BWSCD, Inc.\n\nTodd's Song · Slint\n\nSpiderland (remastered)\n\n℗ 2014 Touch and Go Records\n\nReleased on: 2014-06-24\n\nMusic Publisher: 1991-2014 Slint Music (BMI)\n\nAuto-generated by YouTube.",
+      "duration": 443,
+      "embed": true
+    },
+    {
+      "uri": "https://www.youtube.com/watch?v=709wX-AZAFI",
+      "title": "Brian's Song",
+      "description": "Provided to YouTube by BWSCD, Inc.\n\nBrian's Song · Slint\n\nSpiderland (remastered)\n\n℗ 2014 Touch and Go Records\n\nReleased on: 2014-06-24\n\nMusic Publisher: 1991-2014 Slint Music (BMI)\n\nAuto-generated by YouTube.",
+      "duration": 358,
+      "embed": true
+    },
+    {
+      "uri": "https://www.youtube.com/watch?v=xQlTesaKJr4",
+      "title": "Cortez the Killer (Live Chicago 1989)",
+      "description": "Provided to YouTube by BWSCD, Inc.\n\nCortez the Killer (Live Chicago 1989) · Slint\n\nSpiderland (remastered)\n\n℗ 2014 Touch and Go Records\n\nReleased on: 2014-06-24\n\nMusic Publisher: 1991-2014 Slint Music (BMI)\n\nAuto-generated by YouTube.",
+      "duration": 517,
+      "embed": true
+    },
+    {
+      "uri": "https://www.youtube.com/watch?v=NlD9BUYA4Wo",
+      "title": "Washer (4 Track Vocal Demo)",
+      "description": "Provided to YouTube by BWSCD, Inc.\n\nWasher (4 Track Vocal Demo) · Slint\n\nSpiderland (remastered)\n\n℗ 2014 Touch and Go Records\n\nReleased on: 2014-06-24\n\nMusic Publisher: 1991-2014 Slint Music (BMI)\n\nAuto-generated by YouTube.",
+      "duration": 442,
+      "embed": true
+    },
+    {
+      "uri": "https://www.youtube.com/watch?v=FmkRk5OUxcc",
+      "title": "Nosferatu Man (4 Track Vocal Demo)",
+      "description": "Provided to YouTube by BWSCD, Inc.\n\nNosferatu Man (4 Track Vocal Demo) · Slint\n\nSpiderland (remastered)\n\n℗ 2014 Touch and Go Records\n\nReleased on: 2014-06-24\n\nMusic Publisher: 1991-2014 Slint Music (BMI)\n\nAuto-generated by YouTube.",
+      "duration": 324,
+      "embed": true
+    },
+    {
+      "uri": "https://www.youtube.com/watch?v=a2ONjCqPOwo",
+      "title": "Pam (4 Track Vocal Demo)",
+      "description": "Provided to YouTube by BWSCD, Inc.\n\nPam (4 Track Vocal Demo) · Slint\n\nSpiderland (remastered)\n\n℗ 2014 Touch and Go Records\n\nReleased on: 2014-06-24\n\nMusic Publisher: 1991-2014 Slint Music (BMI)\n\nAuto-generated by YouTube.",
+      "duration": 214,
+      "embed": true
+    },
+    {
+      "uri": "https://www.youtube.com/watch?v=6fNF4XTjeps",
+      "title": "Good Morning, Captain (Evanston Riff Tape)",
+      "description": "Provided to YouTube by BWSCD, Inc.\n\nGood Morning, Captain (Evanston Riff Tape) · Slint\n\nSpiderland (remastered)\n\n℗ 2014 Touch and Go Records\n\nReleased on: 2014-06-24\n\nMusic Publisher: 1991-2014 Slint Music (BMI)\n\nAuto-generated by YouTube.",
+      "duration": 46,
+      "embed": true
+    },
+    {
+      "uri": "https://www.youtube.com/watch?v=uUMVVo7VoNI",
+      "title": "Nosferatu Man (Evanston Riff Tape)",
+      "description": "Provided to YouTube by BWSCD, Inc.\n\nNosferatu Man (Evanston Riff Tape) · Slint\n\nSpiderland (remastered)\n\n℗ 2014 Touch and Go Records\n\nReleased on: 2014-06-24\n\nMusic Publisher: 1991-2014 Slint Music (BMI)\n\nAuto-generated by YouTube.",
+      "duration": 199,
+      "embed": true
+    },
+    {
+      "uri": "https://www.youtube.com/watch?v=14-aJwYUFYU",
+      "title": "Pam (Evanston Riff Tape)",
+      "description": "Provided to YouTube by BWSCD, Inc.\n\nPam (Evanston Riff Tape) · Slint\n\nSpiderland (remastered)\n\n℗ 2014 Touch and Go Records\n\nReleased on: 2014-06-24\n\nMusic Publisher: 1991-2014 Slint Music (BMI)\n\nAuto-generated by YouTube.",
+      "duration": 280,
+      "embed": true
+    }
+  ],
+  "genres": [
+    "Rock"
+  ],
+  "styles": [
+    "Alternative Rock",
+    "Math Rock",
+    "Post Rock"
+  ],
+  "tracklist": [
+    {
+      "position": "A1",
+      "type_": "track",
+      "title": "Breadcrumb Trail",
+      "duration": "5:53"
+    },
+    {
+      "position": "A2",
+      "type_": "track",
+      "title": "Nosferatu Man",
+      "duration": "5:31"
+    },
+    {
+      "position": "A3",
+      "type_": "track",
+      "title": "Don, Aman",
+      "duration": "6:24"
+    },
+    {
+      "position": "B1",
+      "type_": "track",
+      "title": "Washer",
+      "duration": "8:46"
+    },
+    {
+      "position": "B2",
+      "type_": "track",
+      "title": "For Dinner...",
+      "duration": "5:02"
+    },
+    {
+      "position": "B3",
+      "type_": "track",
+      "title": "Good Morning, Captain",
+      "duration": "7:36"
+    }
+  ],
+  "extraartists": [
+    {
+      "name": "Todd Brashear",
+      "anv": "",
+      "join": "",
+      "role": "Bass [Uncredited]",
+      "tracks": "",
+      "id": 254075,
+      "resource_url": "https://api.discogs.com/artists/254075"
+    },
+    {
+      "name": "Britt Walford",
+      "anv": "",
+      "join": "",
+      "role": "Drums [Uncredited], Vocals [Uncredited]",
+      "tracks": "",
+      "id": 135341,
+      "resource_url": "https://api.discogs.com/artists/135341"
+    },
+    {
+      "name": "Brian McMahan",
+      "anv": "",
+      "join": "",
+      "role": "Electric Guitar [Uncredited], Vocals [Uncredited]",
+      "tracks": "",
+      "id": 254076,
+      "resource_url": "https://api.discogs.com/artists/254076"
+    },
+    {
+      "name": "Brian Paulson",
+      "anv": "",
+      "join": "",
+      "role": "Engineer",
+      "tracks": "",
+      "id": 252689,
+      "resource_url": "https://api.discogs.com/artists/252689"
+    },
+    {
+      "name": "David Pajo",
+      "anv": "",
+      "join": "",
+      "role": "Guitar [Uncredited]",
+      "tracks": "",
+      "id": 254025,
+      "resource_url": "https://api.discogs.com/artists/254025"
+    },
+    {
+      "name": "Will Oldham",
+      "anv": "",
+      "join": "",
+      "role": "Photography By [Cover Photo]",
+      "tracks": "",
+      "id": 68468,
+      "resource_url": "https://api.discogs.com/artists/68468"
+    },
+    {
+      "name": "Noel Saltzman",
+      "anv": "",
+      "join": "",
+      "role": "Photography By [Spider Photo]",
+      "tracks": "",
+      "id": 1934244,
+      "resource_url": "https://api.discogs.com/artists/1934244"
+    }
+  ],
+  "images": [
+    {
+      "type": "primary",
+      "uri": "https://i.discogs.com/XJuZVdW9UBQOLlT4sCBAzJgb5CLZsdh2tKGvGyEU_i8/rs:fit/g:sm/q:90/h:600/w:580/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2OTI3/Ni0xMzU3Mzk2Njgx/LTY3NjYuanBlZw.jpeg",
+      "resource_url": "https://i.discogs.com/XJuZVdW9UBQOLlT4sCBAzJgb5CLZsdh2tKGvGyEU_i8/rs:fit/g:sm/q:90/h:600/w:580/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2OTI3/Ni0xMzU3Mzk2Njgx/LTY3NjYuanBlZw.jpeg",
+      "uri150": "https://i.discogs.com/dDZir3phkC6vSpzux2InRfaNd4vzHn7K1DAnc2NMWUQ/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2OTI3/Ni0xMzU3Mzk2Njgx/LTY3NjYuanBlZw.jpeg",
+      "width": 580,
+      "height": 600
+    },
+    {
+      "type": "secondary",
+      "uri": "https://i.discogs.com/sm91v6zXu0h6FO_CKMdvT7JVwxVzySBd1KrSHdInJms/rs:fit/g:sm/q:90/h:325/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2OTI3/Ni0xMzU3Mzk2Njkx/LTc5NjYuanBlZw.jpeg",
+      "resource_url": "https://i.discogs.com/sm91v6zXu0h6FO_CKMdvT7JVwxVzySBd1KrSHdInJms/rs:fit/g:sm/q:90/h:325/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2OTI3/Ni0xMzU3Mzk2Njkx/LTc5NjYuanBlZw.jpeg",
+      "uri150": "https://i.discogs.com/9CSwb3vVRXHK8ifM4M3_4IyfDsnPyW1sIiG_FifdEWk/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2OTI3/Ni0xMzU3Mzk2Njkx/LTc5NjYuanBlZw.jpeg",
+      "width": 600,
+      "height": 325
+    },
+    {
+      "type": "secondary",
+      "uri": "https://i.discogs.com/NiHuTtNuhY5y3fgvION0l7RmXsw6Pv7kE031uduUBa0/rs:fit/g:sm/q:90/h:600/w:592/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2OTI3/Ni0xMzU3Mzk2NzAw/LTcxOTEuanBlZw.jpeg",
+      "resource_url": "https://i.discogs.com/NiHuTtNuhY5y3fgvION0l7RmXsw6Pv7kE031uduUBa0/rs:fit/g:sm/q:90/h:600/w:592/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2OTI3/Ni0xMzU3Mzk2NzAw/LTcxOTEuanBlZw.jpeg",
+      "uri150": "https://i.discogs.com/7uGex2cjXLZEGVMhOlmBHyx7yU4GZHciQFPjnZ2whng/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2OTI3/Ni0xMzU3Mzk2NzAw/LTcxOTEuanBlZw.jpeg",
+      "width": 592,
+      "height": 600
+    },
+    {
+      "type": "secondary",
+      "uri": "https://i.discogs.com/vCOONXsZUlGQOzGrQUNusI3-NhMwjaomU1nAJfM8YqA/rs:fit/g:sm/q:90/h:596/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2OTI3/Ni0xMzU3Mzk2NzA4/LTU1NjYuanBlZw.jpeg",
+      "resource_url": "https://i.discogs.com/vCOONXsZUlGQOzGrQUNusI3-NhMwjaomU1nAJfM8YqA/rs:fit/g:sm/q:90/h:596/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2OTI3/Ni0xMzU3Mzk2NzA4/LTU1NjYuanBlZw.jpeg",
+      "uri150": "https://i.discogs.com/1Vw_pQjV2TjTOAYlPNRTw1LABKnyi_dKc0XiGCkWrFE/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2OTI3/Ni0xMzU3Mzk2NzA4/LTU1NjYuanBlZw.jpeg",
+      "width": 600,
+      "height": 596
+    },
+    {
+      "type": "secondary",
+      "uri": "https://i.discogs.com/F-GM83Xee1dbZXhSc3x-9jlkeeybHf3I7XskPIa3vZs/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2OTI3/Ni0xNjU4OTU2Nzkw/LTI3NjguanBlZw.jpeg",
+      "resource_url": "https://i.discogs.com/F-GM83Xee1dbZXhSc3x-9jlkeeybHf3I7XskPIa3vZs/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2OTI3/Ni0xNjU4OTU2Nzkw/LTI3NjguanBlZw.jpeg",
+      "uri150": "https://i.discogs.com/YHXJxTZeMQ2pvik0vTNtVCYdXGfOjqBpXj2A78nlv3w/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2OTI3/Ni0xNjU4OTU2Nzkw/LTI3NjguanBlZw.jpeg",
+      "width": 600,
+      "height": 600
+    }
+  ],
+  "thumb": "https://i.discogs.com/dDZir3phkC6vSpzux2InRfaNd4vzHn7K1DAnc2NMWUQ/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2OTI3/Ni0xMzU3Mzk2Njgx/LTY3NjYuanBlZw.jpeg",
+  "estimated_weight": 230,
+  "blocked_from_sale": false,
+  "is_offensive": false
+}
