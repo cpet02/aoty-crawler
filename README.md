@@ -18,7 +18,7 @@ python ui/launch.py                                                  # the app
 
 **No API key required.** Radius reads five keyless JSON APIs, MusicBrainz,
 ListenBrainz, Wikidata, Deezer and Discogs, through a disk cache at a rate
-below what each service asks for. A Last.fm key and a Discogs token are
+below what each service asks for. A Last.fm key and Discogs credentials are
 optional and purely additive. Nothing is scraped.
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
@@ -34,8 +34,13 @@ cd aoty-crawler
 python -m venv venv
 venv\Scripts\activate            # macOS/Linux: source venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env             # optional: contact address, Last.fm key, Discogs token
+cp .env.example .env             # then paste your keys into .env
 ```
+
+`.env` is the only setup. Fill in `LASTFM_API_KEY`, `DISCOGS_CONSUMER_KEY`
+and `DISCOGS_CONSUMER_SECRET` (see [Configuration](#configuration)), or
+leave any of them blank to run without that service's extras. It is
+gitignored, so each machine keeps its own copy.
 
 Python 3.10 or newer. The first run of a seed takes a few minutes, because
 MusicBrainz is held to one request per second and the deep lookups ask it
@@ -57,7 +62,9 @@ python ui/launch.py            # http://localhost:8501
   every axis as a bar, every reason.
 * **Filters** narrow the current result without re-running: year, runtime,
   country, band or solo, audience size, "only connected".
-* **Fine-tuning** exposes every axis weight and every engine knob.
+* **Fine-tuning** exposes every axis weight and every engine knob. Hover a
+  slider's name for what it does; five presets (Sound, People, Listeners,
+  Era & place, Stature) and a reset button set them in one click.
 * **Library.** Saved and rated records, seedable alone or blended. The old
   ratings and bookmarks are imported once.
 * **Every statistic** is one table under the results, with CSV and JSON
@@ -158,9 +165,11 @@ seed: Miles Davis at 15 of 24. Weakest: Talk Talk at 5 of 24.
 Everything in `.env.example`. The one worth setting is `RADIUS_CONTACT`:
 each service asks to be told who is calling, and that courtesy is what
 keeps these APIs open. `LASTFM_API_KEY` thickens the tag vectors (mood
-vocabulary above all) and adds two candidate sources. `DISCOGS_TOKEN`
-raises Discogs' rate from 25 to 60 requests a minute and switches Discogs
-statistics on by default; without it they are one checkbox away.
+vocabulary above all) and adds two candidate sources.
+`DISCOGS_CONSUMER_KEY` and `DISCOGS_CONSUMER_SECRET`, from an app registered
+at discogs.com/settings/developers, raise Discogs' rate from 25 to 60
+requests a minute and switch Discogs statistics on by default; without them
+they are one checkbox away. A personal `DISCOGS_TOKEN` does the same.
 
 Rates live in `radius/config.py`. MusicBrainz's one request per second is
 their hard limit; do not raise it.

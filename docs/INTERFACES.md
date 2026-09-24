@@ -22,10 +22,13 @@ DISCOGS_API_ROOT  = 'https://api.discogs.com/'
 WIKIDATA_REQUESTS_PER_SECOND = float(os.getenv('RADIUS_WIKIDATA_RPS', '4'))
 DEEZER_REQUESTS_PER_SECOND   = float(os.getenv('RADIUS_DEEZER_RPS', '5'))
 DISCOGS_TOKEN                = os.getenv('DISCOGS_TOKEN', '')
-DISCOGS_REQUESTS_PER_MINUTE  = float(os.getenv('RADIUS_DISCOGS_RPM', '60' if DISCOGS_TOKEN else '25'))
+DISCOGS_CONSUMER_KEY         = os.getenv('DISCOGS_CONSUMER_KEY', '')
+DISCOGS_CONSUMER_SECRET      = os.getenv('DISCOGS_CONSUMER_SECRET', '')
+DISCOGS_AUTHENTICATED        = bool(DISCOGS_TOKEN or (DISCOGS_CONSUMER_KEY and DISCOGS_CONSUMER_SECRET))
+DISCOGS_REQUESTS_PER_MINUTE  = float(os.getenv('RADIUS_DISCOGS_RPM', '60' if DISCOGS_AUTHENTICATED else '25'))
 LB_SIMILAR_RECORDING_ALGORITHM = os.getenv('RADIUS_LB_SIMILAR_RECORDING_ALGORITHM',
     'session_based_days_9000_session_300_contribution_5_threshold_15_limit_50_skip_30')
-LISTENBRAINZ_REQUESTS_PER_SECOND default drops to 2.5 (their anonymous budget is 30 per 10 s window)
+LISTENBRAINZ_REQUESTS_PER_SECOND default is 1 (their docs: never more than one call per second per application)
 
 TTL_DAYS additions:
   'mb.rg.full': 120, 'mb.release.full': 365, 'mb.artist.full': 120, 'mb.genres': 365,
@@ -86,7 +89,9 @@ class DeezerClient(_HttpClient):
 
 class DiscogsClient(_HttpClient):
     token: str                                # '' when keyless; sends 'Authorization: Discogs token=...' when set
-    configured -> True                        # keyless works; the token only raises the rate
+    key: str, secret: str                     # consumer pair; sends 'Discogs key=..., secret=...' when both set and no token
+    configured -> True                        # keyless works; credentials only raise the rate
+    authenticated -> bool                     # token, or both halves of the key pair
     def master(self, master_id) -> dict | None            # params curr_abbr=USD
     def release(self, release_id) -> dict | None
 
@@ -285,8 +290,8 @@ def describe_axes(match, limit=4) -> str
 ```python
 @dataclass
 class Services: musicbrainz, listenbrainz, wikidata, deezer, lastfm, discogs
-    @classmethod create(cls, cache=None, lastfm_key=None, discogs_token=None)
-    tag_enrichment: bool      discogs_enabled: bool (token set)      requests_made, cache_hits
+    @classmethod create(cls, cache=None, lastfm_key=None, discogs_token=None, discogs_key=None, discogs_secret=None)
+    tag_enrichment: bool      discogs_enabled: bool (credentials set)      requests_made, cache_hits
     def genre_names(self) -> frozenset      # MB list ∪ taxonomy names; taxonomy alone if MB fails
 
 class SeedNotFound(RuntimeError): suggestions

@@ -35,7 +35,7 @@ from radius.cache import Cache  # noqa: E402
 from radius.clients import ApiError  # noqa: E402
 from radius.engine import MODES, SeedNotFound, Services, find_similar, search_albums  # noqa: E402
 from radius.library import Library  # noqa: E402
-from radius.similarity import AXIS_GROUPS, AXIS_LABELS, SimilarityWeights  # noqa: E402
+from radius.similarity import AXIS_GROUPS, AXIS_HELP, AXIS_LABELS, PRESETS, SimilarityWeights  # noqa: E402
 
 st.set_page_config(page_title='Radius', page_icon='🧭', layout='wide',
                    initial_sidebar_state='expanded')
@@ -98,6 +98,10 @@ CSS = """
   .rad-axis .bar span.ev { background: linear-gradient(90deg,#10b981,#34d399); }
   .rad-axis .v { width: 64px; text-align: right; opacity: .7; flex: none; font-variant-numeric: tabular-nums; }
   .rad-muted { opacity: .55; font-size: .85rem; }
+  .rad-tip { font-size: .875rem; width: fit-content; cursor: help;
+             text-decoration: underline dotted rgba(255,255,255,.3); text-underline-offset: 3px; }
+  /* Clears the value a collapsed slider floats above its thumb. */
+  div[data-testid="stElementContainer"]:has(.rad-tip) { margin-bottom: .65rem; }
 </style>
 """
 
@@ -137,7 +141,14 @@ DEFAULTS = {
     'legacy_imported': False,
     'last_error': None,
 }
-for _key, _value in DEFAULTS.items():
+# Every fine-tuning slider is driven by its session key alone, never by
+# value=: a preset or the reset button writes these keys from a button
+# callback, which runs before the widgets exist - the only moment Streamlit
+# allows it.
+TUNING_DEFAULTS = {f'w_{axis}': float(value) for axis, value in SimilarityWeights().as_dict().items()}
+TUNING_DEFAULTS.update({'top_n': 24, 'pool_size': 150, 'shortlist': 36, 'per_artist': 1})
+
+for _key, _value in {**DEFAULTS, **TUNING_DEFAULTS}.items():
     if _key not in st.session_state:
         st.session_state[_key] = _value
 
@@ -235,24 +246,47 @@ def render_sidebar():
     return settings, filters
 
 
+def apply_tuning(values):
+    for key, value in values.items():
+        st.session_state[key] = value
+
+
+def preset_values(weights):
+    return {f'w_{axis}': float(weights.get(axis, 0.0)) for axis in SimilarityWeights.axis_names()}
+
+
+def tuning_slider(label, tip, low, high, step, key):
+    """A slider whose name explains it on hover: a plain title tooltip."""
+    st.markdown(f'<div class="rad-tip" title="{html.escape(tip)}">{html.escape(label)}</div>',
+                unsafe_allow_html=True)
+    return st.slider(label, low, high, step=step, key=key, label_visibility='collapsed')
+
+
 def render_fine_tuning():
     with st.expander('Fine-tuning'):
-        st.caption('Each axis is one part of the fingerprint; zero switches it off. '
-                   'Evidence axes (people, circle, co-listening) only pull when there is an overlap.')
+        st.caption('Hover a name to see what it does. Zero switches it off. '
+                   'Changes apply the next time you press Find.')
+        buttons = [('↺ Defaults', 'Put every slider back to its default.', TUNING_DEFAULTS)]
+        buttons += [(name, tip, preset_values(weights)) for name, (tip, weights) in PRESETS.items()]
+        for start in range(0, len(buttons), 2):
+            for column, (name, tip, values) in zip(st.columns(2), buttons[start:start + 2]):
+                column.button(name, key=f'tune_{name}', help=tip, width='stretch',
+                              on_click=apply_tuning, args=(values,))
         weights = {}
-        defaults = SimilarityWeights()
         for group, axes in AXIS_GROUPS.items():
             st.markdown(f'**{group}**')
             for axis in axes:
-                weights[axis] = st.slider(AXIS_LABELS[axis], 0.0, 2.0, float(getattr(defaults, axis)),
-                                          0.05, key=f'w_{axis}')
+                weights[axis] = tuning_slider(AXIS_LABELS[axis], AXIS_HELP[axis], 0.0, 2.0, 0.05, f'w_{axis}')
         st.divider()
-        top_n = st.slider('Results', 6, 60, 24, 3, key='top_n')
-        pool_size = st.slider('Candidates to fingerprint', 40, 400, 150, 10, key='pool_size')
-        shortlist = st.slider('Deep-checked shortlist', 10, 120, max(int(1.5 * top_n), 30), 5, key='shortlist',
-                              help='How many get the MusicBrainz credit and personnel lookups '
-                                   '(one request per second, so this sets the cold-run time).')
-        per_artist = st.slider('Max albums per artist', 1, 6, 1, 1, key='per_artist')
+        top_n = tuning_slider('Results', 'How many albums to show.', 6, 60, 3, 'top_n')
+        pool_size = tuning_slider('Candidates to fingerprint',
+                                  'How many albums get compared. More finds more, and the first run is slower.',
+                                  40, 400, 10, 'pool_size')
+        shortlist = tuning_slider('Deep-checked shortlist',
+                                  'How many get the full credits and personnel lookups. One request a second, '
+                                  'so this sets how long a first run takes.', 10, 120, 5, 'shortlist')
+        per_artist = tuning_slider('Max albums per artist', 'The most albums any one artist gets in the results.',
+                                   1, 6, 1, 'per_artist')
         studio_only = st.checkbox('Studio albums only', True, key='studio_only')
         exclude_same = st.checkbox("Exclude the seed's artist", True, key='exclude_same')
         deep = st.checkbox('Deep lookups (credits, personnel, statistics)', True, key='deep')
@@ -260,7 +294,7 @@ def render_fine_tuning():
         with_wikidata = st.checkbox('Wikidata: critic scores, producers, ids', True, key='with_wikidata')
         with_discogs = st.checkbox('Discogs: styles, want/have, rating', services().discogs_enabled,
                                    key='with_discogs',
-                                   help='25 requests a minute without a token, so this is the slow one.')
+                                   help='25 requests a minute without credentials, so this is the slow one.')
         crowd = st.checkbox('Last.fm crowd tags and listeners', True, key='crowd',
                             help='Needs LASTFM_API_KEY; ignored without one.')
     return {
@@ -348,7 +382,8 @@ def render_about():
         svc = services()
         st.caption('Keyless: MusicBrainz, ListenBrainz, Wikidata, Deezer, Discogs. '
                    + ('Last.fm key: set. ' if svc.tag_enrichment else 'Last.fm key: not set. ')
-                   + ('Discogs token: set.' if svc.discogs_enabled else 'Discogs token: not set (25 req/min).'))
+                   + ('Discogs credentials: set.' if svc.discogs_enabled
+                      else 'Discogs credentials: not set (25 req/min).'))
         try:
             stats = Cache(radius_config.CACHE_PATH).stats()
             st.caption(f'Cache: {stats["entries"]:,} responses, {stats["size_bytes"] / 1e6:.1f} MB. '
@@ -375,10 +410,15 @@ def render_search():
             artist, _, album = (part.strip() for part in query.partition(' - '))
         else:
             free = query.strip()
-        hits = search_albums(services(), artist=artist, album=album, query=free, limit=8)
+        services().reset_outages()
+        try:
+            hits = search_albums(services(), artist=artist, album=album, query=free, limit=8)
+            error = None if hits else 'MusicBrainz has no album matching that. Try "Artist - Album".'
+        except ApiError as exc:
+            hits, error = [], f"Couldn't search MusicBrainz: {exc}"
         if not hits:
             st.session_state.search_hits = []
-            st.session_state.last_error = 'MusicBrainz has no album matching that. Try "Artist - Album".'
+            st.session_state.last_error = error
         else:
             st.session_state.last_error = None
             exact = [h for h in hits if artist and album and h['artist'].casefold() == artist.casefold()
@@ -836,12 +876,17 @@ def render_library():
             else:
                 if a1.button('Match', key=f'lib_match_{entry["key"]}', width='stretch',
                              help='Look the record up on MusicBrainz so it can seed a search'):
-                    hits = search_albums(services(), artist=entry['artist'], album=entry['title'], limit=5)
+                    services().reset_outages()
+                    try:
+                        hits = search_albums(services(), artist=entry['artist'], album=entry['title'], limit=5)
+                    except ApiError as exc:
+                        hits = None
+                        st.toast(f"Couldn't search MusicBrainz: {exc}")
                     if hits:
                         lib.resolve(entry['key'], hits[0]['mbid'], year=hits[0]['year'] or None,
                                     url=f'https://musicbrainz.org/release-group/{hits[0]["mbid"]}')
                         st.toast(f'Matched {entry["title"]}.')
-                    else:
+                    elif hits is not None:
                         st.toast(f'MusicBrainz has no match for {entry["title"]}.')
                     st.rerun()
             if a3.button('Remove', key=f'lib_rm_{entry["key"]}', width='stretch'):
@@ -871,6 +916,8 @@ def render_find(settings, filters):
         # fresh filter widgets); an error stays on screen.
         if run_engine(settings):
             st.rerun()
+        if st.session_state.result is not None:
+            st.caption('Below are the results of your previous search.')
 
     result = st.session_state.result
     if result is None:

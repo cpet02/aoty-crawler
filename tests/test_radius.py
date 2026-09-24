@@ -17,6 +17,7 @@ import pytest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from radius import config
 from radius.clients import ApiError, KeyRejected
 from radius.engine import (
     SeedNotFound, Services, find_similar, parse_seed_text, search_albums,
@@ -351,6 +352,7 @@ class StubDiscogs:
 
     def __init__(self, token=''):
         self.token = token
+        self.authenticated = bool(token)
         self.configured = True
 
     def master(self, master_id):
@@ -675,6 +677,82 @@ def test_a_popularity_failure_becomes_a_note_not_a_crash():
     # per-album failure ('failed for 1 album') when 150 albums lost a number.
     assert not any('failed for' in note for note in result.notes)
     assert all(m.features.listeners == 0 for m in result.matches)
+
+
+def test_a_refused_pool_batch_costs_its_albums_not_the_run(monkeypatch):
+    """By the time the pool is fingerprinted, minutes of lookups are done.
+    A batch ListenBrainz will not answer loses those albums, with a note,
+    rather than throwing the whole run away."""
+    monkeypatch.setattr(config, 'LB_BATCH_SIZE', 2)
+    services = stub_services()
+    real_metadata = services.listenbrainz.metadata
+    refused = []
+
+    def metadata(mbids, inc=None):
+        if 'rg-tortoise2' in mbids:
+            refused.extend(mbids)
+            raise ApiError('ListenBrainz keeps sending a web page titled "Verifying your browser"')
+        return real_metadata(mbids, inc)
+
+    services.listenbrainz.metadata = metadata
+    result = run(services)
+    assert refused, 'the fixture pool should have reached the refused batch'
+    assert result.matches
+    assert not {m.features.mbid for m in result.matches} & set(refused)
+    assert any(f'did not answer for {len(refused)} of' in note and 'Verifying your browser' in note
+               for note in result.notes)
+
+
+def test_a_pool_listenbrainz_will_not_fingerprint_at_all_fails_the_run():
+    services = stub_services()
+    real_metadata = services.listenbrainz.metadata
+
+    def metadata(mbids, inc=None):
+        if 'rg-seed' in mbids:
+            return real_metadata(mbids, inc)
+        raise ApiError('ListenBrainz keeps sending a web page')
+
+    services.listenbrainz.metadata = metadata
+    with pytest.raises(ApiError):
+        run(services)
+
+
+def test_a_service_given_up_on_is_named_and_gets_a_fresh_chance_next_run():
+    services = stub_services()
+    lb = services.listenbrainz
+    lb.name, lb.unavailable, lb.last_failure, lb.resets = 'ListenBrainz', False, '', 0
+    real_similar = lb.similar_artists
+
+    def reset_outage():
+        lb.resets += 1
+        lb.unavailable, lb.last_failure = False, ''
+
+    def similar_artists(artist_mbid, algorithm=None):
+        lb.unavailable, lb.last_failure = True, 'HTTP 503 from labs'
+        return real_similar(artist_mbid, algorithm)
+
+    lb.reset_outage, lb.similar_artists = reset_outage, similar_artists
+    result = run(services)
+    assert lb.resets == 1
+    assert any(note.startswith('ListenBrainz stopped answering partway through')
+               and 'HTTP 503 from labs' in note for note in result.notes)
+    lb.similar_artists = real_similar
+    result = run(services)
+    assert lb.resets == 2
+    assert not any('stopped answering' in note for note in result.notes)
+
+
+def test_a_musicbrainz_outage_never_reads_as_no_such_album():
+    services = stub_services()
+
+    def find_album(**kwargs):
+        raise ApiError('MusicBrainz keeps sending a web page')
+
+    services.musicbrainz.find_album = find_album
+    with pytest.raises(ApiError):
+        search_albums(services, query='rusty')
+    with pytest.raises(ApiError):
+        run(services)
 
 
 def test_the_engine_runs_without_a_musicbrainz_client():

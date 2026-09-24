@@ -47,7 +47,7 @@ def build_parser():
     parser.add_argument('--no-crowd-tags', action='store_true',
                         help='Skip Last.fm even if a key is set.')
     parser.add_argument('--discogs', action='store_true',
-                        help='Fetch Discogs stats even without a token (25 requests/minute, slow).')
+                        help='Fetch Discogs stats even without credentials (25 requests/minute, slow).')
     parser.add_argument('--no-deep', action='store_true',
                         help='Skip the deep lookups: a fast, shallow run on bulk data only.')
 

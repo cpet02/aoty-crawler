@@ -65,7 +65,9 @@ lists.
 
 ## ListenBrainz — https://api.listenbrainz.org/1/ and https://labs.api.listenbrainz.org/
 
-Rate: api.listenbrainz.org returns `X-RateLimit-Limit: 30`, `X-RateLimit-Remaining`, `X-RateLimit-Reset-In` (seconds) — **30 requests per ~10 s window**. Keep ≤ 2.5 rps and sleep `Reset-In` when Remaining hits 0. Labs has no headers; keep 0.5 s spacing.
+Rate: api.listenbrainz.org returns `X-RateLimit-Limit: 30`, `X-RateLimit-Remaining`, `X-RateLimit-Reset-In` (seconds) — **30 requests per ~10 s window**, but that is the ceiling: their API docs say each client application must "never make more than ONE call per second". Keep ≤ 1 rps (labs included, same client) and sleep `Reset-In` when Remaining hits 0.
+
+**Bot check (seen 2026-09-22):** under their anti-scraper measures, api.listenbrainz.org sometimes answers a normal request with **HTTP 200 and an HTML page** titled "Verifying your browser" instead of JSON. It is intermittent (the same request succeeds moments later). The client treats any HTML page where data belongs as being told to slow down: back off, retry, never cache it, and name the page by its title in the error. It never tries to get past the check.
 
 **Similar recordings** `labs…/similar-recordings/json?recording_mbids=A&recording_mbids=B&algorithm=<name>`
 - Multiple seeds by REPEATING `recording_mbids` (requests `params` as a list of tuples). Comma-joined → 400.
@@ -111,9 +113,9 @@ Rate: no hard limit; keep ≤ 4 rps, descriptive User-Agent. `wbgetentities&ids=
 - Resolve any Q-id to a name with one `props=labels` call (`entities.Q.labels.en.value`; may be absent).
 - Prefer MB url-rels → Q-id over `wbsearchentities` (ambiguous by title).
 
-## Discogs — https://api.discogs.com/ (keyless; optional token)
+## Discogs — https://api.discogs.com/ (keyless; optional token or consumer key/secret)
 
-Rate: 25 requests/minute keyless, 60/minute with `Authorization: Discogs token=<token>`; moving 60 s window; headers `x-discogs-ratelimit`, `x-discogs-ratelimit-used`, `x-discogs-ratelimit-remaining`; 429 with Retry-After when exceeded. User-Agent is required by policy.
+Rate: 25 requests/minute keyless, 60/minute authenticated, either with `Authorization: Discogs token=<token>` or with a registered app's `Authorization: Discogs key=<key>, secret=<secret>` (no OAuth dance needed for database reads; verified 2026-09-24 that the pair earns 60, and that a wrong secret is not refused but still gets 60, so a typo there goes unnoticed); moving 60 s window; headers `x-discogs-ratelimit`, `x-discogs-ratelimit-used`, `x-discogs-ratelimit-remaining`; 429 with Retry-After when exceeded. User-Agent is required by policy.
 
 - `masters/{id}` (id from MB url-rels) → `styles[]` ('Alternative Rock', 'Math Rock', 'Post Rock'), `genres[]`, `year`, `main_release` (id), `most_recent_release`, `num_for_sale`, `lowest_price` (float, default currency; pass `curr_abbr=USD`), `tracklist[] {position, title, duration 'm:ss'}`, `artists[]`, `images[]`, `uri`. No community stats, labels, country on the master.
 - `releases/{main_release}` → `community.have`, `community.want`, `community.rating.average` (0–5), `community.rating.count`, `labels[] {name, catno, id}`, `formats[] {name, descriptions[], qty}`, `country`, `released` ('1991-03-27', '1991', or '1991-00-00'), `genres`, `styles`, `extraartists[] {name, role}` (roles like 'Producer', 'Engineer', 'Mixed By', 'Mastered By', 'Recorded By', 'Bass [Uncredited]'), `companies[] {name, entity_type_name}`, `notes`, `num_for_sale`, `lowest_price`, `master_id` (may be absent/0).

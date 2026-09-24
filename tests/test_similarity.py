@@ -136,6 +136,22 @@ def test_labels_and_groups_cover_every_axis_once():
     assert len(grouped) == len(ALL_AXES)
 
 
+def test_every_axis_has_a_hover_tip():
+    """Tips keyed to axis names that no longer exist are how the old UI's
+    tooltips broke; this is the guard."""
+    assert set(similarity.AXIS_HELP) == set(ALL_AXES)
+    assert all(tip.strip() for tip in similarity.AXIS_HELP.values())
+
+
+def test_presets_name_only_real_axes_and_build_valid_weights():
+    for name, (tip, values) in similarity.PRESETS.items():
+        assert tip.strip(), name
+        assert set(values) <= set(ALL_AXES), name
+        weights = SimilarityWeights.only(**values)
+        assert weights.active() == values, name
+        assert all(0 < value <= 2.0 for value in values.values()), name
+
+
 # ---------------------------------------------------------------------------
 # The weighted mean
 # ---------------------------------------------------------------------------

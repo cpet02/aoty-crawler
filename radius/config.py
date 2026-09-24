@@ -52,22 +52,30 @@ DISCOGS_API_ROOT = 'https://api.discogs.com/'
 LASTFM_API_ROOT = 'https://ws.audioscrobbler.com/2.0/'
 
 # MusicBrainz publish a hard limit of one request per second for anonymous
-# clients (a 503 is how they say "too fast"). ListenBrainz's anonymous budget
-# is 30 requests per 10-second window, so 2.5/s leaves headroom for the
-# occasional retry. Wikidata and Deezer are more generous, but there is no
-# reason to crowd them either.
+# clients (a 503 is how they say "too fast"). ListenBrainz's API docs ask
+# the same of every client application: never more than one call per
+# second. Their rate headers allow bursts of 30 per 10-second window, but
+# that is the ceiling, not the pace; since their fight with AI scrapers the
+# gateway sometimes answers with a "Verifying your browser" page instead of
+# data (seen Sep 2026). Wikidata and Deezer are more generous, but there is
+# no reason to crowd them either.
 MUSICBRAINZ_REQUESTS_PER_SECOND = float(os.getenv('RADIUS_MB_RPS', '1'))
-LISTENBRAINZ_REQUESTS_PER_SECOND = float(os.getenv('RADIUS_LB_RPS', '2.5'))
+LISTENBRAINZ_REQUESTS_PER_SECOND = float(os.getenv('RADIUS_LB_RPS', '1'))
 WIKIDATA_REQUESTS_PER_SECOND = float(os.getenv('RADIUS_WIKIDATA_RPS', '4'))
 # Deezer's documented limit is 50 requests per 5 seconds per IP.
 DEEZER_REQUESTS_PER_SECOND = float(os.getenv('RADIUS_DEEZER_RPS', '5'))
 
-# Discogs works keyless at 25 requests/minute. A personal access token only
-# raises that to 60/minute (and switches Discogs enrichment on by default);
-# it unlocks no extra data.
+# Discogs works keyless at 25 requests/minute. Credentials only raise that to
+# 60/minute (and switch Discogs enrichment on by default); they unlock no
+# extra data. Either a personal access token or a registered app's consumer
+# key and secret will do. The database is public, so the full OAuth flow,
+# which acts as a particular Discogs user, is never needed.
 DISCOGS_TOKEN = os.getenv('DISCOGS_TOKEN', '')
+DISCOGS_CONSUMER_KEY = os.getenv('DISCOGS_CONSUMER_KEY', '')
+DISCOGS_CONSUMER_SECRET = os.getenv('DISCOGS_CONSUMER_SECRET', '')
+DISCOGS_AUTHENTICATED = bool(DISCOGS_TOKEN or (DISCOGS_CONSUMER_KEY and DISCOGS_CONSUMER_SECRET))
 DISCOGS_REQUESTS_PER_MINUTE = float(
-    os.getenv('RADIUS_DISCOGS_RPM', '60' if DISCOGS_TOKEN else '25')
+    os.getenv('RADIUS_DISCOGS_RPM', '60' if DISCOGS_AUTHENTICATED else '25')
 )
 
 # Last.fm is the other optional service, and the only one wanting a key. It

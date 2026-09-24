@@ -2,8 +2,8 @@
 
 Four of them are keyless — MusicBrainz, ListenBrainz, Wikidata and Deezer
 serve this data to anyone who sends an honest User-Agent — and the other two
-only add on top: a Last.fm key unlocks its crowd tags and charts, a Discogs
-token merely raises Discogs' keyless rate. No scraping anywhere.
+only add on top: a Last.fm key unlocks its crowd tags and charts, Discogs
+credentials merely raise Discogs' keyless rate. No scraping anywhere.
 
 * MusicBrainzClient  the canonical catalogue: resolving an album to an mbid,
                      searching release groups by tag, and the deep lookups
@@ -30,7 +30,9 @@ are informational). The engine runs one worker thread per service, which is
 what keeps MusicBrainz serial at 1 rps while the others proceed in parallel.
 """
 
+import html
 import os
+import re
 import threading
 import time
 
@@ -51,6 +53,13 @@ class RateLimited(ApiError):
 class KeyRejected(ApiError):
     """The service refused our API key; nothing about the request itself is
     at fault, so the answer must never be cached against it."""
+
+
+class Refused(RateLimited):
+    """A web page came back where data belongs, again and again: the
+    gateway in front of the service answering in its place (a bot check
+    such as "Verifying your browser", a maintenance notice). Radius waits
+    and asks again; it never tries to get past such a page."""
 
 
 class _RateLimiter:
@@ -83,6 +92,30 @@ def _header(response, name):
     return value
 
 
+_TITLE = re.compile(r'<title[^>]*>(.*?)</title>', re.IGNORECASE | re.DOTALL)
+
+
+def _page_title(response):
+    """The title of a response that is a web page ('' when it has none), or
+    None when the body is not HTML at all."""
+    text = getattr(response, 'text', '') or ''
+    content_type = str(_header(response, 'Content-Type') or '').lower()
+    if 'html' not in content_type and \
+            not text.lstrip()[:15].lower().startswith(('<!doctype html', '<html')):
+        return None
+    match = _TITLE.search(text)
+    return ' '.join(html.unescape(match.group(1)).split())[:80] if match else ''
+
+
+def _describe(response):
+    """A response body fit for an error message: a web page by its title,
+    never pasted in; anything else by its first 200 characters."""
+    title = _page_title(response)
+    if title is None:
+        return (getattr(response, 'text', '') or '')[:200]
+    return f'a web page titled "{title}"' if title else 'an untitled web page'
+
+
 # The longest we will sleep because a service's rate headers say the window
 # is exhausted. ListenBrainz windows are ~10 s; anything longer than this
 # means the headers are wrong and we would rather retry than hang.
@@ -93,13 +126,14 @@ class _HttpClient:
     """Shared request plumbing: identify ourselves, respect the limiter, back
     off on throttling instead of hammering through it.
 
-    Subclasses set `rate` and may set `extra_headers` (merged into every
-    request), `json_error_statuses` (HTTP statuses whose JSON body carries
-    the service's own error code and should be inspected rather than raised)
-    and override `_body_problem` for services that signal errors inside
-    otherwise-successful responses.
+    Subclasses set `name` (for messages) and `rate`, and may set
+    `extra_headers` (merged into every request), `json_error_statuses` (HTTP
+    statuses whose JSON body carries the service's own error code and should
+    be inspected rather than raised) and override `_body_problem` for
+    services that signal errors inside otherwise-successful responses.
     """
 
+    name = 'The service'
     rate = 1.0
     extra_headers = {}
     json_error_statuses = ()
@@ -113,6 +147,7 @@ class _HttpClient:
         self.calls_made = 0
         self.cache_hits = 0
         self.unavailable = False
+        self.last_failure = ''
         self._consecutive_failures = 0
         self._outage_lock = threading.Lock()
 
@@ -139,7 +174,16 @@ class _HttpClient:
         if attempt < config.MAX_RETRIES - 1:
             time.sleep(max(0.0, min(seconds, 30)))
 
-    def _note_outcome(self, ok):
+    @staticmethod
+    def _retry_delay(response, attempt):
+        """Retry-After when the service offers one, else exponential."""
+        wait = _header(response, 'Retry-After')
+        try:
+            return float(wait) if wait else 2 ** (attempt + 1)
+        except ValueError:
+            return 2 ** (attempt + 1)
+
+    def _note_outcome(self, ok, error=None):
         """Count consecutive exhausted retries. A service that has failed
         this way `OUTAGE_THRESHOLD` times running is treated as down for the
         rest of the run: the engine calls these clients once per album, so
@@ -148,6 +192,17 @@ class _HttpClient:
         with self._outage_lock:
             self._consecutive_failures = 0 if ok else self._consecutive_failures + 1
             self.unavailable = self._consecutive_failures >= self.OUTAGE_THRESHOLD
+            if error is not None:
+                self.last_failure = str(error)
+
+    def reset_outage(self):
+        """Give the service a fresh chance. The engine calls this when a run
+        starts: the UI keeps one set of clients for the life of the app, so
+        without it one bad minute would switch a service off until restart."""
+        with self._outage_lock:
+            self._consecutive_failures = 0
+            self.unavailable = False
+            self.last_failure = ''
 
     def _request(self, method, url, params=None, json_body=None, expect_json=True):
         """One logical request with retries. Returns the parsed JSON body, or
@@ -155,8 +210,8 @@ class _HttpClient:
         list of (key, value) tuples when a key has to repeat."""
         if self.unavailable:
             raise RateLimited(
-                f'{type(self).__name__} gave up after {self.OUTAGE_THRESHOLD} '
-                f'failures in a row; skipping the rest of this run.'
+                f'{self.name} failed {self.OUTAGE_THRESHOLD} times in a row, so '
+                f'it is skipped for the rest of this run.'
             )
         headers = {'User-Agent': config.USER_AGENT,
                    'Accept': 'application/json' if expect_json else 'text/plain'}
@@ -178,14 +233,28 @@ class _HttpClient:
             status = response.status_code
 
             if status == 200 or status in self.json_error_statuses:
-                if not expect_json and status == 200:
+                if not expect_json and status == 200 and _page_title(response) is None:
                     self._note_outcome(True)
                     return response.text
                 try:
                     body = response.json()
                 except ValueError as exc:
+                    if status == 200 and _page_title(response) is not None:
+                        # A web page where data belongs is the gateway in
+                        # front of the service answering, not the service: a
+                        # bot check ("Verifying your browser"), a maintenance
+                        # notice. Treat it like being told to slow down: wait,
+                        # ask again, give up if it persists. Never try to get
+                        # past it, and never cache it.
+                        last_error = Refused(
+                            f'{self.name} keeps sending {_describe(response)} instead '
+                            f'of data, most likely a bot check or heavy load on their '
+                            f'side. Try again in a few minutes.'
+                        )
+                        self._backoff(attempt, self._retry_delay(response, attempt))
+                        continue
                     raise ApiError(
-                        f'non-JSON response from {url}: {response.text[:200]}'
+                        f'non-JSON response from {url}: {_describe(response)}'
                     ) from exc
                 problem = self._body_problem(body)
                 if problem == 'retry':
@@ -198,25 +267,21 @@ class _HttpClient:
                 if status == 200:
                     self._note_outcome(True)
                     return body
-                raise ApiError(f'HTTP {status} from {url}: {response.text[:200]}')
+                raise ApiError(f'HTTP {status} from {url}: {_describe(response)}')
 
             if status in (429, 500, 502, 503, 504):
                 # Honour Retry-After when offered; otherwise back off. Being
                 # asked to slow down is a reason to slow down, not to retry
                 # harder — that is how an IP ends up blocked.
-                wait = response.headers.get('Retry-After')
-                try:
-                    delay = float(wait) if wait else 2 ** (attempt + 1)
-                except ValueError:
-                    delay = 2 ** (attempt + 1)
                 last_error = RateLimited(f'HTTP {status} from {url}')
-                self._backoff(attempt, delay)
+                self._backoff(attempt, self._retry_delay(response, attempt))
                 continue
 
-            raise ApiError(f'HTTP {status} from {url}: {response.text[:200]}')
-        self._note_outcome(False)
-        raise (last_error if isinstance(last_error, ApiError)
-               else ApiError(f'giving up on {url}: {last_error}'))
+            raise ApiError(f'HTTP {status} from {url}: {_describe(response)}')
+        if not isinstance(last_error, ApiError):
+            last_error = ApiError(f'giving up on {url}: {last_error}')
+        self._note_outcome(False, last_error)
+        raise last_error
 
     def _cached(self, namespace, key_params, method, url,
                 params=None, json_body=None, expect_json=True):
@@ -283,6 +348,7 @@ class MusicBrainzClient(_HttpClient):
     more often a transient than a fact.
     """
 
+    name = 'MusicBrainz'
     rate = config.MUSICBRAINZ_REQUESTS_PER_SECOND
 
     def __init__(self, **kwargs):
@@ -408,6 +474,7 @@ class ListenBrainzClient(_HttpClient):
     collaborative similarity for artists and recordings.
     """
 
+    name = 'ListenBrainz'
     rate = config.LISTENBRAINZ_REQUESTS_PER_SECOND
 
     # The recording metadata endpoint caps a call at 25 mbids regardless of
@@ -538,6 +605,7 @@ class WikidataClient(_HttpClient):
     Q-ids for albums whose MusicBrainz url-rels point at Wikidata. Fifty ids
     per call is the API's own ceiling."""
 
+    name = 'Wikidata'
     rate = config.WIKIDATA_REQUESTS_PER_SECOND
     BATCH = 50
     # MediaWiki reports its own failures inside an HTTP 200 body. Caching
@@ -607,6 +675,7 @@ class DeezerClient(_HttpClient):
     method returns None / [] and the miss is cached like any other answer.
     """
 
+    name = 'Deezer'
     rate = config.DEEZER_REQUESTS_PER_SECOND
     SEARCH_LIMIT = 10
 
@@ -661,25 +730,35 @@ class DeezerClient(_HttpClient):
 
 class DiscogsClient(_HttpClient):
     """Styles, have/want and the community rating. Keyless at 25 requests a
-    minute; a personal token raises that to 60 and nothing else. Every method
-    swallows ApiError and returns None, because Discogs is an optional extra
-    that must never sink a run."""
+    minute; a personal token, or an app's consumer key and secret, raises
+    that to 60 and nothing else. Every method swallows ApiError and returns
+    None, because Discogs is an optional extra that must never sink a run."""
 
+    name = 'Discogs'
     rate = config.DISCOGS_REQUESTS_PER_MINUTE / 60.0
 
-    def __init__(self, token=None, **kwargs):
+    def __init__(self, token=None, key=None, secret=None, **kwargs):
         self.token = token if token is not None else config.DISCOGS_TOKEN
-        if kwargs.get('rate') is None and self.token and not os.getenv('RADIUS_DISCOGS_RPM'):
-            # A token handed to the constructor rather than the environment
-            # still earns the 60/minute the config default did not know about.
+        self.key = key if key is not None else config.DISCOGS_CONSUMER_KEY
+        self.secret = secret if secret is not None else config.DISCOGS_CONSUMER_SECRET
+        if kwargs.get('rate') is None and self.authenticated and not os.getenv('RADIUS_DISCOGS_RPM'):
+            # Credentials handed to the constructor rather than the environment
+            # still earn the 60/minute the config default did not know about.
             kwargs['rate'] = 1.0
         super().__init__(**kwargs)
         if self.token:
             self.extra_headers['Authorization'] = f'Discogs token={self.token}'
+        elif self.key and self.secret:
+            self.extra_headers['Authorization'] = f'Discogs key={self.key}, secret={self.secret}'
 
     @property
     def configured(self):
         return True
+
+    @property
+    def authenticated(self):
+        """A token, or both halves of a consumer key pair."""
+        return bool(self.token or (self.key and self.secret))
 
     def _lookup(self, namespace, path, discogs_id, params=None):
         try:
@@ -726,6 +805,7 @@ class LastFmClient(_HttpClient):
     can never masquerade as "this album has no tags".
     """
 
+    name = 'Last.fm'
     rate = config.LASTFM_REQUESTS_PER_SECOND
     # Last.fm puts its own error code in a JSON body on these statuses (404
     # for "not found", 403 for a bad key); inspect the body instead of

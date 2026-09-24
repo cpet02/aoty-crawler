@@ -14,13 +14,14 @@ implementation diverges, update this file.
 
 * **Keyless JSON APIs first.** MusicBrainz, ListenBrainz, Wikidata, Deezer and
   Discogs all serve public data to an honest User-Agent with no key. Last.fm
-  needs a key and a Discogs token raises Discogs' rate; both are optional and
+  needs a key and Discogs credentials raise Discogs' rate; both are optional and
   purely additive — remove them and everything still runs.
 * **Polite rates**, held per service by a spacing limiter:
-  MusicBrainz 1 rps (their hard limit) · ListenBrainz 2.5 rps (their anonymous
-  budget is 30 per 10 s, and the client honours the X-RateLimit headers) ·
+  MusicBrainz 1 rps (their hard limit) · ListenBrainz 1 rps (their docs ask
+  every client for at most one call a second; the client also honours the
+  X-RateLimit headers) ·
   Wikidata 4 rps · Deezer 5 rps (their limit is 50 per 5 s) · Last.fm 4 rps ·
-  Discogs 25/min keyless, 60/min with a token. Verified shapes and quirks
+  Discogs 25/min keyless, 60/min with credentials. Verified shapes and quirks
   for every endpoint are in `docs/API_NOTES.md`.
 * **Every response goes through the SQLite cache** (`data/cache/radius.sqlite`).
   One network request per fact, ever, until the TTL lapses.
@@ -84,7 +85,7 @@ are missing on either side is dropped from the distance, never guessed.
 | fans (Deezer), explicit, deezer_label, deezer_genres, deezer_release_date, bpm_mean, bpm_spread, gain_mean (dB), deezer_id | Deezer search → album → tracks | S5 |
 | lastfm_listeners, lastfm_playcount | Last.fm album.getInfo (key only) | S5 |
 | critic_scores {reviewer: 0..1}, acclaim (mean), spotify_id | Wikidata entity claims (P444 review score with P447 qualifier, P1902) | S5 |
-| styles (Discogs), have, want, discogs_rating, discogs_votes | Discogs master → main release (keyless; token raises rate). Off by default without a token | S5 |
+| styles (Discogs), have, want, discogs_rating, discogs_votes | Discogs master → main release (keyless; credentials raise rate). Off by default without credentials | S5 |
 
 Derived properties: `reach` (log10 listeners), `devotion` (listens per
 listener), `canonicity` (listeners / artist_rg_listeners, falling back to

@@ -122,11 +122,65 @@ def test_user_agent_and_accept_are_sent(cache, sleeps):
 
 
 def test_non_json_200_raises_with_the_text(cache, sleeps):
-    session = FakeSession([FakeResponse(text='<html>oops</html>')])
+    session = FakeSession([FakeResponse(text='oops, not json')])
     mb = make(MusicBrainzClient, cache, session)
     with pytest.raises(ApiError) as info:
         mb.release_group('rg-1')
-    assert '<html>oops</html>' in str(info.value)
+    assert 'oops, not json' in str(info.value)
+    assert len(session.calls) == 1
+
+
+BOT_CHECK = ('<!DOCTYPE html><html><head><meta charset="utf-8">\n<title>Verifying your '
+             'browser</title> <style>body{display:flex;justify-content:center}</style>'
+             '</head><body><script>/* challenge */</script></body></html>')
+
+
+def test_a_web_page_where_data_belongs_is_retried_then_named_by_its_title(cache, sleeps):
+    """ListenBrainz's gateway has answered with a "Verifying your browser"
+    page, HTTP 200. That is being told to slow down, not an answer: it is
+    retried with backoff, never cached, and the error names the page
+    instead of pasting its HTML."""
+    session = FakeSession([FakeResponse(text=BOT_CHECK, headers={'Content-Type': 'text/html'})])
+    lb = make(ListenBrainzClient, cache, session)
+    with pytest.raises(clients.Refused) as info:
+        lb.metadata(['rg-1'])
+    message = str(info.value)
+    assert len(session.calls) == config.MAX_RETRIES
+    assert 'ListenBrainz' in message and '"Verifying your browser"' in message
+    assert '<' not in message
+    assert sleeps.count(2) + sleeps.count(4) == config.MAX_RETRIES - 1
+    assert lb._consecutive_failures == 1 and lb.last_failure == message
+    assert cache.get(Cache.make_key('lb.metadata', {'mbids': ['rg-1'], 'inc': 'tag artist release'}),
+                     None, default='nothing') == 'nothing'
+
+
+def test_a_web_page_then_data_recovers(cache, sleeps):
+    session = FakeSession([
+        FakeResponse(text=BOT_CHECK),
+        FakeResponse({'rg-1': {'release_group': {'name': 'Spiderland'}}}),
+    ])
+    lb = make(ListenBrainzClient, cache, session)
+    assert lb.metadata(['rg-1'])['rg-1']['release_group']['name'] == 'Spiderland'
+    assert len(session.calls) == 2 and lb._consecutive_failures == 0
+
+
+def test_a_web_page_where_text_belongs_is_not_taken_for_the_text(cache, sleeps):
+    """The genre list is a text endpoint and lives in the cache for a year;
+    a bot check parsed as genre names would poison it for that long."""
+    session = FakeSession([FakeResponse(text=BOT_CHECK, headers={'Content-Type': 'text/html'})])
+    mb = make(MusicBrainzClient, cache, session)
+    assert mb.genre_names() == frozenset()
+    assert cache.get(Cache.make_key('mb.genres', {'fmt': 'txt'}), None, default='nothing') == 'nothing'
+
+
+def test_an_error_status_with_a_web_page_is_named_not_pasted(cache, sleeps):
+    session = FakeSession([FakeResponse(status=403, text=BOT_CHECK)])
+    mb = make(MusicBrainzClient, cache, session)
+    with pytest.raises(ApiError) as info:
+        mb.release_group('rg-1')
+    assert 'HTTP 403' in str(info.value) and 'Verifying your browser' in str(info.value)
+    assert '<' not in str(info.value)
+    assert len(session.calls) == 1
 
 
 def test_rate_headers_at_zero_trigger_a_capped_sleep(cache, sleeps):
@@ -363,15 +417,29 @@ def test_discogs_sends_authorization_only_with_a_token(cache, sleeps, monkeypatc
     assert client.configured is True
 
     keyless = FakeSession([FakeResponse({'id': 2})])
-    client = make(DiscogsClient, cache, keyless, token='')
+    client = make(DiscogsClient, cache, keyless, token='', key='', secret='')
     assert client.release(2) == {'id': 2}
     assert 'Authorization' not in keyless.calls[0]['headers']
-    assert client.configured is True
+    assert client.configured is True and client.authenticated is False
+
+
+def test_discogs_consumer_key_and_secret_authenticate_without_a_token(cache, sleeps, monkeypatch):
+    monkeypatch.delenv('RADIUS_DISCOGS_RPM', raising=False)
+    session = FakeSession([FakeResponse({'id': 3})])
+    client = make(DiscogsClient, cache, session, token='', key='k1', secret='s1')
+    assert client.release(3) == {'id': 3}
+    assert session.calls[0]['headers']['Authorization'] == 'Discogs key=k1, secret=s1'
+    assert client.authenticated is True
+
+    # Half a pair is no credential at all; a token wins over a pair.
+    assert make(DiscogsClient, cache, FakeSession([]), token='', key='k1', secret='').authenticated is False
+    both = make(DiscogsClient, cache, FakeSession([]), token='abc', key='k1', secret='s1')
+    assert both.extra_headers['Authorization'] == 'Discogs token=abc'
 
 
 def test_discogs_returns_none_on_errors(cache, sleeps):
     session = FakeSession([FakeResponse(status=404, text='{"message": "not found"}')])
-    assert make(DiscogsClient, cache, session, token='').master(1) is None
+    assert make(DiscogsClient, cache, session, token='', key='', secret='').master(1) is None
 
 
 # ---------------------------------------------------------------------------
@@ -475,6 +543,22 @@ def test_a_service_that_keeps_failing_is_given_up_on(cache, sleeps):
         client.release_group('rg-later')
     assert len(session.calls) == calls_before
     assert len(sleeps) == sleeps_before
+
+
+def test_a_reset_gives_a_service_given_up_on_a_fresh_chance(cache, sleeps):
+    """The UI keeps one set of clients for the life of the app, and the
+    engine resets them at the start of every run; without that, one bad
+    minute would switch a service off until the app restarted."""
+    session = FakeSession([FakeResponse(status=503, text='down')])
+    client = make(MusicBrainzClient, cache, session)
+    for index in range(client.OUTAGE_THRESHOLD):
+        with pytest.raises(RateLimited):
+            client.release_group(f'rg-{index}')
+    assert client.unavailable and 'HTTP 503' in client.last_failure
+    client.reset_outage()
+    assert not client.unavailable and client.last_failure == ''
+    session.responses = [FakeResponse({'id': 'rg-back'})]
+    assert client.release_group('rg-back') == {'id': 'rg-back'}
 
 
 def test_one_success_clears_the_failure_run(cache, sleeps):

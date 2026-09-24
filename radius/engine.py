@@ -32,6 +32,7 @@ from collections import Counter
 from dataclasses import dataclass, field
 
 from . import candidates as candidates_mod
+from . import config
 from . import credits
 from . import tags as tagmod
 from .albums import (
@@ -76,7 +77,7 @@ class Services:
     """The clients, sharing one cache.
 
     Four are keyless and do the real work. Last.fm needs a key and Discogs
-    accepts a token; both are additive. Any client may be None (tests, or a
+    accepts a token or a consumer key and secret; both are additive. Any client may be None (tests, or a
     deliberately switched-off service) and the engine skips what it lacks.
     """
 
@@ -89,7 +90,8 @@ class Services:
     _genre_names: object = field(default=None, repr=False, compare=False)
 
     @classmethod
-    def create(cls, cache=None, lastfm_key=None, discogs_token=None):
+    def create(cls, cache=None, lastfm_key=None, discogs_token=None,
+               discogs_key=None, discogs_secret=None):
         musicbrainz = MusicBrainzClient(cache=cache)
         cache = cache or musicbrainz.cache
         return cls(
@@ -98,7 +100,8 @@ class Services:
             wikidata=WikidataClient(cache=cache),
             deezer=DeezerClient(cache=cache),
             lastfm=LastFmClient(api_key=lastfm_key, cache=cache),
-            discogs=DiscogsClient(token=discogs_token, cache=cache),
+            discogs=DiscogsClient(token=discogs_token, key=discogs_key,
+                                  secret=discogs_secret, cache=cache),
         )
 
     def _clients(self):
@@ -106,15 +109,36 @@ class Services:
                                       self.deezer, self.lastfm, self.discogs)
                 if client is not None]
 
+    def reset_outages(self):
+        """Give every service a fresh chance at the start of a run: a service
+        given up on in the last run may well be back."""
+        for client in self._clients():
+            reset = getattr(client, 'reset_outage', None)
+            if reset is not None:
+                reset()
+
+    def outage_notes(self):
+        """One line per service that was given up on during this run, since
+        everything it would have supplied is quietly missing."""
+        notes = []
+        for client in self._clients():
+            if not getattr(client, 'unavailable', False):
+                continue
+            failure = getattr(client, 'last_failure', '')
+            notes.append(f'{getattr(client, "name", "A service")} stopped answering partway '
+                         f'through, so some of its data is missing from these results.'
+                         + (f' ({failure})' if failure else ''))
+        return notes
+
     @property
     def tag_enrichment(self):
         return bool(self.lastfm is not None and getattr(self.lastfm, 'configured', False))
 
     @property
     def discogs_enabled(self):
-        """Discogs runs by default only with a token: keyless it is held to
-        25 requests a minute, which makes it the slowest stage by far."""
-        return bool(self.discogs is not None and getattr(self.discogs, 'token', ''))
+        """Discogs runs by default only with credentials: keyless it is held
+        to 25 requests a minute, which makes it the slowest stage by far."""
+        return bool(self.discogs is not None and getattr(self.discogs, 'authenticated', False))
 
     @property
     def requests_made(self):
@@ -264,13 +288,12 @@ def _spec_label(spec):
 
 
 def search_albums(services, artist=None, album=None, query=None, limit=10):
-    """Album search, for picking a seed by typing part of its name."""
-    try:
-        results = services.musicbrainz.find_album(
-            artist=artist, album=album, query=query, limit=limit
-        )
-    except ApiError:
-        return []
+    """Album search, for picking a seed by typing part of its name. An
+    ApiError propagates, so a MusicBrainz outage never reads as "no such
+    album"."""
+    results = services.musicbrainz.find_album(
+        artist=artist, album=album, query=query, limit=limit
+    )
     found = []
     for release_group in results:
         if not isinstance(release_group, dict):
@@ -299,6 +322,11 @@ def fingerprint_many(services, mbids, with_popularity=True, genre_names=None, no
 
     This is the whole reason the project runs on ListenBrainz: metadata and
     listen counts for a batch of albums cost two requests, not two per album.
+
+    Without `notes` (a seed) a metadata failure raises: a seed with no
+    fingerprint has nothing to compare against. With `notes` (a candidate
+    pool) a batch ListenBrainz will not answer costs only its own albums and
+    a note, unless it answered none of them.
     """
     mbids = [m for m in dict.fromkeys(mbids) if m]
     if not mbids:
@@ -306,10 +334,26 @@ def fingerprint_many(services, mbids, with_popularity=True, genre_names=None, no
     if genre_names is None:
         genre_names = services.genre_names()
 
-    # Metadata is the fingerprint and has to succeed; the two popularity
-    # calls only fill in statistics, so a failure there costs a number,
-    # never the run.
-    metadata = services.listenbrainz.metadata(mbids)
+    # Metadata is the fingerprint; see the docstring for when a failure
+    # sinks the call.
+    if notes is None:
+        metadata = services.listenbrainz.metadata(mbids)
+    else:
+        metadata, missed, first_error = {}, 0, None
+        for start in range(0, len(mbids), config.LB_BATCH_SIZE):
+            batch = mbids[start:start + config.LB_BATCH_SIZE]
+            try:
+                metadata.update(services.listenbrainz.metadata(batch) or {})
+            except ApiError as exc:
+                missed += len(batch)
+                first_error = first_error or exc
+        if first_error is not None:
+            if missed == len(mbids):
+                raise first_error
+            notes.add(f'ListenBrainz did not answer for {missed} of {len(mbids)} candidates, '
+                      f'so they were left out. ({first_error})')
+    # The two popularity calls only fill in statistics, so a failure there
+    # costs a number, never the run.
     popularity = {}
     if with_popularity:
         try:
@@ -761,10 +805,11 @@ def find_similar(seeds=None, *, artist=None, album=None, query=None, mbid=None,
     shortlist_size      how many of those get the deep MusicBrainz lookups;
                         default max(1.5 * top_n, 30).
     deep                False skips S4/S5 - a fast, shallow run.
-    with_discogs        None means "only when a Discogs token is configured".
+    with_discogs        None means "only when Discogs credentials are configured".
     progress(stage, done, total, label) is always called on this thread.
     """
     services = services or Services.create()
+    services.reset_outages()
     weights = weights or SimilarityWeights()
     settings = MODES.get(mode) or MODES['closest']
     if lateral is None:
@@ -783,6 +828,8 @@ def find_similar(seeds=None, *, artist=None, album=None, query=None, mbid=None,
             progress(stage, done, total, label)
 
     def result(seed, seeds_list, matches=(), **extra):
+        for message in services.outage_notes():
+            notes.add(message)
         return SimilarityResult(
             seed=seed, seeds=list(seeds_list), matches=list(matches),
             requests_made=services.requests_made, cache_hits=services.cache_hits,

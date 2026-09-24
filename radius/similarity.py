@@ -144,6 +144,45 @@ AXIS_GROUPS = {
     'Provenance': ['origin', 'career'],
 }
 
+# One plain line per axis: what a match on it means.
+AXIS_HELP = {
+    'genre': 'Shares its genres.',
+    'mood': 'Has the same mood and texture.',
+    'definition': 'Just as easy, or as hard, to pin to one genre.',
+    'personnel': 'The same musicians play on it.',
+    'circle': 'Same producers, engineers, studios or label.',
+    'co_listening': 'People play it alongside the seed.',
+    'kinship': "Its artist's similar artists are the seed's too.",
+    'lineage': 'Its artist comes from the same scene.',
+    'convergence': 'Several different routes led to it.',
+    'reach': 'About as many listeners.',
+    'devotion': 'Its listeners replay it about as often.',
+    'canonicity': "Same standing in its artist's catalogue: classic or deep cut.",
+    'acclaim': 'Similar critic scores. Off by default: few albums have any.',
+    'era': 'Released around the same time.',
+    'scale': 'About the same length.',
+    'pacing': 'Tracks of a similar length.',
+    'energy': 'Similar tempo and loudness.',
+    'origin': 'Artist from the same country.',
+    'career': "Made at the same point in the artist's career.",
+}
+
+# One-click starting points for the weights: name -> (what it favours,
+# weights). Each is a clean slate - an axis it does not name is off - so a
+# preset gives the same result whatever the sliders said before.
+PRESETS = {
+    'Sound': ('Only how it sounds.',
+              {'genre': 1.2, 'mood': 1.2, 'definition': 0.2, 'energy': 0.4, 'lineage': 0.3}),
+    'People': ('Who made it: musicians, producers, studios, labels.',
+               {'personnel': 1.5, 'circle': 1.2, 'lineage': 0.4, 'genre': 0.4, 'mood': 0.2}),
+    'Listeners': ('What the same listeners play.',
+                  {'co_listening': 1.5, 'kinship': 1.2, 'convergence': 0.6, 'genre': 0.4, 'mood': 0.2}),
+    'Era & place': ('Same time, same place, same scene.',
+                    {'era': 1.2, 'origin': 1.0, 'lineage': 0.6, 'career': 0.4, 'genre': 0.5}),
+    'Stature': ('Same size of audience and standing.',
+                {'reach': 1.2, 'devotion': 0.8, 'canonicity': 0.8, 'acclaim': 0.4, 'genre': 0.4}),
+}
+
 
 @dataclass
 class Evidence:
